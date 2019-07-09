@@ -1,0 +1,471 @@
+/****************
+ * COLORS
+ * Brand: (359DC4) 359DC4
+ * Brand (20% darker): (1f5d74) 1f5d74
+ *
+ * (Update this in pre-content theme tag too)
+ ****************/
+
+* {
+    transition: all .2s ease;
+}
+
+html, body {
+    background: #2d3237 url("/assets/geometry/geometry_transparent.png");
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vH;
+}
+
+form {
+    width: 100%;
+}
+
+.is-box-shadow {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar, .navbar-menu {
+    background: #359DC4;
+}
+
+.notification.is-primary, .hero.card {
+    background: #359DC4;
+    color: #333;
+}
+
+.text-is-primary, code {
+    color: #359DC4;
+}
+
+.navbar-item, .navbar-link {
+    color: #F5F7FA;
+    flex-wrap: nowrap;
+    padding: .25rem .75rem;
+}
+
+.navbar-item.input {
+    font-size: .8em;
+}
+
+.navbar-link:not(.is-arrowless)::after {
+    border-color: #F5F7FA;
+}
+
+.is-brand, .navbar-dropdown, .navbar-burger {
+    background: #359DC4;
+    color: #F5F7FA;
+}
+
+.is-brand:hover, .is-brand.is-active, .navbar-divider, a.navbar-item:hover, a.navbar-item.is-active, .navbar-link:hover, .navbar-link.is-active, .navbar-dropdown a.navbar-item:hover, .navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link, .navbar-burger.is-active {
+    background: #1f5d74;
+    color: #F5F7FA;
+}
+
+.navbar.is-spaced .navbar-dropdown, .navbar-dropdown.is-boxed {
+    top: 100%;
+}
+
+.navbar-item img {
+    max-height: 2.5rem;
+    margin-right: .5em;
+    height: 100%;
+}
+
+.navbar + * {
+    margin-top: calc(3.25rem + (2 * 0.2rem));
+}
+
+.navbar.is-spaced {
+    padding: 0.2rem 2.5rem;
+}
+
+.navbar.is-spaced .navbar-dropdown a.navbar-item, .navbar.is-spaced .navbar-dropdown .navbar-link {
+    border-radius: 0;
+}
+
+.navbar.is-spaced .navbar-dropdown, .navbar-dropdown.is-boxed {
+    border-top-left-radius: 0;
+}
+
+.navbar-item.has-dropdown .navbar-link {
+    border-bottom-left-radius: 0;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.button-group.button-group-vertical {
+    flex-direction: column;
+    display: inline-flex;
+}
+
+.button-group:not(.button-group-vertical) > * + * {
+    margin-left: .5rem;
+}
+
+.button-group.button-group-vertical > * + * {
+    margin-top: .5rem;
+}
+
+.hero-body {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.columns {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+    max-width: 100%;
+}
+
+.column.left {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.column.top {
+    align-self: flex-start;
+}
+
+.card {
+    margin-top: .5rem;
+    background: #434A54;
+    border: none;
+    width: 100%;
+    min-width: 100%;
+}
+
+.card.premium::before {
+    display: block;
+    content: '';
+    height: 100%;
+    width: 8px;
+    background: linear-gradient(90deg, #359DC4, transparent);
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.card-content {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.card-content,
+.card-content > * {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    .card .media {
+        flex-wrap: wrap;
+    }
+}
+
+.card .media .image {
+    width: 64px;
+    height: auto;
+    border-radius: 50%;
+    background: #2f3136;
+}
+
+.checkbox {
+    align-items: center;
+    display: flex;
+    cursor: default;
+    margin: 0 0 13px;
+    outline: 0;
+}
+
+.checkbox.interactive {
+    cursor: pointer;
+}
+
+.checkbox, .checkbox:hover {
+    color: #fff;
+}
+
+.checkbox.disallowed, .checkbox.disallowed:hover {
+    color: hsla(0, 0%, 100%, .3);
+    transition: color .24s;
+}
+
+.checkbox .checkbox-inner {
+    flex-shrink: 0;
+    height: 18px;
+    position: relative;
+    vertical-align: top;
+    width: 18px;
+}
+
+.checkbox .checkbox-inner input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox .checkbox-inner span {
+    border: 2px solid #cdcdcd;
+    border-radius: 2px;
+    bottom: 0;
+    box-sizing: border-box;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .24s;
+}
+
+.checkbox .checkbox-inner input[type="checkbox"]:checked + span {
+    background-color: #7289da;
+    border-color: #7289da;
+}
+
+.checkbox.green .checkbox-inner input[type="checkbox"]:checked + span {
+    background-color: #43b581;
+    border-color: #43b581;
+}
+
+.checkbox.red .checkbox-inner input[type="checkbox"]:checked + span {
+    background-color: #f04747;
+    border-color: #f04747;
+}
+
+.checkbox.disallowed .checkbox-inner span {
+    border-color: hsla(0, 0%, 100%, .6);
+}
+
+.checkbox .checkbox-inner input[type=checkbox]:checked + span:after,
+.checkbox.always .checkbox-inner input[type=checkbox] + span:after {
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    content: "";
+    display: table;
+    height: 10px;
+    left: 4px;
+    position: absolute;
+    top: 0;
+    transform: rotate(45deg);
+    width: 4px;
+    box-sizing: content-box;
+}
+
+.checkbox.cross .checkbox-inner input[type=checkbox]:checked + span:after,
+.checkbox.cross.always .checkbox-inner input[type=checkbox] + span:after {
+    border-width: 0 2px 0 0;
+    height: 12px;
+    left: 6px;
+    top: 1px;
+    width: 0;
+}
+
+.checkbox.cross .checkbox-inner input[type=checkbox]:checked + span:before,
+.checkbox.cross.always .checkbox-inner input[type=checkbox] + span:before {
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0 2px 0 0;
+    content: "";
+    display: table;
+    height: 12px;
+    left: 6px;
+    position: absolute;
+    top: 1px;
+    transform: rotate(-45deg);
+    width: 0;
+    box-sizing: content-box;
+}
+
+.checkbox.minus .checkbox-inner input[type=checkbox]:checked + span:after,
+.checkbox.minus.always .checkbox-inner input[type=checkbox] + span:after {
+    border-width: 0 0 2px 0;
+    height: 0;
+    left: 1px;
+    top: 6px;
+    transform: none;
+    width: 12px;
+}
+
+.checkbox.always .checkbox-inner input[type=checkbox]:not(:checked) + span:after,
+.checkbox.always .checkbox-inner input[type=checkbox]:not(:checked) + span:before {
+    border-color: #667;
+}
+
+.checkbox .checkbox-inner + span {
+    margin-left: 8px;
+}
+
+.checkbox .checkbox-inner + span a {
+    color: #fff;
+}
+
+.checkbox .checkbox-inner + span a:hover,
+a:hover .checkbox .checkbox-inner + span {
+    color: #359DC4;
+}
+
+a:hover .checkbox {
+    cursor: pointer;
+}
+
+.menu-list .checkbox {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin-bottom: 0.8rem;
+}
+
+.is-margin-top {
+    margin-top: calc(1.5rem - .75rem);
+}
+
+.has-no-top-margin {
+    margin-top: 0;
+}
+
+.has-no-bottom-margin {
+    margin-bottom: 0;
+}
+
+.has-bottom-margin-small {
+    margin-bottom: .25rem;
+}
+
+.table {
+    background: #23272a;
+}
+
+.table-container, .table {
+    margin-bottom: 0.05rem;
+}
+
+.footer.navbar {
+    margin-top: auto;
+    min-height: auto;
+    padding: 0.5rem 2rem;
+}
+
+.footer.navbar .breadcrumb {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.footer.navbar .breadcrumb a {
+    color: #F5F7FA;
+}
+
+.footer.navbar .breadcrumb a:hover {
+    color: #434A54;
+}
+
+.footer.navbar .breadcrumb li + li::before {
+    color: #434A54;
+}
+
+.footer.navbar .breadcrumb .right-links {
+    margin-left: auto;
+}
+
+.footer.navbar .breadcrumb .right-links li + li::before {
+    display: none;
+}
+
+.hero-body.hero-slim {
+    padding: 0.5rem;
+}
+
+.field {
+    flex-grow: 1;
+    width: 100%;
+    display: block;
+}
+
+.field.is-grouped-vertical {
+    flex-direction: column;
+}
+
+.field.is-grouped-vertical * + * {
+    margin-top: 0.2rem;
+}
+
+.version-badge {
+    height: 1.25em;
+    margin-bottom: .25em;
+}
+
+.button, .input, .textarea, .select select, .file-cta, .file-name, .pagination-previous, .pagination-next, .pagination-link, .pagination-ellipsis {
+    min-height: 2.25em;
+    height: auto;
+}
+
+.button {
+    white-space: normal;
+}
+
+hr {
+    background-color: #333;
+    margin: .2rem 0;
+}
+
+.input, .textarea, .select select {
+    background: #333;
+}
+
+label small {
+    font-weight: 300;
+}
+
+.card, .is-brand, .notification, .is-box-shadow {
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, .2) !important;
+}
+
+.navbar.is-spaced .navbar-dropdown, .navbar-dropdown.is-boxed {
+    border-radius: 10px;
+}
+
+.navbar.header {
+    border-radius: 0;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, .2) !important;
+}
+
+.navbar.footer {
+    border-radius: 0;
+    box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
+}
+
+.is-normalcase {
+    text-transform: none !important
+}
+
+.is-blurred {
+    filter: blur(8px);
+}
+
+.hero-stats a:not([class]) {
+    color: #dedede;
+}
+
+.hero-stats a:not([class]):hover {
+    color: #1f5d74;
+}
