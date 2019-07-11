@@ -1,0 +1,36 @@
+$brand: #359DC4;
+$brand-dark: #1f5d74;
+$white: #F5F7FA;
+
+$primary: $brand;
+$primary-invert: $brand-dark;
+$light: #363636;
+$light-invert: findColorInvert($light);
+
+// Navbar
+$navbar-background-color: $brand;
+$navbar-box-shadow-color: $brand-dark;
+$navbar-item-color: $white;
+$navbar-item-hover-color: $white;
+$navbar-item-hover-background-color: $brand-dark;
+$navbar-dropdown-background-color: $brand;
+$navbar-dropdown-arrow: $white;
+$navbar-dropdown-offset: auto;
+$navbar-dropdown-item-hover-color: $white;
+$navbar-dropdown-item-hover-background-color: $brand-dark;
+$navbar-divider-background-color: #363636;
+
+// Forms
+$input-background-color: #333;
+$input-border-color: transparent;
+$input-placeholder-color: grey;
+
+// Title
+$title-color: $white;
+
+// Buttons
+$button-color: $white;
+$button-background-color: $brand;
+$button-border-color: transparent;
+$button-hover-border-color: transparent;
+$button-hover-color: $white;

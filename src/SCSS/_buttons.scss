@@ -1,0 +1,24 @@
+.button-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.button-group.button-group-vertical {
+  flex-direction: column;
+  display: inline-flex;
+}
+
+.button-group:not(.button-group-vertical) > * + * {
+  margin-left: .5rem;
+}
+
+.button-group.button-group-vertical > * + * {
+  margin-top: .5rem;
+}
+
+.button {
+  white-space: normal;
+  min-height: 2.25em;
+  height: auto;
+}

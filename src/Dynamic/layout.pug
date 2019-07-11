@@ -9,8 +9,41 @@ html
         meta(property='og:title', content=__('site_name') + ' - ' + __('short_desc'))
         meta(property='og:site_name', content=__('site_name'))
         meta(property='og:url', content=route)
-        meta(property='og:image', content=baseURL + '/assets/icon.png')
-        meta(property='og:locale' content=language || 'en_US')
-        meta(property='og:og:description' content=__('full_desc'))
+        meta(property='og:image', content='/assets/img/icon.png')
+        meta(property='og:locale', content=language || 'en_US')
+        meta(property='og:description', content=__('full_desc'))
+
+        meta(name='twitter:card', content='summary')
+        meta(name='twitter:site', content='@BlockBotOrg')
+        meta(name='twitter:title', content=__('site_name') + ' - ' + __('short_desc'))
+        meta(name='twitter:description', content= __('full_desc'))
+        meta(property='twitter:image', content='/assets/img/icon.png')
+
+        meta(name='robots', content='index, follow')
+        meta(name='keywords', content='')
+        meta(property='description', content=__('site_name') + ' - ' + __('full_desc'))
+        meta(name='theme-color', content='#4A89DC')
+        link(rel='shortcut icon', href='/assets/img/icon.png')
+
+        meta(name='apple-mobile-web-app-title', content=__('site_name'))
+        meta(name='apple-mobile-web-app-capable', content='yes')
+        meta(name='apple-mobile-web-app-status-bar-style', content='black-translucent')
+        meta(name='apple-touch-icon', href='/assets/img/apple-touch-icon.png')
+
+        link(rel='manifest', href='/assets/site.webmanifest')
+        link(rel='stylesheet', href='/assets/css/style.min.css')
     body
+        include Includes/navbar
         block content
+        include Includes/footer
+
+        script(async src='https://www.googletagmanager.com/gtag/js?id=' + GACode)
+        script.
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', '#{GACode}');
+        script(src='/assets/js/main.js')
+        block footer

@@ -1,0 +1,25 @@
+section.section(style='padding-top:0; padding-bottom: 1.5rem')
+    .container.has-text-centered
+        include ads/banner1
+
+.footer.navbar.is-spaced.is-box-shadow
+    nav.breadcrumb.has-arrow-separator(aria-label='breadcrumbs')
+        ul
+            li
+                a(href='/') #{__('site_name')}
+            if breadcrumb.length > 1
+                -for (var i = 0; i < breadcrumb.length; i++)
+                    li
+                        a(href='/') #{breadcrumb[i].charAt(0).toUpperCase() + breadcrumb[i].slice(1)}
+
+        ul.right-links
+            li
+                a About &amp; Credits
+            li
+                a(href='/discord') Discord
+            li
+                a(href='/patreon') Patreon
+            li
+                a(href='/reddit') Reddit
+            li
+                a(href='/twitter') Twitter

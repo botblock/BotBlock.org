@@ -1,0 +1,43 @@
+.card {
+  margin-top: .5rem;
+  background: #434A54;
+  border: none;
+  width: 100%;
+  min-width: 100%;
+}
+
+.card.premium::before {
+  display: block;
+  content: '';
+  height: 100%;
+  width: 8px;
+  background: linear-gradient(90deg, #359DC4, transparent);
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
+.card-content {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.card-content,
+.card-content > * {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .card .media {
+    flex-wrap: wrap;
+  }
+}
+
+.card .media .image {
+  width: 64px;
+  height: auto;
+  border-radius: 50%;
+  background: #2f3136;
+}

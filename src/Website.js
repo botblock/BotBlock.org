@@ -17,7 +17,7 @@ class Website {
         this.app.set('views', path.join(__dirname, 'Dynamic'));
         i18n.configure({
             cookie: 'lang',
-            defaultLocale: 'en-US',
+            defaultLocale: 'en_US',
             autoReload: true,
             updateFiles: true,
             directory: path.join(__dirname, '..', 'locales')
@@ -31,12 +31,13 @@ class Website {
             expires: Date.now() + 6.048e+8
         }));
         this.app.use((req, res, next) => {
-            res.locals.baseURL = req.connection.encrypted ? 'https://' : 'http://' + req.get('host');
             res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + req.get('host') + req.path;
             res.locals.language = req.cookies.lang;
+            res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
             next();
         });
         await this.loadRoutes(path.join(__dirname, 'Routes'));
+        this.app.use(require('express-minify')())
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.launch();
     }

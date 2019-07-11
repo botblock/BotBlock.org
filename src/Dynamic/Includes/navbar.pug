@@ -1,0 +1,41 @@
+.header.navbar.is-spaced.is-box-shadow(role='navigation', aria-label='main navigation')
+    .container
+        .navbar-brand
+            a.navbar-item(href='/')
+                img(src='/assets/img/icon.svg')
+                | #{__('site_name')}
+            a.navbar-burger(role='button', aria-label='menu', aria-expanded='false')
+                span(aria-hidden='true')
+                span(aria-hidden='true')
+                span(aria-hidden='true')
+        .navbar-menu
+            .navbar-start
+                a.navbar-item(href='/') Home
+                .navbar-item.has-dropdown.is-hoverable
+                    a.navbar-link Lists
+                    .navbar-dropdown.is-boxed.is-box-shadow
+                        a.navbar-item All Lists
+                        a.navbar-item New Lists
+                        a.navbar-item List Features
+                        hr.dropdown-divider
+                        form#navbar_lists_search
+                            input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
+                            a.navbar-item(onclick='navbar_lists_go()') Search Lists
+                .navbar-item.has-dropdown.is-hoverable
+                    a.navbar-link Bots
+                    .navbar-dropdown.is-boxed.is-box-shadow
+                        a.navbar-item Bot Lookup
+                        a.navbar-item Add New Bot
+                .navbar-item.has-dropdown.is-hoverable
+                    a.navbar-link API
+                    .navbar-dropdown.is-boxed.is-box-shadow
+                        a.navbar-item API Docs
+                        a.navbar-item API Libraries
+            .navbar-end
+                a.navbar-item Discord Server
+                a.navbar-item Support Us
+                a.navbar-item Sign in with Discord
+                // a.navbar-item Languages (Coming soon... :) )
+
+
+

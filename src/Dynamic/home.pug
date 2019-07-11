@@ -1,3 +1,20 @@
 extends layout
 block content
-    h1 #{__('site_name')}
+    section.section
+        .container
+            .hero
+                .hero-body.has-text-centered
+                    h1.title.is-size-1 #{__('slogan')}
+                    h4.title.is-size-4 #{__('site_name')} - #{__('short_desc')}
+                    .button-group.button-group-vertical
+                        a.button.is-brand.is-size-3(href='/lists') View all the lists
+                        a.button.is-brand.is-size-5(href='/api/docs') Read the API Docs
+                        .button-group
+                            a.button.is-brand.is-size-5(href='/lookup') Lookup a bot
+                            a.button.is-brand.is-size-5(href='/add') Add a New Bot
+            h4.is-size-4.has-text-white.has-text-centered List Spotlight
+            .columns
+                .column.is-half.is-full-mobile
+                    // ADS
+                    include Includes/cards/listcard
+

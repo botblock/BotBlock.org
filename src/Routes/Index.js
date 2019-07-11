@@ -12,6 +12,10 @@ class IndexRoute extends BaseRoute {
         this.router.get('/', (req, res) => {
             res.render('home')
         })
+
+        this.router.get('/lists/all/test', (req, res) => {
+            res.render('home')
+        })
     }
 
     get getRouter() {

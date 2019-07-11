@@ -1,0 +1,39 @@
+* {
+  transition: all .2s ease;
+}
+
+html, body {
+  background: #2d3237 url("/Assets/geometry/geometry_transparent.png");
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vH;
+}
+
+form {
+  width: 100%;
+}
+
+.section {
+  padding: 3rem 1.5rem;
+}
+
+.is-box-shadow {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card, .is-brand, .notification, .is-box-shadow {
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .2) !important;
+}
+
+.card, .notification, .is-brand {
+  border-radius: 10px;
+}
+
+.is-brand:hover, .is-brand:active {
+  background-color: $brand-dark;
+  color: $white;
+}
+
