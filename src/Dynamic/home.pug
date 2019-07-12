@@ -14,7 +14,10 @@ block content
                             a.button.is-brand.is-size-5(href='/add') Add a New Bot
             h4.is-size-4.has-text-white.has-text-centered List Spotlight
             .columns
-                .column.is-half.is-full-mobile
-                    // ADS
-                    include Includes/cards/listcard
+                if !lists.length
+                    h5.is-size-4.has-text-white No bot lists found.
+                else
+                    for list in lists
+                        .column.is-half.is-full-mobile
+                            include Includes/cards/listcard
 

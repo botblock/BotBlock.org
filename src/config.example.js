@@ -4,6 +4,13 @@ module.exports = {
 
     'secret': '',
 
+    'discord': {
+        'client_id': '',
+        'client_secret': '',
+        'token': '',
+        'edit_log': ''
+    },
+
     // SQL Database
     'database': {
         'host': 'localhost',

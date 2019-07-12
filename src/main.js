@@ -8,7 +8,7 @@ return new Promise(async () => {
         await db.connect();
         console.log('[Database] Successfully connected to MySQL database.');
         new Website({
-            db: db.db
+            db: db
         }).start();
     } catch (e) {
         console.error('[Website] Failed to start Website.', e);

@@ -20,7 +20,15 @@ html
         meta(property='twitter:image', content='/assets/img/icon.png')
 
         meta(name='robots', content='index, follow')
-        meta(name='keywords', content='')
+
+        meta(name='keywords', content='botblock, bot, bots, block, bot block, botblock list, bot block list, botblock services, \n' +
+        'bot block services, botblock service list, bot block service list, botblock services list, bot block services list, \n' +
+        'discord botblock, discord bot block, discord botblock list, discord bot block list, list, discord, discord bot, \n' +
+        'discord bots, discord bot list, discord bots list, bot list, bot list list, discord list, discord list list, \n' +
+        'discord bot services, discord bot service, discord bot services list, discord bot service list, discord services list, \n' +
+        'discord service list, bot services, bot service, bot services list, bot service list, discord api, bot list api, \n' +
+        'bot api, api, list api, botlist api, discordapi, discord bot api, discord list api, discord bot list api')
+
         meta(property='description', content=__('site_name') + ' - ' + __('full_desc'))
         meta(name='theme-color', content='#4A89DC')
         link(rel='shortcut icon', href='/assets/img/icon.png')
@@ -45,5 +53,6 @@ html
             }
             gtag('js', new Date());
             gtag('config', '#{GACode}');
+        script(src='/assets/js/lazyload.min.js')
         script(src='/assets/js/main.js')
         block footer

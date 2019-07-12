@@ -1,0 +1,9 @@
+extends layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.has-text-centered
+                    h1.title.is-size-1 #{message || 'An unexpected error occurred.'}
+                    h4.title.is-size-4 A #{status || '500'} error has occurred... :(
+                    a.button.is-brand.is-size-5(href='/lists') View all the lists

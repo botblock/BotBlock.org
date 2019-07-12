@@ -1,7 +1,9 @@
+const Discord = require('./Structure/Discord/Client');
 const express = require('express');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const i18n = require('i18n');
+const schedule = require('node-schedule');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
@@ -9,6 +11,7 @@ const config = require('./config');
 class Website {
     constructor(options) {
         this.db = options.db;
+        this.client = new Discord(config.discord.token);
         this.app =  express();
     }
 
@@ -37,7 +40,8 @@ class Website {
             next();
         });
         await this.loadRoutes(path.join(__dirname, 'Routes'));
-        this.app.use(require('express-minify')())
+        await this.loadJobs(path.join(__dirname, 'Jobs'));
+        this.app.use(require('express-minify')());
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.launch();
     }
@@ -51,7 +55,7 @@ class Website {
                     if (!routes[i].endsWith('.js')) continue;
                     try {
                         const Route = require(path.join(dir, routes[i]));
-                        const route = new Route(this.db);
+                        const route = new Route(this.client, this.db);
                         this.app.use(route.route, route.getRouter);
                     } catch (e) {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
@@ -65,7 +69,35 @@ class Website {
         })
     }
 
+    loadJobs(dir) {
+        return new Promise((resolve, reject) => {
+            fs.readdir(dir, (error, jobs) => {
+                if (error) return reject(error);
+                if (jobs.length === 0) return resolve();
+                for (let i = 0; i < jobs.length; i++) {
+                    if (!jobs[i].endsWith('.js')) continue;
+                    try {
+                        const Job = require(path.join(dir, jobs[i]));
+                        const job = new Job(this.client, this.db);
+                        job.execute();
+                        schedule.scheduleJob(job.interval, () => {
+                            job.execute();
+                        })
+                    } catch (e) {
+                        console.error('[Job Loader] Failed loading ' + jobs[i] + ' - ', e);
+                    } finally {
+                        if (i + 1 === jobs.length) {
+                            resolve();
+                        }
+                    }
+                }
+            })
+        })
+    }
+
     launch() {
+        this.app.use((req, res, next) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
+        this.app.use((err, req, res, next) => res.render('error', { title: 'Internal Server Error', status: 500, message: 'Internal Server Error' }));
         this.app.listen(config.port, () => {
             console.log('[Website] Website is listening on port: '+ config.port);
         });

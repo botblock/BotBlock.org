@@ -1,17 +1,24 @@
+// ADS
+
 .card.is-box-shadow
     .card-content
         .media
             .media-left
-                img(class='image', alt='List Name', src='https://i.imgur.com/T7DdvE8.png')
+                img.image.lazyload(alt=list.name + ' Icon', data-src=list.icon, src='/assets/img/loading.gif')
             .media-content
-                p.title.is-3 List Name
-                p.subtitle.is-6 URL
+                p.title.is-3 #{list.name}
+                p.subtitle.is-6 #{list.url}
+                if list.discord_only
+                    .checkbox(tabindex='0', role='button')
+                        .checkbox-inner
+                            input(type='checkbox', id='', name='', checked='')
+                            span
+                        span Discord Bots Only
             .media-right.button-group.button-group-vertical
-                a.button.is-light.is-small Information
-                a.button.is-light.is-small Website
-                a.button.is-light.is-small Discord
+                a.button.is-light.is-small(href='/lists/' + list.id) Information
+                a.button.is-light.is-small(href=list.url,  target='_blank') Website
+                if list.discord
+                    a.button.is-light.is-small(href=list.discord, target='blank') Discord
                 a.button.is-light.is-small.is-mod Fetch Icon from invite
                 a.button.is-light.is-small.is-mod Edit List
-                .content
-                    b.text.is-primary Owners:<br/> User
 
