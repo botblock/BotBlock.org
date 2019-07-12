@@ -4,7 +4,7 @@
     .card-content
         .media
             .media-left
-                img.image.lazyload(alt=list.name + ' Icon', data-src=list.icon, src='/assets/img/loading.gif')
+                img.image.lazyload#list_icon(alt=list.name + ' Icon', data-srcset=list.icon, src='/assets/img/loading.gif')
             .media-content
                 p.title.is-3 #{list.name}
                 p.subtitle.is-6 #{list.url}
@@ -21,4 +21,5 @@
                     a.button.is-light.is-small(href=list.discord, target='blank') Discord
                 a.button.is-light.is-small.is-mod Fetch Icon from invite
                 a.button.is-light.is-small.is-mod Edit List
+
 

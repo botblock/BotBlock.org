@@ -1,0 +1,15 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 All Bot Lists
+            if !lists.length
+                h5.is-size-4.has-text-white No bot lists found.
+            else
+                .columns.is-half.is-multiline
+                    for list in lists
+                        .column.is-half.is-full-mobile
+                            include ../Includes/cards/listcard

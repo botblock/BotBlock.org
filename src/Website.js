@@ -79,7 +79,6 @@ class Website {
                     try {
                         const Job = require(path.join(dir, jobs[i]));
                         const job = new Job(this.client, this.db);
-                        job.execute();
                         schedule.scheduleJob(job.interval, () => {
                             job.execute();
                         })
@@ -96,8 +95,11 @@ class Website {
     }
 
     launch() {
-        this.app.use((req, res, next) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
-        this.app.use((err, req, res, next) => res.render('error', { title: 'Internal Server Error', status: 500, message: 'Internal Server Error' }));
+        this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
+        this.app.use((err, req, res) => {
+            console.error('[Internal Server Error] Error', err)
+            res.render('error', { title: 'Internal Server Error', status: 500, message: 'Internal Server Error' })
+        });
         this.app.listen(config.port, () => {
             console.log('[Website] Website is listening on port: '+ config.port);
         });

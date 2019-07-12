@@ -5,7 +5,7 @@ class RequestHandler {
         this.client = client;
     }
 
-    request(method, endpoint, data) {
+    request(method, endpoint, data = {}) {
         return new Promise((resolve, reject) => {
             axios({
                 method,
