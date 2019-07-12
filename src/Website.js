@@ -19,6 +19,9 @@ class Website {
     async start() {
         this.app.set('view engine', 'pug');
         this.app.set('views', path.join(__dirname, 'Dynamic'));
+        this.app.set('json spaces', 4);
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: false }));
         i18n.configure({
             cookie: 'lang',
             defaultLocale: 'en_US',
