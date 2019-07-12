@@ -1,5 +1,6 @@
 const Discord = require('./Structure/Discord/Client');
 const express = require('express');
+const http = require('http');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const i18n = require('i18n');
@@ -97,11 +98,11 @@ class Website {
     launch() {
         this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
         this.app.use((err, req, res) => {
-            console.error('[Internal Server Error] Error', err)
+            console.error('[Internal Server Error] Error', err);
             res.render('error', { title: 'Internal Server Error', status: 500, message: 'Internal Server Error' })
         });
-        this.app.listen(config.port, () => {
-            console.log('[Website] Website is listening on port: '+ config.port);
+        http.createServer(this.app).listen(process.env.PORT || config.port, () => {
+            console.log('[Website] Website is listening on port: ' + (process.env.PORT || config.port));
         });
     }
 }
