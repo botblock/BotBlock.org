@@ -1,74 +1,82 @@
 .navbar {
   &.is-spaced {
-      padding: 0.2rem 2.5rem;
+    padding: 0.2rem 2.5rem;
   }
-  .footer {
+
+  &.footer {
+    margin-top: auto;
+    min-height: auto;
+    padding: 0.5rem 2rem;
+    background-color: $brand;
+    color: $white;
     border-radius: 0;
     box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
+
+    .breadcrumb {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+
+      a {
+        color: $white;
+
+        &:hover {
+          color: #434A54;
+        }
+      }
+
+      li + li::before {
+        color: #434A54;
+      }
+
+      .right-links {
+        margin-left: auto;
+
+        li + li::before {
+          display: none;
+        }
+      }
+    }
   }
-  .header {
+
+  &.header {
     border-radius: 0;
     box-shadow: 0 4px 0 rgba(0, 0, 0, .2) !important;
   }
+
+  .navbar-item {
+    img {
+      max-height: 2.5rem;
+      margin-right: .5em;
+      height: 100%;
+    }
+
+    &.input {
+      font-size: .8em;
+      border-radius: 0;
+    }
+  }
+
+  .navbar-dropdown {
+    top: 100%
+  }
+
+  .navbar-link {
+    flex-wrap: nowrap;
+    padding: .25rem .75rem;
+
+    &:not(.is-arrowless) {
+      padding-right: 2.5em;
+    }
+  }
+
+  .navbar-item {
+    flex-wrap: nowrap;
+    padding: .25rem .75rem;
+
+    &.has-dropdown {
+      padding: 0;
+    }
+  }
 }
-
-.navbar-item img {
-  max-height: 2.5rem;
-  margin-right: .5em;
-  height: 100%;
-}
-
-
-.navbar-item, .navbar-link {
-  flex-wrap: nowrap;
-  padding: .25rem .75rem;
-}
-
-.navbar-dropdown {
-  top: 100%
-}
-
-.navbar-item.input {
-  font-size: .8em;
-}
-
-.footer.navbar {
-  margin-top: auto;
-  min-height: auto;
-  padding: 0.5rem 2rem;
-  background-color: $brand;
-  color: $white;
-}
-
-.footer.navbar .breadcrumb {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.footer.navbar .breadcrumb a {
-  color: $white;
-}
-
-.footer.navbar .breadcrumb a:hover {
-  color: #434A54;
-}
-
-.footer.navbar .breadcrumb li + li::before {
-  color: #434A54;
-}
-
-.footer.navbar .breadcrumb .right-links {
-  margin-left: auto;
-}
-
-.footer.navbar .breadcrumb .right-links li + li::before {
-  display: none;
-}
-
-.navbar.footer {
-  border-radius: 0;
-  box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
-}
-

@@ -1,11 +1,14 @@
 $brand: #359DC4;
-$brand-dark: #1f5d74;
+$brand-dark: darken($brand, 20%);
+$brand2: #4FC0E9;
+$brand3: #D56FAC;
+$brand4: #967ADC;
 $white: #F5F7FA;
 
 $primary: $brand;
 $primary-invert: $brand-dark;
 $light: #363636;
-$light-invert: findColorInvert($light);
+$light-invert: invert($light);
 
 // Navbar
 $navbar-background-color: $brand;
@@ -18,7 +21,7 @@ $navbar-dropdown-arrow: $white;
 $navbar-dropdown-offset: auto;
 $navbar-dropdown-item-hover-color: $white;
 $navbar-dropdown-item-hover-background-color: $brand-dark;
-$navbar-divider-background-color: #363636;
+$navbar-divider-background-color: $light;
 
 // Forms
 $input-background-color: #333;
