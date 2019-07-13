@@ -48,6 +48,7 @@ class Website {
         await this.loadJobs(path.join(__dirname, 'Jobs'));
         this.app.use(require('express-minify')());
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
+        this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
         this.launch();
     }
 
@@ -59,14 +60,21 @@ class Website {
                 for (let i = 0; i < routes.length; i++) {
                     if (!routes[i].endsWith('.js')) continue;
                     try {
+                        // botblock.org
                         const Route = require(path.join(dir, routes[i]));
                         const route = new Route(this.client, this.db);
-                        this.app.use(route.route, route.getRouter);
+
+                        if (route.route.includes('api')) this.app.use(route.route, route.getRouter);
+                        if (config.baseURL.includes('botblock.org')) {
+                            this.app.all('*', (req, res) => {
+                                res.render('landing')
+                            })
+                        }
+
                     } catch (e) {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
                     } finally {
                         if (i + 1 === routes.length) {
-                            this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
                             this.app.use((err, req, res, next) => {
                                 if (req.method === 'POST') {
                                     try {
@@ -76,9 +84,8 @@ class Website {
                                     }
                                 }
                                 console.error('[API] Internal Server Error: ', err);
-                                res.status(500).json({ error: true, status: 500, message: 'Internal Server Error'})
+                                res.status(500).json({ error: true, status: 500, message: 'Internal Server Error'});
                             });
-
                             resolve();
                         }
                     }
