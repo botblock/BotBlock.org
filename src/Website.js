@@ -17,6 +17,7 @@ class Website {
     }
 
     async start() {
+        this.app.enable('trust proxy');
         this.app.set('view engine', 'pug');
         this.app.set('views', path.join(__dirname, 'Dynamic'));
         this.app.set('json spaces', 4);

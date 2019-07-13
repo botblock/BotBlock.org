@@ -3,7 +3,7 @@ const updateIcon = require('../Util/updateIcon');
 
 class IconUpdater extends BaseJob {
     constructor(client, db) {
-        super('@hourly');
+        super('@daily');
         this.client = client;
         this.db = db;
     }

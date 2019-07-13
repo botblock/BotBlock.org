@@ -8,12 +8,12 @@ class APIRoute extends BaseRoute {
         this.router = require('express').Router();
         this.client = client;
         this.db = db;
-        this.ratelimit = new Ratelimitter();
+        this.ratelimit = new Ratelimitter(this.db);
         this.routes();
     }
 
     routes() {
-        this.router.get('/lists', this.ratelimit.checkRatelimit(1, 1, ''), (req, res) => {
+        this.router.get('/lists', this.ratelimit.checkRatelimit(1, 20), (req, res) => {
             const data = { };
             this.db.run('SELECT id, api_docs, api_post, api_field, api_shard_id, api_shard_count, api_shards, api_get FROM lists WHERE defunct = ? ORDER BY discord_only DESC, LOWER(name) ASC', [0]).then((lists) => {
                 if (!lists) return res.status(200).json({  });

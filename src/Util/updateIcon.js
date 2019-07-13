@@ -12,7 +12,6 @@ module.exports = (client, db, list) => {
                 if (list.icon === newIcon) return reject('Icon has not changed.');
                 db.run('UPDATE lists SET icon = ? WHERE id = ?', [newIcon, list.id]).then(() => {
                     newList['icon'] = newIcon;
-                    console.log(1)
                     client.updateEditLog(list, newList).then(() => console.log(1)).catch((e) => console.error('[Discord] Failed to send to edit log', e));
                     resolve('Icon has been updated.');
                 }).catch((e) => {
