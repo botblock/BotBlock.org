@@ -65,6 +65,19 @@ class Website {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
                     } finally {
                         if (i + 1 === routes.length) {
+                            this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
+                            this.app.use((err, req, res, next) => {
+                                if (req.method === 'POST') {
+                                    try {
+                                        JSON.parse(req.body);
+                                    } catch(_) {
+                                        return res.status(400).json({ error: true, status: 400, message: 'Body is not parsable JSON' })
+                                    }
+                                }
+                                console.error('[API] Internal Server Error: ', err);
+                                res.status(500).json({ error: true, status: 500, message: 'Internal Server Error'})
+                            });
+
                             resolve();
                         }
                     }
@@ -99,11 +112,6 @@ class Website {
     }
 
     launch() {
-        this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
-        this.app.use((err, req, res) => {
-            console.error('[Internal Server Error] Error', err);
-            res.render('error', { title: 'Internal Server Error', status: 500, message: 'Internal Server Error' })
-        });
         http.createServer(this.app).listen(process.env.PORT || config.port, () => {
             console.log('[Website] Website is listening on port: ' + (process.env.PORT || config.port));
         });
