@@ -48,7 +48,11 @@ class Website {
         await this.loadJobs(path.join(__dirname, 'Jobs'));
         this.app.use(require('express-minify')());
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
-        this.app.use((req, res) => res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' }));
+        this.app.use((req, res) => {
+            // production - everything to custom landing
+            if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production") res.render('landing');
+            else res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+        });
         this.launch();
     }
 
@@ -60,17 +64,16 @@ class Website {
                 for (let i = 0; i < routes.length; i++) {
                     if (!routes[i].endsWith('.js')) continue;
                     try {
-                        // botblock.org
                         const Route = require(path.join(dir, routes[i]));
                         const route = new Route(this.client, this.db);
 
-                        this.app.use(route.route, route.getRouter);
-                        if (config.baseURL.includes('botblock')) {
-                            this.app.all('*', (req, res) => {
-                                res.render('landing')
-                            })
+                        // production - api only
+                        if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production" && !route.route.includes("api")) {
+                            console.log("skipping route", route.route);
+                            continue;
                         }
 
+                        this.app.use(route.route, route.getRouter);
                     } catch (e) {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
                     } finally {
