@@ -65,7 +65,7 @@ class Website {
                         const route = new Route(this.client, this.db);
 
                         this.app.use(route.route, route.getRouter);
-                        if (config.baseURL.includes('localhost')) {
+                        if (config.baseURL.includes('botblock')) {
                             this.app.all('*', (req, res) => {
                                 res.render('landing')
                             })
