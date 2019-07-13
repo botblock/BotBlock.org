@@ -64,8 +64,8 @@ class Website {
                         const Route = require(path.join(dir, routes[i]));
                         const route = new Route(this.client, this.db);
 
-                        if (route.route.includes('api')) this.app.use(route.route, route.getRouter);
-                        if (config.baseURL.includes('botblock.org')) {
+                        this.app.use(route.route, route.getRouter);
+                        if (config.baseURL.includes('localhost')) {
                             this.app.all('*', (req, res) => {
                                 res.render('landing')
                             })
