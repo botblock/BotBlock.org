@@ -11,7 +11,7 @@ class RateLimiter {
                 if (recent && recent.length >= requestLimit) {
                     const lastRequest = recent[0].datetime;
                     const expiry = recent[0].expiry;
-                    res.set('Retry-After', expiry);
+                    res.set('Retry-After', new Date(expiry).getSeconds() - new Date().getSeconds());
                     res.set('X-Rate-Limit-Reset', expiry);
                     res.set('X-Rate-Limit-IP', req.ip);
                     res.set('X-Rate-Limit-Route', req.originalUrl);
@@ -19,7 +19,7 @@ class RateLimiter {
                     return res.status(429).json({
                         error: true,
                         status: 429,
-                        retry_after: expiry,
+                        retry_after: new Date(expiry).getSeconds() - new Date().getSeconds(),
                         ratelimit_reset: expiry,
                         ratelimit_ip: req.ip,
                         ratelimit_route: req.originalUrl,
