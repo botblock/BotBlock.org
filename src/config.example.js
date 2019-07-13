@@ -4,6 +4,10 @@ module.exports = {
 
     'secret': '',
 
+    'GACode': 'UA-113826252-4',
+
+    'baseURL': 'http://localhost',
+
     'discord': {
         'client_id': '',
         'client_secret': '',
