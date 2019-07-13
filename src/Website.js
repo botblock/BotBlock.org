@@ -80,11 +80,13 @@ class Website {
                         if (i + 1 === routes.length) {
                             this.app.use((err, req, res, next) => {
                                 if (req.method === 'POST') {
+                                    console.log(req.headers)
                                     try {
                                         JSON.parse(req.body);
                                     } catch(_) {
                                         return res.status(400).json({ error: true, status: 400, message: 'Body is not parsable JSON' })
                                     }
+
                                 }
                                 console.error('[API] Internal Server Error: ', err);
                                 res.status(500).json({ error: true, status: 500, message: 'Internal Server Error'});

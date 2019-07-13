@@ -43,6 +43,9 @@ class APIRoute extends BaseRoute {
                 if (!Array.isArray(req.body.shards)) return res.status(400).json({ error: true, status: 400, message: '\'shards\' must be an array' });
                 if (req.body.shards.some((n) => typeof n !== 'number')) return res.status(400).json({ error: true, status: 400, message: '\'shards\' contains incorrect values' });
             }
+            if (req.body.shard_count) {
+                if (isNaN(req.body.shard_count)) return res.status(400).json({ error: true, status: 400, message: '\'shard_count\' must be a number' });
+            }
             let success = { };
             let failure = { };
             this.db.run('SELECT id, api_docs, api_post, api_field, api_shard_id, api_shard_count, api_shards, api_get FROM lists WHERE defunct = ? AND api_post != \'\' AND api_post IS NOT NULL ORDER BY discord_only DESC, LOWER(name) ASC', [0]).then(async (lists) => {
@@ -57,6 +60,7 @@ class APIRoute extends BaseRoute {
                             payload[list.api_field] = req.body.server_count;
                         }
                         if (req.body.shard_id && list.api_shard_id) payload[list.api_shard_id] = req.body.shard_id;
+                        if (req.body.shard_count && list.shard_count) payload[list.api_shard_count] = req.body.shard_count;
                         let userAgent = require('../Util/getUserAgent')().random;
                         if (req.get('User-Agent')) {
                             userAgent = req.get('User-Agent');
