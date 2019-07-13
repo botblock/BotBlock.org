@@ -8,5 +8,6 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 const request = () => chai.request(`${config.baseURL}:${process.env.PORT || config.port}`);
+const ratelimitBypass = (req) => req.set('X-Ratelimit-Bypass', config.secret);
 
-module.exports = {describe, it, expect, request};
+module.exports = {describe, it, expect, request, ratelimitBypass};

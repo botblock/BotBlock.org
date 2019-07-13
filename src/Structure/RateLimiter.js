@@ -1,3 +1,5 @@
+const {secret} = require('../config.js');
+
 class RateLimiter {
     constructor(db) {
         this.db = db;
@@ -5,6 +7,10 @@ class RateLimiter {
 
     checkRatelimit(requestLimit = 1, timeLimit = 1, bot = '') {
         return async (req, res, next) => {
+            // Test suite ratelimit bypass
+            const ratelimitBypass = req.get('X-Ratelimit-Bypass');
+            if (ratelimitBypass === secret) return next();
+            // Ratelimit as normal
             if (req.body.bot_id && !bot) bot = req.body.bot_id;
             bot = bot.toString();
             try {
