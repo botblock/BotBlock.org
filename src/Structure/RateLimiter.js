@@ -8,9 +8,7 @@ class RateLimiter {
             try {
                 await this.db.run('DELETE FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? AND expiry < ?', [req.ip, bot, req.originalUrl, Date.now()]);
                 const recent = await this.db.run('SELECT * FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? ORDER BY datetime DESC', [req.ip, bot, req.originalUrl]);
-                console.log(recent)
                 if (recent && recent.length >= requestLimit) {
-                    console.log(1)
                     const lastRequest = recent[0].datetime;
                     const expiry = recent[0].expiry;
                     res.set('Retry-After', expiry);
