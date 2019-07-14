@@ -28,10 +28,32 @@ class Client {
         if (typeof counts !== 'boolean') throw new TypeError('counts must be a boolean');
         return new Promise((resolve, reject) => {
             this.requestHandler.request('GET', '/invites/' + code + '?with_counts=' + counts).then((invite) => {
-                console.log(invite)
                 resolve(invite);
-            }).catch((e) => {
-                reject(e);
+            }).catch(() => {
+                reject(null);
+            })
+        })
+    }
+
+    getUser(id) {
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
+        return new Promise((resolve, reject) => {
+            this.requestHandler.request('GET', '/users/' + id).then((user) => {
+                resolve(user);
+            }).catch(() => {
+                reject(null);
+            })
+        })
+    }
+
+    getMember(guild, id) {
+        if (typeof guild !== 'string') throw new TypeError('guild must be a string');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
+        return new Promise((resolve, reject) => {
+            this.requestHandler.request('GET', '/guilds/' + guild + '/members/' + id).then((member) => {
+                resolve(member);
+            }).catch(() => {
+                reject(null);
             })
         })
     }

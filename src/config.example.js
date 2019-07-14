@@ -12,7 +12,11 @@ module.exports = {
         'client_id': '',
         'client_secret': '',
         'token': '',
-        'edit_log': ''
+        'scopes': ['identify'],
+        'guild_id': '',
+        'edit_log': '',
+        'mod_role': '',
+        'admin_role': ''
     },
 
     // SQL Database
