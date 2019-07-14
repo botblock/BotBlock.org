@@ -65,6 +65,37 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/features', (req, res) => {
+            try {
+                this.db.run('SELECT * FROM features ORDER BY display DESC, name ASC').then((checkboxes) => {
+                    this.footerData().then((footer) => {
+                        res.render('lists/features', {
+                            title: 'All List Features',
+                            checkboxes, footer
+                        });
+                    });
+                });
+            } catch {
+                res.status(500).render('error', {title: 'Database Error'});
+            }
+        });
+
+        this.router.get('/features/:id', (req, res) => {
+            try {
+                // TODO: get feature first
+                this.db.run('SELECT * FROM lists LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.feature = ?) temp ON temp.list = lists.id WHERE display = 1 AND defunct = 0 AND temp.feature IS NOT NULL ORDER BY discord_only DESC, LOWER(name) ASC', [req.params.id]).then((lists) => {
+                    this.footerData().then((footer) => {
+                        res.render('lists/lists', {
+                            title: `Bot Lists with feature ''`,
+                            lists, footer
+                        });
+                    });
+                });
+            } catch {
+                res.status(500).render('error', {title: 'Database Error'});
+            }
+        });
+
         this.router.get('/:id', (req, res) => {
             this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
                 if (!lists.length) return res.status(404).render('error', {

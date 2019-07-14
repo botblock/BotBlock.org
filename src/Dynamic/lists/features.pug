@@ -1,0 +1,22 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 All List Features
+
+            .columns
+                .column.is-half.is-full-mobile
+                    .card.is-box-shadow
+                        .card-content
+                            p.has-text-white
+                                | The following features are currently stored by #{__('site_name')} for each list:
+                                br
+                                i Click on a feature to search for all bot lists with that feature
+
+                            - checkboxes = checkboxes.map(checkbox => { checkbox.value = true; return checkbox})
+                            include ../Includes/checkboxes
+
+            include ../Includes/listsfooter

@@ -1,0 +1,19 @@
+if checkbox.id && !interactiveCheckboxes
+    | <a href="/lists/features/#{checkbox.id}">
+
+-
+    var classes = [];
+    if (checkbox.type === 2) classes.push('cross');
+    if (checkbox.type === 1) classes.push('minus');
+    if (interactiveCheckboxes) classes.push('interactive');
+    if (hideUncheckedBoxes && !checkbox.value) classes.push('is-hidden');
+
+.checkbox.always(tabindex='0', role='button', class=classes.join(' '))
+    .checkbox-inner
+        input(type='checkbox', id=checkbox.id, name=checkbox.id, checked=checkbox.value)
+        span
+    if checkbox.name
+        span #{checkbox.name}
+
+if checkbox.id && !interactiveCheckboxes
+    | </a>
