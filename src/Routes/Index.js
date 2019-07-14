@@ -16,7 +16,23 @@ class IndexRoute extends BaseRoute {
             }).catch((e) => {
                 res.sendStatus(400)
             })
-        })
+        });
+
+        this.router.get('/discord', (req, res) => {
+            res.redirect(301, 'https://discord.gg/npjccFR');
+        });
+
+        this.router.get('/patreon', (req, res) => {
+            res.redirect(301, 'https://patreon.com/botblock');
+        });
+
+        this.router.get('/reddit', (req, res) => {
+            res.redirect(301, 'https://reddit.com/r/botblock');
+        });
+
+        this.router.get('/twitter', (req, res) => {
+            res.redirect(301, 'https://twitter.com/botblockorg');
+        });
     }
 
     get getRouter() {
