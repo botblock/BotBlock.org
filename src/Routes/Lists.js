@@ -49,6 +49,22 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/defunct', (req, res) => {
+            try {
+                this.db.run('SELECT * FROM lists WHERE defunct = ? ORDER BY discord_only DESC, LOWER(name) ASC', [1, 1]).then((lists) => {
+                    this.footerData().then((footer) => {
+                        res.render('lists/lists', {
+                            title: 'Defunct Bot Lists',
+                            subtitle: `These lists are flagged as defunct on ${res.__('site_name')}`,
+                            lists, footer
+                        });
+                    });
+                });
+            } catch {
+                res.status(500).render('error', {title: 'Database Error'});
+            }
+        });
+
         this.router.get('/:id', (req, res) => {
             this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
                 if (!lists.length) return res.status(404).render('error', {
