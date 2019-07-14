@@ -340,6 +340,7 @@ describe('/api/count', () => {
                     test().end((err, res) => {
                         expect(res.body.failure).to.have.property('discordbots.group');
                         expect(res.body.failure['discordbots.group']).to.be.an('array');
+                        expect(res.body.failure['discordbots.group'].length).to.be.equal(3);
                         expect(res.body.success).to.not.have.property('discordbots.group');
                         done();
                     });
