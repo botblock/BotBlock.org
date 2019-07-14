@@ -1,0 +1,8 @@
+# mocha.opts
+  --recursive
+  --exclude base.js
+  --slow 400
+  --timeout 800
+  --diff true
+  --inline-diffs true
+  --ui bdd
