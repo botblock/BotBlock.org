@@ -1,0 +1,35 @@
+-
+    var columns = [];
+    var hasFeature = false;
+
+    if (hideUncheckedBoxes) {
+        var items_show = [[], []];
+        var items_hide = [[], []];
+        var counter = [0, 0];
+        checkboxes.forEach(checkbox => {
+            if (checkbox.value) {
+                items_show[counter[0] % 2].push(checkbox);
+                counter[0]++;
+                hasFeature = true;
+            } else {
+                items_hide[counter[1] % 2].push(checkbox);
+                counter[1]++;
+            }
+        });
+        columns = [items_show, items_hide];
+    } else {
+        var items = [[], []];
+        var counter = 0;
+        checkboxes.forEach(checkbox => {
+            items[counter % 2].push(checkbox);
+            counter++;
+        });
+        columns = [items];
+    }
+
+each section, index in columns
+    .columns(class=(index === 0 ? '' : 'is-margin-top'))
+        each column in section
+            .column.left
+                each checkbox in column
+                    include checkbox
