@@ -398,4 +398,48 @@ describe('/api/count', () => {
             });
         });
     });
+
+    describe('POST (Ratelimited)', () => {
+        const test = () => request().post('/api/count').send({
+            bot_id: '123456789123456789',
+            server_count: 10,
+            'mytestlist.com': 'Hello world'});
+        it('ratelimits spam requests', done => {
+            test().end(() => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(429);
+                    expect(res).to.be.json;
+
+                    expect(res.body).to.have.property('error', true);
+                    expect(res.body).to.have.property('status', 429);
+
+                    expect(res.body).to.have.property('retry_after');
+                    expect(res.body.retry_after).to.be.a('number');
+
+                    expect(res.body).to.have.property('ratelimit_reset');
+                    expect(res.body.ratelimit_reset).to.be.a('number');
+
+                    expect(res.body).to.have.property('ratelimit_ip');
+                    expect(res.body.ratelimit_ip).to.be.a('string');
+
+                    expect(res.body).to.have.property('ratelimit_route', '/api/count');
+                    //expect(res.body).to.have.property('ratelimit_bot_id', '123456789123456789');
+                    done();
+                });
+            });
+        });
+        it('does not ratelimit requests spaced correctly', function(done) {
+            this.slow(130 * 1000);
+            this.timeout(160 * 1000);
+            test().end(() => {
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res).to.be.json;
+                        done();
+                    });
+                }, 120 * 1000);
+            });
+        });
+    });
 });
