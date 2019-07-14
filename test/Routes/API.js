@@ -63,7 +63,10 @@ describe('/api/lists', () => {
                 });
             });
         });
-        it('does not ratelimit requests spaced correctly', done => {
+        it('does not ratelimit requests spaced correctly', function(done) {
+            const limit = 1;
+            this.slow(limit * 1.1 * 1000);
+            this.timeout(limit * 1.3 * 1000);
             test().end(() => {
                 setTimeout(() => {
                     test().end((err, res) => {
@@ -71,7 +74,7 @@ describe('/api/lists', () => {
                         expect(res).to.be.json;
                         done();
                     });
-                }, 1000);
+                }, limit * 1000);
             });
         });
     });
@@ -429,8 +432,9 @@ describe('/api/count', () => {
             });
         });
         it('does not ratelimit requests spaced correctly', function(done) {
-            this.slow(130 * 1000);
-            this.timeout(160 * 1000);
+            const limit = 120;
+            this.slow(limit * 1.1 * 1000);
+            this.timeout(limit * 1.3 * 1000);
             test().end(() => {
                 setTimeout(() => {
                     test().end((err, res) => {
@@ -438,7 +442,7 @@ describe('/api/count', () => {
                         expect(res).to.be.json;
                         done();
                     });
-                }, 120 * 1000);
+                }, limit * 1000);
             });
         });
     });
