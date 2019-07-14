@@ -14,7 +14,8 @@ class TestRoute extends BaseRoute {
         this.client = client;
         this.db = db;
         this.output = null;
-        this.done = false;
+        this.done = true;
+        this.started = null;
         this.routes();
     }
 
@@ -24,26 +25,16 @@ class TestRoute extends BaseRoute {
             res.render('test');
         });
 
-        this.router.get('/run', (req, res) => {
-            if (this.output !== null || this.done === true) {
-                if (this.output !== null) {
-                    res.set('Content-Type', 'text/html');
-                    res.send(Buffer.from(this.output.join('\n')));
-                    if (this.done === true) {
-                        this.output = null;
-                    }
-                    return;
-                }
-                res.set('Content-Type', 'text/plain');
-                res.send(Buffer.from("end"));
-                this.done = false;
-                return;
-            }
+        this.router.get('/start', (req, res) => {
+            if (this.started === null) this.started = Date.now();
 
             res.set('Content-Type', 'text/plain');
-            res.send(Buffer.from(""));
+            res.send(Buffer.from(this.started.toString()));
+
+            if (this.done !== true) return;
 
             this.output = [];
+            this.done = false;
             const processData = data => {
                 const raw = data.toString().replace(/^\n|\n$/g, '').split('\n');
                 raw.forEach(line => {
@@ -61,6 +52,24 @@ class TestRoute extends BaseRoute {
             child.stderr.on('data', processData);
             child.on('error', () => { this.done = true; });
             child.on('close', () => { this.done = true; });
+        });
+
+        this.router.get('/progress', (req, res) => {
+            if (this.output !== null || this.done === true) {
+                if (this.output !== null) {
+                    res.set('Content-Type', 'text/html');
+                    res.send(Buffer.from(this.output.join('\n')));
+                    if (this.done === true) {
+                        this.output = null;
+                    }
+                    return;
+                }
+                res.set('Content-Type', 'text/plain');
+                res.send(Buffer.from("end"));
+                return;
+            }
+            res.set('Content-Type', 'text/plain');
+            res.send(Buffer.from(""));
         });
 
     }
