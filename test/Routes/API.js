@@ -65,8 +65,8 @@ describe('/api/lists', () => {
         });
         it('does not ratelimit requests spaced correctly', function(done) {
             const limit = 1;
-            this.slow(limit * 1000 + 500);
-            this.timeout(limit * 1000 + 1000);
+            this.slow(limit * 1000 + 1000);
+            this.timeout(limit * 1000 + 1500);
             test().end(() => {
                 setTimeout(() => {
                     test().end((err, res) => {
@@ -433,8 +433,8 @@ describe('/api/count', () => {
         });
         it('does not ratelimit requests spaced correctly', function(done) {
             const limit = 120;
-            this.slow(limit * 1000 + 500);
-            this.timeout(limit * 1000 + 1000);
+            this.slow(limit * 1000 + 1000);
+            this.timeout(limit * 1000 + 1500);
             test().end(() => {
                 setTimeout(() => {
                     test().end((err, res) => {
