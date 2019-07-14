@@ -1,29 +1,43 @@
+var interval;
+var previous;
+var btn = document.getElementById('run');
+var code = document.getElementById('tests');
+var state = document.getElementById('state');
+
 function runTests() {
-    var btn = document.getElementById('run');
     if (btn.hasAttribute('disabled')) return;
     btn.setAttribute('disabled', true);
     btn.classList.add('disabled');
-
-    var code = document.getElementById('tests');
-    code.textContent = 'Initialising';
-
-    var state = 0;
+    state.textContent = 'Initialising';
+    var index = 0;
     var spinner = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-    var interval = setInterval(function () {
-        code.textContent = 'Running tests ' + spinner[state];
-        state++;
-        if (state >= spinner.length) state = 0;
+    interval = setInterval(function () {
+        state.textContent = '\nRunning tests ' + spinner[index];
+        index++;
+        if (index >= spinner.length) index = 0;
     }, 50);
+    fetchOutput();
+}
 
+function fetchOutput() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            clearInterval(interval);
-            code.innerHTML = xhr.responseText;
-            btn.removeAttribute('disabled');
-            btn.classList.remove('disabled');
+            if (xhr.responseText.trim() === "end") {
+                clearInterval(interval);
+                state.textContent = '';
+                btn.removeAttribute('disabled');
+                btn.classList.remove('disabled');
+            } else {
+                code.innerHTML = xhr.responseText;
+                setTimeout(function () {
+                    fetchOutput()
+                }, 100);
+            }
+            if (xhr.responseText !== previous) state.scrollIntoView();
+            previous = xhr.responseText;
         }
     };
-    xhr.open('GET', '/test/run', true);
+    xhr.open('GET', '/test/run?_=' + encodeURIComponent(Date.now().toString()), true);
     xhr.send();
 }

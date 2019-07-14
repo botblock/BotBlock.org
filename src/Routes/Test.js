@@ -13,6 +13,8 @@ class TestRoute extends BaseRoute {
         this.router = require('express').Router();
         this.client = client;
         this.db = db;
+        this.output = null;
+        this.done = false;
         this.routes();
     }
 
@@ -23,16 +25,42 @@ class TestRoute extends BaseRoute {
         });
 
         this.router.get('/run', (req, res) => {
-            exec('mocha', {cwd: join(__dirname, '..', '..')}, (error, stdout, stderr) => {
-                const raw = (stderr || stdout).trim().split("\n");
-                const output = [];
+            if (this.output !== null || this.done === true) {
+                if (this.output !== null) {
+                    res.set('Content-Type', 'text/html');
+                    res.send(Buffer.from(this.output.join('\n')));
+                    if (this.done === true) {
+                        this.output = null;
+                    }
+                    return;
+                }
+                res.set('Content-Type', 'text/plain');
+                res.send(Buffer.from("end"));
+                this.done = false;
+                return;
+            }
+
+            res.set('Content-Type', 'text/plain');
+            res.send(Buffer.from(""));
+
+            this.output = [];
+            const processData = data => {
+                const raw = data.toString().replace(/^\n|\n$/g, '').split('\n');
                 raw.forEach(line => {
                     ansiHTML.reset();
-                    output.push(ansiHTML(line));
+                    this.output.push(ansiHTML(line));
                 });
-                res.set('Content-Type', 'text/html');
-                res.send(Buffer.from(ansiHTML(output.join("\n"))));
-            });
+            };
+
+            const cwd = join(__dirname, '..', '..');
+            const child = exec(`"${join('node_modules', '.bin', 'mocha')}"`, {cwd});
+
+            child.stdout.setEncoding('utf8');
+            child.stdout.on('data', processData);
+            child.stderr.setEncoding('utf8');
+            child.stderr.on('data', processData);
+            child.on('error', () => { this.done = true; });
+            child.on('close', () => { this.done = true; });
         });
 
     }
