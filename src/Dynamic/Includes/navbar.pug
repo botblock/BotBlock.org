@@ -11,12 +11,12 @@
         .navbar-menu
             .navbar-start
                 a.navbar-item(href='/') Home
-                .navbar-item.has-dropdown.is-hoverable
+                .navbar-item.has-dropdown.is-hcoverable
                     a.navbar-link Lists
                     .navbar-dropdown.is-boxed.is-box-shadow
                         a.navbar-item(href='/lists') All Lists
                         a.navbar-item(href='/lists/new') New Lists
-                        a.navbar-item List Features
+                        a.navbar-item(href='/lists/features') List Features
                         hr.dropdown-divider
                         form#navbar_lists_search
                             input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
@@ -32,8 +32,8 @@
                         a.navbar-item API Docs
                         a.navbar-item API Libraries
             .navbar-end
-                a.navbar-item Discord Server
-                a.navbar-item Support Us
+                a.navbar-item(href='/discord', target='_blank') Discord Server
+                a.navbar-item(href='/patreon', target='_blank') Support Us
                 a.navbar-item Sign in with Discord
                 // a.navbar-item Languages (Coming soon... :) )
 
