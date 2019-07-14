@@ -1,0 +1,20 @@
+.hero.card
+    .hero-body.hero-stats.card-body
+        .columns
+            .column.left.is-two-thirds.is-full-mobile
+                h4.title.is-size-4.has-text-black-ter #{__('site_name')} - #{__('short_desc')}
+                h5.title.is-size-5.has-text-black-ter Contact us to get your list listed or to update an existing list
+                a.button.is-light.is-small.is-size-6(href='/contact') Contact
+
+            .column.left.is-one-third.is-full-mobile
+                h5.is-size-5.has-text-black-ter.has-no-bottom-margin.has-text-weight-semibold #{__('site_name')} - Bot List Stats
+                p.is-size-7.has-text-black-ter
+                    | #{__('site_name')} tries to keep track of and list every Discord bot list.
+                    | There are a lot of them! Check out the stats below to see exactly how many.
+                h6.is-size-6.has-text-white-lighter.has-bottom-margin-small
+                    a(href='/lists') Active Lists: #{footer.active}
+                    br
+                    | &nbsp;
+                    small (Discord Only: #{footer.discordOnly})
+                h6.is-size-6.has-text-white-lighter.has-bottom-margin-small
+                    a(href='/lists/defunct') Defunct Lists: #{footer.defunct}

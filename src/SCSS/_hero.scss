@@ -1,0 +1,11 @@
+.hero {
+  &.card {
+    background: $brand;
+  }
+
+  .hero-stats {
+    a:not([class]) {
+      color: $white;
+    }
+  }
+}
