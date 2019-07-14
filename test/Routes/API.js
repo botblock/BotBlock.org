@@ -426,7 +426,7 @@ describe('/api/count', () => {
                     expect(res.body.ratelimit_ip).to.be.a('string');
 
                     expect(res.body).to.have.property('ratelimit_route', '/api/count');
-                    //expect(res.body).to.have.property('ratelimit_bot_id', '123456789123456789');
+                    expect(res.body).to.have.property('ratelimit_bot_id', '123456789123456789');
                     done();
                 });
             });
