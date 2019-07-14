@@ -5,6 +5,7 @@ class RateLimiter {
 
     checkRatelimit(requestLimit = 1, timeLimit = 1, bot = '') {
         return async (req, res, next) => {
+            if (req.body.bot_id && !bot) bot = req.body.bot_id;
             try {
                 await this.db.run('DELETE FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? AND expiry < ?', [req.ip, bot, req.originalUrl, Date.now()]);
                 const recent = await this.db.run('SELECT * FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? ORDER BY datetime DESC', [req.ip, bot, req.originalUrl]);
