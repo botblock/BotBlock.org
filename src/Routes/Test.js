@@ -16,6 +16,7 @@ class TestRoute extends BaseRoute {
         this.routes();
     }
 
+    // TODO: this all needs to be protected behind auth
     routes() {
         this.router.get('/', (req, res) => {
             res.render('test');
@@ -23,8 +24,14 @@ class TestRoute extends BaseRoute {
 
         this.router.get('/run', (req, res) => {
             exec('mocha', {cwd: join(__dirname, '..', '..')}, (error, stdout, stderr) => {
+                const raw = (stderr || stdout).trim().split("\n");
+                const output = [];
+                raw.forEach(line => {
+                    ansiHTML.reset();
+                    output.push(ansiHTML(line));
+                });
                 res.set('Content-Type', 'text/html');
-                res.send(Buffer.from(ansiHTML(stderr || stdout)));
+                res.send(Buffer.from(ansiHTML(output.join("\n"))));
             });
         });
 
