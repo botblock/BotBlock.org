@@ -36,6 +36,45 @@ describe('/api/lists', () => {
             });
         });
     });
+
+    describe('GET (Ratelimited)', () => {
+        const test = () => request().get('/api/lists');
+        it('ratelimits spam requests', done => {
+            test().end(() => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(429);
+                    expect(res).to.be.json;
+
+                    expect(res.body).to.have.property('error', true);
+                    expect(res.body).to.have.property('status', 429);
+
+                    expect(res.body).to.have.property('retry_after');
+                    expect(res.body.retry_after).to.be.a('number');
+
+                    expect(res.body).to.have.property('ratelimit_reset');
+                    expect(res.body.ratelimit_reset).to.be.a('number');
+
+                    expect(res.body).to.have.property('ratelimit_ip');
+                    expect(res.body.ratelimit_ip).to.be.a('string');
+
+                    expect(res.body).to.have.property('ratelimit_route', '/api/lists');
+                    expect(res.body).to.have.property('ratelimit_bot_id', '');
+                    done();
+                });
+            });
+        });
+        it('does not ratelimit requests spaced correctly', done => {
+            test().end(() => {
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res).to.be.json;
+                        done();
+                    });
+                }, 1000);
+            });
+        });
+    });
 });
 
 describe('/api/count', () => {
@@ -249,8 +288,7 @@ describe('/api/count', () => {
                 });
             });
 
-            // Known issue - We don't have this supported in rewrite yet
-            describe.skip('shard_count as random string (valid bot_id & server_count)', () => {
+            describe('shard_count as random string (valid bot_id & server_count)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
