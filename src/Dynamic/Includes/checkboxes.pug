@@ -33,3 +33,12 @@ each section, index in columns
             .column.left
                 each checkbox in column
                     include checkbox
+    if index < columns.length - 1
+        hr
+
+if interactiveCheckboxes
+    script(defer src='/assets/js/checkboxes/interactive.js')
+
+if hideUncheckedBoxes
+    a.button.is-light.is-small#feature_toggle(data-toggled='0') Show All
+    script(defer src='/assets/js/checkboxes/hidden.js')
