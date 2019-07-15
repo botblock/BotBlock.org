@@ -1,4 +1,5 @@
 const config = require('../src/config');
+const Database = require('../src/Structure/Database');
 
 const {describe, it} = require('mocha');
 
@@ -11,4 +12,10 @@ const target = `${config.baseURL}:${config.port}`;
 const request = () => chai.request(target);
 const ratelimitBypass = (req) => req.set('X-Ratelimit-Bypass', config.secret);
 
-module.exports = {describe, it, expect, request, ratelimitBypass};
+const dbc = new Database(config.database);
+const db = async (query, data) => {
+    if (!dbc.db._connectCalled) await dbc.connect();
+    return dbc.run(query, data);
+};
+
+module.exports = {describe, it, expect, request, ratelimitBypass, db};
