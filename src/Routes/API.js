@@ -1,6 +1,7 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const Ratelimitter = require('../Structure/RateLimiter');
 const handleServerCount = require('../Util/handleServerCount');
+const getBotInformation = require('../Util/getBotInformation');
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {
@@ -78,7 +79,85 @@ class APIRoute extends BaseRoute {
             }).catch(() => {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })
-        })
+        });
+
+        this.router.get('/bots/:id', this.ratelimit.checkRatelimit(1, 30), (req, res) => {
+            let lists = [];
+            let output = {
+                id: String(req.params.id),
+                username: [],
+                discriminator: [],
+                owners: [],
+                server_count: [],
+                invite: [],
+                list_data: lists
+            };
+            this.db.run('SELECT id, api_get FROM lists WHERE api_get > \'\' AND defunct = ?', [0]).then(async (data) => {
+                for (const list of data) {
+                    try {
+                        console.log('Getting information for ', list.id);
+                        lists[list.id] = await getBotInformation(list.api_get.replace(':id', req.params.id), {
+                            'User-Agent': 'BotBlock (Source ' + req.ip + ')',
+                            'X-Forwarded-For': req.ip,
+                            'REMOTE_ADDR': req.ip,
+                            'X_FORWARDED_FOR': req.ip,
+                            'HTTP_X_FORWARDED_FOR': req.ip,
+                            'HTTP_X_REAL_IP': req.ip,
+                            'HTTP_CLIENT_IP': req.ip
+                        });
+                    } catch (e) {
+                        lists[list.id] = e;
+                    }
+                }
+                for (let list of Object.keys(lists)) {
+                    list = lists[list];
+                    if (Number(list[1]) === 200) {
+                        const fields = Object.keys(list[0]);
+                        for (let key in fields) {
+                            key = fields[Number(key)].toLowerCase();
+                            const value = list[0][key];
+                            if (!value) continue;
+                            if (key === 'name' || key === 'username') {
+                                output.username.push(value);
+                            }
+                            if (key === 'discrim' || key === 'discriminator') {
+                                output.discriminator.push(String(value));
+                            }
+                            if (key === 'owner' || key === 'owners') {
+                                if (!Array.isArray(value) && typeof value !== 'object') {
+                                    output.owners.push(value);
+                                } else if (Array.isArray(value) && typeof value != 'object') {
+                                    for (const owner of value) {
+                                        if (!Array.isArray(owner) && typeof owner !== 'object') {
+                                            output.owners.push(owner);
+                                        }
+                                    }
+                                } else if (typeof value === 'object') {
+                                    if (value['id']) output.owners.push(value['id']);
+                                }
+                            }
+                            if (key === 'count' || key === 'servers' || key === 'server_count' || key === 'servercount' || key === 'guilds' || key === 'guild_count' || key === 'guildcount') {
+                                if (typeof value === 'number') output.server_count.push(value);
+                            }
+                            if (key === 'invite' || key === 'bot_invite') {
+                                if (typeof key === 'string' ) output.invite.push(value);
+                            }
+                        }
+                    }
+                }
+                res.status(200).json({
+                    id: output.id,
+                    username: this.getMostCommon(output.username) || 'Unknown',
+                    discriminator: this.getMostCommon(output.discriminator) || '0000',
+                    owners: output.owners || [],
+                    server_count: Math.max(...output.server_count) || 0,
+                    invite: this.getMostCommon(output.invite) || null,
+                    list_data: { ...lists } || {}
+                });
+            }).catch(() => {
+                res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
+            })
+        });
 
         this.router.use('*', (req, res) => {
             res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
@@ -88,6 +167,29 @@ class APIRoute extends BaseRoute {
         this.router.use('*', (err, req, res) => {
             res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
         })
+    }
+
+    /**
+     * Get most common item in an array.
+     * @param array
+     * @return string | number | null
+     */
+    getMostCommon(array) {
+        // Credit: https://codepen.io/AmJustSam/pen/JNmJBL
+        if (!array || !Array.isArray(array)) return null;
+        let counts = {};
+        let compare = 0;
+        let mostFrequent = null;
+        for (let i = 0; i < array.length; i++){
+            if (!counts[array[i]]) counts[array[i]] = 1;
+            else counts[array[i]] = counts[array[i]] + 1;
+
+            if (counts[array[i]] > compare) {
+                compare = counts[array[i]];
+                mostFrequent = array[i];
+            }
+        }
+        return mostFrequent;
     }
 
     get getRouter() {
