@@ -33,7 +33,7 @@ class ListsRoute extends BaseRoute {
             }
         });
 
-        this.router.get('/new', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+        this.router.get('/new', (req, res) => {
             try {
                 this.db.run('SELECT * FROM lists WHERE defunct = ? AND display = ? ORDER BY added DESC LIMIT 4', [0, 1]).then((lists) => {
                     this.footerData().then((footer) => {
