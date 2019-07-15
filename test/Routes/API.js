@@ -1,5 +1,45 @@
 const {describe, it, expect, request, ratelimitBypass} = require('../base');
 
+describe('Invalid route (/api/helloworld)', () => {
+    describe('GET', () => {
+        const test = () => ratelimitBypass(request().get('/api/helloworld'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => ratelimitBypass(request().post('/api/helloworld'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+});
+
 describe('/api/lists', () => {
     describe('GET', () => {
         const test = () => ratelimitBypass(request().get('/api/lists'));
@@ -75,6 +115,25 @@ describe('/api/lists', () => {
                         done();
                     });
                 }, limit * 1000);
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => ratelimitBypass(request().post('/api/lists'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
             });
         });
     });
@@ -590,6 +649,25 @@ describe.skip('/api/bots/:id', () => {
                         done();
                     });
                 }, limit * 1000);
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => ratelimitBypass(request().post('/api/bots/123456789123456789'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
             });
         });
     });
