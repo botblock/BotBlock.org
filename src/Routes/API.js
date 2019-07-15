@@ -95,7 +95,6 @@ class APIRoute extends BaseRoute {
             this.db.run('SELECT id, api_get FROM lists WHERE api_get > \'\' AND defunct = ?', [0]).then(async (data) => {
                 for (const list of data) {
                     try {
-                        console.log('Getting information for ', list.id);
                         lists[list.id] = await getBotInformation(list.api_get.replace(':id', req.params.id), {
                             'User-Agent': 'BotBlock (Source ' + req.ip + ')',
                             'X-Forwarded-For': req.ip,
@@ -128,7 +127,7 @@ class APIRoute extends BaseRoute {
                                     output.owners.push(value);
                                 } else if (Array.isArray(value) && typeof value != 'object') {
                                     for (const owner of value) {
-                                        if (!Array.isArray(owner) && typeof owner !== 'object') {
+                                        if (!Array.isArray(owner) && typeof owner !== 'object' && !Array.isArray(owner)) {
                                             output.owners.push(owner);
                                         }
                                     }
