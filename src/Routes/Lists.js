@@ -82,12 +82,18 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/features/:id', (req, res) => {
             try {
-                // TODO: get feature first
-                this.db.run('SELECT * FROM lists LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.feature = ?) temp ON temp.list = lists.id WHERE display = 1 AND defunct = 0 AND temp.feature IS NOT NULL ORDER BY discord_only DESC, LOWER(name) ASC', [req.params.id]).then((lists) => {
-                    this.footerData().then((footer) => {
-                        res.render('lists/lists', {
-                            title: `Bot Lists with feature ''`,
-                            lists, footer
+                this.db.run('SELECT * FROM features WHERE id = ? LIMIT 1', [req.params.id]).then((features) => {
+                    if (!features.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 400,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    this.db.run('SELECT * FROM lists LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.feature = ?) temp ON temp.list = lists.id WHERE display = 1 AND defunct = 0 AND temp.feature IS NOT NULL ORDER BY discord_only DESC, LOWER(name) ASC', [req.params.id]).then((lists) => {
+                        this.footerData().then((footer) => {
+                            res.render('lists/lists', {
+                                title: `Bot Lists with feature '${features[0].name}'`,
+                                lists, footer
+                            });
                         });
                     });
                 });
