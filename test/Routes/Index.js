@@ -20,6 +20,26 @@ describe('/', () => {
     });
 });
 
+describe('/helloworld', () => {
+    describe('GET', () => {
+        const test = () => request().get('/helloworld');
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('renders the error content', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                expect(res.text).to.include('The page you were looking for could not be found.');
+                expect(res.text).to.include('A 404 error has occurred... :(');
+                done();
+            });
+        });
+    });
+});
+
 describe('/discord', () => {
     describe('GET', () => {
         const test = () => request().get('/discord').redirects(0);
