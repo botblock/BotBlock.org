@@ -7,14 +7,15 @@ class RequestHandler {
 
     request(method, endpoint, data = {}) {
         return new Promise((resolve, reject) => {
-            axios({
+            let structure = {
                 method,
                 url: 'https://discordapp.com/api' + endpoint,
-                data,
                 headers: {
                     Authorization: this.client.token.startsWith('Bot ') ? this.client.token : 'Bot ' + this.client.token
                 }
-            }).then((response) => {
+            };
+            if (method.toLowerCase() !== 'get') structure.data = data;
+            axios({ ...structure }).then((response) => {
                 resolve(response.data)
             }).catch((e) => {
                 reject(e);

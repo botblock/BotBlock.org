@@ -47,13 +47,9 @@ class AuthenticationRoute extends BaseRoute {
                }).then((user) => {
                    data = { ...user.data, ...token.data };
                    this.client.getMember(config.discord.guild_id, user.data.id).then((member) => {
-                       // TODO: Fix issue with mods / admins not being checked.
-                       // console.log(1)
-                       // console.log(member.data.roles.includes(config.discord.admin_role))
-                       // console.log(member.data.roles.includes(config.discord.mod_role));
-                       if (member.data.roles.includes(config.discord.admin_role)) data.admin = true;
-                       if (member.data.roles.includes(config.discord.mod_role)) data.mod = true;
-                   }).catch(() => {
+                       if (member.roles.includes(config.discord.admin_role)) data.admin = true;
+                       if (member.roles.includes(config.discord.mod_role)) data.mod = true;
+                   }).catch((_) => {
                         data.admin = false;
                         data.mod = false;
                    }).finally(() => {
