@@ -15,6 +15,3 @@ document.getElementById('navbar_lists_search').addEventListener('submit', functi
     e.preventDefault();
     navbar_lists_go();
 });
-
-
-lazyload();

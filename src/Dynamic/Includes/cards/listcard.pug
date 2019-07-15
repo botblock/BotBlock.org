@@ -4,7 +4,7 @@
     .card-content
         .media
             .media-left
-                img.image.lazyload#list_icon(alt=list.name + ' Icon', data-srcset=list.icon, src='/assets/img/loading.gif')
+                img.image.lazyload#list_icon(alt=list.name + ' Icon', data-lazysrc=list.icon, src='/assets/img/loading.gif')
             .media-content
                 p.title.is-3 #{list.name}
                 p.subtitle.is-6 #{list.url}
