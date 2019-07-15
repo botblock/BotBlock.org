@@ -174,7 +174,13 @@ describe('/lists/features/:id', () => {
         it('renders the expected content', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
+
+                // Confirm header
                 expect(res.text).to.include('Bot Lists with feature \'Has Voting\'');
+
+                // Confirm footer stats
+                expect(res.text).to.include('BotBlock - Bot List Stats');
+
                 done();
             });
         });
@@ -192,6 +198,7 @@ describe('/lists/features/:id', () => {
             test().end((err, res) => {
                 expect(res).to.be.html;
                 expect(res.text).to.include('The page you were looking for could not be found.');
+                expect(res.text).to.include('A 404 error has occurred... :(');
                 done();
             });
         });
@@ -242,6 +249,7 @@ describe('/lists/:id', () => {
             test().end((err, res) => {
                 expect(res).to.be.html;
                 expect(res.text).to.include('The page you were looking for could not be found.');
+                expect(res.text).to.include('A 404 error has occurred... :(');
                 done();
             });
         });
