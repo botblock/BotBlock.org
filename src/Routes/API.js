@@ -140,7 +140,8 @@ class APIRoute extends BaseRoute {
                                 }
                             }
                             if (key === 'count' || key === 'servers' || key === 'server_count' || key === 'servercount' || key === 'guilds' || key === 'guild_count' || key === 'guildcount') {
-                                if (typeof value === 'number') output.server_count.push(value);
+                                const temp = parseInt(value);
+                                if (typeof temp === 'number') output.server_count.push(temp);
                             }
                             if (key === 'invite' || key === 'bot_invite') {
                                 if (typeof key === 'string' ) output.invite.push(value);
@@ -154,7 +155,7 @@ class APIRoute extends BaseRoute {
                     discriminator: this.getMostCommon(output.discriminator) || '0000',
                     owners: output.owners || [],
                     server_count: Math.max(...output.server_count) || 0,
-                    invite: this.getMostCommon(output.invite) || null,
+                    invite: this.getMostCommon(output.invite) || '',
                     list_data: { ...lists } || {}
                 });
             }).catch(() => {
