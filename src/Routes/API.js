@@ -2,6 +2,8 @@ const BaseRoute = require('../Structure/BaseRoute');
 const Ratelimitter = require('../Structure/RateLimiter');
 const handleServerCount = require('../Util/handleServerCount');
 const getBotInformation = require('../Util/getBotInformation');
+const getUserAgent = require('../Util/getUserAgent');
+const isSnowflake = require('../Util/isSnowflake');
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {
@@ -34,6 +36,7 @@ class APIRoute extends BaseRoute {
 
         this.router.post('/count', this.ratelimit.checkRatelimit(1, 120), (req, res) => {
             if (!req.body.bot_id) return res.status(400).json({ error: true, status: 400, message: '\'bot_id\' is required' });
+            if (!isSnowflake(req.body.bot_id)) return res.status(400).json({ error: true, status: 400, message: '\'bot_id\' must be a snowflake' });
             if (!req.body.server_count) return res.status(400).json({ error: true, status: 400, message: '\'server_count\' is required' });
             if (isNaN(req.body.bot_id)) return res.status(400).json({ error: true, status: 400, message: '\'bot_id\' must be a number' });
             if (isNaN(req.body.server_count)) return res.status(400).json({ error: true, status: 400, message: '\'server_count\' must be a number' });
@@ -62,7 +65,7 @@ class APIRoute extends BaseRoute {
                         }
                         if (req.body.shard_id && list.api_shard_id) payload[list.api_shard_id] = req.body.shard_id;
                         if (req.body.shard_count && list.shard_count) payload[list.api_shard_count] = req.body.shard_count;
-                        let userAgent = require('../Util/getUserAgent')().random;
+                        let userAgent = getUserAgent().random;
                         if (req.get('User-Agent')) {
                             userAgent = req.get('User-Agent');
                         }
@@ -82,6 +85,7 @@ class APIRoute extends BaseRoute {
         });
 
         this.router.get('/bots/:id', this.ratelimit.checkRatelimit(1, 30), (req, res) => {
+            if (!isSnowflake(req.params.id)) return res.status(400).json({ error: true, status: 400, message: '\'id\' must be a snowflake' });
             let lists = [];
             let output = {
                 id: String(req.params.id),
@@ -96,7 +100,7 @@ class APIRoute extends BaseRoute {
                 for (const list of data) {
                     try {
                         lists[list.id] = await getBotInformation(list.api_get.replace(':id', req.params.id), {
-                            'User-Agent': 'BotBlock (Source ' + req.ip + ')',
+                            'User-Agent': getUserAgent().random,
                             'X-Forwarded-For': req.ip,
                             'REMOTE_ADDR': req.ip,
                             'X_FORWARDED_FOR': req.ip,
@@ -160,7 +164,7 @@ class APIRoute extends BaseRoute {
 
         this.router.use('*', (req, res) => {
             res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
-        })
+        });
 
 
         this.router.use('*', (err, req, res) => {
