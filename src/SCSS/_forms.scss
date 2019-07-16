@@ -138,3 +138,8 @@ a:hover .checkbox {
 .menu-list .checkbox {
   margin: 0;
 }
+
+label.label,
+.input, .select select, .textarea {
+  color: $white;
+}
