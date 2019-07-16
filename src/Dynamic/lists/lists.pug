@@ -9,12 +9,4 @@ block content
                         if subtitle
                             h5.title.is-size-5 #{subtitle}
 
-            if !lists.length
-                h5.is-size-4.has-text-white No bot lists found.
-            else
-                .columns.is-half.is-multiline
-                    for list in lists
-                        .column.is-half.is-full-mobile
-                            include ../Includes/cards/listcard
-
-            include ../Includes/listsfooter
+            include ../Includes/lists

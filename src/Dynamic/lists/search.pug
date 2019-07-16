@@ -1,0 +1,22 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 Bot List Search
+                        h5.title.is-size-5 Search for bot lists by name or website
+
+            .columns
+                .column.is-half-desktop.is-full-mobile
+                    form#search
+                        .card.is-box-shadow
+                            .card-content
+                                .field
+                                    label.label(for='query') Search query
+                                    .control
+                                        input.input#query(name='query' type='text', value=query)
+                                input.button.is-brand(type='submit' value='Search')
+
+            include ../Includes/lists

@@ -1,0 +1,11 @@
+if !lists.length
+    .hero.hero-slim
+        .has-text-centered
+            h5.title.is-size-4 No bot lists found.
+else
+    .columns.is-half.is-multiline
+        for list in lists
+            .column.is-half.is-full-mobile
+                include cards/listcard
+
+include listsfooter

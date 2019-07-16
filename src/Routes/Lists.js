@@ -118,6 +118,25 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/search/:query*?', (req, res) => {
+            try {
+                const query = req.params.query || '';
+                this.db.run('SELECT * FROM lists WHERE LOWER(name) LIKE ? AND display = 1 AND defunct = 0 ORDER BY discord_only DESC, LOWER(name) ASC', [`%${query}%`]).then((names) => {
+                    this.db.run('SELECT * FROM lists WHERE LOWER(url) LIKE ? AND LOWER(name) NOT LIKE ? AND display = 1 AND defunct = 0 ORDER BY discord_only DESC, LOWER(name) ASC', [`%${query}%`, `%${query}%`]).then((links) => {
+                        const lists = [...names, ...links];
+                        this.footerData().then((footer) => {
+                            res.render('lists/search', {
+                                title: 'Bot List Search',
+                                query, lists, footer
+                            });
+                        });
+                    });
+                });
+            } catch {
+                res.status(500).render('error', {title: 'Database Error'});
+            }
+        });
+
         this.router.get('/:id', (req, res) => {
             try {
                 this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
