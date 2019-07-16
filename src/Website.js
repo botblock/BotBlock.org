@@ -52,7 +52,7 @@ class Website {
         this.app.use((req, res) => {
             // production - everything to custom landing
             if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === "production") res.render('landing');
-            else res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+            else res.status(404).render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
         });
         this.launch();
     }
