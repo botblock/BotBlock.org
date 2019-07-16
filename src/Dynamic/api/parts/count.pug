@@ -1,0 +1,106 @@
+.card-content
+    h1.is-size-4#count Update bot/guild count
+        a(href='javascript:scrollToId(\'count\');')  &supdsub;
+    h6.is-size-6
+        a(href='/api/count' target='_blank' rel='nofollow')
+            code POST /api/count
+        br
+        code Content-Type: application/json
+    h5.is-size-5 Request Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Required
+                    th Description
+            tbody
+                tr
+                    td server_count
+                    td Integer
+                    td Yes *
+                    td The server/guild count for your bot.
+                tr
+                    td bot_id
+                    td
+                        a(href='https://discordapp.com/developers/docs/reference#snowflakes', target='_blank') Snowflake
+                    td Yes
+                    td The ID of your bot.
+                tr
+                    td shard_id
+                    td Integer
+                    td No
+                    td The total number of shards for the bot. **
+                tr
+                    td shards
+                    td Array&lt;Integer&gt;
+                    td No
+                    td The server/guild count per shard. **
+                if lists
+                    for list in lists
+                        tr.is-italic
+                            td #{list.id}
+                            td String
+                            td No
+                            td Your Authorization token for #{list.id}.
+
+
+    p * Value is required but will be ignored if 'shards' is posted and the current list accepts a 'shards' value.
+        br
+        | ** This information is only passed on to bot lists who support it.
+        br
+        | This table will automatically update when new bot lists with server count APIs are added to the list.
+    h5.is-size-5 Response Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td success
+                    td Object&lt;Array&lt;Integer, String, String&gt;&gt;
+                    td All list IDs that successfully posted will be listed here.
+                        i See below for contents.
+                tr
+                    td failure
+                    td Object&lt;Array&lt;Integer, String, String&gt;&gt;
+                    td All list IDs that failed to post will be listed here.
+                        i See below for contents.
+
+
+    p In the
+        code success
+        | and
+        code failure
+        | objects, each list ID attempted will be a key with a value that is an array. The first item in the array is the HTTP status code of the response, the second is the string response body and the third item is the body data sent to the list.
+    p If an error occurs prior to posting, a 403 will be returned with a string body containing the error.
+    h5.is-size-5 Example Response
+    pre
+        code.
+            {
+                "success": {
+                    "thelist.org": [
+                        200,
+                        "{\"message\":\"OK\"}",
+                        "{\"server_count\":200}"
+                    ],
+                    "listofbots.com": [
+                        200,
+                        "",
+                        "{\"count\":200}"
+                    ]
+                },
+                "failure": {
+                    "brokenlist.co.uk": [
+                        500,
+                        "Bot not found",
+                        "{\"guilds\":200}"
+                    ]
+                }
+            }
+
+

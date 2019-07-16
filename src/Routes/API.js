@@ -16,6 +16,14 @@ class APIRoute extends BaseRoute {
     }
 
     routes() {
+        this.router.get('/docs', (req, res) => {
+            this.db.run('SELECT id, name FROM lists WHERE display = ? AND defunct = ? AND api_post  > \'\' AND  api_field  > \'\' ORDER BY discord_only DESC, LOWER(name) ASC ', [1, 0]).then((lists) => {
+                res.render('api/docs', { title: 'API Docs', lists });
+            }).catch(() => {
+                res.status(500).render('error', {title: 'Database Error'});
+            })
+        });
+
         this.router.get('/lists', this.ratelimit.checkRatelimit(1, 1), (req, res) => {
             const data = { };
             this.db.run('SELECT id, api_docs, api_post, api_field, api_shard_id, api_shard_count, api_shards, api_get FROM lists WHERE defunct = ? ORDER BY discord_only DESC, LOWER(name) ASC', [0]).then((lists) => {
