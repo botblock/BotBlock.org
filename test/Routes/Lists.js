@@ -205,6 +205,79 @@ describe('/lists/features/:id', () => {
     });
 });
 
+describe('/lists/search', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/search');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('renders the expected form', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+
+                // Confirm header
+                expect(res.text).to.include('Bot List Search');
+                expect(res.text).to.include('Search for bot lists by name or website');
+
+                // Confirm form
+                expect(res.text).to.include('<label class="label" for="query">Search query</label>');
+                expect(res.text).to.include('<input class="input" id="query" name="query" type="text" value="">');
+                expect(res.text).to.include('<input class="button is-brand" type="submit" value="Search">');
+
+                // Confirm footer stats
+                expect(res.text).to.include('BotBlock - Bot List Stats');
+
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/search/:query', () => {
+    describe('GET (:query = bots)', () => {
+        const test = () => request().get('/lists/search/bots');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('renders the expected form', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+
+                // Confirm header
+                expect(res.text).to.include('Bot List Search');
+                expect(res.text).to.include('Search for bot lists by name or website');
+
+                // Confirm form
+                expect(res.text).to.include('<label class="label" for="query">Search query</label>');
+                expect(res.text).to.include('<input class="input" id="query" name="query" type="text" value="bots">');
+                expect(res.text).to.include('<input class="button is-brand" type="submit" value="Search">');
+
+                // Confirm footer stats
+                expect(res.text).to.include('BotBlock - Bot List Stats');
+
+                done();
+            });
+        });
+        it('renders the expected results', done => {
+            db('SELECT name, url FROM lists WHERE (LOWER(name) LIKE \'%bots%\' OR LOWER(url) LIKE \'%bots%\') AND display = 1 AND defunct = 0').then(lists => {
+                test().end((err, res) => {
+                    // Confirm list cards
+                    lists.forEach(list => {
+                        expect(res.text).to.include(list.name);
+                        expect(res.text).to.include(list.url);
+                    });
+                    done();
+                });
+            });
+        });
+    });
+});
 
 describe('/lists/:id', () => {
     // This suite will need updating if this list changes
