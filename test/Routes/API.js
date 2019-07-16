@@ -80,7 +80,8 @@ describe('/api/lists', () => {
     describe('GET (Ratelimited)', () => {
         const test = () => request().get('/api/lists');
         it('ratelimits spam requests', done => {
-            test().end(() => {
+            test().end(() => {});
+            setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
                     expect(res).to.be.json;
@@ -101,21 +102,20 @@ describe('/api/lists', () => {
                     expect(res.body).to.have.property('ratelimit_bot_id', '');
                     done();
                 });
-            });
+            }, 200);
         });
         it('does not ratelimit requests spaced correctly', function(done) {
             const limit = 1;
             this.slow(limit * 1000 + 1000);
-            this.timeout(limit * 1000 + 1500);
-            test().end(() => {
-                setTimeout(() => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(200);
-                        expect(res).to.be.json;
-                        done();
-                    });
-                }, limit * 1000);
-            });
+            this.timeout(limit * 1000 + 2000);
+            test().end(() => {});
+            setTimeout(() => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.json;
+                    done();
+                });
+            }, limit * 1000);
         });
     });
 
@@ -422,11 +422,12 @@ describe('/api/count', () => {
                 });
             });
 
+            // This suite will need updating if this list changes
             describe('Valid list ID with fake token and fake bot ID', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    'discordbots.group': 'Hello world'})); // TODO: pull from DB
+                    'discordbots.group': 'Hello world'}));
                 it('returns a valid response', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(200);
@@ -453,7 +454,7 @@ describe('/api/count', () => {
                 });
                 it('contains the correct JSON body that was sent to the list', done => {
                     test().end((err, res) => {
-                        expect(res.body.failure['discordbots.group'][2]).to.be.equal('{"server_count":10}') // TODO: pull from DB
+                        expect(res.body.failure['discordbots.group'][2]).to.be.equal('{"server_count":10}');
                         done();
                     });
                 });
@@ -467,7 +468,8 @@ describe('/api/count', () => {
             server_count: 10,
             'mytestlist.com': 'Hello world'});
         it('ratelimits spam requests', done => {
-            test().end(() => {
+            test().end(() => {});
+            setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
                     expect(res).to.be.json;
@@ -488,29 +490,28 @@ describe('/api/count', () => {
                     expect(res.body).to.have.property('ratelimit_bot_id', '123456789123456789');
                     done();
                 });
-            });
+            }, 200);
         });
         it('does not ratelimit requests spaced correctly', function(done) {
             const limit = 120;
             this.slow(limit * 1000 + 1000);
-            this.timeout(limit * 1000 + 1500);
-            test().end(() => {
-                setTimeout(() => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(200);
-                        expect(res).to.be.json;
-                        done();
-                    });
-                }, limit * 1000);
-            });
+            this.timeout(limit * 1000 + 2000);
+            test().end(() => {});
+            setTimeout(() => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.json;
+                    done();
+                });
+            }, limit * 1000);
         });
     });
 });
 
-// Known issue - not yet implemented
-describe.skip('/api/bots/:id', () => {
+describe('/api/bots/:id', () => {
     describe('GET', () => {
-        describe('Invalid requests', () => {
+        // Known issue - Validation not in place yet
+        describe.skip('Invalid requests', () => {
             describe('No bot ID in URL', () => {
                 const test = () => ratelimitBypass(request().get('/api/bots/'));
                 it('returns an Not Found status code', done => {
@@ -569,7 +570,9 @@ describe.skip('/api/bots/:id', () => {
             });
         });
 
-        describe('Valid request (MEE6 159985870458322944)', () => {
+        describe('Valid request (MEE6 159985870458322944)', function() {
+            this.slow(15 * 1000);
+            this.timeout(20 * 1000);
             const test = () => ratelimitBypass(request().get('/api/bots/159985870458322944'));
             it('returns an OK status code', done => {
                 test().end((err, res) => {
@@ -587,19 +590,19 @@ describe.skip('/api/bots/:id', () => {
                 test().end((err, res) => {
                     expect(res.body).to.have.property('id', '159985870458322944');
                     expect(res.body).to.have.property('username', 'MEE6');
-                    expect(res.body).to.have.property('discriminator', 4876);
+                    expect(res.body).to.have.property('discriminator', '4876');
 
                     expect(res.body).to.have.property('owners');
-                    expect(res.body.owners).to.be.an('array');
+                    if (res.body.owners !== null) expect(res.body.owners).to.be.an('array');
 
                     expect(res.body).to.have.property('server_count');
-                    expect(res.body.server_count).to.be.a('number');
+                    if (res.body.server_count !== null) expect(res.body.server_count).to.be.a('number');
 
                     expect(res.body).to.have.property('invite');
-                    expect(res.body.invite).to.be.a('string');
+                    if (res.body.invite !== null) expect(res.body.invite).to.be.a('string');
 
                     expect(res.body).to.have.property('list_data');
-                    expect(res.body.list_data).to.be.an('object');
+                    if (res.body.list_data !== null) expect(res.body.list_data).to.be.an('object');
 
                     const list_data = Object.values(res.body.list_data)[0];
                     expect(list_data).to.be.an('array');
@@ -613,8 +616,11 @@ describe.skip('/api/bots/:id', () => {
 
     describe('GET (Ratelimited)', () => {
         const test = () => request().get('/api/bots/123456789123456789');
-        it('ratelimits spam requests', done => {
-            test().end(() => {
+        it('ratelimits spam requests', function(done) {
+            this.slow(15 * 1000);
+            this.timeout(20 * 1000);
+            test().end(() => {});
+            setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
                     expect(res).to.be.json;
@@ -635,21 +641,19 @@ describe.skip('/api/bots/:id', () => {
                     expect(res.body).to.have.property('ratelimit_bot_id', '');
                     done();
                 });
-            });
+            }, 200);
         });
         it('does not ratelimit requests spaced correctly', function(done) {
-            const limit = 30;
-            this.slow(limit * 1000 + 1000);
-            this.timeout(limit * 1000 + 1500);
-            test().end(() => {
-                setTimeout(() => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(200);
-                        expect(res).to.be.json;
-                        done();
-                    });
-                }, limit * 1000);
-            });
+            this.slow(15 * 1000 + 30 * 1000);
+            this.timeout(20 * 1000 + 30 * 1000);
+            test().end(() => {});
+            setTimeout(() => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.json;
+                    done();
+                });
+            }, 30 * 1000 + 200);
         });
     });
 
