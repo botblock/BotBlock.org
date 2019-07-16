@@ -169,8 +169,7 @@ describe('/api/count', () => {
                         done();
                     });
                 });
-                // Known issue currently - returns a HTML 400
-                it.skip('returns a correct error JSON body', done => {
+                it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
                         expect(res.body).to.have.property('error', true);
@@ -200,26 +199,6 @@ describe('/api/count', () => {
                 });
             });
 
-            describe('Missing server_count (valid bot_id)', () => {
-                const test = () => ratelimitBypass(request().post('/api/count').send({
-                    bot_id: '123456789123456789'}));
-                it('returns a Bad Request status code', done => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(400);
-                        done();
-                    });
-                });
-                it('returns a correct error JSON body', done => {
-                    test().end((err, res) => {
-                        expect(res).to.be.json;
-                        expect(res.body).to.have.property('error', true);
-                        expect(res.body).to.have.property('status', 400);
-                        expect(res.body).to.have.property('message', '\'server_count\' is required');
-                        done();
-                    });
-                });
-            });
-
             describe('bot_id as random string (valid server_count)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: 'Hello world',
@@ -235,14 +214,13 @@ describe('/api/count', () => {
                         expect(res).to.be.json;
                         expect(res.body).to.have.property('error', true);
                         expect(res.body).to.have.property('status', 400);
-                        expect(res.body).to.have.property('message', '\'bot_id\' must be a number');
+                        expect(res.body).to.have.property('message', '\'bot_id\' must be a snowflake');
                         done();
                     });
                 });
             });
 
-            // Known issue - We don't validate this yet
-            describe.skip('bot_id as not a valid snowflake (valid server_count)', () => {
+            describe('bot_id as not a valid snowflake (valid server_count)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '12345',
                     server_count: 10}));
@@ -258,6 +236,26 @@ describe('/api/count', () => {
                         expect(res.body).to.have.property('error', true);
                         expect(res.body).to.have.property('status', 400);
                         expect(res.body).to.have.property('message', '\'bot_id\' must be a snowflake');
+                        done();
+                    });
+                });
+            });
+
+            describe('Missing server_count (valid bot_id)', () => {
+                const test = () => ratelimitBypass(request().post('/api/count').send({
+                    bot_id: '123456789123456789'}));
+                it('returns a Bad Request status code', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('returns a correct error JSON body', done => {
+                    test().end((err, res) => {
+                        expect(res).to.be.json;
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 400);
+                        expect(res.body).to.have.property('message', '\'server_count\' is required');
                         done();
                     });
                 });
@@ -510,8 +508,7 @@ describe('/api/count', () => {
 
 describe('/api/bots/:id', () => {
     describe('GET', () => {
-        // Known issue - Validation not in place yet
-        describe.skip('Invalid requests', () => {
+        describe('Invalid requests', () => {
             describe('No bot ID in URL', () => {
                 const test = () => ratelimitBypass(request().get('/api/bots/'));
                 it('returns an Not Found status code', done => {
@@ -531,7 +528,7 @@ describe('/api/bots/:id', () => {
                 });
             });
 
-            describe('Random string bot ID', () => {
+            describe('Bot ID as a random string', () => {
                 const test = () => ratelimitBypass(request().get('/api/bots/helloworld'));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
@@ -544,7 +541,7 @@ describe('/api/bots/:id', () => {
                         expect(res).to.be.json;
                         expect(res.body).to.have.property('error', true);
                         expect(res.body).to.have.property('status', 400);
-                        expect(res.body).to.have.property('message', 'Bot ID must be a number');
+                        expect(res.body).to.have.property('message', '\'id\' must be a snowflake');
                         done();
                     });
                 });
@@ -563,7 +560,7 @@ describe('/api/bots/:id', () => {
                         expect(res).to.be.json;
                         expect(res.body).to.have.property('error', true);
                         expect(res.body).to.have.property('status', 400);
-                        expect(res.body).to.have.property('message', 'Bot ID must be a snowflake');
+                        expect(res.body).to.have.property('message', '\'id\' must be a snowflake');
                         done();
                     });
                 });
@@ -593,21 +590,23 @@ describe('/api/bots/:id', () => {
                     expect(res.body).to.have.property('discriminator', '4876');
 
                     expect(res.body).to.have.property('owners');
-                    if (res.body.owners !== null) expect(res.body.owners).to.be.an('array');
+                    expect(res.body.owners).to.be.an('array');
 
                     expect(res.body).to.have.property('server_count');
-                    if (res.body.server_count !== null) expect(res.body.server_count).to.be.a('number');
+                    expect(res.body.server_count).to.be.a('number');
 
                     expect(res.body).to.have.property('invite');
-                    if (res.body.invite !== null) expect(res.body.invite).to.be.a('string');
+                    expect(res.body.invite).to.be.a('string');
 
                     expect(res.body).to.have.property('list_data');
-                    if (res.body.list_data !== null) expect(res.body.list_data).to.be.an('object');
+                    expect(res.body.list_data).to.be.an('object');
 
-                    const list_data = Object.values(res.body.list_data)[0];
-                    expect(list_data).to.be.an('array');
-                    expect(list_data[0]).to.be.an('object');
-                    expect(list_data[1]).to.be.a('number');
+                    const list_data = Object.values(res.body.list_data);
+                    list_data.forEach(list => {
+                        expect(list).to.be.an('array');
+                        expect(list[1]).to.be.a('number');
+                    });
+
                     done();
                 });
             });
