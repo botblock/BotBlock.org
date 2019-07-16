@@ -1,0 +1,17 @@
+extends layout
+block content
+    section.section
+        .container
+            .columns
+                .column
+
+                    .card.is-box-shadow
+                        .card-content
+
+                            h1.title.is-size-3.has-text-white #{__('site_name')} - #{__('short_desc')}
+
+                            for section in sections
+                                h5.is-size-5.has-text-white
+                                    | #{section.title}
+                                    a(href=`javascript:scrollToId('${section.id}');`) &supdsub;
+                                div !{section.content}
