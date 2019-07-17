@@ -159,7 +159,7 @@ class ListsRoute extends BaseRoute {
             }
         });
 
-        this.router.get('/:id/edit', (req, res) => {
+        this.router.get('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
                 this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
                     if (!lists.length) return res.status(404).render('error', {
@@ -170,8 +170,9 @@ class ListsRoute extends BaseRoute {
                     this.db.run('SELECT features.name as name, IFNULL(temp.value, 0) as value, features.display as display, features.type as type, features.id as id FROM features LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.list = ?) temp ON temp.feature = features.id ORDER BY temp.value DESC, features.display DESC, features.name ASC', [lists[0].id]).then((features) => {
                         res.render('lists/edit', {
                             title: 'Edit ' + lists[0].id,
-                            list: lists[0],
+                            data: lists[0],
                             checkboxes: features,
+                            edit: true,
                             hideUncheckedBoxes: true
                         });
                     });

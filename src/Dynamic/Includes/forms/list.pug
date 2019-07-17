@@ -1,0 +1,27 @@
+form(method='POST')
+    .field
+        label.label(for='id') ID *
+        .control
+            input.input(type='text', id='id', name='id' value=data.id, required, disabled=edit && !user.admin)
+    .field
+        label.label(for='name') Name *
+        .control
+            input.input(type='text', id='name', name='name' value=data.name, required)
+    .field
+        label.label(for='url') URL *
+        .control
+            input.input(type='text', id='url', name='url' value=data.url, required)
+    .field
+        label.label(for='icon') Icon *
+        .control
+            input.input(type='text', id='icon', name='icon' value=data.icon, required)
+    .field
+        label.label(for='icon') Display *
+            small
+                i (Please add a message in notification content explaining why the list is hidden)
+        .control
+            .select
+                select#defunct(required)
+                    option(value='0',)
+
+
