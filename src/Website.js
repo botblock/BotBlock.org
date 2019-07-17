@@ -3,7 +3,7 @@ const express = require('express');
 const http = require('http');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
-const i18n = require('i18n');
+const i18n = require('./Util/i18n');
 const schedule = require('node-schedule');
 const fs = require('fs');
 const path = require('path');
@@ -23,13 +23,6 @@ class Website {
         this.app.set('json spaces', 4);
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
-        i18n.configure({
-            cookie: 'lang',
-            defaultLocale: 'en_US',
-            autoReload: true,
-            updateFiles: true,
-            directory: path.join(__dirname, '..', 'locales')
-        });
         this.app.use(i18n.init);
         this.app.use(cookieParser(config.secret));
         this.app.use(cookieSession({
