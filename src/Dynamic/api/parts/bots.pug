@@ -1,6 +1,6 @@
 .card-content
     h1.is-size-4#bots Get bot information from lists
-        a(href='javascript:scrollToId(\'bots\');')  &supdsub;
+        a(href='#bots')  &supdsub;
     h6.is-size-6
         a(href='/api/bots/:id', target='_blank', rel='nofollow')
             code GET /api/bots/:id
@@ -45,6 +45,7 @@
                     td Object&lt;Array&lt;Any, Integer&gt;&gt;
                     td Each list with a known bot GET API endpoint will have all its data returned along with the HTTP status code returned from the request under the key of the #{__('site_name')} ID for the list within the list_data property.
                         i See below for example.
+
     p * These values are calculated based on the most common response (max value for server/guild count, unique values for owners) from all lists' APIs that returned information on the bot being fetched. If no information is gathered these values may be blank.
     p If an error occurs during the API call, a 403 will be returned with a string body containing the error.
     h5.is-size-5 Example Response

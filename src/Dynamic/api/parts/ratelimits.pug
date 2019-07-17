@@ -1,6 +1,6 @@
 .card-content
     h1.is-size-4#ratelimits Ratelimits
-        a(href='javascript:scrollToId(\'ratelimits\');')  &supdsub;
+        a(href='#ratelimits')  &supdsub;
     p There is a global ratelimit on the #{__('site_name')} API per request source IP address of 5 requests every second.
     p This API has ratelimits in place based on
         b request source IP address and, where possible, bot ID
@@ -31,7 +31,7 @@
                 tr
                     td /api/lists
                     td GET
-                    td 1 / 30s
+                    td 1 / 1s
                     td No
     h5.is-size-5 Response Body &amp; Headers
     h6.is-size-6
@@ -70,5 +70,3 @@
                     td X-Rate-Limit-Bot-ID
                     td String
                     td The bot ID that the API is ratelimiting in this response.
-
-

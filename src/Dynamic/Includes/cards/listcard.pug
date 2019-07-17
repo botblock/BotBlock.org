@@ -19,7 +19,8 @@
                 a.button.is-light.is-small(href=list.url,  target='_blank') Website
                 if list.discord
                     a.button.is-light.is-small(href=list.discord, target='blank') Discord
-                a.button.is-light.is-small.is-mod Fetch Icon from invite
-                a.button.is-light.is-small.is-mod Edit List
+                if user && (user.mod || user.admin)
+                    a.button.is-light.is-small.is-mod Fetch Icon from invite
+                    a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/edit') Edit List
 
 
