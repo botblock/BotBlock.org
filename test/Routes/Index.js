@@ -1,4 +1,5 @@
 const {describe, it, expect, request, db} = require('../base');
+const renderer = new (require('../../src/Structure/Markdown'))();
 
 describe('/', () => {
     describe('GET', () => {
@@ -50,20 +51,19 @@ describe('/about', () => {
             });
         });
         it('renders the expected information', done => {
-            db('SELECT id FROM about').then(ids => {
+            db('SELECT id, title FROM about').then(sections => {
                 test().end((err, res) => {
                     expect(res).to.be.html;
 
                     // Confirm header
                     expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services'); // TODO: pull from locales
 
-                    // Confirm list cards
-                    ids.forEach(id => {
-                        expect(res.text).to.include(`id="${id.id}"`);
-                        expect(res.text).to.include(`href="#${id.id}"`);
+                    // Confirm sections
+                    sections.forEach(section => {
+                        expect(res.text).to.include(`id="${section.id}"`);
+                        expect(res.text).to.include(`href="#${section.id}"`);
+                        expect(res.text).to.include(renderer.variables(section.title));
                     });
-
-                    // TODO: Move variable & markdown rendering to a dedicated file so that it can be tested here
 
                     done();
                 });
