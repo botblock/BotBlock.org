@@ -40,6 +40,60 @@ describe('Invalid route (/api/helloworld)', () => {
     });
 });
 
+describe('/api/docs', () => {
+    describe('GET', () => {
+        const test = () => request().get('/api/docs');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('renders the expected content', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+
+                // Confirm header
+                expect(res.text).to.include('API Documentation');
+                expect(res.text).to.include('BotBlock provides a single API endpoint');
+
+                // Confirm count docs
+                expect(res.text).to.include('<h1 class="is-size-4" id="count">Update bot/guild count');
+
+                // Confirm bots docs
+                expect(res.text).to.include('<h1 class="is-size-4" id="bots">Get bot information from lists');
+
+                // Confirm list docs
+                expect(res.text).to.include('<h1 class="is-size-4" id="lists">Get all lists\' API details');
+
+                // Confirm ratelimit docs
+                expect(res.text).to.include('<h1 class="is-size-4" id="ratelimits">Ratelimits');
+
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => request().post('/api/docs');
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+});
+
 describe('/api/lists', () => {
     describe('GET', () => {
         const test = () => ratelimitBypass(request().get('/api/lists'));
@@ -64,14 +118,42 @@ describe('/api/lists', () => {
         });
         it('has objects with correct list properties', done => {
             test().end((err, res) => {
-                const obj = Object.values(res.body)[0];
-                expect(obj).to.have.property('api_docs');
-                expect(obj).to.have.property('api_post');
-                expect(obj).to.have.property('api_field');
-                expect(obj).to.have.property('api_shard_id');
-                expect(obj).to.have.property('api_shard_count');
-                expect(obj).to.have.property('api_shards');
-                expect(obj).to.have.property('api_get');
+                const entries = Object.values(res.body);
+                entries.forEach(entry => {
+                    expect(entry).to.have.property('api_docs');
+                    expect(entry).to.have.property('api_post');
+                    expect(entry).to.have.property('api_field');
+                    expect(entry).to.have.property('api_shard_id');
+                    expect(entry).to.have.property('api_shard_count');
+                    expect(entry).to.have.property('api_shards');
+                    expect(entry).to.have.property('api_get');
+                });
+                done();
+            });
+        });
+    });
+
+    describe('GET w/ ?filter=true', () => {
+        const test = () => ratelimitBypass(request().get('/api/lists').query({filter: true}));
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('returns a valid JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                done();
+            });
+        });
+        it('has no objects with all values as null', done => {
+            test().end((err, res) => {
+                const entries = Object.values(res.body);
+                entries.forEach(entry => {
+                    const vals = Object.values(entry).filter(val => val !== null);
+                    expect(vals.length).to.not.equal(0);
+                });
                 done();
             });
         });
