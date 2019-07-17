@@ -9,6 +9,6 @@ i18n.config = {
     directory: join(__dirname, '..', '..', 'locales')
 };
 
-i18n.configure(config);
+i18n.configure(i18n.config);
 
 module.exports = i18n;
