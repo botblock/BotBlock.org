@@ -1,5 +1,5 @@
+const i18n = require('../Util/i18n');
 const Markdown = require('markdown-it');
-const i18n = require('i18n');
 
 class Renderer {
     constructor() {
