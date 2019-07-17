@@ -39,19 +39,38 @@ class IndexRoute extends BaseRoute {
             })
         });
 
-        this.router.get('/discord', (req, res) => {
+        this.router.get([
+            '/invite',
+            '/support',
+            '/guild',
+            '/server',
+            '/discord',
+            '/contact',
+            '/help'
+        ], (req, res) => {
             res.redirect(301, 'https://discord.gg/npjccFR');
         });
 
-        this.router.get('/patreon', (req, res) => {
+        this.router.get([
+            '/donate',
+            '/pledge',
+            '/patreon'
+        ], (req, res) => {
             res.redirect(301, 'https://patreon.com/botblock');
         });
 
-        this.router.get('/reddit', (req, res) => {
+        this.router.get([
+            '/reddit',
+            '/subreddit'
+        ], (req, res) => {
             res.redirect(301, 'https://reddit.com/r/botblock');
         });
 
-        this.router.get('/twitter', (req, res) => {
+        this.router.get([
+            '/twitter',
+            '/tweets',
+            '/tweet'
+        ], (req, res) => {
             res.redirect(301, 'https://twitter.com/botblockorg');
         });
     }
