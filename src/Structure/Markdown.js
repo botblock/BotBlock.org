@@ -14,12 +14,20 @@ class Renderer {
     }
 
     variables(text) {
-        var reg = /{{(.*?)}}/g;
-        var result;
-        while ((result = reg.exec(text)) !== null) {
-            const lookup = this.__var(result[1]);
-            if (lookup) text = text.replace(result[0], lookup);
+        // Find all variables
+        const pattern = new RegExp(/{{(.+?)}}/g);
+        const matches = {};
+        let m;
+        while (m = pattern.exec(text)) {
+            const match = m[1];
+            if (match in matches) continue;
+            matches[match] = this.__var(match);
         }
+
+        // Replace all variables
+        Object.keys(matches).forEach(key => {
+            text = text.replace(new RegExp(`{{${key}}}`, 'g'), matches[key]);
+        });
         return text;
     }
 

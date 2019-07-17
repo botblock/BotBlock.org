@@ -5,7 +5,7 @@ i18n.config = {
     cookie: 'lang',
     defaultLocale: 'en_US',
     autoReload: true,
-    updateFiles: true,
+    updateFiles: false,
     directory: join(__dirname, '..', '..', 'locales')
 };
 
