@@ -1,0 +1,74 @@
+.card-content
+    h1.is-size-4#ratelimits Ratelimits
+        a(href='javascript:scrollToId(\'ratelimits\');')  &supdsub;
+    p There is a global ratelimit on the #{__('site_name')} API per request source IP address of 5 requests every second.
+    p This API has ratelimits in place based on
+        b request source IP address and, where possible, bot ID
+        | This API may get ratelimited from lists if it is inundated with requests, therefore our ratelimits are high as to reduce the likelihood of this occurring.
+    p
+        i The IP that #{__('site_name')} can see for your current connection is
+            code #{ip || 'Unknown'}
+    h5.is-size-5 Ratelimits
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th Route
+                    th Request Type
+                    th Limit (requests / time period)
+                    th per Bot ID
+            tbody
+                tr
+                    td /api/count
+                    td Valid POST
+                    td 1 / 120s
+                    td Yes
+                tr
+                    td /api/bots/:id
+                    td GET
+                    td 1 / 30s
+                    td No
+                tr
+                    td /api/lists
+                    td GET
+                    td 1 / 30s
+                    td No
+    h5.is-size-5 Response Body &amp; Headers
+    h6.is-size-6
+        code HTTP Status: 429 Too Many Requests
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th HTTP Header
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td retry_after
+                    td Retry-After
+                    td Integer
+                    td How many seconds until the API can be used again.
+                tr
+                    td ratelimit_reset
+                    td X-Rate-Limit-Reset
+                    td Integer
+                    td How unix timestamp when the API can be used again.
+                tr
+                    td ratelimit_ip
+                    td X-Rate-Limit-IP
+                    td String
+                    td The IP address that the API is ratelimiting in this response.
+                tr
+                    td ratelimit_route
+                    td X-Rate-Limit-Route
+                    td String
+                    td The API route that is being ratelimited in this response.
+                tr
+                    td ratelimit_bot_id
+                    td X-Rate-Limit-Bot-ID
+                    td String
+                    td The bot ID that the API is ratelimiting in this response.
+
+

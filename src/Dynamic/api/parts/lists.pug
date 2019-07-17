@@ -1,0 +1,83 @@
+.card-content
+    h1.is-size-4#lists Get bot information from lists
+        a(href='javascript:scrollToId(\'lists\');')  &supdsub;
+    h6.is-size-6
+        a(href='/api/lists', target='_blank', rel='nofollow')
+            code GET /api/lists
+    h5.is-size-5 Query String Parameters
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th Field
+                    th Type
+                    th Description
+            tbody
+                td filter
+                td Boolean
+                td If set to true, lists with no API data will not be included in the response.
+    h5.is-size-5 Response Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td &lt;list_id&gt;
+                    td Object
+                    td The ID used in #{__('site_name')} for the list acts as the key for each property in the response.
+                tr
+                    td &lt;list_id&gt;api_docs
+                    td String
+                    td The URL stored for the API docs of the list.
+                tr
+                    td &lt;list_id&gt;api_post
+                    td String
+                    td The URL stored for posting server/guild count to the list.
+                tr
+                    td &lt;list_id&gt;api_field
+                    td String
+                    td The JSON field name for posting the server/guild count to the list.
+                tr
+                    td &lt;list_id&gt;api_shard_id
+                    td String
+                    td The JSON field name for posting the current shard ID to the list.
+                tr
+                    td &lt;list_id&gt;api_shard_count
+                    td String
+                    td The JSON field name for posting the bot shard count to the list.
+                tr
+                    td &lt;list_id&gt;api_shards
+                    td String
+                    td The JSON field name for posting an array of server counts per shard to the list.
+                tr
+                    td &lt;list_id&gt;api_get
+                    td String
+                    td The URL stored for fetching bot information from the list.
+    h5.is-size-5 Example Response
+    pre
+        code.
+            {
+                "thelist.org": {
+                    "api_docs": "https://thelist.org/api/docs",
+                    "api_post": "https://thelist.org/api/bot/stats/:id",
+                    "api_field": "server_count",
+                    "api_shard_id": "shard_id",
+                    "api_shard_count": "shard_count",
+                    "api_shards": null,
+                    "api_get": "https://thelist.org/api/bot/info/:id"
+                },
+                "listofbots.com": {
+                    "api_docs": "https://listofbots.com/docs",
+                    "api_post": "https://listofbots.com/api/stats/:id",
+                    "api_field": "guild_count",
+                    "api_shard_id": null,
+                    "api_shard_count": null,
+                    "api_shards": "shards",
+                    "api_get": null
+                }
+            }
+

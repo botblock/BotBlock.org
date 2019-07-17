@@ -1,0 +1,76 @@
+.card-content
+    h1.is-size-4#bots Get bot information from lists
+        a(href='javascript:scrollToId(\'bots\');')  &supdsub;
+    h6.is-size-6
+        a(href='/api/bots/:id', target='_blank', rel='nofollow')
+            code GET /api/bots/:id
+    h5.is-size-5 Response Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td id
+                    td
+                        a(href='https://discordapp.com/developers/docs/reference#snowflakes', target='_blank') Snowflake
+                    td The ID of the bot being fetched.
+                tr
+                    td username
+                    td String
+                    td The username of the bot fetched. *
+                tr
+                    td discriminator
+                    td String
+                    td The discriminator of the bot fetched. *
+                tr
+                    td owners
+                    td Array&lt
+                        a(href='https://discordapp.com/developers/docs/reference#snowflakes', target='_blank') Snowflake
+                        | &gt;
+                    td The IDs of all known owners of the bot. *
+                tr
+                    td server_count
+                    td Integer
+                    td The server/guild count for the bot. *
+                tr
+                    td invite
+                    td String
+                    td The invite URL for the bot (Discord or custom). *
+                tr
+                    td list_data
+                    td Object&lt;Array&lt;Any, Integer&gt;&gt;
+                    td Each list with a known bot GET API endpoint will have all its data returned along with the HTTP status code returned from the request under the key of the #{__('site_name')} ID for the list within the list_data property.
+                        i See below for example.
+    p * These values are calculated based on the most common response (max value for server/guild count, unique values for owners) from all lists' APIs that returned information on the bot being fetched. If no information is gathered these values may be blank.
+    p If an error occurs during the API call, a 403 will be returned with a string body containing the error.
+    h5.is-size-5 Example Response
+    pre
+        code.
+            {
+                "id": "123456789012345678",
+                "username": "My Bot",
+                "discriminator": "1234",
+                "owners": [
+                    "123456789012345678"
+                ],
+                "server_count": 500,
+                "invite": "https://discordapp.com/oauth2/authorize?client_id=123456789012345678&scope=bot&permissions=8",
+                "list_data": {
+                    "thelist.org": [
+                        &lt;list data&gt;,
+                        200
+                    ],
+                    "listofbots.com": [
+                        &lt;list data&gt;,
+                        200
+                    ],
+                    "brokenlist.co.uk": [
+                        &lt;list data&gt;,
+                        404
+                    ]
+                }
+            }
