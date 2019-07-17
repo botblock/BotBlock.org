@@ -28,16 +28,20 @@ class APIRoute extends BaseRoute {
             const data = { };
             this.db.run('SELECT id, api_docs, api_post, api_field, api_shard_id, api_shard_count, api_shards, api_get FROM lists WHERE defunct = ? ORDER BY discord_only DESC, LOWER(name) ASC', [0]).then((lists) => {
                 if (!lists) return res.status(200).json({  });
-                if (req.query.filter === 'true') Object.keys(lists).forEach((key) => (lists[key] === null) && delete lists[key]);
                 for (let i = 0; i < lists.length; i++) {
-                    data[lists[i].id] = {
+                    const id = lists[i].id;
+                    delete lists[i].id;
+
+                    // If filtering: Drop if all values are null
+                    if (req.query.filter === 'true')
+                        if (Object.values(lists[i]).filter(val => val !== null).length === 0)
+                            continue;
+
+                    data[id] = {
                         ...lists[i]
                     };
-                    delete data[lists[i].id].id;
-                    if (i + 1 === lists.length) {
-                        res.status(200).json({ ...data });
-                    }
                 }
+                res.status(200).json({ ...data });
             }).catch(() => {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })
