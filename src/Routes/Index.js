@@ -1,3 +1,5 @@
+const fs = require('fs');
+const { join } = require('path');
 const md = require('markdown-it')();
 const BaseRoute = require('../Structure/BaseRoute');
 
@@ -72,6 +74,16 @@ class IndexRoute extends BaseRoute {
             '/tweet'
         ], (req, res) => {
             res.redirect(301, 'https://twitter.com/botblockorg');
+        });
+
+        this.router.get([
+            '/badge',
+            '/shield'
+        ], (req, res) => {
+            fs.readFile(join(__dirname, '..', 'Assets/img/icon.svg'), 'utf8', function (err, contents) {
+                const logo = Buffer.from(contents).toString('base64');
+                res.redirect(301, `https://img.shields.io/badge/-BotBlock.org-blue.svg?colorA=2D3237&colorB=359DC4&style=flat&logoWidth=20&logo=data:image/svg+xml;base64,${logo}`);
+            });
         });
     }
 
