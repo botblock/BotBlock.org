@@ -12,6 +12,6 @@ block content
 
                             for section in sections
                                 h5.is-size-5.has-text-white
-                                    | #{section.title}
+                                    | #{section.title}&nbsp;
                                     a(href=`javascript:scrollToId('${section.id}');`) &supdsub;
                                 div !{section.content}
