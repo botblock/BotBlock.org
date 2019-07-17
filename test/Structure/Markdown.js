@@ -7,7 +7,6 @@ const localeKeys = Object.keys(localeCatalog);
 
 describe('Markdown Renderer', () => {
     describe('Variables', () => {
-
         localeKeys.forEach(key => {
             it(`correctly substitutes {{${key}}}`, done => {
                 const test = renderer.variables(`{{${key}}}`);
@@ -28,20 +27,48 @@ describe('Markdown Renderer', () => {
             done();
         });
 
-        it('does not substitute an undefined variable', done => {
+        it('renders undefined variables as their contents', done => {
             const test = renderer.variables('{{hello world}}');
-            expect(test).to.equal('{{hello world}}');
+            expect(test).to.equal('hello world');
             done();
         });
 
-        it('does not substitute undefined variables when mixed w/ defined variables', done => {
-            const test = renderer.variables(`{{${localeKeys[0]}}} {{hello world}} {{${localeKeys[1]}}}`);
-            expect(test).to.equal(`${localeCatalog[localeKeys[0]]} {{hello world}} ${localeCatalog[localeKeys[1]]}`);
+        it('allows for escaped variables', done => {
+            const test = renderer.variables(`{{{{${localeKeys[0]}}}}}`);
+            expect(test).to.equal(`{{${localeKeys[0]}}}`);
             done();
         });
     });
 
     describe('Markdown', () => {
+        describe('HTML', () => {
+            it('allows existing html to be passed through', done => {
+                const test = renderer.markdown('Hello there <b>friend</b>');
+                expect(test).to.equal('<p>Hello there <b>friend</b></p>\n');
+                done();
+            });
+
+            it('follows the xhtml self-closing rules', done => {
+                const test = renderer.markdown('![](/image.png)');
+                expect(test).to.equal('<p><img src="/image.png" alt="" /></p>\n');
+                done();
+            });
+        });
+
+        describe('Breaks', () => {
+            it('converts a single linebreak to a html break', done => {
+                const test = renderer.markdown('Line 1\nLine 2');
+                expect(test).to.equal('<p>Line 1<br />\nLine 2</p>\n');
+                done();
+            });
+
+            it('converts a double linebreak to a new html paragraph', done => {
+                const test = renderer.markdown('Paragraph 1\n\nParagraph 2');
+                expect(test).to.equal('<p>Paragraph 1</p>\n<p>Paragraph 2</p>\n');
+                done();
+            });
+        });
+
         describe('Links', () => {
             it('converts a markdown link to a html link w/ _blank target', done => {
                 const test = renderer.markdown('[test](https://botblock.org)');
@@ -66,7 +93,7 @@ describe('Markdown Renderer', () => {
     describe('Render', () => {
         it('substitutes variables correctly', done => {
             const test = renderer.render(`{{${localeKeys[0]}}} {{${localeKeys[1]}}}`);
-            expect(test).to.equal(`<p>${localeCatalog[localeKeys[0]]} ${localeCatalog[localeKeys[1]]}</p>`);
+            expect(test).to.equal(`<p>${localeCatalog[localeKeys[0]]} ${localeCatalog[localeKeys[1]]}</p>\n`);
             done();
         });
 
