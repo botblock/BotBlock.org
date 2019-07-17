@@ -1,4 +1,4 @@
-const {describe, it, expect, request} = require('../base');
+const {describe, it, expect, request, db} = require('../base');
 
 describe('/', () => {
     describe('GET', () => {
@@ -12,7 +12,7 @@ describe('/', () => {
         it('renders the expected landing content', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services');
+                expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services'); // TODO: pull from locales
                 expect(res.text).to.include('Coming Soon');
                 done();
             });
@@ -35,6 +35,38 @@ describe('/helloworld', () => {
                 expect(res.text).to.include('The page you were looking for could not be found.');
                 expect(res.text).to.include('A 404 error has occurred... :(');
                 done();
+            });
+        });
+    });
+});
+
+describe('/about', () => {
+    describe('GET', () => {
+        const test = () => request().get('/about');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('renders the expected information', done => {
+            db('SELECT id FROM about').then(ids => {
+                test().end((err, res) => {
+                    expect(res).to.be.html;
+
+                    // Confirm header
+                    expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services'); // TODO: pull from locales
+
+                    // Confirm list cards
+                    ids.forEach(id => {
+                        expect(res.text).to.include(`id="${id.id}"`);
+                        expect(res.text).to.include(`href="#${id.id}"`);
+                    });
+
+                    // TODO: Move variable & markdown rendering to a dedicated file so that it can be tested here
+
+                    done();
+                });
             });
         });
     });

@@ -18,7 +18,7 @@ describe('/lists', () => {
                     expect(res.text).to.include('All Bot Lists');
 
                     // Confirm footer stats
-                    expect(res.text).to.include('BotBlock - Bot List Stats');
+                    expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                     // Confirm list cards
                     lists.forEach(list => {
@@ -51,7 +51,7 @@ describe('/lists/new', () => {
                     expect(res.text).to.include('New Bot Lists');
 
                     // Confirm footer stats
-                    expect(res.text).to.include('BotBlock - Bot List Stats');
+                    expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                     // Confirm list cards
                     lists.forEach(list => {
@@ -84,7 +84,7 @@ describe('/lists/defunct', () => {
                     expect(res.text).to.include('Defunct Bot Lists');
 
                     // Confirm footer stats
-                    expect(res.text).to.include('BotBlock - Bot List Stats');
+                    expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                     // Confirm list cards
                     lists.forEach(list => {
@@ -117,7 +117,7 @@ describe('/lists/hidden', () => {
                     expect(res.text).to.include('Hidden Bot Lists');
 
                     // Confirm footer stats
-                    expect(res.text).to.include('BotBlock - Bot List Stats');
+                    expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                     // Confirm list cards
                     lists.forEach(list => {
@@ -179,7 +179,7 @@ describe('/lists/features/:id', () => {
                 expect(res.text).to.include('Bot Lists with feature \'Has Voting\'');
 
                 // Confirm footer stats
-                expect(res.text).to.include('BotBlock - Bot List Stats');
+                expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                 done();
             });
@@ -228,7 +228,7 @@ describe('/lists/search', () => {
                 expect(res.text).to.include('<input class="button is-brand" type="submit" value="Search">');
 
                 // Confirm footer stats
-                expect(res.text).to.include('BotBlock - Bot List Stats');
+                expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                 done();
             });
@@ -259,7 +259,7 @@ describe('/lists/search/:query', () => {
                 expect(res.text).to.include('<input class="button is-brand" type="submit" value="Search">');
 
                 // Confirm footer stats
-                expect(res.text).to.include('BotBlock - Bot List Stats');
+                expect(res.text).to.include('BotBlock - Bot List Stats'); // TODO: pull from locales
 
                 done();
             });
