@@ -6,10 +6,6 @@ function setHash(id) {
     }
 }
 
-function scrollToId(id) {
-    scrollTo(document.querySelector('#' + id));
-}
-
 function scrollTo(element) {
     window.scroll({
         behavior: 'smooth',

@@ -11,7 +11,10 @@ block content
                             h1.title.is-size-3.has-text-white #{__('site_name')} - #{__('short_desc')}
 
                             for section in sections
-                                h5.is-size-5.has-text-white
+                                h5.is-size-5.has-text-white(id=section.id)
                                     | #{section.title}&nbsp;
-                                    a(href=`javascript:scrollToId('${section.id}');`) &supdsub;
+                                    a(href=`#${section.id}`) &supdsub;
                                 div !{section.content}
+
+block footer
+    script(src='/assets/js/scroll.js')
