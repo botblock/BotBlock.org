@@ -26,7 +26,9 @@ class APIRoute extends BaseRoute {
 
         this.router.get('/lists', this.ratelimit.checkRatelimit(1, 1), (req, res) => {
             const data = { };
-            this.db.run('SELECT id, api_docs, api_post, api_field, api_shard_id, api_shard_count, api_shards, api_get FROM lists WHERE defunct = ? ORDER BY discord_only DESC, LOWER(name) ASC', [0]).then((lists) => {
+            let query = '';
+            if (!req.query.filter === true) query = ', api_docs, api_post, api_field, api_shard_id, api_shard_count, api_shards, api_get';
+            this.db.run('SELECT id ' + query + ' FROM lists WHERE defunct = ? ORDER BY discord_only DESC, LOWER(name) ASC', [0]).then((lists) => {
                 if (!lists) return res.status(200).json({  });
                 for (let i = 0; i < lists.length; i++) {
                     data[lists[i].id] = {
