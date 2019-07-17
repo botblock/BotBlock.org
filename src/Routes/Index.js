@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
-const md = require('markdown-it')();
 const BaseRoute = require('../Structure/BaseRoute');
+const Renderer = require('../Structure/Markdown');
 
 class IndexRoute extends BaseRoute {
     constructor(client, db) {
@@ -9,6 +9,7 @@ class IndexRoute extends BaseRoute {
         this.router = require('express').Router();
         this.client = client;
         this.db = db;
+        this.renderer = new Renderer();
         this.routes();
     }
 
@@ -23,16 +24,9 @@ class IndexRoute extends BaseRoute {
 
         this.router.get('/about', (req, res) => {
             this.db.run('SELECT * FROM about ORDER BY position ASC').then((data) => {
-                const insertVars = text => {
-                    return text
-                        .replace(/{{NAME}}/g, res.__('site_name'))
-                        .replace(/{{SHORT_DESC}}/g, res.__('short_desc'))
-                        .replace(/{{SLOGAN}}/g, res.__('slogan'))
-                };
                 const sections = data.map(section => {
-                    section.title = insertVars(section.title);
-                    section.content = md.render(insertVars(section.content))
-                        .replace(/<a href=/g, '<a target="_blank" href=');
+                    section.title = this.renderer.variables(section.title);
+                    section.content = this.renderer.render(section.content);
                     return section;
                 });
                 res.render('about', { sections });
