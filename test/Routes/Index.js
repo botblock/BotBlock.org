@@ -40,51 +40,112 @@ describe('/helloworld', () => {
     });
 });
 
-describe('/discord', () => {
-    describe('GET', () => {
-        const test = () => request().get('/discord').redirects(0);
-        it('redirects to a discord.gg URL', done => {
-            test().end((err, res) => {
-                expect(res).to.redirect;
-                expect(res.headers).to.have.property('location');
-                expect(res.headers.location).to.include('https://discord.gg/');
-                done();
+describe('Discord Invite', () => {
+    const routes = [
+        '/invite',
+        '/support',
+        '/guild',
+        '/server',
+        '/discord',
+        '/contact',
+        '/help'
+    ];
+    routes.forEach(route => {
+        describe(route, () => {
+            describe('GET', () => {
+                const test = () => request().get(route).redirects(0);
+                it('redirects to a discord.gg URL', done => {
+                    test().end((err, res) => {
+                        expect(res).to.redirect;
+                        expect(res.headers).to.have.property('location');
+                        expect(res.headers.location).to.include('https://discord.gg/');
+                        done();
+                    });
+                });
             });
         });
     });
 });
 
-describe('/patreon', () => {
-    describe('GET', () => {
-        const test = () => request().get('/patreon').redirects(0);
-        it('redirects to the Patreon page', done => {
-            test().end((err, res) => {
-                expect(res).to.redirectTo('https://patreon.com/botblock');
-                done();
+describe('Patreon Page', () => {
+    const routes = [
+        '/donate',
+        '/pledge',
+        '/patreon'
+    ];
+    routes.forEach(route => {
+        describe(route, () => {
+            describe('GET', () => {
+                const test = () => request().get(route).redirects(0);
+                it('redirects to the Patreon page', done => {
+                    test().end((err, res) => {
+                        expect(res).to.redirectTo('https://patreon.com/botblock');
+                        done();
+                    });
+                });
             });
         });
     });
 });
 
-describe('/reddit', () => {
-    describe('GET', () => {
-        const test = () => request().get('/reddit').redirects(0);
-        it('redirects to the subreddit page', done => {
-            test().end((err, res) => {
-                expect(res).to.redirectTo('https://reddit.com/r/botblock');
-                done();
+describe('Subreddit Page', () => {
+    const routes = [
+        '/reddit',
+        '/subreddit'
+    ];
+    routes.forEach(route => {
+        describe(route, () => {
+            describe('GET', () => {
+                const test = () => request().get(route).redirects(0);
+                it('redirects to the subreddit page', done => {
+                    test().end((err, res) => {
+                        expect(res).to.redirectTo('https://reddit.com/r/botblock');
+                        done();
+                    });
+                });
             });
         });
     });
 });
 
-describe('/twitter', () => {
-    describe('GET', () => {
-        const test = () => request().get('/twitter').redirects(0);
-        it('redirects to the Twitter profile', done => {
-            test().end((err, res) => {
-                expect(res).to.redirectTo('https://twitter.com/botblockorg');
-                done();
+describe('Twitter Profile', () => {
+    const routes = [
+        '/twitter',
+        '/tweets',
+        '/tweet'
+    ];
+    routes.forEach(route => {
+        describe(route, () => {
+            describe('GET', () => {
+                const test = () => request().get(route).redirects(0);
+                it('redirects to the Twitter profile', done => {
+                    test().end((err, res) => {
+                        expect(res).to.redirectTo('https://twitter.com/botblockorg');
+                        done();
+                    });
+                });
+            });
+        });
+    });
+});
+
+describe('Shields.io Badge', () => {
+    const routes = [
+        '/badge',
+        '/shield'
+    ];
+    routes.forEach(route => {
+        describe(route, () => {
+            describe('GET', () => {
+                const test = () => request().get(route).redirects(0);
+                it('redirects to a img.shields.io URL', done => {
+                    test().end((err, res) => {
+                        expect(res).to.redirect;
+                        expect(res.headers).to.have.property('location');
+                        expect(res.headers.location).to.include('https://img.shields.io/badge/');
+                        done();
+                    });
+                });
             });
         });
     });
