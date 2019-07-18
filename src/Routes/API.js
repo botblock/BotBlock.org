@@ -49,9 +49,9 @@ class APIRoute extends BaseRoute {
 
         this.router.post('/count', this.ratelimit.checkRatelimit(1, 120), (req, res) => {
             if (!req.body.bot_id) return res.status(400).json({ error: true, status: 400, message: '\'bot_id\' is required' });
+            req.body.bot_id = req.body.bot_id.toString();
             if (!isSnowflake(req.body.bot_id)) return res.status(400).json({ error: true, status: 400, message: '\'bot_id\' must be a snowflake' });
             if (!req.body.server_count) return res.status(400).json({ error: true, status: 400, message: '\'server_count\' is required' });
-            if (isNaN(req.body.bot_id)) return res.status(400).json({ error: true, status: 400, message: '\'bot_id\' must be a number' });
             if (isNaN(req.body.server_count)) return res.status(400).json({ error: true, status: 400, message: '\'server_count\' must be a number' });
             if (req.body.shard_id) {
                 if (isNaN(req.body.shard_id)) return res.status(400).json({ error: true, status: 400, message: '\'shard_id\' must be a number' });
