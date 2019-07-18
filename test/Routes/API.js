@@ -454,9 +454,34 @@ describe('/api/count', () => {
         });
 
         describe('Valid body', () => {
-            describe('No list tokens', () => {
+            describe('String bot_id w/ no tokens', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
+                    server_count: 10}));
+                it('returns an OK status code', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(200);
+                        done();
+                    });
+                });
+                it('returns a valid JSON body', done => {
+                    test().end((err, res) => {
+                        expect(res).to.be.json;
+                        done();
+                    });
+                });
+                it('contains success and failure objects', done => {
+                    test().end((err, res) => {
+                        expect(res.body).to.have.property('success');
+                        expect(res.body).to.have.property('failure');
+                        done();
+                    });
+                });
+            });
+
+            describe('Integer bot_id w/ no tokens', () => {
+                const test = () => ratelimitBypass(request().post('/api/count').send({
+                    bot_id: 123456789123456789,
                     server_count: 10}));
                 it('returns an OK status code', done => {
                     test().end((err, res) => {
