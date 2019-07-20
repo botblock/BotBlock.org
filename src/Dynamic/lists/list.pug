@@ -7,13 +7,17 @@ block content
                 .column.is-half-desktop.is-full-mobile
                     if list.defunct
                         .notification.is-warning
-                            p This list has been flagged as defunct on #{__('site_name')}. Therefore, this list will not be used in any #{__('site_name')} API endpoints and is not displayed throughout the majority of the site.
+                            p
+                                | This list has been flagged as defunct on #{__('site_name')}. Therefore, this list will
+                                |  not be used in any #{__('site_name')} API endpoints and is not displayed throughout
+                                |  the majority of the site.
                     if !list.defunct && !list.display
                         .notification.is-warning
-                            p This list is currently hidden on #{__('site_name')}.
-                            | To find out more about why we may hide lists, please read
-                            a(href='/about', target='_blank') our About page
-                            | .
+                            p
+                                | This list is currently hidden on #{__('site_name')}.
+                                br
+                                | To find out more about why we may hide lists, please read
+                                |  #[a(href='/about', target='_blank') our About page].
                     if content
                         .notification.is-primary
                             p #{content}
@@ -26,6 +30,8 @@ block content
                                 b.has-text-primary Owners:
                                 br
                                 | #{list.owners}
+                            hr
+                            br
                             p.has-text-grey-lighter This list is known to have the following features:
                             include ../Includes/checkboxes
                             p.has-text-grey-lighter.has-margin-top
@@ -92,7 +98,7 @@ block content
                                 | Unfortunately, #[b this list has no known API] saved on #{__('site_name')}.
                                 |  Due to this, this list is not be included in the #{__('site_name')}
                                 |  #[a(href='/api/docs#count') server/guild count API endpoint] or the
-                                |  #[a href='/api/docs#bots'>bots information API endpoint].
+                                |  #[a(href='/api/docs#bots') bots information API endpoint].
                                 br
                                 br
                                 | Incorrect? Let us known using the contact option under the links dropdown in the navbar.

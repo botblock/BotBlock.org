@@ -59,7 +59,12 @@
   }
 
   .navbar-dropdown {
-    top: 100%
+    top: 100%;
+
+    a.navbar-item:focus,
+    a.navbar-item:hover {
+      border-radius: 0;
+    }
   }
 
   .navbar-link {
