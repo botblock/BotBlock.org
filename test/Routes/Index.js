@@ -10,11 +10,17 @@ describe('/', () => {
                 done();
             });
         });
-        it('renders the expected landing content', done => {
+        it('renders the expected content', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
+
+                // Confirm header
+                expect(res.text).to.include('Discord Bot Lists? We have them all.'); // TODO: pull from locales
                 expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services'); // TODO: pull from locales
-                expect(res.text).to.include('Coming Soon');
+
+                // Confirm buttons
+                expect(res.text).to.include('href="/lists">View all the lists');
+                expect(res.text).to.include('href="/api/docs">Read the API Docs');
                 done();
             });
         });

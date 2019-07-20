@@ -58,16 +58,16 @@ describe('/api/docs', () => {
                 expect(res.text).to.include('BotBlock provides a single API endpoint');
 
                 // Confirm count docs
-                expect(res.text).to.include('<h1 class="is-size-4" id="count">Update bot/guild count');
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="count">Update bot/guild count');
 
                 // Confirm bots docs
-                expect(res.text).to.include('<h1 class="is-size-4" id="bots">Get bot information from lists');
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="bots">Get bot information from lists');
 
                 // Confirm list docs
-                expect(res.text).to.include('<h1 class="is-size-4" id="lists">Get all lists\' API details');
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="lists">Get all lists\' API details');
 
                 // Confirm ratelimit docs
-                expect(res.text).to.include('<h1 class="is-size-4" id="ratelimits">Ratelimits');
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="ratelimits">Ratelimits');
 
                 done();
             });
