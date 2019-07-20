@@ -7,7 +7,7 @@ $white: #F5F7FA;
 
 $primary: $brand;
 $primary-invert: $brand-dark;
-$light: #363636;
+$light: #242424;
 $light-invert: invert($light);
 
 // Navbar
@@ -41,12 +41,12 @@ $button-hover-border-color: transparent;
 $button-hover-color: $white;
 
 // Code
-$code-background: #242424;
-$code: #359DC4;
+$code-background: $light;
+$code: $brand;
 
 // Menu
 $menu-item-hover-color: $white;
-$menu-item-hover-background-color: #242424;
+$menu-item-hover-background-color: $light;
 
 // Table
 $table-color: $white;

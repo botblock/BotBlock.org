@@ -1,13 +1,15 @@
 .card-content
-    h1.is-size-4#ratelimits Ratelimits
+    h1.is-size-4.has-text-grey-lighter#ratelimits Ratelimits
         a(href='#ratelimits')  &supdsub;
-    p There is a global ratelimit on the #{__('site_name')} API per request source IP address of 5 requests every second.
-    p This API has ratelimits in place based on
-        b request source IP address and, where possible, bot ID
-        | This API may get ratelimited from lists if it is inundated with requests, therefore our ratelimits are high as to reduce the likelihood of this occurring.
     p
-        i The IP that #{__('site_name')} can see for your current connection is
-            code #{ip || 'Unknown'}
+        | There is a global ratelimit on the #{__('site_name')} website per request source IP address of 10 requests
+        |  every second.
+    p
+        | This API has ratelimits in place based on #[b request source IP address and, where possible, bot ID]. This API
+        |  may get ratelimited from lists if it is inundated with requests, therefore our ratelimits are high as to
+        |  reduce the likelihood of this occurring.
+    p
+        i The IP that #{__('site_name')} can see for your current connection is #[code #{ip || 'Unknown'}]
     h5.is-size-5 Ratelimits
     .table-container
         table.table.is-bordered.is-narrow

@@ -1,5 +1,5 @@
 .card-content
-    h1.is-size-4#count Update bot/guild count
+    h1.is-size-4.has-text-grey-lighter#count Update bot/guild count
         a(href='#count')  &supdsub;
     h6.is-size-6
         a(href='/api/count' target='_blank' rel='nofollow')
@@ -63,19 +63,17 @@
                     td success
                     td Object&lt;Array&lt;Integer, String, String&gt;&gt;
                     td All list IDs that successfully posted will be listed here.
-                        i See below for contents.
+                        i  See below for contents.
                 tr
                     td failure
                     td Object&lt;Array&lt;Integer, String, String&gt;&gt;
                     td All list IDs that failed to post will be listed here.
-                        i See below for contents.
+                        i  See below for contents.
 
-    p In the
-        code success
-        | and
-        code failure
-        | objects, each list ID attempted will be a key with a value that is an array. The first item in the array is the HTTP status code of the response, the second is the string response body and the third item is the body data sent to the list.
-    p If an error occurs prior to posting, a 403 will be returned with a string body containing the error.
+    p
+        | In the #[code success] and #[code failure] objects, each list ID attempted will be a key with a value that is
+        |  an array. The first item in the array is the HTTP status code of the response, the second is the string
+        |  response body and the third item is the body data sent to the list.
     h5.is-size-5 Example Response
     pre
         code.
