@@ -22,9 +22,13 @@ block content
 
                     .card.is-box-shadow
                         .card-content
+                            p
+                                b.has-text-primary Owners:
+                                br
+                                | #{list.owners}
                             p.has-text-grey-lighter This list is known to have the following features:
                             include ../Includes/checkboxes
-                            p.has-text-grey-lighter
+                            p.has-text-grey-lighter.has-margin-top
                                 i Click on a feature to search for all bot lists with that feature.
 
                     .card.is-box-shadow
@@ -35,16 +39,16 @@ block content
                                 a(href=list.api_docs, target='_blank') #{list.api_docs}
                                 br
                                 br
+
                             if list.api_post && list.api_field
                                 b.has-text-grey-lighter This list has an API endpoint for posting server/guild count of a bot:
                                 br
                                 code #{list.api_post}
                                 br
-                                b.has-text-grey-lighter Field Name:
-                                code #{list.api_field}
+                                b.has-text-grey-lighter Field Name: #[code #{list.api_field}]
+                                br
+                                br
 
-                                br
-                                br
                                 b.has-text-grey-lighter This list's API provides the following shard support for server/guild count posting:
                                 br
                                 code shard_id
@@ -63,19 +67,48 @@ block content
                                     code #{list.api_shards}
                                 br
                                 br
+
+                                b.has-text-grey-lighter BotBlock server/guild count API:
                                 br
+                                | Please see the #[a(href='/api/docs#count') API documentation] for full information on
+                                |  using the server/guild count API endpoint with this list.
+                                br
+                                | Provide your #{list.name} API authorisation token as the value for the key
+                                |  #[code #{list.id}] in your server/guild count API request as explained in the
+                                |  #[a(href='/api/docs#count') API docs].
+                                br
+                                br
+
                             if list.api_get
                                 b.has-text-grey-lighter This list also has an API endpoint for getting information about a bot:
                                 br
                                 code #{list.api_get}
                                 br
-                                | This is used in the
-                                a(href='/api/docs#bots') #{__('site_name')}  API bots information endpoint
+                                | This is used in the #[a(href='/api/docs#bots') #{__('site_name')} API bots information endpoint].
+                                br
+                                br
+
                             if !list.api_docs && !list.api_post && !list.api_field && !list.api_get
-                                | Unfortunately,
-                                b  this list has no known API
-                                |  saved on #{__('site_name')} Due to this, this list is not be included in the #{__('site_name')}
-                                a(href='/api/docs#count')  server/guild count API endpoint</a> or the <a href='/api/docs#bots'>bots information API endpoint
+                                | Unfortunately, #[b this list has no known API] saved on #{__('site_name')}.
+                                |  Due to this, this list is not be included in the #{__('site_name')}
+                                |  #[a(href='/api/docs#count') server/guild count API endpoint] or the
+                                |  #[a href='/api/docs#bots'>bots information API endpoint].
                                 br
                                 br
                                 | Incorrect? Let us known using the contact option under the links dropdown in the navbar.
+                                br
+                                br
+
+                            if list.view_bot || list.bot_widget
+                                hr
+                                br
+                                b Additional known URLs for this bot list:
+                                br
+                                small
+                                    i Replace #[code :id] with the ID of the bot.
+                                if list.view_bot
+                                    br
+                                    | View a bot directly: #[code #{list.view_bot}]
+                                if list.bot_widget
+                                    br
+                                    | Get the widget for a bot: #[code #{list.bot_widget}]
