@@ -21,16 +21,16 @@
                         form#navbar_lists_search
                             input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
                             a.navbar-item(onclick='navbar_lists_go()') Search Lists
-                .navbar-item.has-dropdown.is-hoverable
-                    a.navbar-link Bots
-                    .navbar-dropdown.is-boxed.is-box-shadow
-                        a.navbar-item Bot Lookup
-                        a.navbar-item Add New Bot
+                //.navbar-item.has-dropdown.is-hoverable
+                //    a.navbar-link Bots
+                //    .navbar-dropdown.is-boxed.is-box-shadow
+                //        a.navbar-item Bot Lookup
+                //        a.navbar-item Add New Bot
                 .navbar-item.has-dropdown.is-hoverable
                     a.navbar-link API
                     .navbar-dropdown.is-boxed.is-box-shadow
                         a.navbar-item(href='/api/docs') API Docs
-                        a.navbar-item API Libraries
+                        a.navbar-item(href='/api/docs/libs') API Libraries
             .navbar-end
                 a.navbar-item(href='/discord', target='_blank') Discord Server
                 a.navbar-item(href='/patreon', target='_blank') Support Us
