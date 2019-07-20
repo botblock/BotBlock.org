@@ -1,0 +1,9 @@
+# mocha.opts
+  --recursive
+  --exclude base.js
+  --slow 500
+  --timeout 1000
+  --retries 1
+  --color true
+  --diff true
+  --ui bdd

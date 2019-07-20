@@ -1,0 +1,18 @@
+extends layout
+block content
+    section.section
+        .container
+            .columns
+                .column
+                    .card
+                        .card-content
+                            h1.title.is-size-4 #{__('site_name')} Test Suite
+                            a.button.is-brand.is-size-5#run(onclick='runTests()') Run Tests
+                    .card
+                        .card-content
+                            pre(style='background:#000;color:#fff')
+                                code#tests
+                                p#state
+
+block footer
+    script(src='/assets/js/test.js')
