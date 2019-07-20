@@ -16,12 +16,46 @@ form(method='POST')
         .control
             input.input(type='text', id='icon', name='icon' value=data.icon, required)
     .field
-        label.label(for='icon') Display *
+        label.label(for='display') Display *
             small
-                i (Please add a message in notification content explaining why the list is hidden)
+                i  (Please add a message in notification content explaining why the list is hidden)
+        .control
+            .select
+                select#display(required)
+                    option(value='0', selected=data.display) Yes
+                    option(value='1', selected=!data.display) No
+    .field
+        label.label(for='defunct') Defunct (Overrides Display)*
         .control
             .select
                 select#defunct(required)
-                    option(value='0',)
-
-
+                    option(value='0', selected=data.defunct) Yes
+                    option(value='1', selected=!data.defunct) No
+    .field
+        label.label(for='discord_only') Discord Exclusive *
+        .control
+            .select
+                select#discord_only(required)
+                    option(value='0', selected=data.discord_only) Yes
+                    option(value='1', selected=!data.discord_only) No
+    .field
+        label.label(for='content') Notification Content
+        .control
+            textarea.textarea#content(name='content') #{data.content}
+    .field
+        label.label(for='owners') Owners
+            small
+                i  (Please follow the format
+                    code User 1#1234 (0123456789), User 2#4321 (9876543210)
+                |  )
+        .control
+            input.input#owners(type='text', name='owners', value=data.owners)
+    .field
+        label.label(for='discord') Discord Invite
+        .control
+            input.input#discord(type='text', name='discord', value=data.discord)
+    hr
+    .field
+        label.label(for='api_docs') API Docs URL
+        .control
+            input.input#api_docs(type='text', name='api_docs', value=data.api_docs)
