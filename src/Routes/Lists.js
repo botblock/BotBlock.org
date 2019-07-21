@@ -12,7 +12,7 @@ class ListsRoute extends BaseRoute {
     footerData() {
         return new Promise((resolve, reject) => {
             this.db.run('SELECT discord_only FROM lists WHERE defunct = 0 AND display = 1').then((active) => {
-                this.db.run('SELECT COUNT(id) as count FROM lists WHERE defunct = 1 AND display = 1').then((defunct) => {
+                this.db.run('SELECT COUNT(id) as count FROM lists WHERE defunct = 1').then((defunct) => {
                     const discordOnly = active.filter(list => list.discord_only);
                     resolve({active: active.length, discordOnly: discordOnly.length, defunct: defunct[0].count});
                 }).catch(reject);
