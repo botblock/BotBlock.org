@@ -51,29 +51,32 @@
         |  values for owners) from all lists' APIs that returned information on the bot being fetched. If no information
         |  is gathered these values may be blank.
     h5.is-size-5 Example Response
-    pre
-        code.
-            {
-                "id": "123456789012345678",
-                "username": "My Bot",
-                "discriminator": "1234",
-                "owners": [
-                    "123456789012345678"
-                ],
-                "server_count": 500,
-                "invite": "https://discordapp.com/oauth2/authorize?client_id=123456789012345678&scope=bot&permissions=8",
-                "list_data": {
-                    "thelist.org": [
-                        &lt;list data&gt;,
-                        200
+    h6.is-size-6
+        a(href='/api/bots/123456789012345678', target='_blank', rel='nofollow')
+            code GET /api/bots/123456789012345678
+        pre
+            code.
+                {
+                    "id": "123456789012345678",
+                    "username": "My Bot",
+                    "discriminator": "1234",
+                    "owners": [
+                        "123456789012345678"
                     ],
-                    "listofbots.com": [
-                        &lt;list data&gt;,
-                        200
-                    ],
-                    "brokenlist.co.uk": [
-                        &lt;list data&gt;,
-                        404
-                    ]
+                    "server_count": 500,
+                    "invite": "https://discordapp.com/oauth2/authorize?client_id=123456789012345678&scope=bot&permissions=8",
+                    "list_data": {
+                        "thelist.org": [
+                            &lt;list data&gt;,
+                            200
+                        ],
+                        "listofbots.com": [
+                            &lt;list data&gt;,
+                            200
+                        ],
+                        "brokenlist.co.uk": [
+                            &lt;list data&gt;,
+                            404
+                        ]
+                    }
                 }
-            }

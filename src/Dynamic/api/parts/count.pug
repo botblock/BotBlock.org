@@ -80,26 +80,29 @@
         |  an array. The first item in the array is the HTTP status code of the response, the second is the string
         |  response body and the third item is the body data sent to the list.
     h5.is-size-5 Example Response
-    pre
-        code.
-            {
-                "success": {
-                    "thelist.org": [
-                        200,
-                        "{\"message\":\"OK\"}",
-                        "{\"server_count\":200}"
-                    ],
-                    "listofbots.com": [
-                        200,
-                        "",
-                        "{\"count\":200}"
-                    ]
-                },
-                "failure": {
-                    "brokenlist.co.uk": [
-                        500,
-                        "Bot not found",
-                        "{\"guilds\":200}"
-                    ]
+    h6.is-size-6
+        a(href='/api/count' target='_blank' rel='nofollow')
+            code POST /api/count {"server_count": 200, "bot_id": "123456789012345678"}
+        pre
+            code.
+                {
+                    "success": {
+                        "thelist.org": [
+                            200,
+                            "{\"message\":\"OK\"}",
+                            "{\"server_count\":200}"
+                        ],
+                        "listofbots.com": [
+                            200,
+                            "",
+                            "{\"count\":200}"
+                        ]
+                    },
+                    "failure": {
+                        "brokenlist.co.uk": [
+                            500,
+                            "Bot not found",
+                            "{\"guilds\":200}"
+                        ]
+                    }
                 }
-            }

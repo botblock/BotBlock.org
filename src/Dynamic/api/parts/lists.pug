@@ -58,25 +58,28 @@
                     td String
                     td The URL stored for fetching bot information from the list.
     h5.is-size-5 Example Response
-    pre
-        code.
-            {
-                "thelist.org": {
-                    "api_docs": "https://thelist.org/api/docs",
-                    "api_post": "https://thelist.org/api/bot/stats/:id",
-                    "api_field": "server_count",
-                    "api_shard_id": "shard_id",
-                    "api_shard_count": "shard_count",
-                    "api_shards": null,
-                    "api_get": "https://thelist.org/api/bot/info/:id"
-                },
-                "listofbots.com": {
-                    "api_docs": "https://listofbots.com/docs",
-                    "api_post": "https://listofbots.com/api/stats/:id",
-                    "api_field": "guild_count",
-                    "api_shard_id": null,
-                    "api_shard_count": null,
-                    "api_shards": "shards",
-                    "api_get": null
+    h6.is-size-6
+        a(href='/api/lists', target='_blank', rel='nofollow')
+            code GET /api/lists
+        pre
+            code.
+                {
+                    "thelist.org": {
+                        "api_docs": "https://thelist.org/api/docs",
+                        "api_post": "https://thelist.org/api/bot/stats/:id",
+                        "api_field": "server_count",
+                        "api_shard_id": "shard_id",
+                        "api_shard_count": "shard_count",
+                        "api_shards": null,
+                        "api_get": "https://thelist.org/api/bot/info/:id"
+                    },
+                    "listofbots.com": {
+                        "api_docs": "https://listofbots.com/docs",
+                        "api_post": "https://listofbots.com/api/stats/:id",
+                        "api_field": "guild_count",
+                        "api_shard_id": null,
+                        "api_shard_count": null,
+                        "api_shards": "shards",
+                        "api_get": null
+                    }
                 }
-            }
