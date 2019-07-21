@@ -1,5 +1,6 @@
 const config = require('../src/config');
 const Database = require('../src/Structure/Database');
+const i18n = require('../src/Util/i18n');
 
 const {describe, it} = require('mocha');
 
@@ -18,11 +19,13 @@ const db = async (query, data) => {
     return dbc.run(query, data);
 };
 
+const locale = i18n.__;
+
 const authCheck = res => {
     expect(res).to.be.html;
     expect(res.text).to.include('This page requires authentication to access');
-    expect(res.text).to.include('Sign in to BotBlock'); // TODO: pull from locales
+    expect(res.text).to.include(`Sign in to ${locale('site_name')}`);
     expect(res.text).to.include('A 403 error has occurred... :(');
 };
 
-module.exports = {describe, it, expect, request, ratelimitBypass, db, authCheck};
+module.exports = {describe, it, expect, request, ratelimitBypass, db, locale, authCheck};

@@ -1,4 +1,4 @@
-const {describe, it, expect, request, db} = require('../base');
+const {describe, it, expect, request, db, locale} = require('../base');
 const renderer = new (require('../../src/Structure/Markdown'))();
 
 describe('/', () => {
@@ -15,8 +15,8 @@ describe('/', () => {
                 expect(res).to.be.html;
 
                 // Confirm header
-                expect(res.text).to.include('Discord Bot Lists? We have them all.'); // TODO: pull from locales
-                expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services'); // TODO: pull from locales
+                expect(res.text).to.include(locale('slogan'));
+                expect(res.text).to.include(`${locale('site_name')} - ${locale('short_desc')}`);
 
                 // Confirm buttons
                 expect(res.text).to.include('href="/lists">View all the lists');
@@ -62,7 +62,7 @@ describe('/about', () => {
                     expect(res).to.be.html;
 
                     // Confirm header
-                    expect(res.text).to.include('BotBlock - The List of Discord Bot Lists and Services'); // TODO: pull from locales
+                    expect(res.text).to.include(`${locale('site_name')} - ${locale('short_desc')}`);
 
                     // Confirm sections
                     sections.forEach(section => {
