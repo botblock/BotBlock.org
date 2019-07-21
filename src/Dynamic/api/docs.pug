@@ -20,6 +20,8 @@ block content
                                     p.menu-label Other
                                     ul.menu-list
                                         li
+                                            a(href='#errors') Errors
+                                        li
                                             a(href='#ratelimits') Ratelimits
                                         li
                                             a(href='/api/docs/libs') API Libraries
@@ -42,6 +44,8 @@ block content
                     include parts/bots
                 .card.is-box-shadow
                     include parts/lists
+                .card.is-box-shadow
+                    include parts/errors
                 .card.is-box-shadow
                     include parts/ratelimits
 block footer

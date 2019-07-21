@@ -1,0 +1,38 @@
+.card-content
+    h1.is-size-4.has-text-grey-lighter#errors Errors
+        a(href='#errors')  &supdsub;
+    p
+        | All errors within the API will be returned as a JSON response.
+        | They will also have the appropriate HTTP status code set.
+    h5.is-size-5 Response Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td error
+                    td Boolean
+                    td This will always be true to indicate an error was encountered.
+                tr
+                    td status
+                    td Integer
+                    td This will be the HTTP status code of the response and the error.
+                tr
+                    td message
+                    td String
+                    td This will contain the message explaining the error that was encountered.
+    h5.is-size-5 Example Response
+    h6.is-size-6
+        a(href='/api/helloworld', target='_blank', rel='nofollow')
+            code GET /api/helloworld
+        pre
+            code.
+                {
+                    "error": true,
+                    "status": 404,
+                    "message": "Endpoint not found"
+                }
