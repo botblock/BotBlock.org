@@ -31,6 +31,8 @@
                     .navbar-dropdown.is-boxed.is-box-shadow
                         a.navbar-item(href='/api/docs') API Docs
                         a.navbar-item(href='/api/docs/libs') API Libraries
+                if user && (user.mod || user.admin)
+                    a.navbar-item(href='/test') Tests
             .navbar-end
                 a.navbar-item(href='/discord', target='_blank') Discord Server
                 a.navbar-item(href='/patreon', target='_blank') Support Us

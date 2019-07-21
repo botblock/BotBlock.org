@@ -40,8 +40,9 @@ class TestRoute extends BaseRoute {
         raw.forEach(this.addLine.bind(this));
     };
 
-    // TODO: this all needs to be protected behind auth
     routes() {
+        this.router.use(this.requiresAuth.bind(this), this.isMod.bind(this));
+
         this.router.get('/', (req, res) => {
             res.render('test');
         });
