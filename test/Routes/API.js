@@ -1,4 +1,4 @@
-const {describe, it, expect, request, ratelimitBypass} = require('../base');
+const {describe, it, expect, request, ratelimitBypass, locale} = require('../base');
 
 describe('Invalid route (/api/helloworld)', () => {
     describe('GET', () => {
@@ -49,26 +49,59 @@ describe('/api/docs', () => {
                 done();
             });
         });
-        it('renders the expected content', done => {
+        it('renders the expected header content', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
 
                 // Confirm header
                 expect(res.text).to.include('API Documentation');
-                expect(res.text).to.include('BotBlock provides a single API endpoint');
+                expect(res.text).to.include(`${locale('site_name')} provides a single API endpoint`);
 
-                // Confirm count docs
+                // Confirm CTA to libs
+                expect(res.text).to.include('<a class="button is-brand is-size-5" href="/api/docs/libs">API Libraries</a>');
+
+                // Confirm menu
+                expect(res.text).to.include('<aside class="menu">');
+                expect(res.text).to.include('<p class="menu-label">');
+                expect(res.text).to.include('<ul class="menu-list">');
+
+                done();
+            });
+        });
+        it('renders the count docs', done => {
+            test().end((err, res) => {
                 expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="count">Update bot/guild count');
-
-                // Confirm bots docs
+                expect(res.text).to.include('<code>POST /api/count</code>');
+                expect(res.text).to.include('<code>POST /api/count {"server_count": 200, "bot_id": "123456789012345678"}</code>');
+                done();
+            });
+        });
+        it('renders the bots docs', done => {
+            test().end((err, res) => {
                 expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="bots">Get bot information from lists');
-
-                // Confirm list docs
+                expect(res.text).to.include('<code>GET /api/bots/:id</code>');
+                expect(res.text).to.include('<code>GET /api/bots/123456789012345678</code>');
+                done();
+            });
+        });
+        it('renders the lists docs', done => {
+            test().end((err, res) => {
                 expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="lists">Get all lists\' API details');
-
-                // Confirm ratelimit docs
+                expect(res.text).to.include('<code>GET /api/lists</code>');
+                done();
+            });
+        });
+        it('renders the errors docs', done => {
+            test().end((err, res) => {
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="errors">Errors');
+                expect(res.text).to.include('<code>GET /api/helloworld</code>');
+                done();
+            });
+        });
+        it('renders the ratelimits docs', done => {
+            test().end((err, res) => {
                 expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="ratelimits">Ratelimits');
-
+                expect(res.text).to.include('<code>HTTP Status: 429 Too Many Requests</code>');
                 done();
             });
         });
@@ -162,7 +195,8 @@ describe('/api/lists', () => {
     describe('GET (Ratelimited)', () => {
         const test = () => request().get('/api/lists');
         it('ratelimits spam requests', done => {
-            test().end(() => {});
+            test().end(() => {
+            });
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
@@ -186,11 +220,12 @@ describe('/api/lists', () => {
                 });
             }, 200);
         });
-        it('does not ratelimit requests spaced correctly', function(done) {
+        it('does not ratelimit requests spaced correctly', function (done) {
             const limit = 1;
             this.slow(limit * 1000 + 1000);
             this.timeout(limit * 1000 + 2000);
-            test().end(() => {});
+            test().end(() => {
+            });
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(200);
@@ -284,7 +319,8 @@ describe('/api/count', () => {
             describe('bot_id as random string (valid server_count)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: 'Hello world',
-                    server_count: 10}));
+                    server_count: 10
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -305,7 +341,8 @@ describe('/api/count', () => {
             describe('bot_id as not a valid snowflake (valid server_count)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '12345',
-                    server_count: 10}));
+                    server_count: 10
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -325,7 +362,8 @@ describe('/api/count', () => {
 
             describe('Missing server_count (valid bot_id)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
-                    bot_id: '123456789123456789'}));
+                    bot_id: '123456789123456789'
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -346,7 +384,8 @@ describe('/api/count', () => {
             describe('server_count as random string (valid bot_id)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
-                    server_count: 'Hello world'}));
+                    server_count: 'Hello world'
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -368,7 +407,8 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    shard_id: 'Hello world'}));
+                    shard_id: 'Hello world'
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -390,7 +430,8 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    shards: 'Hello world'}));
+                    shards: 'Hello world'
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -412,7 +453,8 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    shards: ['Hello world']}));
+                    shards: ['Hello world']
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -434,7 +476,8 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    shard_count: 'Hello world'}));
+                    shard_count: 'Hello world'
+                }));
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
@@ -457,7 +500,8 @@ describe('/api/count', () => {
             describe('String bot_id w/ no tokens', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
-                    server_count: 10}));
+                    server_count: 10
+                }));
                 it('returns an OK status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(200);
@@ -482,7 +526,8 @@ describe('/api/count', () => {
             describe('Integer bot_id w/ no tokens', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: 123456789123456789,
-                    server_count: 10}));
+                    server_count: 10
+                }));
                 it('returns an OK status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(200);
@@ -508,7 +553,8 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    'mytestlist.com': 'Hello world'}));
+                    'mytestlist.com': 'Hello world'
+                }));
                 it('returns a valid response', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(200);
@@ -532,7 +578,8 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    'discordbots.group': 'Hello world'}));
+                    'discordbots.group': 'Hello world'
+                }));
                 it('returns a valid response', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(200);
@@ -571,9 +618,11 @@ describe('/api/count', () => {
         const test = () => request().post('/api/count').send({
             bot_id: '123456789123456789',
             server_count: 10,
-            'mytestlist.com': 'Hello world'});
+            'mytestlist.com': 'Hello world'
+        });
         it('ratelimits spam requests', done => {
-            test().end(() => {});
+            test().end(() => {
+            });
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
@@ -597,11 +646,12 @@ describe('/api/count', () => {
                 });
             }, 200);
         });
-        it('does not ratelimit requests spaced correctly', function(done) {
+        it('does not ratelimit requests spaced correctly', function (done) {
             const limit = 120;
             this.slow(limit * 1000 + 1000);
             this.timeout(limit * 1000 + 2000);
-            test().end(() => {});
+            test().end(() => {
+            });
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(200);
@@ -674,7 +724,7 @@ describe('/api/bots/:id', () => {
             });
         });
 
-        describe('Valid request (MEE6 159985870458322944)', function() {
+        describe('Valid request (MEE6 159985870458322944)', function () {
             this.slow(15 * 1000);
             this.timeout(20 * 1000);
             const test = () => ratelimitBypass(request().get('/api/bots/159985870458322944'));
@@ -722,10 +772,11 @@ describe('/api/bots/:id', () => {
 
     describe('GET (Ratelimited)', () => {
         const test = () => request().get('/api/bots/123456789123456789');
-        it('ratelimits spam requests', function(done) {
+        it('ratelimits spam requests', function (done) {
             this.slow(15 * 1000);
             this.timeout(20 * 1000);
-            test().end(() => {});
+            test().end(() => {
+            });
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
@@ -749,10 +800,11 @@ describe('/api/bots/:id', () => {
                 });
             }, 200);
         });
-        it('does not ratelimit requests spaced correctly', function(done) {
+        it('does not ratelimit requests spaced correctly', function (done) {
             this.slow(15 * 1000 + 30 * 1000);
             this.timeout(20 * 1000 + 30 * 1000);
-            test().end(() => {});
+            test().end(() => {
+            });
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(200);
