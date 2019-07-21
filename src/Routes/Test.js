@@ -13,11 +13,32 @@ class TestRoute extends BaseRoute {
         this.router = require('express').Router();
         this.client = client;
         this.db = db;
-        this.output = null;
-        this.done = true;
+        this.output = [];
         this.started = null;
+        this.finished = null;
+        this.child = null;
         this.routes();
     }
+
+    ts() {
+        const since = Date.now() - this.started;
+        const d = new Date(since);
+        //const h = d.getUTCHours().toString().padStart(2, '0');
+        const m = d.getUTCMinutes().toString().padStart(2, '0');
+        const s = d.getUTCSeconds().toString().padStart(2, '0');
+        const ms = d.getUTCMilliseconds().toString().padStart(3, '0');
+        return `[${m}m:${s}s.${ms}ms]`;
+    }
+
+    addLine(line) {
+        ansiHTML.reset();
+        this.output.push(`${this.ts()} ${ansiHTML(line)}`);
+    }
+
+    processData(data) {
+        const raw = data.toString().replace(/^\n|\n$/g, '').split('\n');
+        raw.forEach(this.addLine.bind(this));
+    };
 
     // TODO: this all needs to be protected behind auth
     routes() {
@@ -25,51 +46,35 @@ class TestRoute extends BaseRoute {
             res.render('test');
         });
 
-        this.router.get('/start', (req, res) => {
-            if (this.started === null) this.started = Date.now();
-
-            res.set('Content-Type', 'text/plain');
-            res.send(Buffer.from(this.started.toString()));
-
-            if (this.done !== true) return;
-
+        this.router.get('/restart', (req, res) => {
+            if (this.child) this.child.kill();
+            this.started = Date.now();
+            this.finished = null;
             this.output = [];
-            this.done = false;
-            const processData = data => {
-                const raw = data.toString().replace(/^\n|\n$/g, '').split('\n');
-                raw.forEach(line => {
-                    ansiHTML.reset();
-                    this.output.push(ansiHTML(line));
-                });
-            };
 
             const cwd = join(__dirname, '..', '..');
-            const child = exec(`"${join('node_modules', '.bin', 'mocha')}"`, {cwd});
+            this.child = exec(`"${join('node_modules', '.bin', 'mocha')}"`, {cwd});
 
-            child.stdout.setEncoding('utf8');
-            child.stdout.on('data', processData);
-            child.stderr.setEncoding('utf8');
-            child.stderr.on('data', processData);
-            child.on('error', () => { this.done = true; });
-            child.on('close', () => { this.done = true; });
+            this.child.stdout.setEncoding('utf8');
+            this.child.stdout.on('data', this.processData.bind(this));
+            this.child.stderr.setEncoding('utf8');
+            this.child.stderr.on('data', this.processData.bind(this));
+            this.child.on('error', () => { this.finished = Date.now(); });
+            this.child.on('close', () => { this.finished = Date.now(); });
+
+            res.send({started: this.started});
+        });
+
+        this.router.get('/start', (req, res) => {
+            if (this.started !== null) {
+                res.send({started: this.started});
+                return;
+            }
+            res.redirect('/test/restart');
         });
 
         this.router.get('/progress', (req, res) => {
-            if (this.output !== null || this.done === true) {
-                if (this.output !== null) {
-                    res.set('Content-Type', 'text/html');
-                    res.send(Buffer.from(this.output.join('\n')));
-                    if (this.done === true) {
-                        this.output = null;
-                    }
-                    return;
-                }
-                res.set('Content-Type', 'text/plain');
-                res.send(Buffer.from("end"));
-                return;
-            }
-            res.set('Content-Type', 'text/plain');
-            res.send(Buffer.from(""));
+            res.send({started: this.started, finished: this.finished, data: this.output.join('\n')});
         });
 
     }
