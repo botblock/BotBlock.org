@@ -18,4 +18,11 @@ const db = async (query, data) => {
     return dbc.run(query, data);
 };
 
-module.exports = {describe, it, expect, request, ratelimitBypass, db};
+const authCheck = res => {
+    expect(res).to.be.html;
+    expect(res.text).to.include('This page requires authentication to access');
+    expect(res.text).to.include('Sign in to BotBlock'); // TODO: pull from locales
+    expect(res.text).to.include('A 403 error has occurred... :(');
+};
+
+module.exports = {describe, it, expect, request, ratelimitBypass, db, authCheck};

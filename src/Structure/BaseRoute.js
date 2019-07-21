@@ -4,7 +4,7 @@ class BaseRoute {
     }
 
     requiresAuth(req, res, next) {
-        if (!req.session.user) return res.render('error', { title: 'Authentication is required ', status: 403, message: 'You must be authorized to view that page.' });
+        if (!req.session.user) return res.status(403).render('authRequired', {title: 'Authentication is required'});
         next();
     }
 

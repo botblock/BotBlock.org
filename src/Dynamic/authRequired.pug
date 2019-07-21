@@ -1,0 +1,11 @@
+extends layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.has-text-centered
+                    h1.title.is-size-1 This page requires authentication to access
+                    a.button.is-brand.is-size-4(href='/auth') Sign in to #{__('site_name')}
+                    br
+                    br
+                    h4.title.is-size-4.has-margin-top A 403 error has occurred... :(
