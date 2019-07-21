@@ -59,3 +59,30 @@ form(method='POST')
         label.label(for='api_docs') API Docs URL
         .control
             input.input#api_docs(type='text', name='api_docs', value=data.api_docs)
+    p
+        i Use
+            code :id
+            | to represent the bot id.
+    .columns
+        .column
+            .field
+                label.label(for='api_post') API Post - URL
+                .control
+                    input.input#api_post(type='text', name='api_post', value=data.api_post)
+            .field
+                label.label(for='api_field') API Post - Server Count Field Name
+                .control
+                    input.input#api_field(type='text', name='api_field', value=data.api_field)
+            .field
+                label.label(for='api_shard_id') API Post - Shard ID Field Name
+                .control
+                    input.input#api_shard_id(type='text', name='api_shard_id', value=data.api_shard_id)
+            .field
+                label.label(for='api_shard_count') API Post - Shard Count Field Name
+                .control
+                    input.input#api_shard_count(type='text', name='api_shard_count', value=data.api_shard_count)
+            .field
+                label.label(for='api_shards') API Post - Shards Array Field Name
+                .control
+                    input.input#api_shards(type='text', name='api_shards', value=data.api_shards)
+
