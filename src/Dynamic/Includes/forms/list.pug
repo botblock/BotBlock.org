@@ -86,3 +86,25 @@ form(method='POST')
                 .control
                     input.input#api_shards(type='text', name='api_shards', value=data.api_shards)
 
+        .column
+            .field
+                label.label(for='api_get') API Bot Get - URL
+                    small
+                        i (API endpoint to get info for specific bot)
+                .control
+                    input.input#api_get(type='text', name='api_get', value=data.api_all)
+            .field
+                label.label(for='view_bot') View Bot URL
+                    small
+                        i  (API endpoint to get info about all bots on list)
+                .control
+                    input.input#view_bot(type='text', name='view_bot', value=data.view_bot)
+            .field
+                label.label(for='bot_widget') Bot Widget URL
+                .control
+                    input.input#bot_widget(type='text', name='bot_widget', value=data.bot_widget)
+    hr
+    include ../checkboxes
+    .control(style='margin-top: 10px')
+        button.button.is-brand Submit
+

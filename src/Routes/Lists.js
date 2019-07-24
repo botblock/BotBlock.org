@@ -173,13 +173,39 @@ class ListsRoute extends BaseRoute {
                             data: lists[0],
                             checkboxes: features,
                             edit: true,
-                            hideUncheckedBoxes: true
+                            hideUncheckedBoxes: false,
+                            interactiveCheckboxes: true
                         });
                     });
                 });
             } catch {
                 res.status(500).render('error', {title: 'Database Error'});
             }
+        });
+
+        this.router.post('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            res.json({ ...req.body })
+            // try {
+            //     this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
+            //         if (!lists.length) return res.status(404).render('error', {
+            //             title: 'Page not found',
+            //             status: 404,
+            //             message: 'The page you were looking for could not be found.'
+            //         });
+            //         this.db.run('SELECT features.name as name, IFNULL(temp.value, 0) as value, features.display as display, features.type as type, features.id as id FROM features LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.list = ?) temp ON temp.feature = features.id ORDER BY temp.value DESC, features.display DESC, features.name ASC', [lists[0].id]).then((features) => {
+            //             res.render('lists/edit', {
+            //                 title: 'Edit ' + lists[0].id,
+            //                 data: lists[0],
+            //                 checkboxes: features,
+            //                 edit: true,
+            //                 hideUncheckedBoxes: false,
+            //                 interactiveCheckboxes: true
+            //             });
+            //         });
+            //     });
+            // } catch {
+            //     res.status(500).render('error', {title: 'Database Error'});
+            // }
         });
     }
 
