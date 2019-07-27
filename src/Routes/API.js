@@ -1,5 +1,5 @@
 const BaseRoute = require('../Structure/BaseRoute');
-const Ratelimitter = require('../Structure/RateLimiter');
+const Ratelimiter = require('../Structure/RateLimiter');
 const handleServerCount = require('../Util/handleServerCount');
 const getBotInformation = require('../Util/getBotInformation');
 const getUserAgent = require('../Util/getUserAgent');
@@ -13,7 +13,7 @@ class APIRoute extends BaseRoute {
         this.router = require('express').Router();
         this.client = client;
         this.db = db;
-        this.ratelimit = new Ratelimitter(this.db);
+        this.ratelimit = new Ratelimiter(this.db);
         this.renderer = new Renderer();
         this.routes();
     }
