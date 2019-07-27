@@ -4,6 +4,8 @@ const handleServerCount = require('../Util/handleServerCount');
 const getBotInformation = require('../Util/getBotInformation');
 const getUserAgent = require('../Util/getUserAgent');
 const isSnowflake = require('../Util/isSnowflake');
+const { librarySlug } = require('../Util/slugs');
+const Renderer = require('../Structure/Markdown');
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {
@@ -12,6 +14,7 @@ class APIRoute extends BaseRoute {
         this.client = client;
         this.db = db;
         this.ratelimit = new Ratelimitter(this.db);
+        this.renderer = new Renderer();
         this.routes();
     }
 
@@ -19,6 +22,19 @@ class APIRoute extends BaseRoute {
         this.router.get('/docs', (req, res) => {
             this.db.run('SELECT id, name FROM lists WHERE display = ? AND defunct = ? AND api_post  > \'\' AND  api_field  > \'\' ORDER BY discord_only DESC, LOWER(name) ASC ', [1, 0]).then((lists) => {
                 res.render('api/docs', { title: 'API Docs', lists, ip: req.ip });
+            }).catch(() => {
+                res.status(500).render('error', {title: 'Database Error'});
+            })
+        });
+
+        this.router.get('/docs/libs', (req, res) => {
+            this.db.run('SELECT * FROM libraries ORDER BY LOWER(language) ASC, LOWER(name) ASC').then((libraries) => {
+                libraries = libraries.map(lib => {
+                    lib.slug = librarySlug(lib);
+                    lib.description = this.renderer.render(lib.description);
+                    return lib
+                });
+                res.render('api/libs', { title: 'Libraries - API Docs', libraries });
             }).catch(() => {
                 res.status(500).render('error', {title: 'Database Error'});
             })

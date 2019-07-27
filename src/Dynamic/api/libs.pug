@@ -1,0 +1,63 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .columns
+                .column
+                    .card.is-box-shadow
+                        .card-content
+                            .columns
+                                .column.is-one-third.is-full-mobile
+                                    aside.menu
+                                        p.menu-label Libraries
+                                        ul.menu-list
+                                            for lib in libraries
+                                                li
+                                                    a(href=`#${lib.slug}`) #{lib.language} - #{lib.name}
+                                        p.menu-label Other
+                                        ul.menu-list
+                                            li
+                                                a(href='/api/docs') API Endpoints
+                                .column.is-two-thirds.is-full-mobile
+                                    h1.is-size-4.has-text-grey-lighter API Libraries
+                                    .columns
+                                        .column.is-full
+                                            p
+                                                | Some libraries have been written making use of the
+                                                |  #[a(href='/api/docs') #{__('site_name')} API] to make posting your
+                                                |  bot server/guild count a breeze from your preferred language and bot
+                                                |  library. These libraries are not all maintained by #{__('site_name')}
+                                                |  but are known to make use of the
+                                                |  #[a(href='/api/docs') #{__('site_name')} API] and function as
+                                                |  expected.
+                                                br
+                                                br
+                                                i
+                                                    | Want your own #{__('site_name')} API library listed here? Contact
+                                                    |  us using the Discord link in the navbar.
+                    for lib in libraries
+                        .card.is-box-shadow
+                            .card-content
+                                .columns
+                                    .column.left.is-two-thirds.is-full-mobile
+                                        h1.is-size-4.has-text-grey-lighter(id=lib.slug) #{lib.language} - #{lib.name}
+                                            a(href=`#${lib.slug}`)  &supdsub;
+                                        | !{lib.description}
+                                    .column.is-one-third.is-full-mobile
+                                        if lib.badge_image && lib.badge_url
+                                            a(href=lib.badge_url, target='_blank')
+                                                img.version-badge.is-box-shadow(src=lib.badge_image,
+                                                    alt=`${lib.language} - ${lib.name}`)
+                                        .field.is-grouped.is-grouped-centered.is-grouped-vertical
+                                            a.button.is-brand.is-size-6(href=`https://github.com/${lib.repo}`,
+                                                target='_blank')
+                                                span View on GitHub
+                                            a.button.is-brand.is-size-6(href=lib.package_link, target='_blank')
+                                                span View on #{lib.package_link_name}
+                                    if lib.example_usage
+                                        .column.left.is-full
+                                            h5.is-size-5 Example Usage
+                                            pre
+                                                code #{lib.example_usage}
+block footer
+    script(src='/assets/js/scroll.js')
