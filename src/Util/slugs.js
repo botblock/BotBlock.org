@@ -1,7 +1,8 @@
 const slugify = text => text
     .toString()
     .toLowerCase()
-    .replace(/[. ]/, '-');
+    .replace(/[. ]/, '-')
+    .replace(/#/, 'sharp');
 
 const librarySlug = lib => `${slugify(lib.language)}-${slugify(lib.name)}`;
 

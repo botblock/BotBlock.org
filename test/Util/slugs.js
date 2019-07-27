@@ -15,6 +15,12 @@ describe('Slugs', () => {
             done();
         });
 
+        it('converts hash correctly to \"sharp\"', done => {
+            const test = slugify('hello#');
+            expect(test).to.equal('hellosharp');
+            done();
+        });
+
         it('forces everything to be lowercase', done => {
             const test = slugify('HelloWorld');
             expect(test).to.equal('helloworld');
