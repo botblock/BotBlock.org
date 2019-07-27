@@ -1,0 +1,13 @@
+.field {
+  flex-grow: 1;
+  width: 100%;
+  display: block;
+
+  &.is-grouped-vertical {
+    flex-direction: column;
+
+    * + * {
+      margin-top: .2rem;
+    }
+  }
+}
