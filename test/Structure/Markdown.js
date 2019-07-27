@@ -70,15 +70,21 @@ describe('Markdown Renderer', () => {
         });
 
         describe('Links', () => {
-            it('converts a markdown link to a html link w/ _blank target', done => {
-                const test = renderer.markdown('[test](https://botblock.org)');
-                expect(test).to.equal('<p><a href="https://botblock.org" target="_blank">test</a></p>\n');
+            it('does not convert a full plain text link to a html link', done => {
+                const test = renderer.markdown('https://botblock.org');
+                expect(test).to.equal('<p>https://botblock.org</p>\n');
                 done();
             });
 
-            it('converts a plain text link to a html link w/ _blank target', done => {
-                const test = renderer.markdown('https://botblock.org');
-                expect(test).to.equal('<p><a href="https://botblock.org" target="_blank">https://botblock.org</a></p>\n');
+            it('does not convert a partial plain text link to a html link', done => {
+                const test = renderer.markdown('botblock.org');
+                expect(test).to.equal('<p>botblock.org</p>\n');
+                done();
+            });
+
+            it('converts a markdown link to a html link w/ _blank target', done => {
+                const test = renderer.markdown('[test](https://botblock.org)');
+                expect(test).to.equal('<p><a href="https://botblock.org" target="_blank">test</a></p>\n');
                 done();
             });
 
@@ -98,8 +104,8 @@ describe('Markdown Renderer', () => {
         });
 
         it('generates html from markdown correctly', done => {
-            const test = renderer.render('https://botblock.org');
-            expect(test).to.equal('<p><a href="https://botblock.org" target="_blank">https://botblock.org</a></p>\n');
+            const test = renderer.render('[botblock.org](https://botblock.org)');
+            expect(test).to.equal('<p><a href="https://botblock.org" target="_blank">botblock.org</a></p>\n');
             done();
         });
 

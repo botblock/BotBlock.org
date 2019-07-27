@@ -7,7 +7,7 @@ class Renderer {
             html: true,
             xhtmlOut: true,
             breaks: true,
-            linkify: true,
+            linkify: false,
             typographer: true
         });
         this.__var = i18n.__;
