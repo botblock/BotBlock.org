@@ -32,6 +32,14 @@ class Database {
             });
         })
     }
+
+    /**
+     * Return an escaped SQL value
+     * @param value
+     */
+    escape(value) {
+        return this.db.escape(value);
+    }
 }
 
 module.exports = Database;

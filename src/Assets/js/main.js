@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
         burger.classList.toggle('is-active');
         menu.classList.toggle('is-active');
     };
+
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        $notification = $delete.parentNode;
+        $delete.addEventListener('click', () => {
+            $notification.parentNode.removeChild($notification);
+        });
+    });
 });
 
 function navbar_lists_go() {

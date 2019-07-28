@@ -15,6 +15,7 @@ module.exports = {
         'scopes': ['identify'],
         'guild_id': '',
         'edit_log': '',
+        'lists_log': '',
         'mod_role': '',
         'admin_role': ''
     },

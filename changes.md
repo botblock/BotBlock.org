@@ -48,3 +48,7 @@ alter table libraries
 	add constraint libraries_pk
 		primary key (repo);
 ```
+
+### List Table Changes
+
+Drop `premium` column

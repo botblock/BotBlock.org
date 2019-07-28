@@ -10,7 +10,7 @@ if checkbox.id && !interactiveCheckboxes
 
 .checkbox.always(tabindex='0', role='button', class=classes.join(' '))
     .checkbox-inner
-        input(type='checkbox', id=checkbox.id, name=checkbox.id, checked=!!checkbox.value)
+        input(type='checkbox', id='feature_' + checkbox.id, name='feature_' + checkbox.id, checked=!!checkbox.value)
         span
     if checkbox.name
         span #{checkbox.name}

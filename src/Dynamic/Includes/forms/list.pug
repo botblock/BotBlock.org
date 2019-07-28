@@ -1,3 +1,9 @@
+if errors && errors.length > 0
+    .notification.is-danger
+        button.delete
+        ul
+            for error in errors
+                li #{error}
 form(method='POST')
     .field
         label.label(for='id') ID *
@@ -21,23 +27,23 @@ form(method='POST')
                 i  (Please add a message in notification content explaining why the list is hidden)
         .control
             .select
-                select#display(required)
-                    option(value='0', selected=data.display) Yes
-                    option(value='1', selected=!data.display) No
+                select#display(name='display', required)
+                    option(value='1', selected=data.display) Yes
+                    option(value='0', selected=!data.display) No
     .field
         label.label(for='defunct') Defunct (Overrides Display)*
         .control
             .select
-                select#defunct(required)
-                    option(value='0', selected=data.defunct) Yes
-                    option(value='1', selected=!data.defunct) No
+                select#defunct(name='defunct', required)
+                    option(value='1', selected=data.defunct) Yes
+                    option(value='0', selected=!data.defunct) No
     .field
         label.label(for='discord_only') Discord Exclusive *
         .control
             .select
-                select#discord_only(required)
-                    option(value='0', selected=data.discord_only) Yes
-                    option(value='1', selected=!data.discord_only) No
+                select#discord_only(name='discord_only', required)
+                    option(value='1', selected=data.discord_only) Yes
+                    option(value='0', selected=!data.discord_only) No
     .field
         label.label(for='content') Notification Content
         .control
