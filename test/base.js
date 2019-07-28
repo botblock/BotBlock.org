@@ -28,4 +28,21 @@ const authCheck = res => {
     expect(res.text).to.include('A 403 error has occurred... :(');
 };
 
-module.exports = {describe, it, expect, request, ratelimitBypass, db, locale, authCheck};
+const titleCheck = (res, expectedTitle) => {
+    expect(res).to.be.html;
+
+    // Generic
+    expect(res.text).to.include(`<title>${expectedTitle}</title>`);
+    expect(res.text).to.include(`<meta property="description" content="${locale('site_name')} - ${locale('full_desc')}">`);
+
+    // OG
+    expect(res.text).to.include(`<meta property="og:title" content="${expectedTitle}">`);
+    expect(res.text).to.include(`<meta property="og:site_name" content="${locale('site_name')}">`);
+    expect(res.text).to.include(`<meta property="og:description" content="${locale('full_desc')}">`);
+
+    // Twitter
+    expect(res.text).to.include(`<meta name="twitter:title" content="${expectedTitle}">`);
+    expect(res.text).to.include(`<meta name="twitter:description" content="${locale('full_desc')}">`);
+};
+
+module.exports = {describe, it, expect, request, ratelimitBypass, db, locale, authCheck, titleCheck};

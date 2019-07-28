@@ -29,7 +29,7 @@ class IndexRoute extends BaseRoute {
                     section.content = this.renderer.render(section.content);
                     return section;
                 });
-                res.render('about', { sections });
+                res.render('about', { title: 'About', sections });
             }).catch((e) => {
                 res.status(500).render('error', {title: 'Database Error'});
             })

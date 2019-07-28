@@ -1,4 +1,4 @@
-const {describe, it, expect, request, ratelimitBypass, locale} = require('../base');
+const {describe, it, expect, request, ratelimitBypass, locale, titleCheck} = require('../base');
 
 describe('Invalid route (/api/helloworld)', () => {
     describe('GET', () => {
@@ -46,6 +46,13 @@ describe('/api/docs', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });

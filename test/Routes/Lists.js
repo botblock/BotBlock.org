@@ -1,4 +1,4 @@
-const {describe, it, expect, request, db, locale} = require('../base');
+const {describe, it, expect, request, db, locale, titleCheck} = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
@@ -6,6 +6,13 @@ describe('/lists', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -42,6 +49,13 @@ describe('/lists/new', () => {
                 done();
             });
         });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `New Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
         it('renders the expected content', done => {
             db('SELECT name, url FROM lists WHERE display = 1 AND defunct = 0 ORDER BY added DESC LIMIT 4').then(lists => {
                 test().end((err, res) => {
@@ -72,6 +86,13 @@ describe('/lists/defunct', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Defunct Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -108,6 +129,13 @@ describe('/lists/hidden', () => {
                 done();
             });
         });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Hidden Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
         it('renders the expected content', done => {
             db('SELECT name, url FROM lists WHERE display = 0 AND defunct = 0').then(lists => {
                 test().end((err, res) => {
@@ -141,6 +169,13 @@ describe('/lists/features', () => {
                 done();
             });
         });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `All List Features - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
         it('renders the expected content', done => {
             db('SELECT name FROM features').then(features => {
                 test().end((err, res) => {
@@ -168,6 +203,13 @@ describe('/lists/features/:id', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Bot Lists with feature 'Has Voting' - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -214,6 +256,13 @@ describe('/lists/search', () => {
                 done();
             });
         });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
         it('renders the expected form', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
@@ -242,6 +291,13 @@ describe('/lists/search/:query', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -286,6 +342,13 @@ describe('/lists/:id', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Discord Bots Group (discordbots.group) - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
