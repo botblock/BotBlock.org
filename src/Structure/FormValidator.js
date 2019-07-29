@@ -9,8 +9,8 @@ class FormValidator {
      */
     static validateList(id, data, user, edit = true) {
         if (!data || !user) return null;
-        let cloned = Object.assign(data, {});
         let errors = [];
+        console.log(data.id, id);
         if (edit && user.mod && data.id !== id) {
             errors.push('List ID cannot be edited by mod');
         }

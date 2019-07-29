@@ -18,7 +18,7 @@
                 if list.discord
                     a.button.is-light.is-small(href=`${list.discord}?utm_source=${__('site_name')}`, target='blank') Discord
                 if user && (user.mod || user.admin)
-                    a.button.is-light.is-small.is-mod Fetch Icon from invite
+                    a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/icon') Fetch Icon from invite
                     a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/edit') Edit List
 
 

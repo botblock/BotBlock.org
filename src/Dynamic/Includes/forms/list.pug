@@ -8,7 +8,7 @@ form(method='POST')
     .field
         label.label(for='id') ID *
         .control
-            input.input(type='text', id='id', name='id' value=data.id, required, disabled=edit && !user.admin)
+            input.input(type='text', id='id', name='id' value=data.id, required)
     .field
         label.label(for='name') Name *
         .control
@@ -96,13 +96,17 @@ form(method='POST')
             .field
                 label.label(for='api_get') API Bot Get - URL
                     small
-                        i (API endpoint to get info for specific bot)
+                        i  (API endpoint to get info for specific bot)
                 .control
-                    input.input#api_get(type='text', name='api_get', value=data.api_all)
+                    input.input#api_all(type='text', name='api_get', value=data.api_get)
+            .field
+                label.label(for='api_all') API Get All - URL
+                    small
+                        i  (API endpoint to get info about all bots on lis)
+                .control
+                    input.input#api_get(type='text', name='api_all', value=data.api_all)
             .field
                 label.label(for='view_bot') View Bot URL
-                    small
-                        i  (API endpoint to get info about all bots on list)
                 .control
                     input.input#view_bot(type='text', name='view_bot', value=data.view_bot)
             .field

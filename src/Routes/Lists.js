@@ -296,6 +296,25 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/:id/icon', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
+            try {
+                const lists = await this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]);
+                if (!lists.length) return res.status(404).render('error', {
+                    title: 'Page not found',
+                    status: 404,
+                    message: 'The page you were looking for could not be found.'
+                });
+                try {
+                    await require('../Util/updateIcon')(this.client, this.db, lists[0]);
+                    res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' })
+                } catch {
+                    res.status(500).render('error', {title: 'Error', status: 400, message: 'Icon has not been updated' });
+                }
+            } catch (e) {
+                res.status(500).render('error', {title: 'Error'});
+            }
+        });
+
     }
 
     get getRouter() {

@@ -53,11 +53,10 @@ class AuthenticationRoute extends BaseRoute {
                         data.admin = false;
                         data.mod = false;
                    }).finally(() => {
-                       console.log(data.mod, data.admin)
                        req.session.user = data;
                        res.redirect('/');
                    })
-               }).catch((_) => {
+               }).catch(() => {
                    res.status(400).json({ error: true, status: 400, message: 'Failed to get user information' });
                })
             }).catch(() => {
