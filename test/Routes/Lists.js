@@ -337,8 +337,8 @@ describe('/lists/search/:query', () => {
 
 describe('/lists/:id', () => {
     // This suite will need updating if this list changes
-    describe('GET Valid (:id = discordbots.group)', () => {
-        const test = () => request().get('/lists/discordbots.group');
+    describe('GET Valid (:id = botlist.space)', () => { // TODO: Use DB
+        const test = () => request().get('/lists/botlist.space'); // TODO: Use DB
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
@@ -348,7 +348,7 @@ describe('/lists/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Discord Bots Group (discordbots.group) - ${locale('site_name')} - ${locale('short_desc')}`);
+                titleCheck(res, `botlist.space (botlist.space) - ${locale('site_name')} - ${locale('short_desc')}`); // TODO: Use DB
                 done();
             });
         });
@@ -357,8 +357,8 @@ describe('/lists/:id', () => {
                 expect(res).to.be.html;
 
                 // Confirm top card
-                expect(res.text).to.include('Discord Bots Group');
-                expect(res.text).to.include('https://discordbots.group/');
+                expect(res.text).to.include('botlist.space'); // TODO: Use DB
+                expect(res.text).to.include('https://botlist.space/'); // TODO: Use DB
 
                 // Confirm features card
                 expect(res.text).to.include('This list is known to have the following features:');
