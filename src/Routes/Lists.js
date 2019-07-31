@@ -174,7 +174,7 @@ class ListsRoute extends BaseRoute {
                         changes[column.Field] = null;
                     }
                 }
-                changes['added'] = Date.now();
+                changes['added'] = (Date.now() / 1000);
                 await this.db.run('INSERT INTO lists (' + Object.keys(changes).map((c) => c).join(', ') + ') VALUES (' + Object.values(changes).map((c) => this.db.escape(c)).join(', ') + ')');
                 for (let [key, value] of Object.entries(req.body)) {
                     if (key.substring(0, 8) === 'feature_') {
