@@ -45,4 +45,28 @@ const titleCheck = (res, expectedTitle) => {
     expect(res.text).to.include(`<meta name="twitter:description" content="${locale('full_desc')}">`);
 };
 
-module.exports = {describe, it, expect, request, ratelimitBypass, db, locale, authCheck, titleCheck};
+const compareObjectProps = (a, b) => {
+    const missing = [];
+    const aProps = Object.keys(a);
+    const bProps = Object.keys(b);
+    aProps.forEach(prop => {
+        if(!bProps.includes(prop)) {
+            missing.push(prop);
+            return;
+        }
+        if(a[prop] != null && a[prop].constructor.name === "Object") {
+            const subMissing = compareObjectProps(a[prop], b[prop]).map(x => `${prop}.${x}`);
+            missing.push(...subMissing);
+            return;
+        }
+    });
+    return missing;
+};
+
+const compareObjects = (template, actual) => {
+    const missing = compareObjectProps(template, actual);
+    if (missing && missing.length) throw new chai.AssertionError(`Expected to find ${missing.map(x => `'${x}'`).join(', ')} in object`);
+};
+
+
+module.exports = {describe, it, expect, request, ratelimitBypass, db, locale, authCheck, titleCheck, compareObjects};
