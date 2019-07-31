@@ -7,4 +7,9 @@ describe('Config', () => {
         compareObjects(templateConfig, liveConfig);
         done();
     });
+    it('contains no empty values', done => {
+        const vals = Object.values(liveConfig).filter(val => !val);
+        expect(vals.length).to.equal(0);
+        done();
+    })
 });
