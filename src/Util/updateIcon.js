@@ -20,6 +20,6 @@ module.exports = (client, db, list) => {
             }).catch(() => {
                 reject('Failed to update, invite has expired.');
             })
-        }
+        } else return reject('Failed to update, list does not have a Discord icon saved.');
     })
 }
