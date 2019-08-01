@@ -585,7 +585,7 @@ describe('/api/count', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
                     server_count: 10,
-                    'discordbots.group': 'Hello world'
+                    'botlist.space': 'Hello world' // TODO: Use DB
                 }));
                 it('returns a valid response', done => {
                     test().end((err, res) => {
@@ -598,22 +598,22 @@ describe('/api/count', () => {
                 });
                 it('contains list ID and data array in failures object and not in successes', done => {
                     test().end((err, res) => {
-                        expect(res.body.failure).to.have.property('discordbots.group');
-                        expect(res.body.failure['discordbots.group']).to.be.an('array');
-                        expect(res.body.failure['discordbots.group'].length).to.be.equal(3);
-                        expect(res.body.success).to.not.have.property('discordbots.group');
+                        expect(res.body.failure).to.have.property('botlist.space'); // TODO: Use DB
+                        expect(res.body.failure['botlist.space']).to.be.an('array'); // TODO: Use DB
+                        expect(res.body.failure['botlist.space'].length).to.be.equal(3); // TODO: Use DB
+                        expect(res.body.success).to.not.have.property('botlist.space'); // TODO: Use DB
                         done();
                     });
                 });
                 it('contains a valid status code in the list failure', done => {
                     test().end((err, res) => {
-                        expect(res.body.failure['discordbots.group'][0]).to.be.a('number');
+                        expect(res.body.failure['botlist.space'][0]).to.be.a('number'); // TODO: Use DB
                         done();
                     });
                 });
                 it('contains the correct JSON body that was sent to the list', done => {
                     test().end((err, res) => {
-                        expect(res.body.failure['discordbots.group'][2]).to.be.equal('{"server_count":10}');
+                        expect(res.body.failure['botlist.space'][2]).to.be.equal('{"server_count":10}'); // TODO: Use DB
                         done();
                     });
                 });
