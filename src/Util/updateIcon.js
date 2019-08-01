@@ -2,7 +2,7 @@ module.exports = (client, db, list) => {
     return new Promise((resolve, reject) => {
         let newList = Object.assign({}, list);
         const icon = new RegExp(/^\s*https?:\/\/cdn\.discordapp\.com\/icons\/\d+\/[\w\d]+\.png/g).exec(list.icon);
-        if (!icon) return;
+        if (!icon) return reject('Failed to update, list does not have a Discord icon saved.');
         let inviteRegex = new RegExp(/^\s*https?:\/\/discord\.gg\/([\w\d]+)\s*$/i);
         if (!list.discord) return reject('No invite saved.');
         if (list.discord && inviteRegex.test(list.discord)) {
