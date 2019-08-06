@@ -4,7 +4,7 @@ const handleServerCount = require('../Util/handleServerCount');
 const getBotInformation = require('../Util/getBotInformation');
 const getUserAgent = require('../Util/getUserAgent');
 const isSnowflake = require('../Util/isSnowflake');
-const { librarySlug } = require('../Util/slugs');
+const { slugify, librarySlug } = require('../Util/slugs');
 const Renderer = require('../Structure/Markdown');
 
 class APIRoute extends BaseRoute {
@@ -31,6 +31,7 @@ class APIRoute extends BaseRoute {
             this.db.run('SELECT * FROM libraries ORDER BY LOWER(language) ASC, LOWER(name) ASC').then((libraries) => {
                 libraries = libraries.map(lib => {
                     lib.slug = librarySlug(lib);
+                    lib.highlight = `lang-${slugify(lib.language)}`;
                     lib.description = this.renderer.render(lib.description);
                     return lib
                 });

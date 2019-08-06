@@ -1,4 +1,8 @@
 extends ../layout
+block header
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/styles/monokai-sublime.min.css'
+        integrity='sha256-kTdkFYZP3TqSvlJAUiZ6/s5L2xu4xsdU9eYMWsKOk74=' crossorigin='anonymous')
+
 block content
     section.section
         .container
@@ -58,6 +62,10 @@ block content
                                         .column.left.is-full
                                             h5.is-size-5 Example Usage
                                             pre
-                                                code #{lib.example_usage}
+                                                code(class=lib.highlight) #{lib.example_usage}
+
 block footer
     script(src='/assets/js/scroll.js')
+    script(async src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js'
+        integrity='sha256-AIeoCoYob+LP5IKqSqhSgagg7jY5XcJ3n/XEO7b/OX8=' crossorigin='anonymous'
+        onload='hljs.initHighlightingOnLoad();')
