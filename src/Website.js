@@ -31,17 +31,18 @@ class Website {
             maxAge: 6.048e+8,
             expires: Date.now() + 6.048e+8
         }));
+        this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.app.use((req, res, next) => {
             res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + req.get('host') + req.path;
             res.locals.language = req.cookies.lang;
             res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
             res.locals.user = req.session.user;
+            res.cookie('url', req.path);
             next();
         });
         await this.loadRoutes(path.join(__dirname, 'Routes'));
         await this.loadJobs(path.join(__dirname, 'Jobs'));
         this.app.use(require('express-minify')());
-        this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.app.use((req, res) => {
             res.status(404).render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
         });

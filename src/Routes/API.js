@@ -1,5 +1,6 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const Ratelimiter = require('../Structure/RateLimiter');
+const Cache = require('../Structure/Cache');
 const handleServerCount = require('../Util/handleServerCount');
 const getBotInformation = require('../Util/getBotInformation');
 const getUserAgent = require('../Util/getUserAgent');
@@ -15,6 +16,7 @@ class APIRoute extends BaseRoute {
         this.db = db;
         this.ratelimit = new Ratelimiter(this.db);
         this.renderer = new Renderer();
+        this.cache = new Cache(this.db);
         this.routes();
     }
 
@@ -113,8 +115,11 @@ class APIRoute extends BaseRoute {
             })
         });
 
-        this.router.get('/bots/:id', this.ratelimit.checkRatelimit(1, 30), (req, res) => {
+        this.router.get('/bots/:id' /*, this.ratelimit.checkRatelimit(1, 30)*/, async (req, res) => {
             if (!isSnowflake(req.params.id)) return res.status(400).json({ error: true, status: 400, message: '\'id\' must be a snowflake' });
+            await this.cache.deleteExpired();
+            const cache = await this.cache.get(req.originalUrl);
+            if (cache) return res.status(200).json(JSON.parse(cache.data));
             let lists = [];
             let output = {
                 id: String(req.params.id),
@@ -178,7 +183,7 @@ class APIRoute extends BaseRoute {
                         }
                     }
                 }
-                res.status(200).json({
+                let response = {
                     id: output.id,
                     username: this.getMostCommon(output.username) || 'Unknown',
                     discriminator: this.getMostCommon(output.discriminator) || '0000',
@@ -186,7 +191,9 @@ class APIRoute extends BaseRoute {
                     server_count: Math.max(...output.server_count) || 0,
                     invite: this.getMostCommon(output.invite) || '',
                     list_data: { ...lists } || {}
-                });
+                };
+                await this.cache.add(req.originalUrl, 300, response);
+                res.status(200).json({ ...response });
             }).catch(() => {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })

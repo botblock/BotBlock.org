@@ -49,6 +49,24 @@ alter table libraries
 		primary key (repo);
 ```
 
+### New Cache Table
+
+```sql
+    create table cache
+    (
+        route varchar(255) not null,
+        expiry int(11) not null,
+        data text
+    );
+    
+    create unique index cache_route_uindex
+        on cache (route);
+    
+    alter table cache
+        add constraint cache_pk
+            primary key (route);
+```
+
 ### List Table Changes
 
 Drop `premium` column
