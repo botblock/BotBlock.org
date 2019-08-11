@@ -20,5 +20,9 @@
                 if user && (user.mod || user.admin)
                     a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/icon') Fetch Icon from invite
                     a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/edit') Edit List
-
-
+        if !lists
+            hr
+            p
+                b.has-text-primary Owners:
+                br
+                | #{list.owners}
