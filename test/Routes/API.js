@@ -775,6 +775,26 @@ describe('/api/bots/:id', () => {
                 });
             });
         });
+
+        describe('Valid request (Test ID 12345678901234567890)', function () {
+            this.slow(15 * 1000);
+            this.timeout(20 * 1000);
+            const test = () => ratelimitBypass(request().get('/api/bots/12345678901234567890'));
+            it('does not have cached data for the first request', done => {
+                test().end((err, res) => {
+                    expect(res.body).to.have.property('id', '12345678901234567890');
+                    expect(res.body).to.have.property('cached', false);
+                    done();
+                });
+            });
+            it('uses cached data for any subsequent request', done => {
+                test().end((err, res) => {
+                    expect(res.body).to.have.property('id', '12345678901234567890');
+                    expect(res.body).to.have.property('cached', true);
+                    done();
+                });
+            });
+        });
     });
 
     describe('GET (Ratelimited)', () => {
