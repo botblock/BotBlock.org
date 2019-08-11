@@ -1,15 +1,25 @@
 if checkbox.id && !interactiveCheckboxes
     | <a href="/lists/features/#{checkbox.id}">
 -
+    var tooltip = null;
     var classes = [];
-    if (checkbox.type === 2) classes.push('cross');
-    if (checkbox.type === 1) classes.push('minus');
+    if (checkbox.type === 2) {
+        classes.push('cross');
+        tooltip = 'This feature is considered negative';
+    }
+    if (checkbox.type === 1) {
+        classes.push('minus');
+        tooltip = 'This feature is not considered positive';
+    }
+    if (checkbox.type === 0) {
+        tooltip = 'This feature is considered positive';
+    }
     if (!checkbox.value) classes.push('disallowed');
     if (interactiveCheckboxes) classes.push('interactive');
     if (hideUncheckedBoxes && !checkbox.value) classes.push('is-hidden');
 
 .checkbox.always(tabindex='0', role='button', class=classes.join(' '))
-    .checkbox-inner
+    div(class='checkbox-inner' + (tooltip ? ' tooltip' : ''), data-tooltip=tooltip)
         input(type='checkbox', id='feature_' + checkbox.id, name='feature_' + checkbox.id, checked=!!checkbox.value)
         span
     if checkbox.name

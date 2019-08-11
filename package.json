@@ -16,6 +16,7 @@
   "dependencies": {
     "ansi-html": "0.0.7",
     "axios": "^0.19.0",
+    "bulma-tooltip": "^2.0.2",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cookie-parser": "^1.4.4",
