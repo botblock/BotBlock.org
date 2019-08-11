@@ -352,22 +352,66 @@ describe('/lists/:id', () => {
                 done();
             });
         });
-        it('renders the expected content', done => {
+        it('provides the basic list information', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
+                expect(res.text).to.include('<p class="title is-3">botlist.space</p>'); // TODO: Use DB
+                expect(res.text).to.include('<p class="subtitle is-6">https://botlist.space/</p>'); // TODO: Use DB
+                done();
+            });
+        });
+        it('provides the list owners', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                expect(res.text).to.include('<b class="has-text-primary">Owners:</b>');
+                expect(res.text).to.include('PassTheMayo#8620 (507329700402561045)'); // TODO: Use DB
+                done();
+            });
+        });
+        it('provides the list language', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                expect(res.text).to.include('<b class="has-text-primary">Primary Language:</b>');
+                expect(res.text).to.include('English'); // TODO: Use DB
+                done();
+            });
+        });
+        it('renders the list features', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                expect(res.text).to.include('<b class="has-text-grey-lighter">List features:</b>');
+                expect(res.text).to.include('<div class="column is-full-mobile left">');
+                expect(res.text).to.include('<div class="checkbox always');
+                expect(res.text).to.include('<div class="checkbox-inner tooltip" data-tooltip="');
+                expect(res.text).to.include('<a class="button is-light is-small" id="feature_toggle" data-toggled="0">Show All</a>');
+                done();
+            });
+        });
+        it('renders the list API information', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                expect(res.text).to.include('<b class="has-text-grey-lighter">List API information:</b>');
 
-                // Confirm top card
-                expect(res.text).to.include('botlist.space'); // TODO: Use DB
-                expect(res.text).to.include('https://botlist.space/'); // TODO: Use DB
+                expect(res.text).to.include('<b class="has-text-grey-lighter">This list has an API endpoint for posting server/guild count of a bot:</b>');
+                expect(res.text).to.include('https://api.botlist.space/v1/bots/:id'); // TODO: Use DB
 
-                // Confirm features card
-                expect(res.text).to.include('This list is known to have the following features:');
-                expect(res.text).to.include('<div class="checkbox-inner">');
+                expect(res.text).to.include('<b class="has-text-grey-lighter">This list\'s API provides the following shard support for server/guild count posting:</b>');
 
-                // Confirm API card
-                expect(res.text).to.include('This list has an API with documentation available at:');
-                expect(res.text).to.include('This list has an API endpoint for posting server/guild count of a bot:');
+                expect(res.text).to.include('<b class="has-text-grey-lighter">BotBlock server/guild count API:</b>');
+                expect(res.text).to.include('Provide your botlist.space API authorisation token as the value for the key\n<code>botlist.space</code>'); // TODO: Use DB
 
+                expect(res.text).to.include('<b class="has-text-grey-lighter">This list also has an API endpoint for getting information about a bot:</b>');
+                expect(res.text).to.include('https://api.botlist.space/v1/bots/:id'); // TODO: Use DB
+
+                done();
+            });
+        });
+        it('renders the additional known URLs', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                expect(res.text).to.include('<b>Additional known URLs for this bot list:</b>');
+                expect(res.text).to.include('https://botlist.space/bot/:id'); // TODO: Use DB
+                expect(res.text).to.include('https://botlist.space/bot/:id/widget'); // TODO: Use DB
                 done();
             });
         });
