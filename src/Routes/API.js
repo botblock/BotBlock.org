@@ -116,11 +116,11 @@ class APIRoute extends BaseRoute {
             })
         });
 
-        this.router.get('/bots/:id' /*, this.ratelimit.checkRatelimit(1, 30)*/, async (req, res) => {
+        this.router.get('/bots/:id', this.ratelimit.checkRatelimit(1, 30), async (req, res) => {
             if (!isSnowflake(req.params.id)) return res.status(400).json({ error: true, status: 400, message: '\'id\' must be a snowflake' });
             await this.cache.deleteExpired();
             const cache = await this.cache.get(req.originalUrl);
-            if (cache) return res.status(200).json(JSON.parse(cache.data));
+            if (cache) return res.status(200).json({ ...JSON.parse(cache.data), cached: true });
             let lists = [];
             let output = {
                 id: String(req.params.id),
@@ -194,7 +194,7 @@ class APIRoute extends BaseRoute {
                     list_data: { ...lists } || {}
                 };
                 await this.cache.add(req.originalUrl, 300, response);
-                res.status(200).json({ ...response });
+                res.status(200).json({ ...response, cached: false });
             }).catch(() => {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })
