@@ -1,6 +1,11 @@
 .navbar {
+
   &.is-spaced {
-    padding: 0.2rem 2.5rem;
+    padding: .2rem 2.5rem;
+
+    @include touch {
+      padding: .5rem 1rem;
+    }
   }
 
   &.footer {
@@ -43,6 +48,19 @@
   &.header {
     border-radius: 0;
     box-shadow: 0 4px 0 rgba(0, 0, 0, .2) !important;
+
+    .navbar-menu {
+      @include touch {
+        box-shadow: none;
+      }
+
+      .navbar-dropdown {
+        @include touch {
+          padding-left: .5rem;
+          box-shadow: none !important;
+        }
+      }
+    }
   }
 
   .navbar-item {
@@ -55,6 +73,14 @@
     &.input {
       font-size: .8em;
       border-radius: 0;
+    }
+
+    .navbar-link {
+      &:after {
+        @include touch {
+          display: none;
+        }
+      }
     }
   }
 
