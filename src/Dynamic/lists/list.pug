@@ -26,7 +26,7 @@ block content
 
                     .card.is-box-shadow
                         .card-content
-                            p.has-text-grey-lighter This list is known to have the following features:
+                            b.has-text-grey-lighter List features:
                             include ../Includes/checkboxes
                             p.has-text-grey-lighter.has-margin-top
                                 i Click on a feature to search for all bot lists with that feature.
@@ -34,7 +34,7 @@ block content
                     .card.is-box-shadow
                         .card-content
                             if list.api_docs
-                                b.has-text-grey-lighter This list has an API with documentation available at:
+                                b.has-text-grey-lighter List API information:
                                 br
                                 a(href=list.api_docs, target='_blank') #{list.api_docs}
                                 br
