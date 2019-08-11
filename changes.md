@@ -69,4 +69,5 @@ alter table libraries
 
 ### List Table Changes
 
+Add new column `language text not null` after icon
 Drop `premium` column
