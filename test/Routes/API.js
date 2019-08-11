@@ -1,4 +1,4 @@
-const {describe, it, expect, request, ratelimitBypass, locale, titleCheck} = require('../base');
+const {describe, it, expect, request, ratelimitBypass, locale, titleCheck, db} = require('../base');
 
 describe('Invalid route (/api/helloworld)', () => {
     describe('GET', () => {
@@ -781,10 +781,12 @@ describe('/api/bots/:id', () => {
             this.timeout(20 * 1000);
             const test = () => ratelimitBypass(request().get('/api/bots/12345678901234567890'));
             it('does not have cached data for the first request', done => {
-                test().end((err, res) => {
-                    expect(res.body).to.have.property('id', '12345678901234567890');
-                    expect(res.body).to.have.property('cached', false);
-                    done();
+                db('DELETE FROM cache WHERE route =\'/api/bots/12345678901234567890\'').then(() => {
+                    test().end((err, res) => {
+                        expect(res.body).to.have.property('id', '12345678901234567890');
+                        expect(res.body).to.have.property('cached', false);
+                        done();
+                    });
                 });
             });
             it('uses cached data for any subsequent request', done => {
