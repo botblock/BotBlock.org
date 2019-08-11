@@ -30,7 +30,7 @@
 each section, index in columns
     .columns(class=(index === 0 ? '' : 'has-margin-top'))
         each column in section
-            .column.left
+            .column.is-full-mobile.left
                 each checkbox in column
                     include checkbox
     if index < columns.length - 1
