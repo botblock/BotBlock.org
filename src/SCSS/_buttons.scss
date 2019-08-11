@@ -7,6 +7,11 @@
     flex-direction: column;
     display: inline-flex;
 
+    @include touch {
+      width: 100%;
+      margin: 0;
+    }
+
     > * + * {
       margin-top: .5rem;
     }

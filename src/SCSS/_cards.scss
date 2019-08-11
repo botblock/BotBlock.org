@@ -6,11 +6,26 @@
   min-width: 100%;
   height: 100%;
 
-  .media .image {
-    width: 64px;
-    height: auto;
-    border-radius: 50%;
-    background: #2f3136;
+  .media {
+    @include touch {
+      flex-direction: column;
+      align-items: center;
+
+      .media-left {
+        margin: 0;
+      }
+
+      .media-right {
+        margin-top: 1rem;
+      }
+    }
+
+    .image {
+      width: 64px;
+      height: auto;
+      border-radius: 50%;
+      background: #2f3136;
+    }
   }
 
   .card-content {
@@ -22,11 +37,5 @@
     > * {
       max-width: 100%;
     }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .card .media {
-    flex-wrap: wrap;
   }
 }
