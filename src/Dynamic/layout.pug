@@ -1,11 +1,11 @@
 doctype html
-html
+html(lang='en')
     head
         meta(charset='utf-8')
         - title = (title ? `${title} - ` : '') + `${__('site_name')} - ${__('short_desc')}`
         title #{title}
         link(rel='canonical', href=route)
-        meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0')
 
         meta(property='og:title', content=title)
         meta(property='og:site_name', content=__('site_name'))
@@ -30,7 +30,7 @@ html
         'discord service list, bot services, bot service, bot services list, bot service list, discord api, bot list api, \n' +
         'bot api, api, list api, botlist api, discordapi, discord bot api, discord list api, discord bot list api')
 
-        meta(property='description', content=__('site_name') + ' - ' + __('full_desc'))
+        meta(name='description', content=__('site_name') + ' - ' + __('full_desc'))
         meta(name='theme-color', content='#4A89DC')
         link(rel='shortcut icon', href='/assets/img/icon.png')
 
