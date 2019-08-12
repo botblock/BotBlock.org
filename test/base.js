@@ -68,5 +68,4 @@ const compareObjects = (template, actual) => {
     if (missing && missing.length) throw new chai.AssertionError(`Expected to find ${missing.map(x => `'${x}'`).join(', ')} in object`);
 };
 
-
-module.exports = {describe, it, expect, request, ratelimitBypass, db, locale, authCheck, titleCheck, compareObjects};
+module.exports = {describe, it, expect, target, secret: config.secret, request, ratelimitBypass, db, locale, authCheck, titleCheck, compareObjects};
