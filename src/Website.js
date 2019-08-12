@@ -35,6 +35,7 @@ class Website {
         this.app.use((req, res, next) => {
             res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + req.get('host') + req.path;
             res.locals.language = req.cookies.lang;
+            res.locals.adblock = req.headers['x-disable-adsense'] && req.headers['x-disable-adsense'] === config.secret;
             res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
             res.locals.user = req.session.user;
             res.cookie('url', req.path);
