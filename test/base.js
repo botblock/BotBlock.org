@@ -33,7 +33,7 @@ const titleCheck = (res, expectedTitle) => {
 
     // Generic
     expect(res.text).to.include(`<title>${expectedTitle}</title>`);
-    expect(res.text).to.include(`<meta property="description" content="${locale('site_name')} - ${locale('full_desc')}">`);
+    expect(res.text).to.include(`<meta name="description" content="${locale('site_name')} - ${locale('full_desc')}">`);
 
     // OG
     expect(res.text).to.include(`<meta property="og:title" content="${expectedTitle}">`);
