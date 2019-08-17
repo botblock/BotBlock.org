@@ -1,4 +1,5 @@
-const {secret} = require('../config.js');
+const { secret } = require('../config.js');
+const isSnowflake = require('../Util/isSnowflake');
 
 class RateLimiter {
     constructor(db) {
@@ -12,7 +13,7 @@ class RateLimiter {
             if (ratelimitBypass === secret) return next();
             // Ratelimit as normal
             if (req.body.bot_id && !bot) bot = req.body.bot_id;
-            bot = bot.toString();
+            if (typeof bot !== "string" || !isSnowflake(bot)) bot = '';
             try {
                 await this.db.run('DELETE FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? AND expiry < ?', [req.ip, bot, req.originalUrl, Date.now()]);
                 const recent = await this.db.run('SELECT * FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? ORDER BY datetime DESC', [req.ip, bot, req.originalUrl]);

@@ -345,6 +345,28 @@ describe('/api/count', () => {
                 });
             });
 
+            describe('bot_id as an integer (valid server_count)', () => {
+                const test = () => ratelimitBypass(request().post('/api/count').send({
+                    bot_id: 123456789,
+                    server_count: 10
+                }));
+                it('returns a Bad Request status code', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('returns a correct error JSON body', done => {
+                    test().end((err, res) => {
+                        expect(res).to.be.json;
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 400);
+                        expect(res.body).to.have.property('message', '\'bot_id\' must be a string');
+                        done();
+                    });
+                });
+            });
+
             describe('bot_id as not a valid snowflake (valid server_count)', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '12345',
@@ -530,32 +552,6 @@ describe('/api/count', () => {
                 });
             });
 
-            describe('Integer bot_id w/ no tokens', () => {
-                const test = () => ratelimitBypass(request().post('/api/count').send({
-                    bot_id: 123456789123456789,
-                    server_count: 10
-                }));
-                it('returns an OK status code', done => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(200);
-                        done();
-                    });
-                });
-                it('returns a valid JSON body', done => {
-                    test().end((err, res) => {
-                        expect(res).to.be.json;
-                        done();
-                    });
-                });
-                it('contains success and failure objects', done => {
-                    test().end((err, res) => {
-                        expect(res.body).to.have.property('success');
-                        expect(res.body).to.have.property('failure');
-                        done();
-                    });
-                });
-            });
-
             describe('Fake list ID with fake token', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
                     bot_id: '123456789123456789',
@@ -622,14 +618,11 @@ describe('/api/count', () => {
     });
 
     describe('POST (Ratelimited)', () => {
-        const test = () => request().post('/api/count').send({
-            bot_id: '123456789123456789',
-            server_count: 10,
-            'mytestlist.com': 'Hello world'
-        });
         it('ratelimits spam requests', done => {
-            test().end(() => {
+            const test = () => request().post('/api/count').send({
+                bot_id: '123456789123456789'
             });
+            test().end(() => {});
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(429);
@@ -653,12 +646,43 @@ describe('/api/count', () => {
                 });
             }, 200);
         });
+        it.skip('does not use invalid bot ID in ratelimit', done => { // TODO: this test needs fixing
+            const test = () => request().post('/api/count').send({
+                bot_id: 12345
+            });
+            test().end(() => {});
+            setTimeout(() => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(429);
+                    expect(res).to.be.json;
+
+                    expect(res.body).to.have.property('error', true);
+                    expect(res.body).to.have.property('status', 429);
+
+                    expect(res.body).to.have.property('retry_after');
+                    expect(res.body.retry_after).to.be.a('number');
+
+                    expect(res.body).to.have.property('ratelimit_reset');
+                    expect(res.body.ratelimit_reset).to.be.a('number');
+
+                    expect(res.body).to.have.property('ratelimit_ip');
+                    expect(res.body.ratelimit_ip).to.be.a('string');
+
+                    expect(res.body).to.have.property('ratelimit_route', '/api/count');
+                    expect(res.body).to.have.property('ratelimit_bot_id', '');
+                    done();
+                });
+            }, 200);
+        });
         it('does not ratelimit requests spaced correctly', function (done) {
             const limit = 120;
             this.slow(limit * 1000 + 1000);
             this.timeout(limit * 1000 + 2000);
-            test().end(() => {
+            const test = () => request().post('/api/count').send({
+                bot_id: '123456789123456789',
+                server_count: 10
             });
+            test().end(() => {});
             setTimeout(() => {
                 test().end((err, res) => {
                     expect(res).to.have.status(200);

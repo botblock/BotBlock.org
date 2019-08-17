@@ -18,3 +18,5 @@ Once done, `production` can be pulled in Plesk, installed & restarted.
  - To delete your local staging copy: `git branch -d staging`
  - To checkout latest remote staging: `git fetch && git checkout staging`
  - To push staging to the remote production: `git push origin staging:production`
+
+`git branch -d staging && git fetch && git checkout staging && git push origin staging:production && git checkout node `
