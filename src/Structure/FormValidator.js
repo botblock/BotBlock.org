@@ -10,9 +10,7 @@ class FormValidator {
     static validateList(id, data, user, edit = true) {
         if (!data || !user) return null;
         let errors = [];
-        if (edit && user.mod && data.id !== id) {
-            errors.push('List ID cannot be edited by mod');
-        }
+        if (edit && user.mod && !user.admin && data.id !== id) errors.push('List ID cannot be edited by mod');
         if (!data.id) errors.push('ID is required');
         if (!data.name) errors.push('Name is required');
         if (!data.url) errors.push('URL is required');

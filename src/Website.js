@@ -39,6 +39,7 @@ class Website {
             res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
             res.locals.user = req.session.user;
             res.cookie('url', req.path);
+            console.log('[' + req.method + '] ' + req.path + ' (' + req.ip + ')');
             next();
         });
         await this.loadRoutes(path.join(__dirname, 'Routes'));

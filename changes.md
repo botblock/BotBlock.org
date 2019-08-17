@@ -67,6 +67,17 @@ alter table libraries
             primary key (route);
 ```
 
+### New Error Table
+```sql
+    create table errors
+    (
+        route varchar(255) not null,
+        verb varchar(255) not null,
+        datetime int(11) not null,
+        error text
+    );
+   
+```
 ### List Table Changes
 
 Add new column `language text not null` after icon

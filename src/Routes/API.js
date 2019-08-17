@@ -1,6 +1,7 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const Ratelimiter = require('../Structure/RateLimiter');
 const Cache = require('../Structure/Cache');
+const handleError = require('../Util/handleError');
 const handleServerCount = require('../Util/handleServerCount');
 const getBotInformation = require('../Util/getBotInformation');
 const getUserAgent = require('../Util/getUserAgent');
@@ -24,7 +25,8 @@ class APIRoute extends BaseRoute {
         this.router.get('/docs', (req, res) => {
             this.db.run('SELECT id, name FROM lists WHERE display = ? AND defunct = ? AND api_post  > \'\' AND  api_field  > \'\' ORDER BY discord_only DESC, LOWER(name) ASC ', [1, 0]).then((lists) => {
                 res.render('api/docs', { title: 'API Docs', lists, ip: req.ip });
-            }).catch(() => {
+            }).catch((e) => {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', {title: 'Database Error'});
             })
         });
@@ -38,7 +40,8 @@ class APIRoute extends BaseRoute {
                     return lib
                 });
                 res.render('api/libs', { title: 'Libraries - API Docs', libraries });
-            }).catch(() => {
+            }).catch((e) => {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', {title: 'Database Error'});
             })
         });
@@ -61,7 +64,8 @@ class APIRoute extends BaseRoute {
                     };
                 }
                 res.status(200).json({ ...data });
-            }).catch(() => {
+            }).catch((e) => {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })
         });
@@ -111,7 +115,8 @@ class APIRoute extends BaseRoute {
                         res.status(200).json({ success, failure });
                     }
                 }
-            }).catch(() => {
+            }).catch((e) => {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })
         });
@@ -195,7 +200,8 @@ class APIRoute extends BaseRoute {
                 };
                 await this.cache.add(req.originalUrl, 300, response);
                 res.status(200).json({ ...response, cached: false });
-            }).catch(() => {
+            }).catch((e) => {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected database error occurred' });
             })
         });
