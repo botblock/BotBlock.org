@@ -59,8 +59,16 @@ describe('Lighthouse', () => {
 
             runLighthouse('mobile').then(results => {
                 result = results;
+            }).catch(() => {
+                result = null;
+            }).finally(() => {
                 done();
             });
+        });
+
+        beforeEach('Check ran', function (done) {
+            if (result === null) this.skip();
+            done();
         });
 
         it('scores 0.95 or above in Performance', done => {
@@ -107,8 +115,16 @@ describe('Lighthouse', () => {
 
             runLighthouse('desktop').then(results => {
                 result = results;
+            }).catch(() => {
+                result = null;
+            }).finally(() => {
                 done();
             });
+        });
+
+        beforeEach('Check ran', function (done) {
+            if (result === null) this.skip();
+            done();
         });
 
         it('scores 0.99 or above in Performance', done => {
