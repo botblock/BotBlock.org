@@ -398,7 +398,8 @@ describe('/lists/:id', () => {
                 expect(res.text).to.include('<b class="has-text-grey-lighter">This list\'s API provides the following shard support for server/guild count posting:</b>');
 
                 expect(res.text).to.include('<b class="has-text-grey-lighter">BotBlock server/guild count API:</b>');
-                expect(res.text).to.include('Provide your botlist.space API authorisation token as the value for the key\n <code>botlist.space</code>'); // TODO: Use DB
+                expect(res.text).to.include('Provide your botlist.space API authorisation token as the value for the key'); // TODO: Use DB
+                expect(res.text).to.include('<code>botlist.space</code> in your server/guild count API request'); // TODO: Use DB
 
                 expect(res.text).to.include('<b class="has-text-grey-lighter">This list also has an API endpoint for getting information about a bot:</b>');
                 expect(res.text).to.include('https://api.botlist.space/v1/bots/:id'); // TODO: Use DB
