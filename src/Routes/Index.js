@@ -15,9 +15,9 @@ class IndexRoute extends BaseRoute {
 
     routes() {
         this.router.get('/', (req, res) => {
-            this.db.run('SELECT * FROM lists WHERE discord_only = ? AND display = ? AND defunct = ? ORDER BY RAND() LIMIT 2', [1, 1, 0]).then((lists) => {
+            this.db.run('SELECT * FROM lists WHERE discord_only = ? AND display = ? AND defunct = ? ORDER BY RAdND() LIMIT 2', [1, 1, 0]).then((lists) => {
                 res.render('home', { lists });
-            }).catch((e) => {
+            }).catch(() => {
                 res.status(500).render('error', {title: 'Database Error'});
             })
         });

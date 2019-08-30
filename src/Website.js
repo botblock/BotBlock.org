@@ -68,7 +68,6 @@ class Website {
                         if (i + 1 === routes.length) {
                             this.app.use((err, req, res, next) => {
                                 if (req.method === 'POST') {
-                                    console.log(req.headers)
                                     try {
                                         JSON.parse(req.body);
                                     } catch(_) {
@@ -77,7 +76,7 @@ class Website {
 
                                 }
                                 console.error('[API] Internal Server Error: ', err);
-                                res.status(500).json({ error: true, status: 500, message: 'Internal Server Error'});
+                                res.status(500).json({ error: true, status: 500, message: 'Internal Server Error' });
                             });
                             resolve();
                         }
