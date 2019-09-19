@@ -3,15 +3,23 @@
         .media
             .media-left
                 img.image.lazyload(alt=list.name + ' Icon', data-lazysrc=list.icon, src='/assets/img/loading.gif')
+
             .media-content
                 p.title.is-3 #{list.name}
-                p.subtitle.is-6 #{list.url}
+                p.subtitle.is-6
+                    | #{list.url}
+                    if !lists
+                        if list.description
+                            br
+                            br
+                            | #{list.description}
                 if list.discord_only
                     .checkbox(tabindex='0', role='button')
                         .checkbox-inner
                             input(type='checkbox', id='', name='', checked='')
                             span
                         span Discord Bots Only
+
             .media-right.button-group.button-group-vertical
                 a.button.is-light.is-small(href='/lists/' + list.id) Information
                 a.button.is-light.is-small(href=`${list.url}?utm_source=${__('site_name')}`,  target='_blank', rel='noopener') Website
@@ -20,8 +28,10 @@
                 if user && (user.mod || user.admin)
                     a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/icon') Fetch Icon from invite
                     a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/edit') Edit List
+
         if !lists
             hr
+            br
             p
                 b.has-text-primary Owners:
                 br

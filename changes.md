@@ -81,4 +81,5 @@ alter table libraries
 ### List Table Changes
 
 Add new column `language text not null` after icon
+Add new column `description text null` after discord_only
 Drop `premium` column

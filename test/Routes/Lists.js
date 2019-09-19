@@ -149,8 +149,8 @@ describe('/lists/hidden', () => {
 
                     // Confirm list cards
                     lists.forEach(list => {
-                        expect(res.text).to.include(list.name);
-                        expect(res.text).to.include(list.url);
+                        expect(res.text).to.include(`<p class="title is-3">${list.name}</p>`);
+                        expect(res.text).to.include(`<p class="subtitle is-6">${list.url}</p>`);
                     });
 
                     done();
@@ -325,8 +325,8 @@ describe('/lists/search/:query', () => {
                 test().end((err, res) => {
                     // Confirm list cards
                     lists.forEach(list => {
-                        expect(res.text).to.include(list.name);
-                        expect(res.text).to.include(list.url);
+                        expect(res.text).to.include(`<p class="title is-3">${list.name}</p>`);
+                        expect(res.text).to.include(`<p class="subtitle is-6">${list.url}</p>`);
                     });
                     done();
                 });
@@ -356,7 +356,7 @@ describe('/lists/:id', () => {
             test().end((err, res) => {
                 expect(res).to.be.html;
                 expect(res.text).to.include('<p class="title is-3">botlist.space</p>'); // TODO: Use DB
-                expect(res.text).to.include('<p class="subtitle is-6">https://botlist.space/</p>'); // TODO: Use DB
+                expect(res.text).to.include('<p class="subtitle is-6">https://botlist.space/<br><br>Popular and feature-rich Discord bots</p>'); // TODO: Use DB
                 done();
             });
         });

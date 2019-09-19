@@ -26,6 +26,10 @@ form(method='POST')
         .control
             input.input(type='text', id='language', name='language' value=data.language, required)
     .field
+        label.label(for='description') Short Description (Tagline)
+        .control
+            input.input(type='text', id='description', name='description' value=data.description)
+    .field
         label.label(for='display') Display *
             small
                 i  (Please add a message in notification content explaining why the list is hidden)
