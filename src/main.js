@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('../config');
 const Website = require('./Website');
 const Database = require('./Structure/Database');
 

@@ -7,7 +7,7 @@ const i18n = require('./Util/i18n');
 const schedule = require('node-schedule');
 const fs = require('fs');
 const path = require('path');
-const config = require('./config');
+const config = require('../config');
 
 class Website {
     constructor(options) {

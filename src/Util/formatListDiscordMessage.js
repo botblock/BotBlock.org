@@ -1,4 +1,4 @@
-const config = require('../config');
+const config = require('../../config');
 
 module.exports = (list) => {
     if (!Boolean(Number(list.display))) return '*List entry currently hidden*';

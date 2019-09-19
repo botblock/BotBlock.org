@@ -1,6 +1,6 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const axios = require('axios');
-const config = require('../config');
+const config = require('../../config');
 
 class AuthenticationRoute extends BaseRoute {
     constructor(client, db) {
