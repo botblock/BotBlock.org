@@ -3,8 +3,9 @@ block content
     section.section
         .container
             h1.is-hidden #{list.name} (#{list.id})
+
             .columns
-                .column.is-half-desktop.is-full-mobile
+                .column.is-half-desktop.is-full-mobile.top
                     if list.defunct
                         .notification.is-warning
                             p
@@ -22,17 +23,10 @@ block content
                         .notification.is-primary
                             p #{content}
 
-                    include ../Includes/cards/listcard
+            .columns
+                .column.is-two-thirds-desktop.is-full-mobile.top
 
-                    .card.is-box-shadow
-                        .card-content
-                            p
-                                b.has-text-grey-lighter List features:
-                                br
-                                small This list is known to have these features.
-                            include ../Includes/checkboxes
-                            p.has-text-grey-lighter.has-margin-top
-                                i Click on a feature to search for all bot lists with that feature.
+                    include ../Includes/cards/listcard
 
                     .card.is-box-shadow
                         .card-content
@@ -115,3 +109,15 @@ block content
                                 if list.bot_widget
                                     br
                                     | Get the widget for a bot: #[code #{list.bot_widget}]
+
+                .column.is-one-third-desktop.is-full-mobile.top
+                    .card.is-box-shadow
+                        .card-content
+                            p
+                                b.has-text-grey-lighter List features:
+                                br
+                                small This list is known to have these features.
+                            - singleColumnCheckboxes = true
+                            include ../Includes/checkboxes
+                            p.has-text-grey-lighter.has-margin-top
+                                i Click on a feature to search for all bot lists with that feature.

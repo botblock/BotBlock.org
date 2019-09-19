@@ -2,9 +2,12 @@
   transition: all .2s ease;
 }
 
+html {
+  overflow-y: auto;
+}
+
 html, body {
   background: #2d3237 url("/Assets/geometry/geometry_transparent.png");
-  overflow-y: auto;
 }
 
 body {

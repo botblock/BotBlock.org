@@ -1,5 +1,5 @@
 -
-    var columns = [];
+    var sections = [];
     var hasFeature = false;
 
     if (hideUncheckedBoxes) {
@@ -16,7 +16,7 @@
                 counter[1]++;
             }
         });
-        columns = [items_show, items_hide];
+        sections = [items_show, items_hide];
     } else {
         var items = [[], []];
         var counter = 0;
@@ -24,16 +24,20 @@
             items[counter % 2].push(checkbox);
             counter++;
         });
-        columns = [items];
+        sections = [items];
     }
 
-each section, index in columns
+    if (singleColumnCheckboxes) {
+        sections = sections.map(columns => [[].concat(...columns)]);
+    }
+
+each columns, index in sections
     .columns(class=(index === 0 ? '' : 'has-margin-top'))
-        each column in section
+        each column in columns
             .column.is-full-mobile.left
                 each checkbox in column
                     include checkbox
-    if index < columns.length - 1
+    if index < sections.length - 1
         hr
 
 if interactiveCheckboxes
