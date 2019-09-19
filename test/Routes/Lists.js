@@ -336,9 +336,16 @@ describe('/lists/search/:query', () => {
 });
 
 describe('/lists/:id', () => {
-    // This suite will need updating if this list changes
-    describe('GET Valid (:id = botlist.space)', () => { // TODO: Use DB
-        const test = () => request().get('/lists/botlist.space'); // TODO: Use DB
+    const listId = 'botlist.space';
+    describe(`GET Valid (:id = ${listId})`, () => {
+        const test = () => request().get(`/lists/${listId}`);
+        let data;
+        before('fetch list data', done => {
+            db(`SELECT * FROM lists WHERE id = '${listId}'`).then(lists => {
+                data = lists[0];
+                done();
+            })
+        });
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
@@ -348,31 +355,29 @@ describe('/lists/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `botlist.space (botlist.space) - ${locale('site_name')} - ${locale('short_desc')}`); // TODO: Use DB
+                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
         it('provides the basic list information', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                expect(res.text).to.include('<p class="title is-3">botlist.space</p>'); // TODO: Use DB
-                expect(res.text).to.include('<p class="subtitle is-6">https://botlist.space/<br><br>Popular and feature-rich Discord bots</p>'); // TODO: Use DB
+                expect(res.text).to.include(`<p class="title is-3">${data.name}</p>`);
+                expect(res.text).to.include(`<p class="subtitle is-6">${data.url}${data.description ? `<br><br>${data.description}` : ''}</p>`);
                 done();
             });
         });
         it('provides the list owners', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                expect(res.text).to.include('<b class="has-text-primary">Owners:</b>');
-                expect(res.text).to.include('PassTheMayo#8620 (507329700402561045)'); // TODO: Use DB
+                expect(res.text).to.include(`<b class="has-text-primary">Owners:</b><br>${data.owners}`);
                 done();
             });
         });
         it('provides the list language', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                expect(res.text).to.include('<b class="has-text-primary">Primary Language:</b>');
-                expect(res.text).to.include('English'); // TODO: Use DB
+                expect(res.text).to.include(`<b class="has-text-primary">Primary Language:</b><br>${data.language}`);
                 done();
             });
         });
