@@ -2,11 +2,11 @@ const axios = require('axios');
 const config = require('../config');
 
 const pleskCommand = async params => {
-    return await axios.post(`https://${config.host}:8443/api/v2/cli/plesk/call`, {
+    return await axios.post(`https://${config.plesk_host}:8443/api/v2/cli/plesk/call`, {
         params
     }, {
         headers: {
-            Authorization: `Basic ${Buffer.from(`${config.user}:${config.password}`).toString('base64')}`
+            Authorization: `Basic ${Buffer.from(`${config.plesk_user}:${config.plesk_password}`).toString('base64')}`
         }
     });
 };
