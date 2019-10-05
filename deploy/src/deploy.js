@@ -1,6 +1,25 @@
 const plesk = require('./plesk');
+const axios = require('axios');
+const config = require('../config');
+
+const discord = async message => {
+    return await axios.post(
+        `https://discordapp.com/api/channels/${config.discord_channel}/messages`,
+        {
+            content: message
+        },
+        {
+            headers: {
+                Authorization: `Bot ${config.discord_token}`
+            }
+        }
+    );
+};
 
 module.exports = async name => {
+    // Discord message
+    await discord(`🚀 Deploying to ${name}...`);
+
     // Get Plesk repo info
     const info = await plesk.getRepoInfo(name);
 
@@ -22,4 +41,7 @@ module.exports = async name => {
     // Restart NodeJS app
     const node = await plesk.restartNode(info.domain_name);
     console.log('Plesk restart node message: ', node);
+
+    // Discord message
+    await discord(`**Successfully deployed to ${name} 🎉**`);
 };
