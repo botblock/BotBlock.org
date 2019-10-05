@@ -12,7 +12,11 @@
     "db:migrate": "knex migrate:latest",
     "db:migrate:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run",
-    "db:seed:export": "node db/seedsExport.js"
+    "db:seed:export": "node db/seedsExport.js",
+    "deploy:staging": "node deploy/staging.js",
+    "deploy:staging:execute": "node deploy/src/execute.js staging.botblock.org",
+    "deploy:production": "node deploy/production.js",
+    "deploy:production:execute": "node deploy/src/execute.js botblock.org"
   },
   "author": {
     "name": "BotBlock Team"
