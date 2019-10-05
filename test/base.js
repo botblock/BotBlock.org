@@ -1,6 +1,6 @@
 const config = require('../config');
-const Database = require('../src/Structure/Database');
 const i18n = require('../src/Util/i18n');
+const db = require('../db/db')();
 
 const {describe, it} = require('mocha');
 
@@ -12,12 +12,6 @@ chai.use(chaiHttp);
 const target = `${config.baseURL}:${config.port}`;
 const request = () => chai.request(target);
 const ratelimitBypass = (req) => req.set('X-Ratelimit-Bypass', config.secret);
-
-const dbc = new Database(config.database);
-const db = async (query, data) => {
-    if (!dbc.db._connectCalled) await dbc.connect();
-    return dbc.run(query, data);
-};
 
 const locale = i18n.__;
 

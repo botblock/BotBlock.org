@@ -805,7 +805,7 @@ describe('/api/bots/:id', () => {
             this.timeout(20 * 1000);
             const test = () => ratelimitBypass(request().get('/api/bots/12345678901234567890'));
             it('does not have cached data for the first request', done => {
-                db('DELETE FROM cache WHERE route =\'/api/bots/12345678901234567890\'').then(() => {
+                db('cache').where({ route: '/api/bots/12345678901234567890'}).del().then(() => {
                     test().end((err, res) => {
                         expect(res.body).to.have.property('id', '12345678901234567890');
                         expect(res.body).to.have.property('cached', false);
