@@ -1,0 +1,164 @@
+- repo: botblock/BLAPI
+  language: Javascript
+  name: BLAPI
+  description: blapi is a library that makes use of the [{{site_name}} API](/api/docs) to
+    post directly to {{site_name}} to forward your bot server/guild count on to
+    all lists but also uses the [lists endpoint](/api/docs#lists) to manually
+    post to each bot list if you get ratelimited from the [{{site_name}} post
+    count API](/api/docs#count).
+  package_link: https://www.npmjs.com/package/blapi
+  package_link_name: NPM
+  badge_image: https://img.shields.io/npm/v/blapi.svg?style=flat-square
+  badge_url: https://www.npmjs.com/package/blapi
+  example_usage: >-
+    const Discord = require("discord.js");
+
+    const blapi = require("blapi");
+
+    const apiKeys = {
+      "bots.ondiscord.xyz": "dsag38_auth_token_fda6gs", // Add other bot lists as needed
+      "botlist.space": "qos56a_auth_token_gfd8g6"
+    }
+
+
+    let bot = new Discord.Client({ autoReconnect: true });
+
+    blapi.handle(bot, apiKeys, 60); // If interval is not passed (60), it will default to every 30 minutes
+- repo: botblock/BotList
+  language: Javascript
+  name: BotList
+  description: BotList is a package that uses the [{{site_name}} API lists
+    endpoint](/api/docs#lists) to fetch all bot list information from
+    {{site_name}} and then manually posts to each one from your bot instead of
+    through the [{{site_name}} API count endpoint](/api/docs#count).
+  package_link: https://www.npmjs.com/package/botlist
+  package_link_name: NPM
+  badge_image: https://img.shields.io/npm/v/botlist.svg?style=flat-square
+  badge_url: https://www.npmjs.com/package/botlist
+  example_usage: >-
+    const BotList = require('botlist');
+
+    const botID = 'xxx';
+
+    const client = new BotList.Client(botID, {
+        tokens: {
+            'bots.ondiscord.xyz': 'dsag38_auth_token_fda6gs', // Add other bot lists as needed
+            'botlist.space': 'qos56a_auth_token_gfd8g6'
+        },
+        interval: 1000 * 30
+    });
+     
+    client.on('beforePost', () => {
+        if (!bot.ready) return;
+        const serverCount = bot.guilds.size;
+        const shards = bot.shards.size;
+        client.update(serverCount, shards);
+    });
+     
+    client.on('afterPost', (successful, failed) => {
+        console.log('Just finished posting to all bot lists, ' + successful + ' were successful, ' + failed + ' failed to post');
+    });
+     
+    client.on('error', (error) => {
+        console.warn('Something happened', error);
+    });
+     
+    client.start();
+- repo: botblock/discordlists.py
+  language: Python
+  name: discordlists.py
+  description: discordlists.py is available via pip and provides an easy to use Client
+    class to automatically and manually post your server/guild count to the
+    [{{site_name}} API](/api/docs#count) to forward it on to all {{site_name}}
+    bot lists. This library also provides a way to get information about a bot
+    from all lists on {{site_name}} through the [GET bot API
+    endpoint](/api/docs#bots).
+  package_link: https://pypi.org/project/discordlists.py/
+  package_link_name: PyPI
+  badge_image: https://img.shields.io/pypi/v/discordlists.py.svg?style=flat-square
+  badge_url: https://pypi.org/project/discordlists.py/
+  example_usage: >-
+    from discord.ext import commands
+
+
+    import discordlists
+
+
+
+    class DiscordListsPost(commands.Cog):
+        def __init__(self, bot):
+            self.bot = bot
+            self.api = discordlists.Client(self.bot)  # Create a Client instance
+            self.api.set_auth("bots.ondiscord.xyz", "dsag38_auth_token_fda6gs") # Set authorisation token for a bot list
+            self.api.set_auth("botlist.space", "qos56a_auth_token_gfd8g6") # Set authorisation token for a bot list
+            self.api.start_loop()  # Posts the server count automatically every 30 minutes
+
+        @commands.command()
+        async def post(self, ctx: commands.Context):
+            """
+            Manually posts guild count using discordlists.py (BotBlock)
+            """
+            try:
+                result = await self.api.post_count()
+            except Exception as e:
+                await ctx.send("Request failed: `{}`".format(e))
+                return
+
+            await ctx.send("Successfully manually posted server count ({:,}) to {:,} lists."
+                           "\nFailed to post server count to {:,} lists.".format(self.api.server_count,
+                                                                                 len(result["success"].keys()),
+                                                                                 len(result["failure"].keys())))
+
+
+    def setup(bot):
+        bot.add_cog(DiscordListsPost(bot))
+- repo: botblock/JavaBotBlockAPI
+  language: Java
+  name: JavaBotBlockAPI
+  description: JavaBotBlockAPI is a wrapper made in Java primarily for JDA (Java Discord
+    API) which was made by Nathan-Webb and is now rewritten and updated by
+    Andre601. It allows posting your guild counts through the [{{site_name}}
+    API](/api/docs) both manually and automatically. You can provide both a JDA
+    instance or ShardManager instance, but this is optional.
+  package_link: https://bintray.com/andre601/maven/JavaBotBlockAPI/_latestVersion
+  package_link_name: Bintray
+  badge_image: https://img.shields.io/bintray/v/andre601/maven/JavaBotBlockAPI.svg?style=flat-square
+  badge_url: https://bintray.com/andre601/maven/JavaBotBlockAPI/_latestVersion
+  example_usage: >-
+    //Create an instance of BotBlockAPI
+
+    BotBlockAPI api = new BotBlockAPI.Builder()
+        .addAuthToken("bots.ondiscord.xyz", "dsag38_auth_token_fda6gs") // Add a supported site and its token
+        .addAuthToken("botlist.space", "qos56a_auth_token_gfd8g6")
+        .build();
+
+    // Create an instance of RequestHandler for posting
+
+    RequestHandler handler = new RequestHandler();
+
+
+    // jda is a JDA instance. You can also use ShardManager instead.
+
+    handler.startAutoPosting(jda, api);
+- repo: xXBuilderBXx/BotListAPI
+  language: C#
+  name: BotListAPI
+  description: BotListAPI is a C# nuget package for the discord.net lib that provides an
+    easy method to manually or automatically post your bot's server count every
+    10 minutes with information for each bot list through the [{{site_name}}
+    API](/api/docs). It also supports sharded clients and .net framework or .net
+    core.
+  package_link: https://www.nuget.org/packages/BotListAPI
+  package_link_name: NuGet
+  badge_image: https://img.shields.io/nuget/v/BotListAPI.svg?style=flat-square
+  badge_url: https://www.nuget.org/packages/BotListAPI
+  example_usage: >-
+    ListClient = new ListClient(_Client, new ListConfig
+
+    {
+        BotsOnDiscord = "dsag38_auth_token_fda6gs", // Add any other lists as needed
+        BotListSpace = "qos56a_auth_token_gfd8g6"
+    });
+
+
+    ListClient.Start();

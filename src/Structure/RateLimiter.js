@@ -1,4 +1,4 @@
-const { secret } = require('../config.js');
+const { secret } = require('../../config.js');
 const isSnowflake = require('../Util/isSnowflake');
 
 class RateLimiter {

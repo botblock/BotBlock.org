@@ -22,9 +22,10 @@ module.exports = {
 
     // SQL Database
     'database': {
-        'host': 'localhost',
+        'host': '',
         'user': '',
         'password': '',
-        'database': ''
+        'database': '',
+        'client': 'mysql'
     }
 }

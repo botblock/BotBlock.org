@@ -1,4 +1,4 @@
-const config = require('../src/config');
+const config = require('../config');
 const Database = require('../src/Structure/Database');
 const i18n = require('../src/Util/i18n');
 

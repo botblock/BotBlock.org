@@ -1,4 +1,4 @@
 node_modules/*
 package-lock.json
-src/config.js
+config.js
 .idea/

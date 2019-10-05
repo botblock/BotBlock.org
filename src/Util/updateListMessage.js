@@ -1,5 +1,5 @@
 const formatListMessage = require('./formatListDiscordMessage');
-const config = require('../config');
+const config = require('../../config');
 
 module.exports = async (client, db, list, newListID) => {
     let msg;
