@@ -15,12 +15,21 @@ class RateLimiter {
             if (req.body.bot_id && !bot) bot = req.body.bot_id;
             if (typeof bot !== "string" || !isSnowflake(bot)) bot = '';
             try {
-                await this.db.run('DELETE FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? AND expiry < ?', [req.ip, bot, req.originalUrl, Date.now()]);
-                const recent = await this.db.run('SELECT * FROM ratelimit WHERE ip = ? AND bot_id = ? AND route = ? ORDER BY datetime DESC', [req.ip, bot, req.originalUrl]);
+                await this.db('ratelimit')
+                    .where({ ip: req.ip, route: req.originalUrl })
+                    .where('expiry', '<', Math.round(Date.now() / 1000))
+                    .del();
+
+                const recent = await this.db.select().from('ratelimit').where({
+                    ip: req.ip,
+                    bot_id: bot,
+                    route: req.originalUrl
+                }).orderBy('datetime', 'desc');
+
                 if (recent && recent.length >= requestLimit) {
                     const expiry = recent[0].expiry;
-                    const retry = Math.round((expiry - Date.now()) / 1000);
-                    const reset = Math.round(expiry / 1000);
+                    const retry = Math.round(expiry - Date.now() / 1000);
+                    const reset = expiry;
                     res.set('Retry-After', retry);
                     res.set('X-Rate-Limit-Reset', reset);
                     res.set('X-Rate-Limit-IP', req.ip);
@@ -36,7 +45,14 @@ class RateLimiter {
                         ratelimit_bot_id: bot
                     });
                 }
-                await this.db.run('INSERT INTO ratelimit (ip, bot_id, route, datetime, expiry) VALUES (?, ?, ?, ?, ?)', [req.ip, bot, req.originalUrl, Date.now(), Date.now() + timeLimit * 1000]);
+
+                await this.db('ratelimit').insert({
+                    ip: req.ip,
+                    bot_id: bot,
+                    route: req.originalUrl,
+                    datetime: Math.round(Date.now() / 1000),
+                    expiry: Math.round(Date.now() / 1000 + timeLimit),
+                });
                 next();
             } catch (_) {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected error occurred' });
