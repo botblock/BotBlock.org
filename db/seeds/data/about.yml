@@ -1,0 +1,76 @@
+- id: adsense
+  position: 50
+  title: Google Adsense Adverts
+  content: Throughout the {{site_name}} site, Google Adsense ads are displayed. These
+    are aimed to be positioned so that they are unobtrusive to the user and the
+    content on the site. The ads are displayed to help cover the costs of
+    hosting the {{site_name}} service (website & API). Through these ads, third
+    parties may place or read cookies on your browser and may also employ web
+    beacons to collect information relating to the serving of ads. Please see
+    [Google's Privacy Policy](https://policies.google.com/privacy) for more
+    information.
+- id: api
+  position: 20
+  title: A central bot stats API
+  content: "{{site_name}} provides a simple to use [central API for
+    developers](/api/docs) to post their bot's server/guild count to all bot
+    lists that we have listed who support bot statistics on their site. This
+    makes life easier for a bot developer as they don't have to worry about
+    getting the API details for each list and then posting to every single list
+    from within their bot. We handle the hard work, the bot developer just needs
+    to post their stats to us."
+- id: credits
+  position: 60
+  title: Credits
+  content: >-
+    The {{site_name}} site was created and originally developed by [Matt
+    Cowley](http://mattcowley.co.uk/?utm_source={{site_name}}). It is now
+    maintained by a team of users on the [{{site_name}} Discord
+    server](/discord). Recently, the full service (website & API) was rewritten
+    by the amazing
+    [Jacob_DH#1234](https://github.com/DetectiveHuman/?utm_source={{site_name}})
+    (in Node.js, stability increased greatly).
+
+
+    The icon used for {{site_name}} was created by Jet.
+
+    The transparent background texture used throughout the {{site_name}} site is from [Subtle Patterns](https://www.toptal.com/designers/subtlepatterns/inspiration-geometry/) and is licensed by [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+    The bot list icons are copyright their respective owners unless otherwise stated on their own sites.
+
+
+    {{site_name}} is not affiliated with [Discord Inc](https://discordapp.com/?utm_source={{site_name}}).
+- id: intro
+  position: 10
+  title: "{{slogan}}"
+  content: "{{site_name}} is a home of [all bot lists for Discord bots](/lists) as well
+    as the centralised [server/guild count posting API](/api/docs#count) and our
+    other [API endpoints](/api/docs). The aim of the site and project is to
+    provide a central place for bot developers and also normal Discord users to
+    discover all the possible sites where Discord bots are listed to give
+    everyone the best chance of finding or promoting what they want."
+- id: project
+  position: 30
+  title: An open and neutral project
+  content: >-
+    {{site_name}} has the aim of being an open and neutral project. As such, we
+    welcome anyone to [suggest corrections](/contact) for details about anything
+    on the site or to [propose a new addition](/contact) to be added to the
+    site. Further, we make clear what we do with any data posted to us in [our
+    API documentation](/api/docs) so that everyone understands how we operate.
+    We work closely with owners of these lists to ensure that their list details
+    and API information are up to date.
+
+
+    As part of our neutral position, we will investigate any reports of issues with lists on the {{site_name}} site and may briefly hide these sites whilst those investigations are carried out (API posting, if supported by the list, will not be stopped during this time). As an example, we expect lists to be compliant with the law and any licenses relating to their site. If a list is found to violate a license, such as if it is a clone without the correct license, we may hide this list until this is resolved. You can view all currently hidden lists on the [hidden lists nofollow](/lists/hidden) page.
+
+
+    {{site_name}} also keeps a record of all Discord bot lists that have shutdown. These are given the defunct flag and are hidden throughout the site alongside being excluded from all {{site_name}} API endpoints. These lists can be viewed on the dedicated [defunct lists nofollow](/lists/defunct) page.
+- id: spotlight
+  position: 40
+  title: List Spotlight
+  content: On the front page of {{site_name}} is the list spotlight. This section
+    randomly selects two lists from the site at random on load to be displayed
+    to the user in the spotlight. These lists have no affiliation with the site
+    and are not paying to be there, they are randomly picked by the site to be
+    shown at the time the page is requested by the user visiting the site.

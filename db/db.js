@@ -1,12 +1,4 @@
-const databaseConfig = require('../database');
-const databaseConnection = databaseConfig[databaseConfig.defaultEnv];
+const knexConfig = require('../knexfile');
+const knex = require('knex');
 
-const db = require('knex')({
-    client: databaseConnection.driver,
-    connection: {
-        host: databaseConnection.host,
-        user: databaseConnection.user,
-        password: databaseConnection.password,
-        database: databaseConnection.database
-    }
-});
+module.exports = () => knex(knexConfig.development);

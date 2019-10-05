@@ -1,0 +1,893 @@
+- id: automacord.xyz
+  added: 1535444547
+  name: AutomaCord
+  url: https://automacord.xyz/
+  icon: https://cdn.discordapp.com/icons/483344253963993113/3661052b289c88dfffd5a91080d6beae.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://automacord.xyz/bot/:id
+  bot_widget: null
+  content: null
+  owners: Kromatic#0420 (180093157554388993)
+  discord: https://discord.gg/XQT4DEt
+- id: boatlist.ml
+  added: 1533208489
+  name: Boat List
+  url: https://boatlist.ml/
+  icon: https://cdn.discordapp.com/icons/425727209873997845/93665eebf1ef572917ec0e4c66be88ad.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: https://boatlist.ml/api/bots/:id/stats
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: "This list has shut down and has been replaced by a newer version under
+    different management: https://botblock.org/lists/boatlist.xyz"
+  owners: Kolkies#9876 (209609796704403456)
+  discord: https://discord.gg/SHEtT3x
+- id: boatlist.xyz
+  added: 1535982517
+  name: Boat List
+  url: https://boatlist.xyz/
+  icon: https://cdn.discordapp.com/icons/446685480046559232/b573d1c1f4ea5fea1888865521a372ad.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://boatlist.xyz/bot/:id
+  bot_widget: null
+  content: null
+  owners: Andrew#6621 (408953935223717898), Ankrad#0597 (297403616468140032),
+    Deni#0274 (324920582665928727)
+  discord: https://discord.gg/k5MRzdS
+- id: botlist.co
+  added: 1532965633
+  name: BotList
+  url: https://botlist.co/platforms/discord
+  icon: https://botlist.co/images/BotList_logo.svg
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 0
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: Seth Louey
+  discord: null
+- id: botlist.space
+  added: 1532965633
+  name: botlist.space
+  url: https://botlist.space/
+  icon: https://cdn.discordapp.com/icons/387812458661937152/70ec291cf1dcaa33f8c50d5b3333a521.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: Popular and feature-rich Discord bots
+  api_docs: https://docs.botlist.space/
+  api_post: https://api.botlist.space/v1/bots/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: shards
+  api_get: https://api.botlist.space/v1/bots/:id
+  api_all: https://api.botlist.space/v1/bots
+  view_bot: https://botlist.space/bot/:id
+  bot_widget: https://botlist.space/bot/:id/widget
+  content: null
+  owners: PassTheMayo#8620 (507329700402561045)
+  discord: https://discord.gg/gGNpFc3
+- id: bots.discordlist.app
+  added: 1535443603
+  name: Discord List App
+  url: https://bots.discordlist.app/
+  icon: https://cdn.discordapp.com/icons/475571221946171393/f9da3b1ff6a2330d535deaba592299b5.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://bots.discordlist.app/api
+  api_post: https://bots.discordlist.app/api/bot/:id/stats
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://bots.discordlist.app/api/bot/:id/stats
+  api_all: https://bots.discordlist.app/api/bots
+  view_bot: https://bots.discordlist.app/bot/:id
+  bot_widget: https://bots.discordlist.app/api/bot/:id/widget
+  content: This list has been shut down by the owner.
+  owners: Auxim#0001 (66166172835385344)
+  discord: https://discord.gg/jqttNKq
+- id: bots.ondiscord.xyz
+  added: 1532965633
+  name: Bots on Discord
+  url: https://bots.ondiscord.xyz/
+  icon: https://cdn.discordapp.com/icons/446425626988249089/7f362a2022732340c5be208f8dd6a402.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://bots.ondiscord.xyz/info/api
+  api_post: https://bots.ondiscord.xyz/bot-api/bots/:id/guilds
+  api_field: guildCount
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://bots.ondiscord.xyz/bots/:id
+  bot_widget: https://bots.ondiscord.xyz/bots/:id/embed
+  content: null
+  owners: Brussell#0660 (95286900801146880)
+  discord: https://discord.gg/bvm6vSv
+- id: botsfordiscord.com
+  added: 1532965633
+  name: Bots for Discord
+  url: https://botsfordiscord.com/
+  icon: https://cdn.discordapp.com/icons/374071874222686211/a_fe9c0abd90ee3bfd8c9bdbfd1602d507.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://botsfordiscord.gitbook.io/docs/
+  api_post: https://botsfordiscord.com/api/bot/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://botsfordiscord.com/api/bot/:id
+  api_all: null
+  view_bot: https://botsfordiscord.com/bots/:id
+  bot_widget: https://botsfordiscord.com/api/bot/:id/widget
+  content: null
+  owners: Habchy#1665 (162780049869635584)
+  discord: https://discord.gg/j5SRg4d
+- id: botsparadiscord.xyz
+  added: 1553616931
+  name: Bots Para Discord
+  url: https://botsparadiscord.xyz
+  icon: https://botsparadiscord.xyz/static/img/logo2.png
+  language: Portuguese
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://botsparadiscord.xyz/bots/:id
+  bot_widget: null
+  content: null
+  owners: Naegin#0049 (424304428682706956)
+  discord: https://discord.gg/t5qzWQB
+- id: carbonitex.net
+  added: 1532965633
+  name: Carbonitex
+  url: https://www.carbonitex.net/discord/bots
+  icon: https://cdn.discordapp.com/icons/112319935652298752/633a48b3446045ceed222a32622a9dbd.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: Carbonitex [Matt]#0001 (68396159596503040), jet#9999 (228290260239515649)
+  discord: https://discord.gg/J2evbZB
+- id: dankbotlist.com
+  added: 1535201716
+  name: Dank Bot List
+  url: https://dankbotlist.com/
+  icon: https://cdn.discordapp.com/icons/402400730922876928/ba5c7c4a49918e012363430a9b2e26e3.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: Cory#7650 (303391020622544909)
+  discord: https://discord.gg/3EE9gpK
+- id: discord.boats
+  added: 1537287754
+  name: Discord Boats
+  url: https://discord.boats/
+  icon: https://cdn.discordapp.com/icons/439866052684283905/a_3cdf44511bf30fc3fb89f414cf606d93.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://discord.boats/api/docs
+  api_post: https://discord.boats/api/bot/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discord.boats/api/bot/:id
+  api_all: null
+  view_bot: https://discord.boats/bot/:id
+  bot_widget: https://discord.boats/api/widget/:id
+  content: null
+  owners: MrSheldon#0001 (231733082804322304)
+  discord: https://discord.gg/tfQqub6
+- id: discord.bots.gg
+  added: 1532965633
+  name: Discord Bots
+  url: https://discord.bots.gg/
+  icon: https://cdn.discordapp.com/icons/110373943822540800/a_bd3c42fd0d194122c31ed188d8c487a7.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://discord.bots.gg/docs
+  api_post: https://discord.bots.gg/api/v1/bots/:id/stats
+  api_field: guildCount
+  api_shard_id: shardId
+  api_shard_count: shardCount
+  api_shards: null
+  api_get: https://discord.bots.gg/api/v1/bots/:id
+  api_all: https://discord.bots.gg/api/v1/bots?limit=100&sort=guildcount&order=desc
+  view_bot: https://discord.bots.gg/bots/:id
+  bot_widget: null
+  content: null
+  owners: meew0#9811 (66237334693085184)
+  discord: https://discord.gg/0cDvIgU2voWn4BaD
+- id: discord.services
+  added: 1532965633
+  name: Discord Services
+  url: https://discord.services/
+  icon: https://cdn.discordapp.com/icons/294505571317710849/a17f3c3ac54d09c04ab6c4f2f5dc9c12.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://discord.services/api/
+  api_post: https://discord.services/api/bots/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discord.services/api/bots/:id
+  api_all: https://discord.services/api/bots
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: Jazzibell#0069 (209219778206760961)
+  discord: https://discord.gg/hc6Wane
+- id: discordapps.dev
+  added: 1535627503
+  name: Discord Apps Marketplace
+  url: https://discordapps.dev/
+  icon: https://cdn.discordapp.com/icons/330777295952543744/29bdc1cebfd41de2db5e615ffb86bece.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://discordapps.dev/en-GB/posts/docs/api-v2/
+  api_post: https://api.discordapps.dev/api/v2/bots/:id
+  api_field: bot.count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://api.discordapps.dev/api/v2/bots/:id
+  api_all: https://api.discordapps.dev/api/v2/bots
+  view_bot: https://discordapps.dev/bots/:id
+  bot_widget: null
+  content: null
+  owners: Katie#5856 (190519304972664832)
+  discord: https://discord.gg/8uC6aKZ
+- id: discordboats.club
+  added: 1533208489
+  name: Discord Boats
+  url: https://discordboats.club/
+  icon: https://cdn.discordapp.com/icons/421630709585805312/15fa554458a690010d7575fbd02839a7.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: https://discordboats.club/api/public/bot/stats
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://discordboats.club/bot/:id
+  bot_widget: https://discordboats.club/bot/:id/widget.png
+  content: After inactivity and a long period of no development, the list was sold to
+    MrSheldon and merged into discord.boats.
+  owners: Anthony#3912 (233823931830632449)
+  discord: https://discord.gg/qRarbNz
+- id: discordbot.world
+  added: 1532965633
+  name: Discord Bot World
+  url: https://discordbot.world/
+  icon: https://cdn.discordapp.com/icons/396440418507816960/aed0c9184d1e3abf28be02599b2c0f41.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://discordbot.world/docs
+  api_post: https://discordbot.world/api/bot/:id/stats
+  api_field: guild_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: shards
+  api_get: https://discordbot.world/api/bot/:id
+  api_all: https://discordbot.world/api/bots
+  view_bot: https://discordbot.world/bot/:id
+  bot_widget: null
+  content: null
+  owners: Tetrabyte#0001 (156114103033790464)
+  discord: https://discord.gg/eneuuys
+- id: discordbotindex.com
+  added: 1539030775
+  name: Discord Bot Index
+  url: https://discordbotindex.com/
+  icon: https://cdn.discordapp.com/icons/482922868410417163/bcb70a74c152d82021a9421d55bc3ec3.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://discordbotindex.com/documentation
+  api_post: https://discordbotindex.com/apiv1/bot/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordbotindex.com/apiv1/bot/:id
+  api_all: null
+  view_bot: https://discordbotindex.com/bot/:id
+  bot_widget: null
+  content: This list has shut down and been merged into discord.boats
+  owners: LiquidBlast, SamuraiStacks#5873 (439373663905513473), Kirb#0001
+    (303943082108518400), ohlookitsderpy#3939 (145557815287611393), ðŸŽ€
+    QuantumCat ðŸŽ€#2107 (130769947583447040)
+  discord: https://discord.gg/9jkAUF3
+- id: discordbotlabs.com
+  added: 1541603836
+  name: Discord Bot Labs
+  url: https://discordbotlabs.com/
+  icon: https://cdn.discordapp.com/icons/481702435644112906/57d7a0a85a4191e6741ebae4f9d122ab.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://discordbotlabs.com/api/docs
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordbotlabs.com/api/bots/:id
+  api_all: null
+  view_bot: https://discordbotlabs.com/bots/:id
+  bot_widget: null
+  content: This list has been shutdown by the owner.
+  owners: ThatTonybo#0001 (296044953576931328)
+  discord: https://discord.gg/jkvVxtx
+- id: discordbotlist.com
+  added: 1535198737
+  name: Discord Bot List
+  url: https://discordbotlist.com/
+  icon: https://cdn.discordapp.com/icons/450100127256936458/278624a3684793369f3055ba26f7292e.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://discordbotlist.com/api-docs
+  api_post: https://discordbotlist.com/api/bots/:id/stats
+  api_field: guilds
+  api_shard_id: shard_id
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordbotlist.com/api/bots/:id
+  api_all: https://discordbotlist.com/api/bots
+  view_bot: https://discordbotlist.com/bots/:id
+  bot_widget: https://discordbotlist.com/bots/:id/widget
+  content: null
+  owners: OverCoder#3696 (151319592453537793), thewsomeguy#0001 (80821761460928512),
+    luke#0123 (149505704569339904)
+  discord: https://discord.gg/cc7Y4jX
+- id: discordbotlist.xyz
+  added: 1535900109
+  name: Discord Bot List
+  url: https://discordbotlist.xyz/
+  icon: https://cdn.discordapp.com/icons/477792727577395210/56f3ce1fab0a93db5d8366a442206f94.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://discordbotlist.xyz/api/docs
+  api_post: https://discordbotlist.xyz/api/stats/:id
+  api_field: count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordbotlist.xyz/api/bot?id=:id
+  api_all: null
+  view_bot: https://discordbotlist.xyz/bots/:id/
+  bot_widget: https://discordbotlist.xyz/api/embed/:id
+  content: The owner of this bot list has been banned from Discord for mass advertising
+    through their bot and the bot list server has been deleted
+  owners: Ankrad#0597 (297403616468140032)
+  discord: https://discord.gg/PA9EYba
+- id: discordbotreviews.xyz
+  added: 1542199675
+  name: Discord Bot Reviews
+  url: https://discordbotreviews.xyz/
+  icon: https://cdn.discordapp.com/icons/500658335217876997/43a4be8edd65b154ae00ec89f7b8d984.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://discordbotreviews.xyz/api/docs
+  api_post: https://discordbotreviews.xyz/api/bot/:id/stats
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordbotreviews.xyz/api/bot/:id
+  api_all: null
+  view_bot: https://discordbotreviews.xyz/bot/:id
+  bot_widget: https://discordbotreviews.xyz/api/widget/:id.png
+  content: null
+  owners: RaZeFeiXX#8200 (469716275786940416), SuperNiintendo#3700
+    (432400084706131989), Deni#0274 (324920582665928727)
+  discord: https://discord.gg/A2BYrj8
+- id: discordbots.co.uk
+  added: 1532965633
+  name: Discord Fork
+  url: https://discordbots.co.uk/
+  icon: https://discordbots.co.uk/assets/images/logo/logo256.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://discordbots.co.uk/docs/api-reference
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordbots.co.uk/api/bots/:id.json
+  api_all: null
+  view_bot: https://discordbots.co.uk/bots/:id
+  bot_widget: https://discordbots.co.uk/api/bots/:id.svg
+  content: null
+  owners: 7coil#3175 (190519304972664832), AlexFlipnote#0001 (86477779717066752)
+  discord: https://discord.gg/8uC6aKZ
+- id: discordbots.fun
+  added: 1558087180
+  name: discordbots.fun
+  url: https://discordbots.fun/
+  icon: https://discordbots.fun/img/logo_botblock.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://docs.discordbots.fun/
+  api_post: http://discordbots.fun/api/bots/:id
+  api_field: serverCount
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://discordbots.fun/bots/:id
+  bot_widget: null
+  content: null
+  owners: ThatTonybo#0001 (296044953576931328)
+  discord: https://discord.gg/GC6A8Jt
+- id: discordbots.group
+  added: 1532965633
+  name: Discord Bots Group
+  url: https://discordbots.group/
+  icon: https://cdn.discordapp.com/icons/447469952044105728/b725a3f9bf422b18480d3a9f829be06a.png
+  language: English
+  display: 1
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://docs.discordbots.group/
+  api_post: https://api.discordbots.group/v1/bot/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: shards
+  api_get: https://api.discordbots.group/v1/bot/:id
+  api_all: null
+  view_bot: https://discordbots.group/bot/:id
+  bot_widget: null
+  content: null
+  owners: DetectiveHuman#1234 (449653897695461376)
+  discord: https://discord.gg/9jJtKRc
+- id: discordbots.org
+  added: 1532965633
+  name: Discord Bot List
+  url: https://top.gg/
+  icon: https://cdn.discordapp.com/icons/264445053596991498/a_eadf00405ab375668c76da10ee95f646.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://top.gg/api/docs
+  api_post: https://top.gg/api/bots/:id/stats
+  api_field: server_count
+  api_shard_id: shard_id
+  api_shard_count: shard_count
+  api_shards: shards
+  api_get: https://top.gg/api/bots/:id
+  api_all: null
+  view_bot: https://top.gg/bot/:id
+  bot_widget: https://top.gg/api/widget/:id.svg
+  content: "Update: As this project is now being run by a new team and hosted from a
+    new server, we are testing enabling server count posting again.\r
+
+    \r
+
+    This list has been removed from the BotBlock API due to their continued
+    attempts to block BotBlock as a service and their recent change to require
+    authentication on all endpoints."
+  owners: Tonkku#0950 (95579865788456960), Oliy#0330 (129908908096487424)
+  discord: https://discord.gg/EYHTgJX
+- id: discordbotsclub.org
+  added: 1547410924
+  name: Discord Bots Club
+  url: https://discordbotsclub.org/
+  icon: https://cdn.discordapp.com/icons/524681874732220418/c67ea64bcbd7a6882e3882c3b950f333.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: UnknownSloth#6791 (221524691079266314)
+  discord: https://discord.gg/qFaYdCp
+- id: discordextremelist.xyz
+  added: 1542972675
+  name: Discord Extreme List
+  url: https://discordextremelist.xyz/
+  icon: https://cdn.discordapp.com/icons/568567800910839811/2c893363a04fba441d9ebaeae758eead.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://docs.discordextremelist.xyz
+  api_post: https://discordextremelist.xyz/api/bot/:id
+  api_field: guildCount
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://discordextremelist.xyz/api/bot/:id
+  api_all: null
+  view_bot: https://discordextremelist.xyz/bots/:id
+  bot_widget: https://discordextremelist.xyz/api /bot/:id/widget
+  content: null
+  owners: Cairo#5151 (208105877838888960), Connor200024#0001 (102740774168322048),
+    Ice#4710 (302604426781261824), advaith#9121 (190916650143318016)
+  discord: https://discord.gg/cYnpb7T
+- id: discordmusicbots.com
+  added: 1533208489
+  name: Discord Music Bots
+  url: https://www.discordmusicbots.com/
+  icon: https://www.discordmusicbots.com/logo.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: This list appears to be offline and no longer active.
+  owners: spong#3338 (87164639695110144)
+  discord: null
+- id: discordsbestbots.xyz
+  added: 1535199589
+  name: Discord's Best Bots
+  url: https://discordsbestbots.xyz/
+  icon: https://cdn.discordapp.com/icons/446682534135201793/b064f255029f9dab3baf3ae2b8afa832.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://docs.discordsbestbots.xyz/
+  api_post: https://discordsbestbots.xyz/api/bots/:id/stats
+  api_field: guilds
+  api_shard_id: null
+  api_shard_count: shards
+  api_shards: null
+  api_get: https://discordsbestbots.xyz/api/bots/:id
+  api_all: https://discordsbestbots.xyz/api/bots
+  view_bot: https://discordsbestbots.xyz/bots/:id
+  bot_widget: null
+  content: null
+  owners: Ice#4710 (302604426781261824), advaith#9121 (190916650143318016),
+    Connor200024#0001 (102740774168322048), Cairo#0001 (208105877838888960)
+  discord: https://discord.gg/tgcpDXn
+- id: divinediscordbots.com
+  added: 1535359770
+  name: Divine Discord Bot List
+  url: https://divinediscordbots.com/
+  icon: https://cdn.discordapp.com/icons/454933217666007052/356f5af1a139c8d6dd9348254ac8854a.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://divinediscordbots.com/api
+  api_post: https://divinediscordbots.com/bot/:id/stats
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: shards
+  api_shards: null
+  api_get: https://divinediscordbots.com/bot/:id/stats
+  api_all: null
+  view_bot: https://divinediscordbots.com/bot/:id
+  bot_widget: https://divinediscordbots.com/api/widget/:id.svg
+  content: null
+  owners: Sworder#0001 (240508683455299584), Samuel || TutoRapide#1868
+    (137569112556699649)
+  discord: https://discord.gg/8b2YahE
+- id: ie.discordbots.co.uk
+  added: 1544548984
+  name: Discord Fork for Internet Explorer 6
+  url: http://ie.discordbots.co.uk/
+  icon: https://cdn.discordapp.com/icons/330777295952543744/29bdc1cebfd41de2db5e615ffb86bece.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: 7coil#3175 (190519304972664832)
+  discord: https://discord.gg/8uC6aKZ
+- id: lbots.org
+  added: 1549227235
+  name: LBots
+  url: https://lbots.org/
+  icon: https://lbots.org/static/img/logo.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://lbots.org/api/docs
+  api_post: https://lbots.org/api/v1/bots/:id/stats
+  api_field: guild_count
+  api_shard_id: shard_id
+  api_shard_count: shard_count
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://lbots.org/bots/:id
+  bot_widget: null
+  content: null
+  owners: Neko#0013 (367330084337745920)
+  discord: https://discord.gg/EKv9k6p
+- id: listcord.com
+  added: 1532965633
+  name: Listcord
+  url: https://listcord.com/
+  icon: https://cdn.discordapp.com/icons/459854572534366208/56c33fd9fdf5879bed723e6b9bc88198.png
+  language: English
+  display: 0
+  defunct: 1
+  discord_only: 1
+  description: null
+  api_docs: https://listcord.com/documentation
+  api_post: https://listcord.com/api/bot/:id/guilds
+  api_field: guilds
+  api_shard_id: shard
+  api_shard_count: null
+  api_shards: null
+  api_get: https://listcord.com/api/bot/:id
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: This list has been shut down by the owner.
+  owners: xen's daddy ðŸ’•#0001 (219592873228763147)
+  discord: https://discord.gg/DaHsKG5
+- id: mythicalbots.xyz
+  added: 1554996077
+  name: Mythical Bot List
+  url: https://mythicalbots.xyz/
+  icon: https://cdn.discordapp.com/icons/521461252317249537/a_770d0bfe0a431ee1f536ee258338eda3.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://docs.mythicalbots.xyz/
+  api_post: https://mythicalbots.xyz/api/bot/:id
+  api_field: server_count
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://mythicalbots.xyz/api/bot/:id/info
+  api_all: null
+  view_bot: https://mythicalbots.xyz/bot/:id
+  bot_widget: null
+  content: null
+  owners: Tea Cup#9999 (338192747754160138)
+  discord: https://discord.gg/wU7B46S
+- id: thereisabotforthat.com
+  added: 1532965633
+  name: There is a bot for that
+  url: https://thereisabotforthat.com/
+  icon: https://pbs.twimg.com/app_img/834705925562851330/CjvLy-YN?format=png&name=73x73
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 0
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: null
+  bot_widget: null
+  content: null
+  owners: null
+  discord: null
+- id: wonderbotlist.com
+  added: 1533208489
+  name: Wonder Bot List
+  url: https://wonderbotlist.com
+  icon: https://cdn.discordapp.com/icons/501017909389295616/276c153653a9d53dd84787f4d95218b2.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://api.wonderbotlist.com/en/
+  api_post: https://api.wonderbotlist.com/v1/bot/:id
+  api_field: serveurs
+  api_shard_id: null
+  api_shard_count: shards
+  api_shards: null
+  api_get: https://api.wonderbotlist.com/v1/bot/:id
+  api_all: null
+  view_bot: https://wonderbotlist.com/en/bot/:id
+  bot_widget: null
+  content: null
+  owners: Ten-No-Kami-Sama#7777 (193090359700619264), `${DoctaEnkoda++}`#2311
+    (160868823887511552), NaelleOwska#1786 (359767845762236436)
+  discord: https://discord.gg/yaS9krd
+- id: yabl.xyz
+  added: 1564607076
+  name: Yet Another Bot List
+  url: https://yabl.xyz/
+  icon: https://i.imgur.com/OFiMern.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://yabl.xyz/api
+  api_post: https://yabl.xyz/api/bot/:id/stats
+  api_field: guildCount
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://yabl.xyz/api/bot/:id
+  api_all: https://yabl.xyz/api/bots/all
+  view_bot: https://yabl.xyz/bot/:id
+  bot_widget: null
+  content: null
+  owners: "! craftxbox#4738 (153353572711530496), ry00001#3487 (190544080164487168)"
+  discord: https://discord.gg/vXeUnzZ
