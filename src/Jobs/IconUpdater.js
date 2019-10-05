@@ -9,7 +9,7 @@ class IconUpdater extends BaseJob {
     }
 
     execute() {
-        this.db.run('SELECT * FROM lists WHERE display = ? AND defunct = ?', [1, 0]).then((lists) => {
+        this.db.select().from('lists').where({ display: true, defunct: false }).then((lists) => {
             for (let i = 0; i < lists.length; i++) {
                 updateIcon(this.client, this.db, lists[i]).then((m) => {
                     console.log(m)

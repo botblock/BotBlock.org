@@ -1,16 +1,14 @@
-const config = require('../config');
 const Website = require('./Website');
-const Database = require('./Structure/Database');
+const db = require('../db/db');
 
 return new Promise(async () => {
-    const db = new Database(config.database);
     try {
-        await db.connect();
+        const knex = db();
         console.log('[Database] Successfully connected to MySQL database.');
         new Website({
-            db: db
+            db: knex
         }).start();
     } catch (e) {
         console.error('[Website] Failed to start Website.', e);
     }
-})
+});
