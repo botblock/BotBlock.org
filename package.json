@@ -8,10 +8,14 @@
     "dev": "nodemon .",
     "test": "mocha",
     "css:build": "node-sass --omit-source-map-url src/SCSS/style.scss src/Assets/css/style.min.css --output-style compressed",
-    "css:watch": "npm run css:build -- --watch"
+    "css:watch": "npm run css:build -- --watch",
+    "db:migrate": "knex migrate:latest",
+    "db:migrate:rollback": "knex migrate:rollback",
+    "db:seed": "knex seed:run",
+    "db:seed:export": "node db/seedsExport.js"
   },
   "author": {
-    "name": "Jacob Rayner"
+    "name": "BotBlock Team"
   },
   "dependencies": {
     "ansi-html": "0.0.7",
