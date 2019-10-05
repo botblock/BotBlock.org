@@ -325,7 +325,7 @@ describe('/lists/search/:query', () => {
             });
         });
         it('renders the expected results', done => {
-            db.select('name', 'url').from('lists').where({ display: true, defunct: true}).then(lists => {
+            db.select('name', 'url').from('lists').where({ display: true, defunct: false }).then(lists => {
                 lists = lists.filter(list => list.name.toLowerCase().includes('bots') || list.url.toLowerCase().includes('bots'));
                 test().end((err, res) => {
                     // Confirm list cards

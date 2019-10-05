@@ -8,6 +8,7 @@ const getUserAgent = require('../Util/getUserAgent');
 const isSnowflake = require('../Util/isSnowflake');
 const { slugify, librarySlug } = require('../Util/slugs');
 const Renderer = require('../Structure/Markdown');
+const { secret } = require('../../config.js');
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {
@@ -153,6 +154,7 @@ class APIRoute extends BaseRoute {
             let failure = {};
             this.db
                 .select('id', 'api_docs', 'api_post', 'api_field', 'api_shard_id', 'api_shard_count', 'api_shards', 'api_get')
+                .from('lists')
                 .where({ defunct: false })
                 .whereNot({ api_post: '' }).whereNot({ api_post: null })
                 .orderBy([
@@ -292,6 +294,17 @@ class APIRoute extends BaseRoute {
                         message: 'An unexpected database error occurred'
                     });
                 })
+        });
+
+        this.router.get('/reset', (req, res) => {
+            const ratelimitBypass = req.get('X-Ratelimit-Bypass');
+            if (ratelimitBypass !== secret) {
+                return res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
+            }
+
+            this.db('ratelimit').where({ ip: req.ip }).del().then(() => {
+                res.status(200).json({ error: false, status: 200, message: 'Ratelimit reset' });
+            });
         });
 
         this.router.use('*', (req, res) => {
