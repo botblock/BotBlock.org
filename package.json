@@ -32,6 +32,7 @@
     "express": "^4.17.1",
     "express-minify": "^1.0.0",
     "i18n": "^0.8.3",
+    "kill-port": "^1.6.0",
     "knex": "^0.19.4",
     "lighthouse": "^5.2.0",
     "markdown-it": "^9.0.1",
