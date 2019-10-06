@@ -8,6 +8,7 @@ module.exports = async (db, id) => {
     return allFeatures.map(feature => {
         return {
             name: feature.name,
+            id: feature.id,
             display: feature.display,
             type: feature.type,
             value: feature.id in map ? map[feature.id] : 0
@@ -21,4 +22,4 @@ module.exports = async (db, id) => {
         }
         return b.value - a.value
     });
-}
+};
