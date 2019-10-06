@@ -27,7 +27,7 @@ const ratelimitTest = (context, limit, test, done) => {
                 expect(res).to.be.json;
                 done();
             });
-        }, limit * 1.05 * 1000);
+        }, (limit * 1.05 + 0.5) * 1000);
     });
 };
 
