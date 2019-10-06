@@ -742,10 +742,10 @@ describe('/api/bots/:id', () => {
             });
         });
 
-        describe('Valid request (MEE6 159985870458322944)', function () {
+        describe('Valid request (Welcomer 330416853971107840)', function () {
             this.slow(15 * 1000);
             this.timeout(20 * 1000);
-            const test = () => ratelimitBypass(request().get('/api/bots/159985870458322944'));
+            const test = () => ratelimitBypass(request().get('/api/bots/330416853971107840'));
             it('returns an OK status code', done => {
                 test().end((err, res) => {
                     expect(res).to.have.status(200);
@@ -760,12 +760,13 @@ describe('/api/bots/:id', () => {
             });
             it('contains the correct response body structure', done => {
                 test().end((err, res) => {
-                    expect(res.body).to.have.property('id', '159985870458322944');
-                    expect(res.body).to.have.property('username', 'MEE6');
-                    expect(res.body).to.have.property('discriminator', '4876');
+                    expect(res.body).to.have.property('id', '330416853971107840');
+                    expect(res.body).to.have.property('username', 'Welcomer');
+                    expect(res.body).to.have.property('discriminator', '5491');
 
                     expect(res.body).to.have.property('owners');
                     expect(res.body.owners).to.be.an('array');
+                    expect(res.body.owners).to.contain('143090142360371200');
 
                     expect(res.body).to.have.property('server_count');
                     expect(res.body.server_count).to.be.a('number');
