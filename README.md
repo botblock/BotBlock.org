@@ -8,6 +8,14 @@ Copy the example config file to `config.js` at the root of the project.
 For development, you may want to set the port to `3000` instead of `80`.
 Please make sure to fill out all the required config data for the Discord integration.
 
+### Dependencies
+
+We use Node.js 10+ for the project, so all our dependencies are managed from the `package.json` file and can be
+installed with NPM by running `npm install`.
+
+We have decided that the dependency lock file (`package-lock.json`) won't be version controlled for this project.
+If we ever encounter and issue with dependency versioning across environments, we might change this.
+
 ### Setup Database
 
 #### Create Database
