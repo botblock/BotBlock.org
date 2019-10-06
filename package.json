@@ -17,7 +17,8 @@
     "deploy:staging:execute": "node deploy/src/execute.js staging.botblock.org",
     "deploy:production": "node deploy/production.js",
     "deploy:production:execute": "node deploy/src/execute.js botblock.org",
-    "ci": "node ci/run.js"
+    "ci:setup": "node ci/setup.js",
+    "ci:run": "node ci/run.js"
   },
   "author": {
     "name": "BotBlock Team"

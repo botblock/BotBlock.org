@@ -23,9 +23,9 @@ module.exports = {
     // SQL Database
     'database': {
         'host': 'localhost',
-        'user': 'test',
-        'password': 'test',
-        'database': 'botblock_test',
+        'user': 'root',
+        'password': 'root',
+        'database': 'botblock',
         'client': 'mysql'
     }
 };
