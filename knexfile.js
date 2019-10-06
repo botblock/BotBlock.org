@@ -1,10 +1,8 @@
-const config = {...require('./config')};
-const client = config.database.client;
-delete config.database.client;
+const config = require('./config');
 
 module.exports = {
     development: {
-        client,
+        client: config.database.client,
         connection: config.database,
         migrations: {
             tableName: 'migrations',
