@@ -1,14 +1,11 @@
 const config = require('./config');
+const client = config.database.client;
+delete config.database.client;
 
 module.exports = {
     development: {
-        client: config.database.client,
-        connection: {
-            host: config.database.host,
-            database: config.database.database,
-            user: config.database.user,
-            password: config.database.password
-        },
+        client,
+        connection: config.database,
         migrations: {
             tableName: 'migrations',
             directory: './db/migrations'

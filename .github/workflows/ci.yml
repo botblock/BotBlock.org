@@ -1,0 +1,34 @@
+name: CI
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: '5.7'
+          mysql database: 'botblock_test'
+          mysql user: 'test'
+          mysql password: 'test'
+
+      - name: Use Node.js 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Database migrations
+        run: npm run db:migrate
+
+      - name: Database seed
+        run: npm run db:seed
+
+      - name: Run tests
+        run: npm run ci
