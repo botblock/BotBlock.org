@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = {...require('./config')};
 const client = config.database.client;
 delete config.database.client;
 

@@ -19,9 +19,15 @@ const main = async () => {
         fs.renameSync(configBackupLocation, configLocation);
     }
 
-    // Throw/log tests result
+    // Throw/return tests result
     if (err) throw err;
-    console.log(out);
+    return out;
 };
 
-main();
+main().then(result => {
+    console.log(result.stdout);
+    process.exit();
+}).catch(err => {
+    console.log(err.stdout);
+    process.exit(1);
+});
