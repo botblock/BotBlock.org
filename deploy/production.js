@@ -7,9 +7,6 @@ const resetLocal = async branch => {
     // Checkout back to original branch
     await run(`git checkout ${branch}`);
 
-    // Pop any changes out of stash
-    await run('git stash apply');
-
     // Remove local copy of staging
     await run('git branch -D staging');
 };
@@ -32,9 +29,6 @@ const main = async () => {
 
     // Remove any local copy of staging
     if (localStaging) await run('git branch -D staging');
-
-    // Stash any local changes
-    await run('git stash');
 
     // Checkout latest staging
     await run('git fetch && git checkout staging');
@@ -82,4 +76,8 @@ const main = async () => {
     console.log('Successfully deployed to production');
 };
 
-main();
+main().catch(async () => {
+    // Notify of failure
+    await discord('❌ **Deploy script failed, aborting deploy.**');
+    console.log('Deploy script failed, aborting deploy');
+});

@@ -49,4 +49,8 @@ const main = async () => {
     console.log('Successfully deployed to staging');
 };
 
-main();
+main().catch(async () => {
+    // Notify of failure
+    await discord('❌ **Deploy script failed, aborting deploy.**');
+    console.log('Deploy script failed, aborting deploy');
+});
