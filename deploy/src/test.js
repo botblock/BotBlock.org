@@ -3,21 +3,22 @@ const { port } = require('../../config');
 const kill = require('kill-port');
 
 module.exports = async () => {
-    let err;
+    let err, out;
 
     // Kill any existing server
     await kill(port, 'tcp');
 
     // Start the server
-    try {
-        run('npm run start')
-    } catch (e) {
-    }
+    run('npm run start').catch(() => {
+        console.log('Web server killed')
+    });
 
     // Run the test suite
-    const out = await run('npm test').catch(e => {
+    try {
+        out = await run('npm test');
+    } catch (e) {
         err = e;
-    });
+    }
 
     // Kill the server
     await kill(port, 'tcp');

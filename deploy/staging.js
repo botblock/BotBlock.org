@@ -1,6 +1,6 @@
 const discord = require('./src/discord');
-const test = require('./src/test');
 const run = require('./src/run');
+const test = require('./src/test');
 const deploy = require('./src/deploy');
 
 const main = async () => {
