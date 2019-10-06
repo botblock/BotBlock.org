@@ -1,4 +1,4 @@
-const {describe, it, expect, request, db, locale, titleCheck} = require('../base');
+const { describe, it, expect, request, db, locale, titleCheck } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
@@ -17,7 +17,7 @@ describe('/lists', () => {
             });
         });
         it('renders the expected content', done => {
-            db('SELECT name, url FROM lists WHERE display = 1 AND defunct = 0').then(lists => {
+            db.select('name', 'url').from('lists').where({ display: true, defunct: false }).then(lists => {
                 test().end((err, res) => {
                     expect(res).to.be.html;
 
@@ -57,25 +57,29 @@ describe('/lists/new', () => {
             });
         });
         it('renders the expected content', done => {
-            db('SELECT name, url FROM lists WHERE display = 1 AND defunct = 0 ORDER BY added DESC LIMIT 4').then(lists => {
-                test().end((err, res) => {
-                    expect(res).to.be.html;
+            db.select('name', 'url').from('lists')
+                .where({ display: true, defunct: false })
+                .orderBy('added', 'desc')
+                .limit(4)
+                .then(lists => {
+                    test().end((err, res) => {
+                        expect(res).to.be.html;
 
-                    // Confirm header
-                    expect(res.text).to.include('New Bot Lists');
+                        // Confirm header
+                        expect(res.text).to.include('New Bot Lists');
 
-                    // Confirm footer stats
-                    expect(res.text).to.include(`${locale('site_name')} - Bot List Stats`);
+                        // Confirm footer stats
+                        expect(res.text).to.include(`${locale('site_name')} - Bot List Stats`);
 
-                    // Confirm list cards
-                    lists.forEach(list => {
-                        expect(res.text).to.include(list.name);
-                        expect(res.text).to.include(list.url);
+                        // Confirm list cards
+                        lists.forEach(list => {
+                            expect(res.text).to.include(list.name);
+                            expect(res.text).to.include(list.url);
+                        });
+
+                        done();
                     });
-
-                    done();
                 });
-            });
         });
     });
 });
@@ -97,7 +101,7 @@ describe('/lists/defunct', () => {
             });
         });
         it('renders the expected content', done => {
-            db('SELECT name, url FROM lists WHERE defunct = 1').then(lists => {
+            db.select('name', 'url').from('lists').where({ defunct: true }).then(lists => {
                 test().end((err, res) => {
                     expect(res).to.be.html;
 
@@ -137,7 +141,7 @@ describe('/lists/hidden', () => {
             });
         });
         it('renders the expected content', done => {
-            db('SELECT name, url FROM lists WHERE display = 0 AND defunct = 0').then(lists => {
+            db.select('name', 'url').from('lists').where({ display: false, defunct: false }).then(lists => {
                 test().end((err, res) => {
                     expect(res).to.be.html;
 
@@ -177,7 +181,7 @@ describe('/lists/features', () => {
             });
         });
         it('renders the expected content', done => {
-            db('SELECT name FROM features').then(features => {
+            db.select('name').from('features').then(features => {
                 test().end((err, res) => {
                     expect(res).to.be.html;
 
@@ -321,7 +325,8 @@ describe('/lists/search/:query', () => {
             });
         });
         it('renders the expected results', done => {
-            db('SELECT name, url FROM lists WHERE (LOWER(name) LIKE \'%bots%\' OR LOWER(url) LIKE \'%bots%\') AND display = 1 AND defunct = 0').then(lists => {
+            db.select('name', 'url').from('lists').where({ display: true, defunct: false }).then(lists => {
+                lists = lists.filter(list => list.name.toLowerCase().includes('bots') || list.url.toLowerCase().includes('bots'));
                 test().end((err, res) => {
                     // Confirm list cards
                     lists.forEach(list => {
@@ -341,7 +346,7 @@ describe('/lists/:id', () => {
         const test = () => request().get(`/lists/${listId}`);
         let data;
         before('fetch list data', done => {
-            db(`SELECT * FROM lists WHERE id = '${listId}'`).then(lists => {
+            db.select().from('lists').where({ id: listId }).then(lists => {
                 data = lists[0];
                 done();
             })

@@ -1,4 +1,4 @@
-const {describe, it, expect, request, ratelimitBypass, locale, titleCheck, db} = require('../base');
+const { describe, it, expect, request, ratelimitBypass, resetRatelimits, ratelimitTest, locale, titleCheck, db } = require('../base');
 
 describe('Invalid route (/api/helloworld)', () => {
     describe('GET', () => {
@@ -174,7 +174,7 @@ describe('/api/lists', () => {
     });
 
     describe('GET w/ ?filter=true', () => {
-        const test = () => ratelimitBypass(request().get('/api/lists').query({filter: true}));
+        const test = () => ratelimitBypass(request().get('/api/lists').query({ filter: true }));
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
@@ -202,44 +202,35 @@ describe('/api/lists', () => {
     describe('GET (Ratelimited)', () => {
         const test = () => request().get('/api/lists');
         it('ratelimits spam requests', done => {
-            test().end(() => {
-            });
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(429);
-                    expect(res).to.be.json;
-
-                    expect(res.body).to.have.property('error', true);
-                    expect(res.body).to.have.property('status', 429);
-
-                    expect(res.body).to.have.property('retry_after');
-                    expect(res.body.retry_after).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_reset');
-                    expect(res.body.ratelimit_reset).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_ip');
-                    expect(res.body.ratelimit_ip).to.be.a('string');
-
-                    expect(res.body).to.have.property('ratelimit_route', '/api/lists');
-                    expect(res.body).to.have.property('ratelimit_bot_id', '');
-                    done();
+            resetRatelimits().end(() => {
+                test().end(() => {
                 });
-            }, 200);
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/lists');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '');
+                        done();
+                    });
+                }, 200);
+            });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            const limit = 1;
-            this.slow(limit * 1000 + 1000);
-            this.timeout(limit * 1000 + 2000);
-            test().end(() => {
-            });
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(200);
-                    expect(res).to.be.json;
-                    done();
-                });
-            }, limit * 1000);
+            ratelimitTest(this, 1, test, done);
         });
     });
 
@@ -622,74 +613,70 @@ describe('/api/count', () => {
             const test = () => request().post('/api/count').send({
                 bot_id: '123456789123456789'
             });
-            test().end(() => {});
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(429);
-                    expect(res).to.be.json;
-
-                    expect(res.body).to.have.property('error', true);
-                    expect(res.body).to.have.property('status', 429);
-
-                    expect(res.body).to.have.property('retry_after');
-                    expect(res.body.retry_after).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_reset');
-                    expect(res.body.ratelimit_reset).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_ip');
-                    expect(res.body.ratelimit_ip).to.be.a('string');
-
-                    expect(res.body).to.have.property('ratelimit_route', '/api/count');
-                    expect(res.body).to.have.property('ratelimit_bot_id', '123456789123456789');
-                    done();
+            resetRatelimits().end(() => {
+                test().end(() => {
                 });
-            }, 200);
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/count');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '123456789123456789');
+                        done();
+                    });
+                }, 200);
+            });
         });
         it.skip('does not use invalid bot ID in ratelimit', done => { // TODO: this test needs fixing
             const test = () => request().post('/api/count').send({
                 bot_id: 12345
             });
-            test().end(() => {});
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(429);
-                    expect(res).to.be.json;
-
-                    expect(res.body).to.have.property('error', true);
-                    expect(res.body).to.have.property('status', 429);
-
-                    expect(res.body).to.have.property('retry_after');
-                    expect(res.body.retry_after).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_reset');
-                    expect(res.body.ratelimit_reset).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_ip');
-                    expect(res.body.ratelimit_ip).to.be.a('string');
-
-                    expect(res.body).to.have.property('ratelimit_route', '/api/count');
-                    expect(res.body).to.have.property('ratelimit_bot_id', '');
-                    done();
+            resetRatelimits().end(() => {
+                test().end(() => {
                 });
-            }, 200);
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/count');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '');
+                        done();
+                    });
+                }, 200);
+            });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            const limit = 120;
-            this.slow(limit * 1000 + 1000);
-            this.timeout(limit * 1000 + 2000);
             const test = () => request().post('/api/count').send({
                 bot_id: '123456789123456789',
                 server_count: 10
             });
-            test().end(() => {});
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(200);
-                    expect(res).to.be.json;
-                    done();
-                });
-            }, limit * 1000);
+            ratelimitTest(this, 120, test, done);
         });
     });
 });
@@ -805,7 +792,7 @@ describe('/api/bots/:id', () => {
             this.timeout(20 * 1000);
             const test = () => ratelimitBypass(request().get('/api/bots/12345678901234567890'));
             it('does not have cached data for the first request', done => {
-                db('DELETE FROM cache WHERE route =\'/api/bots/12345678901234567890\'').then(() => {
+                db('cache').where({ route: '/api/bots/12345678901234567890' }).del().then(() => {
                     test().end((err, res) => {
                         expect(res.body).to.have.property('id', '12345678901234567890');
                         expect(res.body).to.have.property('cached', false);
@@ -828,43 +815,35 @@ describe('/api/bots/:id', () => {
         it('ratelimits spam requests', function (done) {
             this.slow(15 * 1000);
             this.timeout(20 * 1000);
-            test().end(() => {
-            });
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(429);
-                    expect(res).to.be.json;
-
-                    expect(res.body).to.have.property('error', true);
-                    expect(res.body).to.have.property('status', 429);
-
-                    expect(res.body).to.have.property('retry_after');
-                    expect(res.body.retry_after).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_reset');
-                    expect(res.body.ratelimit_reset).to.be.a('number');
-
-                    expect(res.body).to.have.property('ratelimit_ip');
-                    expect(res.body.ratelimit_ip).to.be.a('string');
-
-                    expect(res.body).to.have.property('ratelimit_route', '/api/bots/123456789123456789');
-                    expect(res.body).to.have.property('ratelimit_bot_id', '');
-                    done();
+            resetRatelimits().end(() => {
+                test().end(() => {
                 });
-            }, 200);
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/bots/123456789123456789');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '');
+                        done();
+                    });
+                }, 200);
+            });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            this.slow(15 * 1000 + 30 * 1000);
-            this.timeout(20 * 1000 + 30 * 1000);
-            test().end(() => {
-            });
-            setTimeout(() => {
-                test().end((err, res) => {
-                    expect(res).to.have.status(200);
-                    expect(res).to.be.json;
-                    done();
-                });
-            }, 30 * 1000 + 200);
+            ratelimitTest(this, 30, test, done);
         });
     });
 

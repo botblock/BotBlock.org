@@ -1,6 +1,7 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const FormValidator = require('../Structure/FormValidator');
 const getListFeature = require('../Util/getListFeature');
+const getListFeatures = require('../Util/getListFeatures');
 const handleError = require('../Util/handleError');
 
 class ListsRoute extends BaseRoute {
@@ -14,124 +15,179 @@ class ListsRoute extends BaseRoute {
 
     footerData() {
         return new Promise((resolve, reject) => {
-            this.db.run('SELECT discord_only FROM lists WHERE defunct = 0 AND display = 1').then((active) => {
-                this.db.run('SELECT COUNT(id) as count FROM lists WHERE defunct = 1').then((defunct) => {
-                    const discordOnly = active.filter(list => list.discord_only);
-                    resolve({active: active.length, discordOnly: discordOnly.length, defunct: defunct[0].count});
+            this.db.select('discord_only').from('lists')
+                .where({ defunct: false, display: true })
+                .then((active) => {
+                    this.db.select('id').from('lists').where({ defunct: true }).then((defunct) => {
+                        const discordOnly = active.filter(list => list.discord_only);
+                        resolve({ active: active.length, discordOnly: discordOnly.length, defunct: defunct.length });
+                    }).catch(reject);
                 }).catch(reject);
-            }).catch(reject);
         });
     }
 
     routes() {
         this.router.get('/', (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE defunct = 0 AND display = 1 ORDER BY discord_only DESC, LOWER(name) ASC').then((lists) => {
-                    this.footerData().then((footer) => {
-                        res.render('lists/lists', {title: 'All Bot Lists', lists, footer});
+                this.db.select().from('lists')
+                    .where({ defunct: false, display: true })
+                    .orderBy([
+                        { column: 'discord_only', order: 'desc' },
+                        { column: 'id', order: 'asc' }
+                    ])
+                    .then((lists) => {
+                        this.footerData().then((footer) => {
+                            res.render('lists/lists', { title: 'All Bot Lists', lists, footer });
+                        });
                     });
-                });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/new', (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE defunct = 0 AND display = 1 ORDER BY added DESC LIMIT 4').then((lists) => {
-                    this.footerData().then((footer) => {
-                        res.render('lists/lists', {
-                            title: 'New Bot Lists',
-                            subtitle: `These are the most recent bot lists to be added to ${res.__('site_name')}`,
-                            lists, footer
+                this.db.select().from('lists')
+                    .where({
+                        defunct: false,
+                        display: true
+                    })
+                    .orderBy('added', 'desc')
+                    .limit(4)
+                    .then((lists) => {
+                        this.footerData().then((footer) => {
+                            res.render('lists/lists', {
+                                title: 'New Bot Lists',
+                                subtitle: `These are the most recent bot lists to be added to ${res.__('site_name')}`,
+                                lists, footer
+                            });
                         });
                     });
-                });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/defunct', (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE defunct = 1 ORDER BY discord_only DESC, LOWER(name) ASC').then((lists) => {
-                    this.footerData().then((footer) => {
-                        res.render('lists/lists', {
-                            title: 'Defunct Bot Lists',
-                            subtitle: `These lists are flagged as defunct on ${res.__('site_name')}`,
-                            lists, footer
+                this.db.select().from('lists')
+                    .where({ defunct: true })
+                    .orderBy([
+                        { column: 'discord_only', order: 'desc' },
+                        { column: 'id', order: 'asc' }
+                    ])
+                    .then((lists) => {
+                        this.footerData().then((footer) => {
+                            res.render('lists/lists', {
+                                title: 'Defunct Bot Lists',
+                                subtitle: `These lists are flagged as defunct on ${res.__('site_name')}`,
+                                lists, footer
+                            });
                         });
                     });
-                });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/hidden', (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE defunct = 0 AND display = 0 ORDER BY discord_only DESC, LOWER(name) ASC').then((lists) => {
-                    this.footerData().then((footer) => {
-                        res.render('lists/lists', {
-                            title: 'Hidden Bot Lists',
-                            subtitle: `These lists are currently hidden on ${res.__('site_name')}.\nTo find out more about why each list here is hidden, press the Information button on the list card.`,
-                            lists, footer
+                this.db.select().from('lists')
+                    .where({ defunct: false, display: false })
+                    .orderBy([
+                        { column: 'discord_only', order: 'desc' },
+                        { column: 'id', order: 'asc' }
+                    ])
+                    .then((lists) => {
+                        this.footerData().then((footer) => {
+                            res.render('lists/lists', {
+                                title: 'Hidden Bot Lists',
+                                subtitle: `These lists are currently hidden on ${res.__('site_name')}.\nTo find out more about why each list here is hidden, press the Information button on the list card.`,
+                                lists, footer
+                            });
                         });
                     });
-                });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/features', (req, res) => {
             try {
-                this.db.run('SELECT * FROM features ORDER BY display DESC, name ASC').then((checkboxes) => {
-                    this.footerData().then((footer) => {
-                        res.render('lists/features', {
-                            title: 'All List Features',
-                            checkboxes, footer
+                this.db.select().from('features')
+                    .orderBy([
+                        { column: 'display', order: 'desc' },
+                        { column: 'name', order: 'asc' }
+                    ])
+                    .then((checkboxes) => {
+                        this.footerData().then((footer) => {
+                            res.render('lists/features', {
+                                title: 'All List Features',
+                                checkboxes, footer
+                            });
                         });
                     });
-                });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/features/:id', (req, res) => {
             try {
-                this.db.run('SELECT * FROM features WHERE id = ? LIMIT 1', [req.params.id]).then((features) => {
+                this.db.select().from('features').where({ id: req.params.id }).limit(1).then((features) => {
                     if (!features.length) return res.status(404).render('error', {
                         title: 'Page not found',
                         status: 404,
                         message: 'The page you were looking for could not be found.'
                     });
-                    this.db.run('SELECT * FROM lists LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.feature = ?) temp ON temp.list = lists.id WHERE display = 1 AND defunct = 0 AND temp.feature IS NOT NULL ORDER BY discord_only DESC, LOWER(name) ASC', [req.params.id]).then((lists) => {
-                        this.footerData().then((footer) => {
-                            res.render('lists/lists', {
-                                title: `Bot Lists with feature '${features[0].name}'`,
-                                lists, footer
-                            });
+                    this.db.select().from('lists')
+                        .where({ display: true, defunct: false })
+                        .orderBy([
+                            { column: 'discord_only', order: 'desc' },
+                            { column: 'id', order: 'asc' }
+                        ])
+                        .then((allLists) => {
+                            this.db.select().from('feature_map')
+                                .where({ feature: req.params.id })
+                                .then((featureMap) => {
+                                    const map = featureMap.reduce((obj, item) => {
+                                        obj[item.list] = item.value;
+                                        return obj
+                                    }, {});
+                                    const lists = allLists.filter(list => (list.id in map && map[list.id]));
+                                    this.footerData().then((footer) => {
+                                        res.render('lists/lists', {
+                                            title: `Bot Lists with feature '${features[0].name}'`,
+                                            lists, footer
+                                        });
+                                    });
+                                });
                         });
-                    });
                 });
-            } catch (e) {
+            } catch
+                (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/search/:query*?', (req, res) => {
             try {
                 const query = req.params.query || '';
-                this.db.run('SELECT * FROM lists WHERE LOWER(name) LIKE ? AND display = 1 AND defunct = 0 ORDER BY discord_only DESC, LOWER(name) ASC', [`%${query}%`]).then((names) => {
-                    this.db.run('SELECT * FROM lists WHERE LOWER(url) LIKE ? AND LOWER(name) NOT LIKE ? AND display = 1 AND defunct = 0 ORDER BY discord_only DESC, LOWER(name) ASC', [`%${query}%`, `%${query}%`]).then((links) => {
+                this.db.select().from('lists')
+                    .where({ display: true, defunct: false })
+                    .orderBy([
+                        { column: 'discord_only', order: 'desc' },
+                        { column: 'id', order: 'asc' }
+                    ])
+                    .then((allLists) => {
+                        const names = allLists.filter(list => list.name.toLowerCase().includes(query.toLowerCase()));
+                        const links = allLists.filter(list => !names.includes(list) && list.url.toLowerCase().includes(query.toLowerCase()));
                         const lists = [...names, ...links];
                         this.footerData().then((footer) => {
                             res.render('lists/search', {
@@ -140,31 +196,39 @@ class ListsRoute extends BaseRoute {
                             });
                         });
                     });
-                });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
-        this.router.get('/add', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
+        this.router.get('/add', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                const features = await this.db.run('SELECT * FROM features ORDER BY display DESC, name ASC');
-                res.render('lists/edit', {
-                    edit: false,
-                    checkboxes: features,
-                    interactiveCheckboxes: true,
-                    data: {}
-                })
+                this.db.select().from('features')
+                    .orderBy([
+                        { column: 'display', order: 'desc' },
+                        { column: 'name', order: 'asc' }
+                    ])
+                    .then((features) => {
+                        res.render('lists/edit', {
+                            edit: false,
+                            checkboxes: features,
+                            interactiveCheckboxes: true,
+                            data: {}
+                        });
+                    });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.post('/add', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
-                const features = await this.db.run('SELECT * FROM features ORDER BY display DESC, name ASC');
+                const features = await this.db.select().from('features').orderBy([
+                    { column: 'display', order: 'desc' },
+                    { column: 'name', order: 'asc' }
+                ]);
                 const validate = FormValidator.validateList('', req.body, res.locals.user, false);
                 if (validate && validate.length > 0) return res.render('lists/edit', {
                     title: 'Add List ',
@@ -174,41 +238,46 @@ class ListsRoute extends BaseRoute {
                     data: req.body,
                     errors: validate
                 });
-                const columns = await this.db.run('SHOW COLUMNS from lists');
+                const columns = Object.keys(await this.db('lists').columnInfo());
                 let changes = {};
                 for (const column of columns) {
-                    if (req.body[column.Field]) {
-                        changes[column.Field] = req.body[column.Field];
+                    if (req.body[column]) {
+                        changes[column] = req.body[column];
                     } else {
-                        changes[column.Field] = null;
+                        changes[column] = null;
                     }
                 }
                 changes['added'] = (Date.now() / 1000);
-                await this.db.run('INSERT INTO lists (' + Object.keys(changes).map((c) => c).join(', ') + ') VALUES (' + Object.values(changes).map((c) => this.db.escape(c)).join(', ') + ')');
+                await this.db('lists').insert(changes);
                 for (let [key, value] of Object.entries(req.body)) {
                     if (key.substring(0, 8) === 'feature_') {
                         key = key.replace('feature_', '');
                         value = value === 'on';
-                        await this.db.run('INSERT INTO feature_map (list, feature, value) VALUES (?, ?, ?)', [changes.id, key, value]);
+                        await this.db('feature_map').insert({
+                            list: changes.id,
+                            feature: key,
+                            value
+                        });
                     }
                 }
                 require('../Util/updateListMessage')(this.client, this.db, req.body, req.body.id);
                 res.redirect('/lists/' + req.body.id)
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/:id', (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
+                this.db.select().from('lists').where({ id: req.params.id }).limit(1).then((lists) => {
                     if (!lists.length) return res.status(404).render('error', {
                         title: 'Page not found',
                         status: 404,
                         message: 'The page you were looking for could not be found.'
                     });
-                    this.db.run('SELECT features.name as name, IFNULL(temp.value, 0) as value, features.display as display, features.type as type, features.id as id FROM features LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.list = ?) temp ON temp.feature = features.id ORDER BY temp.value DESC, features.display DESC, features.name ASC', [lists[0].id]).then((features) => {
+                    getListFeatures(this.db, lists[0].id).then((features) => {
+
                         res.render('lists/list', {
                             title: `${lists[0].name} (${lists[0].id})`,
                             list: lists[0],
@@ -219,19 +288,20 @@ class ListsRoute extends BaseRoute {
                 });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
+                this.db.select().from('lists').where({ id: req.params.id }).limit(1).then((lists) => {
                     if (!lists.length) return res.status(404).render('error', {
                         title: 'Page not found',
                         status: 404,
                         message: 'The page you were looking for could not be found.'
                     });
-                    this.db.run('SELECT features.name as name, IFNULL(temp.value, 0) as value, features.display as display, features.type as type, features.id as id FROM features LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.list = ?) temp ON temp.feature = features.id ORDER BY temp.value DESC, features.display DESC, features.name ASC', [lists[0].id]).then((features) => {
+                    getListFeatures(this.db, lists[0].id).then((features) => {
+
                         res.render('lists/edit', {
                             title: 'Edit ' + lists[0].id,
                             data: lists[0],
@@ -244,19 +314,20 @@ class ListsRoute extends BaseRoute {
                 });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.post('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]).then((lists) => {
+                this.db.select().from('lists').where({ id: req.params.id }).limit(1).then((lists) => {
                     if (!lists.length) return res.status(404).render('error', {
                         title: 'Page not found',
                         status: 404,
                         message: 'The page you were looking for could not be found.'
                     });
-                    this.db.run('SELECT features.name as name, IFNULL(temp.value, 0) as value, features.display as display, features.type as type, features.id as id FROM features LEFT OUTER JOIN (SELECT * FROM feature_map WHERE feature_map.list = ?) temp ON temp.feature = features.id ORDER BY temp.value DESC, features.display DESC, features.name ASC', [lists[0].id]).then(async (features) => {
+                    getListFeatures(this.db, lists[0].id).then(async (features) => {
+
                         const validate = FormValidator.validateList(req.params.id, req.body, res.locals.user);
                         let changes = {};
                         let addedFeatures = [];
@@ -270,48 +341,60 @@ class ListsRoute extends BaseRoute {
                             errors: validate
                         });
                         try {
-                            const columns = await this.db.run('SHOW COLUMNS from lists');
+                            const columns = Object.keys(await this.db('lists').columnInfo());
                             for (const column of columns) {
-                                if (req.body[column.Field]) {
-                                    changes[column.Field] = req.body[column.Field];
+                                if (req.body[column]) {
+                                    changes[column] = req.body[column];
                                 } else {
-                                    changes[column.Field] = null;
+                                    changes[column] = null;
                                 }
                             }
                             changes['added'] = lists[0].added;
-                            await this.db.run('DELETE FROM lists WHERE id = ?', [req.params.id]);
-                            await this.db.run('INSERT INTO lists (' + Object.keys(changes).map((c) => c).join(', ') + ') VALUES (' + Object.values(changes).map((c) => this.db.escape(c)).join(', ') + ')');
+                            await this.db('lists').where({ id: req.params.id }).del();
+                            await this.db('lists').insert(changes);
 
-                            const oldFeatures = await this.db.run('SELECT * FROM feature_map WHERE list = ? AND value = ?', [changes.id, true]);
-                            await this.db.run('DELETE FROM feature_map WHERE list = ?' , [req.params.id]);
+                            const oldFeatures = await this.db.select().from('feature_map').where({
+                                list: req.params.id,
+                                value: true
+                            });
+                            await this.db('feature_map').where({ list: req.params.id }).del();
                             for (let [key, value] of Object.entries(req.body)) {
                                 if (key.substring(0, 8) === 'feature_') {
                                     key = key.replace('feature_', '');
                                     value = value === 'on';
-                                    await this.db.run('INSERT INTO feature_map (list, feature, value) VALUES (?, ?, ?)', [changes.id, key, value]);
+                                    await this.db('feature_map').insert({
+                                        list: changes.id,
+                                        feature: key,
+                                        value
+                                    });
                                     if (value) {
                                         addedFeatures.push(Number(key));
                                     }
                                 }
                             }
-                            this.client.updateEditLog(lists[0], changes, await Promise.all(addedFeatures.map(async(f) => getListFeature(this.db, Number(f)))), await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature)))));
+                            this.client.updateEditLog(
+                                lists[0],
+                                changes,
+                                await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
+                                await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
+                            );
                             require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
                             res.redirect('/lists/' + changes.id)
                         } catch (e) {
                             handleError(this.db, req.method, req.originalUrl, e.stack);
-                            res.status(500).render('error', {title: 'Database Error'});
+                            res.status(500).render('error', { title: 'Database Error' });
                         }
                     });
                 });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 
         this.router.get('/:id/icon', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
-                const lists = await this.db.run('SELECT * FROM lists WHERE id = ? LIMIT 1', [req.params.id]);
+                const lists = await this.db.select().from('lists').where({ id: req.params.id }).limit(1);
                 if (!lists.length) return res.status(404).render('error', {
                     title: 'Page not found',
                     status: 404,
@@ -321,11 +404,15 @@ class ListsRoute extends BaseRoute {
                     await require('../Util/updateIcon')(this.client, this.db, lists[0]);
                     res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' })
                 } catch {
-                    res.status(500).render('error', {title: 'Error', status: 400, message: 'Icon has not been updated' });
+                    res.status(500).render('error', {
+                        title: 'Error',
+                        status: 400,
+                        message: 'Icon has not been updated'
+                    });
                 }
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             }
         });
 

@@ -78,7 +78,7 @@ describe('/about', () => {
             });
         });
         it('renders the expected information', done => {
-            db('SELECT id, title FROM about').then(sections => {
+            db.select('id', 'title').from('about').then(sections => {
                 test().end((err, res) => {
                     expect(res).to.be.html;
 

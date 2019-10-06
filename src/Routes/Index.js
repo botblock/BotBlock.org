@@ -2,6 +2,7 @@ const fs = require('fs');
 const { join } = require('path');
 const BaseRoute = require('../Structure/BaseRoute');
 const Renderer = require('../Structure/Markdown');
+const shuffle = require('../Util/shuffle');
 
 class IndexRoute extends BaseRoute {
     constructor(client, db) {
@@ -15,15 +16,20 @@ class IndexRoute extends BaseRoute {
 
     routes() {
         this.router.get('/', (req, res) => {
-            this.db.run('SELECT * FROM lists WHERE discord_only = ? AND display = ? AND defunct = ? ORDER BY RAND() LIMIT 2', [1, 1, 0]).then((lists) => {
+            this.db.select().from('lists').where({
+                discord_only: true,
+                display: true,
+                defunct: false
+            }).then(lists => {
+                lists = shuffle(lists).slice(0, 2);
                 res.render('home', { lists });
             }).catch(() => {
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             })
         });
 
         this.router.get('/about', (req, res) => {
-            this.db.run('SELECT * FROM about ORDER BY position ASC').then((data) => {
+            this.db.select().from('about').orderBy('position', 'asc').then((data) => {
                 const sections = data.map(section => {
                     section.title = this.renderer.variables(section.title);
                     section.content = this.renderer.render(section.content);
@@ -31,7 +37,7 @@ class IndexRoute extends BaseRoute {
                 });
                 res.render('about', { title: 'About', sections });
             }).catch((e) => {
-                res.status(500).render('error', {title: 'Database Error'});
+                res.status(500).render('error', { title: 'Database Error' });
             })
         });
 

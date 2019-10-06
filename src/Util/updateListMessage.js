@@ -5,14 +5,14 @@ module.exports = async (client, db, list, newListID) => {
     let msg;
     try {
         let message = formatListMessage(list);
-        const messageid = await db.run('SELECT * FROM lists_messages WHERE list = ?', [list.id]);
-        if (messageid[0]) {
-            msg = await client.editMessage(config.discord.lists_log, messageid[0].message, message);
+        const messageId = await db.select('message').from('lists_messages').where({ list: list.id });
+        if (messageId[0]) {
+            msg = await client.editMessage(config.discord.lists_log, messageId[0].message, message);
         } else {
             msg = await client.createMessage(config.discord.lists_log, message);
         }
-        await db.run('DELETE FROM lists_messages WHERE list = ?', [list.id]);
-        await db.run('INSERT INTO lists_messages (list, message) VALUES (?, ?)', [newListID, msg.id]);
+        await db('lists_messages').where({ list: list.id }).del();
+        await db('lists_messages').insert( { list: newListID, message: msg.id });
     } catch (e) {
         return null;
     }

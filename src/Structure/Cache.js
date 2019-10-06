@@ -5,7 +5,7 @@ class Cache {
 
     async get(path) {
         try {
-            return (await this.db.run('SELECT * FROM cache WHERE route = ?', [path]))[0];
+            return (await this.db.select().from('cache').where({ route: path }))[0];
         } catch {
             return null;
         }
@@ -20,7 +20,11 @@ class Cache {
      */
     async add(route, expiry, data) {
         try {
-            return await this.db.run('INSERT INTO cache (route, expiry, data) VALUES (?, ?, ?)', [route, (Date.now() + expiry) / 1000, JSON.stringify(data)]);
+            return await this.db('cache').insert({
+                route,
+                expiry: (Date.now() + expiry) / 1000,
+                data: JSON.stringify(data)
+            });
         } catch (e) {
             return null;
         }
@@ -32,7 +36,7 @@ class Cache {
 
     async deleteExpired() {
         try {
-            return await this.db.run('DELETE FROM cache WHERE expiry < ?', [new Date().getSeconds()])
+            return await this.db('cache').where('expiry', '<', new Date().getSeconds()).del();
         } catch {
             return null;
         }
