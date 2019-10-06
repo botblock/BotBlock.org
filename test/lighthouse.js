@@ -57,13 +57,18 @@ describe('Lighthouse', () => {
             this.slow(0);
             this.timeout(0);
 
-            runLighthouse('mobile').then(results => {
-                result = results;
-            }).catch(() => {
+            if (process.argv.includes('--skip-lighthouse')) {
                 result = null;
-            }).finally(() => {
                 done();
-            });
+            } else {
+                runLighthouse('mobile').then(results => {
+                    result = results;
+                }).catch(() => {
+                    result = null;
+                }).finally(() => {
+                    done();
+                });
+            }
         });
 
         beforeEach('Check ran', function (done) {
@@ -113,13 +118,18 @@ describe('Lighthouse', () => {
             this.slow(0);
             this.timeout(0);
 
-            runLighthouse('desktop').then(results => {
-                result = results;
-            }).catch(() => {
+            if (process.argv.includes('--skip-lighthouse')) {
                 result = null;
-            }).finally(() => {
                 done();
-            });
+            } else {
+                runLighthouse('desktop').then(results => {
+                    result = results;
+                }).catch(() => {
+                    result = null;
+                }).finally(() => {
+                    done();
+                });
+            }
         });
 
         beforeEach('Check ran', function (done) {

@@ -15,7 +15,7 @@ module.exports = async () => {
 
     // Run the test suite
     try {
-        out = await run('npm test');
+        out = await run('npm run test -- --skip-lighthouse --reporter dot');
     } catch (e) {
         err = e;
     }
