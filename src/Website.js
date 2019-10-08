@@ -13,7 +13,7 @@ class Website {
     constructor(options) {
         this.db = options.db;
         this.client = new Discord(config.discord.token);
-				this.jobs = [];
+        this.jobs = [];
         this.app =  express();
     }
 
