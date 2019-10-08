@@ -74,15 +74,15 @@ class ListsRoute extends BaseRoute {
         this.router.get('/icons', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
                 const lists = await this.db.select().from('lists').where({ display: true, defunct: false });
-                    let messages = [];
-                    for (const list of lists) {
-                        try {
-                            const update = await updateIcon(this.client, this.db, list);
-                            messages.push(list.id + ' - ' + update);
-                        } catch (e) {
-                            messages.push(list.id + ' - ' + e);
-                        }
+                let messages = [];
+                for (const list of lists) {
+                    try {
+                        const update = await updateIcon(this.client, this.db, list);
+                        messages.push(list.id + ' - ' + update);
+                    } catch (e) {
+                        messages.push(list.id + ' - ' + e);
                     }
+                }
                 res.render('lists/iconupdater', { title: 'Icon Updater', lists: messages });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
