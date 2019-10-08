@@ -1,0 +1,37 @@
+const {describe, it, expect, request, authCheck} = require('../base');
+
+describe('/tasks', () => {
+    describe('GET', () => {
+        const test = () => request().get('/tasks');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/tasks/run/:id', () => {
+    describe('GET', () => {
+        const test = () => request().get('/tasks/run/0');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});

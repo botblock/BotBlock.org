@@ -13,6 +13,7 @@ class Website {
     constructor(options) {
         this.db = options.db;
         this.client = new Discord(config.discord.token);
+				this.jobs = [];
         this.app =  express();
     }
 
@@ -60,7 +61,7 @@ class Website {
                     if (!routes[i].endsWith('.js')) continue;
                     try {
                         const Route = require(path.join(dir, routes[i]));
-                        const route = new Route(this.client, this.db);
+                        const route = new Route(this.client, this.db, this.jobs);
                         this.app.use(route.route, route.getRouter);
                     } catch (e) {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
@@ -96,7 +97,7 @@ class Website {
                     try {
                         const Job = require(path.join(dir, jobs[i]));
                         const job = new Job(this.client, this.db);
-                        schedule.scheduleJob(job.interval, () => {
+                        this.jobs[i] = schedule.scheduleJob(path.basename(jobs[i], '.js'), job.interval, () => {
                             job.execute();
                         })
                     } catch (e) {

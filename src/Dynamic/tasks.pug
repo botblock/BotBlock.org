@@ -1,0 +1,11 @@
+extends layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 #{__('site_name')} Tasks
+            include Includes/tasks
+block footer
+    script(src='/assets/js/tasks.js')

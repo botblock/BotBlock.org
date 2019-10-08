@@ -1,0 +1,10 @@
+.card.is-box-shadow
+    .card-content
+        .media
+            .media-content
+                p.title.is-3 #{task.name}
+                p.subtitle.is-6
+                    | Next Run: #{task.nextInvocation}
+
+            .media-right.button-group.button-group-vertical
+                a.button.is-brand.is-small(id='runBtn' + task.id, onclick='runTask(' + task.id +')') Execute
