@@ -1,62 +1,68 @@
 {
-    "env": {
-      "node": true,
-      "jest": true,
-      "mocha": true,
-      "es6": true,
-    },
-    "parserOptions": {
-      "ecmaVersion": 2017,
-      "ecmaFeatures": {
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "globals": {
-      "Promise": true
-    },
-    "rules": {
-      "no-bitwise": 2,
-      "camelcase": 0,
-      "eqeqeq": 2,
-      "no-eq-null": 2,
-      "wrap-iife": [
-        2,
-        "any"
-      ],
-      "no-use-before-define": [
-        2,
-        {
-          "functions": false
-        }
-      ],
-      "new-cap": 2,
-      "no-new": 2,
-      "no-caller": 2,
-      "no-undef": 2,
-      "no-unused-vars": 0,
-      "dot-notation": 0,
-      "max-len": [
-        2,
-        {
-          "code": 200,
-          "ignoreComments": true
-        }
-      ],
-      "semi": [2 ,"always"],
-      "no-const-assign": "error",
-      "quotes": [
-        "error",
-        "single",
-        {
-          "avoidEscape": true
-        }
-      ],
-      "quote-props": [
-        "error",
-        "as-needed",
-        {
-          "numbers": true
-        }
-      ]
+  "env": {
+    "node": true,
+    "jest": true,
+    "mocha": true,
+    "es6": true,
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
     }
+  },
+  "globals": {
+    "Promise": true
+  },
+  "plugins": [
+    "mocha"
+  ],
+  "extends": [
+    "plugin:mocha/recommended"
+  ],
+  "rules": {
+    "no-bitwise": "error",
+    "camelcase": "off",
+    "eqeqeq": "error",
+    "no-eq-null": "error",
+    "wrap-iife": [
+      "error",
+      "any"
+    ],
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false
+      }
+    ],
+    "new-cap": "error",
+    "no-new": "error",
+    "no-caller": "error",
+    "no-undef": "error",
+    "no-unused-vars": "off",
+    "dot-notation": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 200,
+        "ignoreComments": true
+      }
+    ],
+    "semi": ["error" ,"always"],
+    "no-const-assign": "error",
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "quote-props": [
+      "error",
+      "as-needed",
+      {
+        "numbers": true
+      }
+    ]
   }
+}

@@ -50,6 +50,7 @@
   "devDependencies": {
     "bulma": "^0.7.5",
     "editorconfig-checker": "^3.0.3",
+    "eslint-plugin-mocha": "^6.1.1",
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.1"
   }
