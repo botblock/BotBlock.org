@@ -47,22 +47,22 @@
         },
         interval: 1000 * 30
     });
-     
+
     client.on('beforePost', () => {
         if (!bot.ready) return;
         const serverCount = bot.guilds.size;
         const shards = bot.shards.size;
         client.update(serverCount, shards);
     });
-     
+
     client.on('afterPost', (successful, failed) => {
         console.log('Just finished posting to all bot lists, ' + successful + ' were successful, ' + failed + ' failed to post');
     });
-     
+
     client.on('error', (error) => {
         console.warn('Something happened', error);
     });
-     
+
     client.start();
 - repo: botblock/discordlists.py
   language: Python

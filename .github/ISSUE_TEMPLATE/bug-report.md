@@ -5,7 +5,7 @@ about: Report a bug with the BotBlock.org website or API.
 
 # Bug Report
 
-## Description 
+## Description
 <!-- Replace this with a brief summary of the bug. -->
 
 ## Steps to reproduce
