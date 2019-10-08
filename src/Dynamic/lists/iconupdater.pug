@@ -1,0 +1,12 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .columns
+                .column
+                    .card
+                        .card-content
+                            h1.title.is-size-4 #{__('site_name')} Icon Updater
+                    .card
+                        .card-content
+                            #{lists.map((m) => m).join('<br />')}

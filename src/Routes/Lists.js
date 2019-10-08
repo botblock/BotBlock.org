@@ -3,6 +3,7 @@ const FormValidator = require('../Structure/FormValidator');
 const getListFeature = require('../Util/getListFeature');
 const getListFeatures = require('../Util/getListFeatures');
 const handleError = require('../Util/handleError');
+const updateIcon = require('../Util/updateIcon');
 
 class ListsRoute extends BaseRoute {
     constructor(client, db) {
@@ -64,6 +65,25 @@ class ListsRoute extends BaseRoute {
                             });
                         });
                     });
+            } catch (e) {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
+                res.status(500).render('error', { title: 'Database Error' });
+            }
+        });
+
+        this.router.get('/icons', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
+            try {
+                const lists = await this.db.select().from('lists').where({ display: true, defunct: false });
+                    let messages = [];
+                    for (const list of lists) {
+                        try {
+                            const update = await updateIcon(this.client, this.db, list);
+                            messages.push(list.id + ' - ' + update);
+                        } catch (e) {
+                            messages.push(list.id + ' - ' + e);
+                        }
+                    }
+                res.render('lists/iconupdater', { title: 'Icon Updater', lists: messages });
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', { title: 'Database Error' });
@@ -415,7 +435,6 @@ class ListsRoute extends BaseRoute {
                 res.status(500).render('error', { title: 'Database Error' });
             }
         });
-
     }
 
     get getRouter() {
