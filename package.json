@@ -19,7 +19,8 @@
     "deploy:production": "node deploy/production.js",
     "deploy:production:execute": "node deploy/src/execute.js botblock.org",
     "ci:setup": "node ci/setup.js",
-    "ci:run": "node ci/run.js"
+    "ci:run": "node ci/run.js",
+    "lint": "eslint ."
   },
   "author": {
     "name": "BotBlock Team"
@@ -43,7 +44,8 @@
     "mysql": "^2.17.1",
     "node-schedule": "^1.3.2",
     "pug": "^2.0.4",
-    "yaml": "^1.7.0"
+    "yaml": "^1.7.0",
+    "eslint": "^3.17.1"
   },
   "devDependencies": {
     "bulma": "^0.7.5",
