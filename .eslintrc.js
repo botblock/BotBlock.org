@@ -6,30 +6,16 @@ module.exports = {
         "es6": true,
     },
     "parserOptions": {
-        "ecmaVersion": 2017,
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        }
+        "ecmaVersion": 2019,
     },
     "extends": "eslint:recommended",
     "rules": {
-        "no-bitwise": "error",
-        "eqeqeq": "error",
-        "no-eq-null": "error",
-        "wrap-iife": [
-            "error",
-            "any"
-        ],
         "no-use-before-define": [
             "error",
             {
                 "functions": false
             }
         ],
-        "new-cap": "off",
-        "no-new": "error",
-        "no-caller": "error",
-        "no-undef": "error",
         "max-len": [
             "error",
             {
@@ -56,7 +42,6 @@ module.exports = {
                 "numbers": true
             }
         ],
-        "no-console": "off",
         "no-cond-assign": "off",
     }
 };
