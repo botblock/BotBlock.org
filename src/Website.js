@@ -71,7 +71,7 @@ class Website {
                                     try {
                                         JSON.parse(req.body);
                                     } catch(_) {
-                                        return res.status(400).json({ error: true, status: 400, message: 'Body is not parsable JSON' })
+                                        return res.status(400).json({ error: true, status: 400, message: 'Body is not parsable JSON' });
                                     }
 
                                 }
@@ -82,8 +82,8 @@ class Website {
                         }
                     }
                 }
-            })
-        })
+            });
+        });
     }
 
     loadJobs(dir) {
@@ -98,7 +98,7 @@ class Website {
                         const job = new Job(this.client, this.db);
                         schedule.scheduleJob(job.interval, () => {
                             job.execute();
-                        })
+                        });
                     } catch (e) {
                         console.error('[Job Loader] Failed loading ' + jobs[i] + ' - ', e);
                     } finally {
@@ -107,8 +107,8 @@ class Website {
                         }
                     }
                 }
-            })
-        })
+            });
+        });
     }
 
     launch() {

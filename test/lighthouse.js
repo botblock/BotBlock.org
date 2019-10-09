@@ -6,7 +6,7 @@ const launchChromeAndRunLighthouse = (url, opts, config = null) => {
     return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then(chrome => {
         opts.port = chrome.port;
         return lighthouse(url, opts, config).then(results => {
-            return chrome.kill().then(() => results.lhr)
+            return chrome.kill().then(() => results.lhr);
         });
     });
 };
@@ -46,7 +46,7 @@ const categoryLighthouseResults = (results, category, indent) => {
     console.log(`${indent}Non-perfect audits:`);
     console.log(audits || `${indent}  None`);
     console.log(indent);
-    return categoryData.score
+    return categoryData.score;
 };
 
 describe('Lighthouse', () => {

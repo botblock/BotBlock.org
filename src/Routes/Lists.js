@@ -157,7 +157,7 @@ class ListsRoute extends BaseRoute {
                                 .then((featureMap) => {
                                     const map = featureMap.reduce((obj, item) => {
                                         obj[item.list] = item.value;
-                                        return obj
+                                        return obj;
                                     }, {});
                                     const lists = allLists.filter(list => (list.id in map && map[list.id]));
                                     this.footerData().then((footer) => {
@@ -261,7 +261,7 @@ class ListsRoute extends BaseRoute {
                     }
                 }
                 require('../Util/updateListMessage')(this.client, this.db, req.body, req.body.id);
-                res.redirect('/lists/' + req.body.id)
+                res.redirect('/lists/' + req.body.id);
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', { title: 'Database Error' });
@@ -379,7 +379,7 @@ class ListsRoute extends BaseRoute {
                                 await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
                             );
                             require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
-                            res.redirect('/lists/' + changes.id)
+                            res.redirect('/lists/' + changes.id);
                         } catch (e) {
                             handleError(this.db, req.method, req.originalUrl, e.stack);
                             res.status(500).render('error', { title: 'Database Error' });
@@ -402,7 +402,7 @@ class ListsRoute extends BaseRoute {
                 });
                 try {
                     await require('../Util/updateIcon')(this.client, this.db, lists[0]);
-                    res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' })
+                    res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' });
                 } catch (e) {
                     res.status(500).render('error', {
                         title: 'Error',

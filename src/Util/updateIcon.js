@@ -16,10 +16,10 @@ module.exports = (client, db, list) => {
                     resolve('Icon has been updated.');
                 }).catch((e) => {
                     reject('Failed to update icon in database.');
-                })
+                });
             }).catch(() => {
                 reject('Failed to update, invite has expired.');
-            })
+            });
         } else return reject('Failed to update, list does not have a Discord icon saved.');
-    })
-}
+    });
+};

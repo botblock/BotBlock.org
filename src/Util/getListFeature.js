@@ -6,4 +6,4 @@ module.exports = async (db, id) => {
     } catch (e) {
         return null;
     }
-}
+};

@@ -9,6 +9,7 @@
     "test": "mocha",
     "lint:editorconfig": "editorconfig-checker",
     "lint:eslint": "eslint .",
+    "lint:eslint:fix": "eslint . --fix",
     "css:build": "node-sass --omit-source-map-url src/SCSS/style.scss src/Assets/css/style.min.css --output-style compressed",
     "css:watch": "npm run css:build -- --watch",
     "db:migrate": "knex migrate:latest",

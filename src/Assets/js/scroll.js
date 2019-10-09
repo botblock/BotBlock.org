@@ -10,12 +10,12 @@ function scrollTo(element) {
     window.scroll({
         behavior: 'smooth',
         left: 0,
-        top: element.getBoundingClientRect().top + window.scrollY - document.getElementsByClassName("navbar")[0].getBoundingClientRect().height
+        top: element.getBoundingClientRect().top + window.scrollY - document.getElementsByClassName('navbar')[0].getBoundingClientRect().height
     });
     setHash(element.getAttribute('id'));
 }
 
-window.addEventListener("load", function (event) {
+window.addEventListener('load', function (event) {
     var elms = [].slice.call(document.querySelectorAll('a[href^="#"]')); // array not htmlcollection
 
     elms.forEach(function (thiselm) {

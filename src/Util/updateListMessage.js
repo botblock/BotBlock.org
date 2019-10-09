@@ -16,4 +16,4 @@ module.exports = async (client, db, list, newListID) => {
     } catch (e) {
         return null;
     }
-}
+};

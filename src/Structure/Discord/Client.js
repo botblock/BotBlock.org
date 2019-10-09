@@ -13,29 +13,29 @@ class Client {
         let payload = {};
         if (typeof content === 'string') payload.content = content;
         else payload = content;
-        if (typeof channel != 'string') throw new TypeError('channel must be a string');
+        if (typeof channel !== 'string') throw new TypeError('channel must be a string');
         return new Promise((resolve, reject) => {
             this.requestHandler.request('POST', '/channels/' + channel + '/messages', { ...payload }).then((msg) => {
                 resolve(msg);
             }).catch((e) => {
                 reject(e);
-            })
-        })
+            });
+        });
     }
 
     editMessage(channel, message, content) {
         let payload = {};
         if (typeof content === 'string') payload.content = content;
         else payload = content;
-        if (typeof channel != 'string') throw new TypeError('channel must be a string');
-        if (typeof message != 'string') throw new TypeError('message must be a string');
+        if (typeof channel !== 'string') throw new TypeError('channel must be a string');
+        if (typeof message !== 'string') throw new TypeError('message must be a string');
         return new Promise((resolve, reject) => {
             this.requestHandler.request('PATCH', '/channels/' + channel + '/messages/' + message, { ...payload }).then((msg) => {
                 resolve(msg);
             }).catch((e) => {
                 reject(e);
-            })
-        })
+            });
+        });
     }
 
     getInvite(code, counts = false) {
@@ -46,8 +46,8 @@ class Client {
                 resolve(invite);
             }).catch(() => {
                 reject(null);
-            })
-        })
+            });
+        });
     }
 
     getUser(id) {
@@ -57,8 +57,8 @@ class Client {
                 resolve(user);
             }).catch(() => {
                 reject(null);
-            })
-        })
+            });
+        });
     }
 
     getMember(guild, id) {
@@ -69,8 +69,8 @@ class Client {
                 resolve(member);
             }).catch((e) => {
                 reject(null);
-            })
-        })
+            });
+        });
     }
 
     /* BotBlock Functions */

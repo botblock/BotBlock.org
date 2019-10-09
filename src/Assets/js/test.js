@@ -35,7 +35,7 @@ function runTests(restart) {
             }, 50);
             if(!restart) {
                 setTimeout(function () {
-                    fetchOutput()
+                    fetchOutput();
                 }, 50);
             }
         }
@@ -57,7 +57,7 @@ function fetchOutput() {
 
             code.innerHTML = res.data;
             setTimeout(function () {
-                fetchOutput()
+                fetchOutput();
             }, 100);
 
             if (res.data !== previous) state.scrollIntoView();

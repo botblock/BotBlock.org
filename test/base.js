@@ -66,7 +66,7 @@ const compareObjectProps = (a, b) => {
             missing.push(prop);
             return;
         }
-        if (a[prop] != null && a[prop].constructor.name === "Object") {
+        if (a[prop] != null && a[prop].constructor.name === 'Object') {
             const subMissing = compareObjectProps(a[prop], b[prop]).map(x => `${prop}.${x}`);
             missing.push(...subMissing);
             return;

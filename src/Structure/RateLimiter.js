@@ -19,7 +19,7 @@ class RateLimiter {
 
             // Ratelimit as normal
             if (req.body.bot_id && !bot) bot = req.body.bot_id;
-            if (typeof bot !== "string" || !isSnowflake(bot)) bot = '';
+            if (typeof bot !== 'string' || !isSnowflake(bot)) bot = '';
             try {
                 const recent = await this.db.select().from('ratelimit').where({
                     ip: req.ip,
@@ -61,7 +61,7 @@ class RateLimiter {
             } catch (_) {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected error occurred' });
             }
-        }
+        };
     }
 }
 

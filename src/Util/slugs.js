@@ -6,4 +6,4 @@ const slugify = text => text
 
 const librarySlug = lib => `${slugify(lib.language)}-${slugify(lib.name)}`;
 
-module.exports = { slugify, librarySlug }
+module.exports = { slugify, librarySlug };
