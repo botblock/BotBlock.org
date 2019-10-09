@@ -10,6 +10,11 @@
   cursor: pointer;
 }
 
+.checkbox.inline {
+  display: inline-flex;
+  margin: 0 5px;
+}
+
 .checkbox, .checkbox:hover {
   color: #fff;
 }

@@ -5,6 +5,7 @@ if checkbox.id && !interactiveCheckboxes
     var classes = [];
     if (checkbox.type === 2) {
         classes.push('cross');
+        if (checkbox.color) classes.push('red');
         tooltip = 'This feature is considered negative';
     }
     if (checkbox.type === 1) {
@@ -12,11 +13,14 @@ if checkbox.id && !interactiveCheckboxes
         tooltip = 'This feature is considered neutral';
     }
     if (checkbox.type === 0) {
+        if (checkbox.color) classes.push('green');
         tooltip = 'This feature is considered positive';
     }
+    if (checkbox.disableTooltip) tooltip = null;
     if (!checkbox.value) classes.push('disallowed');
     if (interactiveCheckboxes) classes.push('interactive');
     if (hideUncheckedBoxes && !checkbox.value) classes.push('is-hidden');
+    if (checkbox.inline) classes.push('inline');
 
 .checkbox.always(tabindex='0', role='button', class=classes.join(' '))
     div(class='checkbox-inner' + (tooltip ? ' tooltip' : ''), data-tooltip=tooltip)

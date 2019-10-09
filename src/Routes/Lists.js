@@ -76,12 +76,15 @@ class ListsRoute extends BaseRoute {
                 const lists = await this.db.select().from('lists').where({ display: true, defunct: false });
                 let messages = [];
                 for (const list of lists) {
+                    let message, status;
                     try {
-                        const update = await updateIcon(this.client, this.db, list);
-                        messages.push(list.id + ' - ' + update);
+                        message = await updateIcon(this.client, this.db, list);
+                        status = true;
                     } catch (e) {
-                        messages.push(list.id + ' - ' + e);
+                        message = e;
+                        status = false;
                     }
+                    messages.push([list.id, message, status]);
                 }
                 res.render('lists/iconupdater', { title: 'Icon Updater', lists: messages });
             } catch (e) {

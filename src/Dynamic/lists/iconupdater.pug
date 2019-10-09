@@ -9,4 +9,10 @@ block content
                             h1.title.is-size-4 #{__('site_name')} Icon Updater
                     .card
                         .card-content
-                            #{lists.map((m) => m).join('<br/>')}
+                            ul
+                                for list in lists
+                                    - checkbox = { value: true, type: list[2] ? 0 : 2, disableTooltip: true, inline: true, color: true }
+                                    li
+                                        include ../Includes/checkbox
+                                        a(href=`/lists/${list[0]}`) #{list[0]}
+                                        |  - #{list[1]}
