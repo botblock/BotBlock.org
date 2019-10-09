@@ -1,4 +1,4 @@
-const { describe, it, expect, request, db, locale, titleCheck } = require('../base');
+const { describe, it, expect, request, db, locale, titleCheck, authCheck } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
@@ -80,6 +80,24 @@ describe('/lists/new', () => {
                         done();
                     });
                 });
+        });
+    });
+});
+
+describe('/lists/icons', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/icons');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
         });
     });
 });
