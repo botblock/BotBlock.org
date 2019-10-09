@@ -1,7 +1,7 @@
 module.exports = {
     "env": {
+        "browser": true,
         "node": true,
-        "jest": true,
         "mocha": true,
         "es6": true,
     },
@@ -17,7 +17,6 @@ module.exports = {
     "extends": "eslint:recommended",
     "rules": {
         "no-bitwise": "error",
-        "camelcase": "off",
         "eqeqeq": "error",
         "no-eq-null": "error",
         "wrap-iife": [
@@ -34,8 +33,6 @@ module.exports = {
         "no-new": "error",
         "no-caller": "error",
         "no-undef": "error",
-        "no-unused-vars": "off",
-        "dot-notation": "off",
         "max-len": [
             "error",
             {
@@ -43,7 +40,10 @@ module.exports = {
                 "ignoreComments": true
             }
         ],
-        "semi": ["error", "always"],
+        "semi": [
+            "error",
+            "always"
+        ],
         "no-const-assign": "error",
         "quotes": [
             "error",
@@ -58,6 +58,8 @@ module.exports = {
             {
                 "numbers": true
             }
-        ]
+        ],
+        "no-console": "off",
+        "no-cond-assign": "error",
     }
 };
