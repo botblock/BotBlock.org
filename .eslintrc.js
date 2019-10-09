@@ -11,9 +11,6 @@ module.exports = {
             "experimentalObjectRestSpread": true
         }
     },
-    "globals": {
-        "Promise": true
-    },
     "extends": "eslint:recommended",
     "rules": {
         "no-bitwise": "error",
@@ -60,6 +57,6 @@ module.exports = {
             }
         ],
         "no-console": "off",
-        "no-cond-assign": "error",
+        "no-cond-assign": "off",
     }
 };
