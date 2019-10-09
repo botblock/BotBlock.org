@@ -16,11 +16,11 @@ class TasksRoute extends BaseRoute {
 
         this.router.get('/', (req, res) => {
             const tasks = this.jobs.map((job, idx) => {
-              return {
-                id: idx,
-                name: job.name,
-                nextInvocation: job.nextInvocation()
-              }
+                return {
+                    id: idx,
+                    name: job.name,
+                    nextInvocation: job.nextInvocation()
+                }
             });
             res.render('tasks', { tasks });
         });
@@ -32,7 +32,7 @@ class TasksRoute extends BaseRoute {
                 message: 'The page you were looking for could not be found.'
             });
             try {
-              this.jobs[req.params.id].job();
+                this.jobs[req.params.id].job();
             } catch(e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).json({

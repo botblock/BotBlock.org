@@ -5,13 +5,13 @@ function runTask(id) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4) {
-          if (this.status === 200) {
-            btn.textContent = 'Execution done!';
-          } else {
-            btn.textContent = 'Execution failed!';
-          }
-          btn.setAttribute('onclick', 'runTask(' + id +')');
-          btn.removeAttribute('disabled');
+            if (this.status === 200) {
+                btn.textContent = 'Execution done!';
+            } else {
+                btn.textContent = 'Execution failed!';
+            }
+            btn.setAttribute('onclick', 'runTask(' + id +')');
+            btn.removeAttribute('disabled');
         }
     };
     xhr.open('POST', '/tasks/run/' + id, true);

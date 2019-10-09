@@ -19,8 +19,8 @@ describe('/tasks', () => {
 });
 
 describe('/tasks/run/:id', () => {
-    describe('GET', () => {
-        const test = () => request().get('/tasks/run/0');
+    describe('POST', () => {
+        const test = () => request().post('/tasks/run/0');
         it('returns a Forbidden status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(403);
