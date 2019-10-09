@@ -7,6 +7,7 @@
     "start": "node .",
     "dev": "nodemon .",
     "test": "mocha",
+    "lint:editorconfig": "editorconfig-checker",
     "css:build": "node-sass --omit-source-map-url src/SCSS/style.scss src/Assets/css/style.min.css --output-style compressed",
     "css:watch": "npm run css:build -- --watch",
     "db:migrate": "knex migrate:latest",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "bulma": "^0.7.5",
+    "editorconfig-checker": "^3.0.3",
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.1"
   }
