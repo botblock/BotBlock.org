@@ -1,4 +1,4 @@
-window.addEventListener('load', function (event) {
+window.addEventListener('load', function () {
     var elms = [].slice.call(document.getElementsByClassName('checkbox')); // array not htmlcollection
 
     function handleClick(elm) {
@@ -16,9 +16,9 @@ window.addEventListener('load', function (event) {
         }
     }
 
-    elms.forEach(function (thiselm) {
-        thiselm.onclick = function (e) {
-            handleClick(thiselm);
+    elms.forEach(function (thisElm) {
+        thisElm.onclick = function () {
+            handleClick(thisElm);
         };
     });
 });

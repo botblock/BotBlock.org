@@ -67,7 +67,7 @@ class Client {
         return new Promise((resolve, reject) => {
             this.requestHandler.request('GET', '/guilds/' + guild + '/members/' + id).then((member) => {
                 resolve(member);
-            }).catch((e) => {
+            }).catch(() => {
                 reject(null);
             });
         });

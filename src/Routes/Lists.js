@@ -105,7 +105,8 @@ class ListsRoute extends BaseRoute {
                         this.footerData().then((footer) => {
                             res.render('lists/lists', {
                                 title: 'Hidden Bot Lists',
-                                subtitle: `These lists are currently hidden on ${res.__('site_name')}.\nTo find out more about why each list here is hidden, press the Information button on the list card.`,
+                                subtitle: `These lists are currently hidden on ${res.__('site_name')}.
+                                To find out more about why each list here is hidden, press the Information button on the list card.`,
                                 lists, footer
                             });
                         });

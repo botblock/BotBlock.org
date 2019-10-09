@@ -14,6 +14,7 @@ function msToTimestamp(millis) {
     return (h ? h + 'h:' : '') + (m ? m + 'm:' : '') + s.toString().padStart(2, '0') + 's.' + ms.toString().padStart(3, '0') + 'ms';
 }
 
+// eslint-disable-next-line no-unused-vars
 function runTests(restart) {
     clearInterval(interval);
     btn.setAttribute('onclick', 'runTests(true)');

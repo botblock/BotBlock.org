@@ -26,7 +26,7 @@ module.exports = {
                 "functions": false
             }
         ],
-        "new-cap": "error",
+        "new-cap": "off",
         "no-new": "error",
         "no-caller": "error",
         "no-undef": "error",

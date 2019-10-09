@@ -66,7 +66,7 @@ class Website {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
                     } finally {
                         if (i + 1 === routes.length) {
-                            this.app.use((err, req, res, next) => {
+                            this.app.use((err, req, res) => {
                                 if (req.method === 'POST') {
                                     try {
                                         JSON.parse(req.body);

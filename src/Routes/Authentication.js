@@ -49,7 +49,7 @@ class AuthenticationRoute extends BaseRoute {
                     this.client.getMember(config.discord.guild_id, user.data.id).then((member) => {
                         if (member.roles.includes(config.discord.admin_role)) data.admin = true;
                         if (member.roles.includes(config.discord.mod_role)) data.mod = true;
-                    }).catch((_) => {
+                    }).catch(() => {
                         data.admin = false;
                         data.mod = false;
                     }).finally(() => {

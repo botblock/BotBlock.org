@@ -12,7 +12,8 @@ const launchChromeAndRunLighthouse = (url, opts, config = null) => {
 };
 
 const runLighthouse = type => {
-    const baseConfig = type === 'mobile' ? require('lighthouse/lighthouse-core/config/lr-mobile-config') : (type === 'desktop' ? require('lighthouse/lighthouse-core/config/lr-desktop-config') : require('lighthouse/lighthouse-core/config/default-config'));
+    const configType = type === 'mobile' ? 'lr-mobile-config' : (type === 'desktop' ? 'lr-desktop-config' : 'default-config');
+    const baseConfig = require(`lighthouse/lighthouse-core/config/${configType}`);
 
     baseConfig.settings.extraHeaders = {
         'X-Disable-Adsense': secret

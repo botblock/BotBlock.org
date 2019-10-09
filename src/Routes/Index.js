@@ -36,7 +36,7 @@ class IndexRoute extends BaseRoute {
                     return section;
                 });
                 res.render('about', { title: 'About', sections });
-            }).catch((e) => {
+            }).catch(() => {
                 res.status(500).render('error', { title: 'Database Error' });
             });
         });

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 module.exports = (db, verb, route, error, api = false) => {
     try {
         return db('errors').insert({ verb, route, error, datetime: Date.now() / 1000 });

@@ -14,7 +14,7 @@ module.exports = (client, db, list) => {
                     newList['icon'] = newIcon;
                     client.updateEditLog(list, newList).then(() => console.log(1)).catch((e) => console.error('[Discord] Failed to send to edit log', e));
                     resolve('Icon has been updated.');
-                }).catch((e) => {
+                }).catch(() => {
                     reject('Failed to update icon in database.');
                 });
             }).catch(() => {
