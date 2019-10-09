@@ -12,7 +12,7 @@ const launchChromeAndRunLighthouse = (url, opts, config = null) => {
 };
 
 const runLighthouse = type => {
-    const configType = type === 'mobile' ? 'lr-mobile-config' : (type === 'desktop' ? 'lr-desktop-config' : 'default-config');
+    const configType = type === 'mobile' ? 'lr-mobile-config' : type === 'desktop' ? 'lr-desktop-config' : 'default-config';
     const baseConfig = require(`lighthouse/lighthouse-core/config/${configType}`);
 
     baseConfig.settings.extraHeaders = {

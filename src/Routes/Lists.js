@@ -160,7 +160,7 @@ class ListsRoute extends BaseRoute {
                                         obj[item.list] = item.value;
                                         return obj;
                                     }, {});
-                                    const lists = allLists.filter(list => (list.id in map && map[list.id]));
+                                    const lists = allLists.filter(list => list.id in map && map[list.id]);
                                     this.footerData().then((footer) => {
                                         res.render('lists/lists', {
                                             title: `Bot Lists with feature '${features[0].name}'`,
@@ -170,8 +170,7 @@ class ListsRoute extends BaseRoute {
                                 });
                         });
                 });
-            } catch
-                (e) {
+            } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', { title: 'Database Error' });
             }
@@ -248,7 +247,7 @@ class ListsRoute extends BaseRoute {
                         changes[column] = null;
                     }
                 }
-                changes['added'] = (Date.now() / 1000);
+                changes['added'] = Date.now() / 1000;
                 await this.db('lists').insert(changes);
                 for (let [key, value] of Object.entries(req.body)) {
                     if (key.substring(0, 8) === 'feature_') {
