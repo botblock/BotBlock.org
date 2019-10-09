@@ -75,6 +75,7 @@ class Client {
 
     /* BotBlock Functions */
     updateEditLog(oldEdit, newEdit, addedFeatures = [], oldFeatures = []) {
+        if (!config.discord.notifications) return;
         if (!oldEdit || !newEdit) return;
         let changes = [];
         let newFeatures = [];
