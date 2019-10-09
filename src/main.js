@@ -1,7 +1,7 @@
 const Website = require('./Website');
 const db = require('../db/db');
 
-return new Promise(async () => {
+return new Promise(() => {
     try {
         const knex = db();
         console.log('[Database] Successfully connected to MySQL database.');

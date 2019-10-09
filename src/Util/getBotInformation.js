@@ -16,5 +16,5 @@ module.exports = (endpoint, headers) => {
                 reject([ {}, 500 ]);
             }
         });
-    })
-}
+    });
+};

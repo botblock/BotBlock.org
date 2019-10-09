@@ -349,7 +349,7 @@ describe('/lists/:id', () => {
             db.select().from('lists').where({ id: listId }).then(lists => {
                 data = lists[0];
                 done();
-            })
+            });
         });
         it('returns an OK status code', done => {
             test().end((err, res) => {

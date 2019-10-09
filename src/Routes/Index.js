@@ -25,7 +25,7 @@ class IndexRoute extends BaseRoute {
                 res.render('home', { lists });
             }).catch(() => {
                 res.status(500).render('error', { title: 'Database Error' });
-            })
+            });
         });
 
         this.router.get('/about', (req, res) => {
@@ -36,9 +36,9 @@ class IndexRoute extends BaseRoute {
                     return section;
                 });
                 res.render('about', { title: 'About', sections });
-            }).catch((e) => {
+            }).catch(() => {
                 res.status(500).render('error', { title: 'Database Error' });
-            })
+            });
         });
 
         this.router.get([

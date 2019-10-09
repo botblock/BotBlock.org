@@ -15,7 +15,7 @@ describe('Slugs', () => {
             done();
         });
 
-        it('converts hash correctly to \"sharp\"', done => {
+        it('converts hash correctly to "sharp"', done => {
             const test = slugify('hello#');
             expect(test).to.equal('hellosharp');
             done();
