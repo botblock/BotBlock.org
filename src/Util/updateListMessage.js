@@ -13,7 +13,7 @@ module.exports = async (client, db, list, newListID) => {
         }
         await db('lists_messages').where({ list: list.id }).del();
         await db('lists_messages').insert( { list: newListID, message: msg.id });
-    } catch (e) {
+    } catch {
         return null;
     }
-}
+};

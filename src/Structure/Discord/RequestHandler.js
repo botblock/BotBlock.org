@@ -16,11 +16,11 @@ class RequestHandler {
             };
             if (method.toLowerCase() !== 'get') structure.data = data;
             axios({ ...structure }).then((response) => {
-                resolve(response.data)
+                resolve(response.data);
             }).catch((e) => {
                 reject(e);
-            })
-        })
+            });
+        });
     }
 }
 

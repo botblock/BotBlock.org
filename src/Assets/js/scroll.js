@@ -10,18 +10,18 @@ function scrollTo(element) {
     window.scroll({
         behavior: 'smooth',
         left: 0,
-        top: element.getBoundingClientRect().top + window.scrollY - document.getElementsByClassName("navbar")[0].getBoundingClientRect().height
+        top: element.getBoundingClientRect().top + window.scrollY - document.getElementsByClassName('navbar')[0].getBoundingClientRect().height
     });
     setHash(element.getAttribute('id'));
 }
 
-window.addEventListener("load", function (event) {
+window.addEventListener('load', function () {
     var elms = [].slice.call(document.querySelectorAll('a[href^="#"]')); // array not htmlcollection
 
-    elms.forEach(function (thiselm) {
-        thiselm.onclick = function (e) {
+    elms.forEach(function (thisElm) {
+        thisElm.onclick = function (e) {
             e.preventDefault();
-            scrollTo(document.querySelector(thiselm.getAttribute('href')));
+            scrollTo(document.querySelector(thisElm.getAttribute('href')));
         };
     });
 
