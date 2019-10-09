@@ -25,7 +25,7 @@ class TasksRoute extends BaseRoute {
             res.render('tasks', { tasks });
         });
 
-        this.router.get('/run/:id', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+        this.router.post('/run/:id', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
             if (!this.jobs[req.params.id]) return res.status(404).render('error', {
                 title: 'Page not found',
                 status: 404,

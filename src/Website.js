@@ -99,7 +99,7 @@ class Website {
                         const job = new Job(this.client, this.db);
                         this.jobs[i] = schedule.scheduleJob(path.basename(jobs[i], '.js'), job.interval, () => {
                             job.execute();
-                        })
+                        });
                     } catch (e) {
                         console.error('[Job Loader] Failed loading ' + jobs[i] + ' - ', e);
                     } finally {

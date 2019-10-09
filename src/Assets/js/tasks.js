@@ -1,20 +1,22 @@
 function runTask(id) {
     var btn = document.getElementById('runBtn' + id);
+    if (btn.getAttribute('disabled')) return alert('Please wait!');
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-        if (this.readyState < 4) {
-            btn.setAttribute('onclick', 'alert("Please wait!")');
-            btn.textContent = 'Executing ...';
-        } else {
-          if(this.status === 200) {
-            btn.setAttribute('onclick', 'runTask(' + id +')');
+        if (this.readyState === 4) {
+          if (this.status === 200) {
             btn.textContent = 'Execution done!';
           } else {
             btn.textContent = 'Execution failed!';
           }
+          btn.setAttribute('onclick', 'runTask(' + id +')');
+          btn.removeAttribute('disabled');
         }
     };
-    xhr.open('GET', '/tasks/run/' + id, true);
+    xhr.open('POST', '/tasks/run/' + id, true);
     xhr.send();
+
+    btn.textContent = 'Executing ...';
+    btn.setAttribute('disabled', true);
 }
