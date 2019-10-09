@@ -7,7 +7,7 @@ module.exports = (list, bot, payload, token, userAgent) => {
             url: list.api_post.replace(':id', bot),
             timeout: 10 * 1000, // 10 seconds,
             headers: {
-                'Authorization': token,
+                Authorization: token,
                 'Content-Type': 'application/json',
                 'User-Agent': userAgent
             },
@@ -21,5 +21,5 @@ module.exports = (list, bot, payload, token, userAgent) => {
                 reject([ 500, JSON.stringify({}), JSON.stringify(payload) ]);
             }
         });
-    })
-}
+    });
+};

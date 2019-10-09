@@ -25,7 +25,7 @@ class Cache {
                 expiry: (Date.now() + expiry) / 1000,
                 data: JSON.stringify(data)
             });
-        } catch (e) {
+        } catch {
             return null;
         }
     }

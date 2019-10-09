@@ -38,7 +38,7 @@ class TestRoute extends BaseRoute {
     processData(data) {
         const raw = data.toString().replace(/^\n|\n$/g, '').split('\n');
         raw.forEach(this.addLine.bind(this));
-    };
+    }
 
     routes() {
         this.router.use(this.requiresAuth.bind(this), this.isMod.bind(this));

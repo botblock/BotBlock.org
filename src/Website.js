@@ -13,7 +13,7 @@ class Website {
     constructor(options) {
         this.db = options.db;
         this.client = new Discord(config.discord.token);
-        this.app =  express();
+        this.app = express();
     }
 
     async start() {
@@ -46,7 +46,11 @@ class Website {
         await this.loadJobs(path.join(__dirname, 'Jobs'));
         this.app.use(require('express-minify')());
         this.app.use((req, res) => {
-            res.status(404).render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+            res.status(404).render('error', {
+                title: 'Page not found',
+                status: 404,
+                message: 'The page you were looking for could not be found.'
+            });
         });
         this.launch();
     }
@@ -66,14 +70,18 @@ class Website {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
                     } finally {
                         if (i + 1 === routes.length) {
-                            this.app.use((err, req, res, next) => {
+                            // eslint-disable-next-line no-unused-vars
+                            this.app.use((err, req, res, _) => {
                                 if (req.method === 'POST') {
                                     try {
                                         JSON.parse(req.body);
-                                    } catch(_) {
-                                        return res.status(400).json({ error: true, status: 400, message: 'Body is not parsable JSON' })
+                                    } catch {
+                                        return res.status(400).json({
+                                            error: true,
+                                            status: 400,
+                                            message: 'Body is not parsable JSON'
+                                        });
                                     }
-
                                 }
                                 console.error('[API] Internal Server Error: ', err);
                                 res.status(500).json({ error: true, status: 500, message: 'Internal Server Error' });
@@ -82,8 +90,8 @@ class Website {
                         }
                     }
                 }
-            })
-        })
+            });
+        });
     }
 
     loadJobs(dir) {
@@ -98,7 +106,7 @@ class Website {
                         const job = new Job(this.client, this.db);
                         schedule.scheduleJob(job.interval, () => {
                             job.execute();
-                        })
+                        });
                     } catch (e) {
                         console.error('[Job Loader] Failed loading ' + jobs[i] + ' - ', e);
                     } finally {
@@ -107,8 +115,8 @@ class Website {
                         }
                     }
                 }
-            })
-        })
+            });
+        });
     }
 
     launch() {

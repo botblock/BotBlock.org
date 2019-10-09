@@ -11,5 +11,5 @@ describe('Config', () => {
         const vals = Object.values(liveConfig).filter(val => !val);
         expect(vals.length).to.equal(0);
         done();
-    })
+    });
 });

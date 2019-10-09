@@ -19,7 +19,7 @@ class AuthenticationRoute extends BaseRoute {
                 '&response_type=code' +
                 '&scope=' + config.discord.scopes.join('%') +
                 '&prompt=none'
-            )
+            );
         });
 
         this.router.get('/callback', (req, res) => {
@@ -49,19 +49,19 @@ class AuthenticationRoute extends BaseRoute {
                     this.client.getMember(config.discord.guild_id, user.data.id).then((member) => {
                         if (member.roles.includes(config.discord.admin_role)) data.admin = true;
                         if (member.roles.includes(config.discord.mod_role)) data.mod = true;
-                    }).catch((_) => {
+                    }).catch(() => {
                         data.admin = false;
                         data.mod = false;
                     }).finally(() => {
                         req.session.user = data;
                         res.redirect('/');
-                    })
+                    });
                 }).catch(() => {
                     res.status(400).json({ error: true, status: 400, message: 'Failed to get user information' });
-                })
+                });
             }).catch(() => {
                 res.status(400).json({ error: true, status: 400, message: 'Failed to get token' });
-            })
+            });
         });
 
         this.router.get('/logout', (req, res) => {

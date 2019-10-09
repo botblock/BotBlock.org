@@ -23,7 +23,7 @@ const main = async () => {
     let localStaging = true;
     try {
         await run('git rev-parse --verify staging');
-    } catch (e) {
+    } catch {
         localStaging = false;
     }
 
