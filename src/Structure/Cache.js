@@ -6,7 +6,7 @@ class Cache {
     async get(path) {
         try {
             return (await this.db.select().from('cache').where({ route: path }))[0];
-        } catch (e) {
+        } catch {
             return null;
         }
     }
@@ -25,7 +25,7 @@ class Cache {
                 expiry: (Date.now() + expiry) / 1000,
                 data: JSON.stringify(data)
             });
-        } catch (e) {
+        } catch {
             return null;
         }
     }
@@ -37,7 +37,7 @@ class Cache {
     async deleteExpired() {
         try {
             return await this.db('cache').where('expiry', '<', new Date().getSeconds()).del();
-        } catch (e) {
+        } catch {
             return null;
         }
     }

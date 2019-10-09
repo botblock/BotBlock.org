@@ -58,7 +58,7 @@ class RateLimiter {
                     expiry: Date.now() + timeLimit * 1000,
                 });
                 next();
-            } catch (_) {
+            } catch {
                 res.status(500).json({ error: true, status: 500, message: 'An unexpected error occurred' });
             }
         };

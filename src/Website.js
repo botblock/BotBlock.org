@@ -75,7 +75,7 @@ class Website {
                                 if (req.method === 'POST') {
                                     try {
                                         JSON.parse(req.body);
-                                    } catch (_) {
+                                    } catch {
                                         return res.status(400).json({
                                             error: true,
                                             status: 400,

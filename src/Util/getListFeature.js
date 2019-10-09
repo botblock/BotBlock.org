@@ -3,7 +3,7 @@ module.exports = async (db, id) => {
         const feature = await db.select().from('features').where({ id });
         if (!feature) return null;
         return feature[0];
-    } catch (e) {
+    } catch {
         return null;
     }
 };
