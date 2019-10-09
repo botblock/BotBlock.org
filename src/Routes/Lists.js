@@ -403,7 +403,7 @@ class ListsRoute extends BaseRoute {
                 try {
                     await require('../Util/updateIcon')(this.client, this.db, lists[0]);
                     res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' })
-                } catch {
+                } catch (e) {
                     res.status(500).render('error', {
                         title: 'Error',
                         status: 400,
