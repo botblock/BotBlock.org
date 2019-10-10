@@ -6,5 +6,5 @@ module.exports = {
 
     // Discord deployment notification config
     discord_token: '',
-    discord_channel: '',
+    discord_channel: ''
 };

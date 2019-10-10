@@ -1,4 +1,4 @@
-const {describe, it, expect} = require('../base');
+const { describe, it, expect } = require('../base');
 const { slugify, librarySlug } = require('../../src/Util/slugs');
 
 describe('Slugs', () => {

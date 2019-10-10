@@ -1,4 +1,4 @@
-const {describe, it, expect, request, db, locale, titleCheck} = require('../base');
+const { describe, it, expect, request, db, locale, titleCheck } = require('../base');
 const renderer = new (require('../../src/Structure/Markdown'))();
 
 describe('/', () => {

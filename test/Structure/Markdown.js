@@ -1,4 +1,4 @@
-const {describe, it, expect} = require('../base');
+const { describe, it, expect } = require('../base');
 const renderer = new (require('../../src/Structure/Markdown'))();
 const i18n = require('../../src/Util/i18n');
 
