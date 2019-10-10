@@ -2,7 +2,7 @@ const config = require('../../config');
 
 module.exports = (list) => {
     if (!Number(list.display)) return '*List entry currently hidden*';
-    if ((Number(list.defunct))) return '*List flagged as defunct*';
+    if (Number(list.defunct)) return '*List flagged as defunct*';
     return '**__' + list.name + ' (' + list.id +')__**\n' +
         '**View at: <' + config.baseURL + '/lists/' + list.id + '>**\n' +
         '**Website**: <' + list.url + '>' + '\n' +

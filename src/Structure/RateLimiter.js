@@ -55,7 +55,7 @@ class RateLimiter {
                     bot_id: bot,
                     route: req.originalUrl,
                     datetime: Date.now(),
-                    expiry: Date.now() + timeLimit * 1000,
+                    expiry: Date.now() + timeLimit * 1000
                 });
                 next();
             } catch {
