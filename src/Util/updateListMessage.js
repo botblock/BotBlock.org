@@ -2,6 +2,7 @@ const formatListMessage = require('./formatListDiscordMessage');
 const config = require('../../config');
 
 module.exports = async (client, db, list, newListID) => {
+    if (!config.discord.notifications) return;
     let msg;
     try {
         let message = formatListMessage(list);

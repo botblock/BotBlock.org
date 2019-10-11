@@ -17,7 +17,8 @@ module.exports = {
         'edit_log': '12345',
         'lists_log': '12345',
         'mod_role': '12345',
-        'admin_role': '12345'
+        'admin_role': '12345',
+        'notifications': false
     },
 
     // SQL Database
