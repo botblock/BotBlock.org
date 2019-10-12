@@ -50,13 +50,13 @@ class APIRoute extends BaseRoute {
                     lib.slug = librarySlug(lib);
                     lib.highlight = `lang-${slugify(lib.language)}`;
                     lib.description = this.renderer.render(lib.description);
-                    return lib
+                    return lib;
                 });
                 res.render('api/libs', { title: 'Libraries - API Docs', libraries });
             }).catch((e) => {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', { title: 'Database Error' });
-            })
+            });
         });
 
         this.router.get('/lists', this.ratelimit.checkRatelimit(1, 1), (req, res) => {
@@ -95,7 +95,7 @@ class APIRoute extends BaseRoute {
                         status: 500,
                         message: 'An unexpected database error occurred'
                     });
-                })
+                });
         });
 
         this.router.post('/count', this.ratelimit.checkRatelimit(1, 120), (req, res) => {
@@ -104,7 +104,7 @@ class APIRoute extends BaseRoute {
                 status: 400,
                 message: '\'bot_id\' is required'
             });
-            if (typeof req.body.bot_id !== "string") return res.status(400).json({
+            if (typeof req.body.bot_id !== 'string') return res.status(400).json({
                 error: true,
                 status: 400,
                 message: '\'bot_id\' must be a string'
@@ -196,7 +196,7 @@ class APIRoute extends BaseRoute {
                         status: 500,
                         message: 'An unexpected database error occurred'
                     });
-                })
+                });
         });
 
         this.router.get('/bots/:id', this.ratelimit.checkRatelimit(1, 30), async (req, res) => {
@@ -227,11 +227,11 @@ class APIRoute extends BaseRoute {
                             lists[list.id] = await getBotInformation(list.api_get.replace(':id', req.params.id), {
                                 'User-Agent': getUserAgent().random,
                                 'X-Forwarded-For': req.ip,
-                                'REMOTE_ADDR': req.ip,
-                                'X_FORWARDED_FOR': req.ip,
-                                'HTTP_X_FORWARDED_FOR': req.ip,
-                                'HTTP_X_REAL_IP': req.ip,
-                                'HTTP_CLIENT_IP': req.ip
+                                REMOTE_ADDR: req.ip,
+                                X_FORWARDED_FOR: req.ip,
+                                HTTP_X_FORWARDED_FOR: req.ip,
+                                HTTP_X_REAL_IP: req.ip,
+                                HTTP_CLIENT_IP: req.ip
                             });
                         } catch (e) {
                             lists[list.id] = e;
@@ -254,7 +254,7 @@ class APIRoute extends BaseRoute {
                                 if (key === 'owner' || key === 'owners') {
                                     if (!Array.isArray(value) && typeof value !== 'object') {
                                         output.owners.push(value);
-                                    } else if (Array.isArray(value) && typeof value != 'object') {
+                                    } else if (Array.isArray(value) && typeof value !== 'object') {
                                         for (const owner of value) {
                                             if (!Array.isArray(owner) && typeof owner !== 'object' && !Array.isArray(owner)) {
                                                 output.owners.push(owner);
@@ -293,7 +293,7 @@ class APIRoute extends BaseRoute {
                         status: 500,
                         message: 'An unexpected database error occurred'
                     });
-                })
+                });
         });
 
         this.router.get('/reset', (req, res) => {
@@ -314,7 +314,7 @@ class APIRoute extends BaseRoute {
 
         this.router.use('*', (err, req, res) => {
             res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
-        })
+        });
     }
 
     /**

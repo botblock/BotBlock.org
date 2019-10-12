@@ -8,7 +8,7 @@ const tables = [
     'feature_map',
     'features',
     'libraries',
-    'lists',
+    'lists'
 ];
 
 const main = async () => {

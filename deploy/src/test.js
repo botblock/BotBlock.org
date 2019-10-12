@@ -10,7 +10,7 @@ module.exports = async () => {
 
     // Start the server
     run('npm run start').catch(() => {
-        console.log('Web server killed')
+        console.log('Web server killed');
     });
 
     // Run the test suite

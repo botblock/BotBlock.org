@@ -1,7 +1,7 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const ansiHTML = require('ansi-html');
-const {exec} = require('child_process');
-const {join} = require('path');
+const { exec } = require('child_process');
+const { join } = require('path');
 
 ansiHTML.setColors({
     reset: ['fff', '000']
@@ -38,7 +38,7 @@ class TestRoute extends BaseRoute {
     processData(data) {
         const raw = data.toString().replace(/^\n|\n$/g, '').split('\n');
         raw.forEach(this.addLine.bind(this));
-    };
+    }
 
     routes() {
         this.router.use(this.requiresAuth.bind(this), this.isMod.bind(this));
@@ -54,7 +54,7 @@ class TestRoute extends BaseRoute {
             this.output = [];
 
             const cwd = join(__dirname, '..', '..');
-            this.child = exec(`"${join('node_modules', '.bin', 'mocha')}"`, {cwd});
+            this.child = exec(`"${join('node_modules', '.bin', 'mocha')}"`, { cwd });
 
             this.child.stdout.setEncoding('utf8');
             this.child.stdout.on('data', this.processData.bind(this));
@@ -63,19 +63,19 @@ class TestRoute extends BaseRoute {
             this.child.on('error', () => { this.finished = Date.now(); });
             this.child.on('close', () => { this.finished = Date.now(); });
 
-            res.send({started: this.started});
+            res.send({ started: this.started });
         });
 
         this.router.get('/start', (req, res) => {
             if (this.started !== null) {
-                res.send({started: this.started});
+                res.send({ started: this.started });
                 return;
             }
             res.redirect('/test/restart');
         });
 
         this.router.get('/progress', (req, res) => {
-            res.send({started: this.started, finished: this.finished, data: this.output.join('\n')});
+            res.send({ started: this.started, finished: this.finished, data: this.output.join('\n') });
         });
 
     }

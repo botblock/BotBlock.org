@@ -1,4 +1,4 @@
-const {describe, it, expect} = require('../base');
+const { describe, it, expect } = require('../base');
 const { slugify, librarySlug } = require('../../src/Util/slugs');
 
 describe('Slugs', () => {
@@ -15,7 +15,7 @@ describe('Slugs', () => {
             done();
         });
 
-        it('converts hash correctly to \"sharp\"', done => {
+        it('converts hash correctly to "sharp"', done => {
             const test = slugify('hello#');
             expect(test).to.equal('hellosharp');
             done();

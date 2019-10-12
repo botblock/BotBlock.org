@@ -6,13 +6,14 @@ const launchChromeAndRunLighthouse = (url, opts, config = null) => {
     return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then(chrome => {
         opts.port = chrome.port;
         return lighthouse(url, opts, config).then(results => {
-            return chrome.kill().then(() => results.lhr)
+            return chrome.kill().then(() => results.lhr);
         });
     });
 };
 
 const runLighthouse = type => {
-    const baseConfig = type === 'mobile' ? require('lighthouse/lighthouse-core/config/lr-mobile-config') : (type === 'desktop' ? require('lighthouse/lighthouse-core/config/lr-desktop-config') : require('lighthouse/lighthouse-core/config/default-config'));
+    const configType = type === 'mobile' ? 'lr-mobile-config' : type === 'desktop' ? 'lr-desktop-config' : 'default-config';
+    const baseConfig = require(`lighthouse/lighthouse-core/config/${configType}`);
 
     baseConfig.settings.extraHeaders = {
         'X-Disable-Adsense': secret
@@ -46,7 +47,7 @@ const categoryLighthouseResults = (results, category, indent) => {
     console.log(`${indent}Non-perfect audits:`);
     console.log(audits || `${indent}  None`);
     console.log(indent);
-    return categoryData.score
+    return categoryData.score;
 };
 
 describe('Lighthouse', () => {

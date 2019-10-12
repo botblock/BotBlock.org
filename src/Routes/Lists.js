@@ -105,7 +105,8 @@ class ListsRoute extends BaseRoute {
                         this.footerData().then((footer) => {
                             res.render('lists/lists', {
                                 title: 'Hidden Bot Lists',
-                                subtitle: `These lists are currently hidden on ${res.__('site_name')}.\nTo find out more about why each list here is hidden, press the Information button on the list card.`,
+                                subtitle: `These lists are currently hidden on ${res.__('site_name')}.
+                                To find out more about why each list here is hidden, press the Information button on the list card.`,
                                 lists, footer
                             });
                         });
@@ -157,9 +158,9 @@ class ListsRoute extends BaseRoute {
                                 .then((featureMap) => {
                                     const map = featureMap.reduce((obj, item) => {
                                         obj[item.list] = item.value;
-                                        return obj
+                                        return obj;
                                     }, {});
-                                    const lists = allLists.filter(list => (list.id in map && map[list.id]));
+                                    const lists = allLists.filter(list => list.id in map && map[list.id]);
                                     this.footerData().then((footer) => {
                                         res.render('lists/lists', {
                                             title: `Bot Lists with feature '${features[0].name}'`,
@@ -169,8 +170,7 @@ class ListsRoute extends BaseRoute {
                                 });
                         });
                 });
-            } catch
-                (e) {
+            } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', { title: 'Database Error' });
             }
@@ -247,7 +247,7 @@ class ListsRoute extends BaseRoute {
                         changes[column] = null;
                     }
                 }
-                changes['added'] = (Date.now() / 1000);
+                changes['added'] = Date.now() / 1000;
                 await this.db('lists').insert(changes);
                 for (let [key, value] of Object.entries(req.body)) {
                     if (key.substring(0, 8) === 'feature_') {
@@ -261,7 +261,7 @@ class ListsRoute extends BaseRoute {
                     }
                 }
                 require('../Util/updateListMessage')(this.client, this.db, req.body, req.body.id);
-                res.redirect('/lists/' + req.body.id)
+                res.redirect('/lists/' + req.body.id);
             } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 res.status(500).render('error', { title: 'Database Error' });
@@ -379,7 +379,7 @@ class ListsRoute extends BaseRoute {
                                 await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
                             );
                             require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
-                            res.redirect('/lists/' + changes.id)
+                            res.redirect('/lists/' + changes.id);
                         } catch (e) {
                             handleError(this.db, req.method, req.originalUrl, e.stack);
                             res.status(500).render('error', { title: 'Database Error' });
@@ -402,7 +402,7 @@ class ListsRoute extends BaseRoute {
                 });
                 try {
                     await require('../Util/updateIcon')(this.client, this.db, lists[0]);
-                    res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' })
+                    res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' });
                 } catch {
                     res.status(500).render('error', {
                         title: 'Error',
