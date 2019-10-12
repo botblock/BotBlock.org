@@ -8,17 +8,23 @@ class IconUpdater extends BaseJob {
         this.db = db;
     }
 
-    execute() {
-        this.db.select().from('lists').where({ display: true, defunct: false }).then((lists) => {
-            for (let i = 0; i < lists.length; i++) {
-                updateIcon(this.client, this.db, lists[i]).then((m) => {
-                    console.log(m);
-                }).catch((e) => {
+    updateLists(lists) {
+        return Promise.all(lists.map(list => {
+            return updateIcon(this.client, this.db, list)
+                .then(console.log).catch(console.log);
+        }));
+    }
+
+    jobFunc() {
+        return new Promise((resolve, reject) => {
+            this.db.select().from('lists').where({ display: true, defunct: false })
+                .then(lists => {
+                    this.updateLists(lists).then(resolve).catch(reject);
+                })
+                .catch(e => {
                     console.log(e);
+                    reject('[Database] Error while updating icons');
                 });
-            }
-        }).catch((e) => {
-            console.log('[Database] Error while updating icons', e);
         });
     }
 }
