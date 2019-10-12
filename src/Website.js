@@ -4,7 +4,6 @@ const http = require('http');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const i18n = require('./Util/i18n');
-const schedule = require('node-schedule');
 const fs = require('fs');
 const path = require('path');
 const config = require('../config');
@@ -14,6 +13,7 @@ class Website {
         this.db = options.db;
         this.client = new Discord(config.discord.token);
         this.app = express();
+        this.jobs = [];
     }
 
     async start() {
@@ -64,7 +64,7 @@ class Website {
                     if (!routes[i].endsWith('.js')) continue;
                     try {
                         const Route = require(path.join(dir, routes[i]));
-                        const route = new Route(this.client, this.db);
+                        const route = new Route(this.client, this.db, this.jobs);
                         this.app.use(route.route, route.getRouter);
                     } catch (e) {
                         console.error('[Route Loader] Failed loading ' + routes[i] + ' - ', e);
@@ -104,9 +104,10 @@ class Website {
                     try {
                         const Job = require(path.join(dir, jobs[i]));
                         const job = new Job(this.client, this.db);
-                        schedule.scheduleJob(job.interval, () => {
+                        job.schedule.scheduleJob(path.basename(jobs[i], '.js'), job.interval, () => {
                             job.execute();
                         });
+                        this.jobs.push(job);
                     } catch (e) {
                         console.error('[Job Loader] Failed loading ' + jobs[i] + ' - ', e);
                     } finally {
