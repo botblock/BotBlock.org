@@ -1,9 +1,0 @@
-if !tasks.length
-    .hero.hero-slim
-        .has-text-centered
-            h5.title.is-size-4 No tasks defined.
-else
-    .columns.is-half.is-multiline
-        for task in tasks
-            .column.is-half.is-full-mobile
-                include cards/taskcard

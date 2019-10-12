@@ -1,8 +1,3 @@
-- var statusClass = ''
-case task.lastStatus
-    when 'Successful': - statusClass= 'has-text-success'
-    when 'Failed': - statusClass= 'has-text-danger'
-
 .card.is-box-shadow
     .card-content
         .media
@@ -21,7 +16,7 @@ case task.lastStatus
                         p.subtitle.is-6 #{task.lastRun}
                     .column
                         p.title.is-6 Last Status
-                        p.subtitle.is-6(class=statusClass) #{task.lastStatus}
+                        p.subtitle.is-6(class=task.statusClass) #{task.lastStatus}
             if user && user.admin
                 .media-right.button-group.button-group-vertical
                     a.button.is-brand.is-small(id='runBtn' + task.id, onclick='runTask(' + task.id +')') Execute

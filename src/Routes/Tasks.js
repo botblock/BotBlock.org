@@ -12,20 +12,17 @@ class TasksRoute extends BaseRoute {
     }
 
     routes() {
-        this.router.use(this.requiresAuth.bind(this), this.isMod.bind(this));
-
-        this.router.get('/', (req, res) => {
+        this.router.get('/', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             const tasks = this.jobs.map((job, idx) => {
                 const locale = req.locale.replace('_', '-');
-                let status = job.lastRunSucceeded ? 'Successful' : 'Failed';
-                if (job.lastRunSucceeded === null) status = 'N/A';
                 return {
                     id: idx,
                     name: job.schedule.name,
                     interval: job.interval,
                     lastRun: job.lastRun ? job.lastRun.toLocaleString(locale) : 'N/A',
                     nextRun: job.schedule.nextInvocation().toDate().toLocaleString(locale),
-                    lastStatus: status
+                    lastStatus: job.lastRunSucceeded === null ? 'N/A' : job.lastRunSucceeded ? 'Successful' : 'Failed',
+                    statusClass: job.lastRunSucceeded === null ? '' : job.lastRunSucceeded ? 'has-text-success' : 'has-text-danger'
                 };
             });
             res.render('tasks', { tasks });
@@ -39,7 +36,7 @@ class TasksRoute extends BaseRoute {
             });
             try {
                 this.jobs[req.params.id].execute().then(() => res.status(200).json({}));
-            } catch(e) {
+            } catch (e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
                 return res.status(500).json({
                     error: true,
