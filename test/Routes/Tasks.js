@@ -1,4 +1,4 @@
-const {describe, it, expect, request, authCheck} = require('../base');
+const { describe, it, expect, request, authCheck } = require('../base');
 
 describe('/tasks', () => {
     describe('GET', () => {

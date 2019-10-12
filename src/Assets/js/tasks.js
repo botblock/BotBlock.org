@@ -1,6 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 function runTask(id) {
     var btn = document.getElementById('runBtn' + id);
-    if (btn.getAttribute('disabled')) return alert('Please wait!');
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -10,13 +10,11 @@ function runTask(id) {
             } else {
                 btn.textContent = 'Execution failed!';
             }
-            btn.setAttribute('onclick', 'runTask(' + id +')');
-            btn.removeAttribute('disabled');
+            btn.classList.remove('is-loading');
         }
     };
     xhr.open('POST', '/tasks/run/' + id, true);
     xhr.send();
 
-    btn.textContent = 'Executing ...';
-    btn.setAttribute('disabled', true);
+    btn.classList.add('is-loading');
 }

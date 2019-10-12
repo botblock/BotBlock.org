@@ -16,11 +16,17 @@ class TasksRoute extends BaseRoute {
 
         this.router.get('/', (req, res) => {
             const tasks = this.jobs.map((job, idx) => {
+                const locale = req.locale.replace('_', '-');
+                let status = job.lastRunSucceeded ? 'Successful' : 'Failed';
+                if (job.lastRunSucceeded === null) status = 'N/A';
                 return {
                     id: idx,
-                    name: job.name,
-                    nextInvocation: job.nextInvocation()
-                }
+                    name: job.schedule.name,
+                    interval: job.interval,
+                    lastRun: job.lastRun ? job.lastRun.toLocaleString(locale) : 'N/A',
+                    nextRun: job.schedule.nextInvocation().toDate().toLocaleString(locale),
+                    lastStatus: status
+                };
             });
             res.render('tasks', { tasks });
         });
@@ -32,16 +38,15 @@ class TasksRoute extends BaseRoute {
                 message: 'The page you were looking for could not be found.'
             });
             try {
-                this.jobs[req.params.id].job();
+                this.jobs[req.params.id].execute().then(() => res.status(200).json({}));
             } catch(e) {
                 handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).json({
+                return res.status(500).json({
                     error: true,
                     status: 500,
                     message: 'An unexpected error occurred'
                 });
             }
-            res.status(200).json({});
         });
 
     }
