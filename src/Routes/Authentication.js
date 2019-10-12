@@ -19,7 +19,7 @@ class AuthenticationRoute extends BaseRoute {
                 '&response_type=code' +
                 '&scope=' + config.discord.scopes.join('%') +
                 '&prompt=none'
-            )
+            );
         });
 
         this.router.get('/callback', (req, res) => {
@@ -38,30 +38,30 @@ class AuthenticationRoute extends BaseRoute {
                     '&redirect_uri=' + req.protocol + '://' + req.get('Host') + '/auth/callback' +
                     '&scope=' + config.discord.scopes.join(' ')
             }).then((token) => {
-               axios({
-                   method: 'GET',
-                   url: 'https://discordapp.com/api/users/@me',
-                   headers: {
-                       Authorization: token.data.token_type + ' ' + token.data.access_token
-                   }
-               }).then((user) => {
-                   data = { ...user.data, ...token.data };
-                   this.client.getMember(config.discord.guild_id, user.data.id).then((member) => {
-                       if (member.roles.includes(config.discord.admin_role)) data.admin = true;
-                       if (member.roles.includes(config.discord.mod_role)) data.mod = true;
-                   }).catch((_) => {
+                axios({
+                    method: 'GET',
+                    url: 'https://discordapp.com/api/users/@me',
+                    headers: {
+                        Authorization: token.data.token_type + ' ' + token.data.access_token
+                    }
+                }).then((user) => {
+                    data = { ...user.data, ...token.data };
+                    this.client.getMember(config.discord.guild_id, user.data.id).then((member) => {
+                        if (member.roles.includes(config.discord.admin_role)) data.admin = true;
+                        if (member.roles.includes(config.discord.mod_role)) data.mod = true;
+                    }).catch(() => {
                         data.admin = false;
                         data.mod = false;
-                   }).finally(() => {
-                       req.session.user = data;
-                       res.redirect('/');
-                   })
-               }).catch(() => {
-                   res.status(400).json({ error: true, status: 400, message: 'Failed to get user information' });
-               })
+                    }).finally(() => {
+                        req.session.user = data;
+                        res.redirect('/');
+                    });
+                }).catch(() => {
+                    res.status(400).json({ error: true, status: 400, message: 'Failed to get user information' });
+                });
             }).catch(() => {
                 res.status(400).json({ error: true, status: 400, message: 'Failed to get token' });
-            })
+            });
         });
 
         this.router.get('/logout', (req, res) => {

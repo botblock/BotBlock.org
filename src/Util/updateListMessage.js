@@ -2,6 +2,7 @@ const formatListMessage = require('./formatListDiscordMessage');
 const config = require('../../config');
 
 module.exports = async (client, db, list, newListID) => {
+    if (!config.discord.notifications) return;
     let msg;
     try {
         let message = formatListMessage(list);
@@ -13,7 +14,7 @@ module.exports = async (client, db, list, newListID) => {
         }
         await db('lists_messages').where({ list: list.id }).del();
         await db('lists_messages').insert( { list: newListID, message: msg.id });
-    } catch (e) {
+    } catch {
         return null;
     }
-}
+};

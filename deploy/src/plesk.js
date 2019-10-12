@@ -99,7 +99,7 @@ const restartNode = async domain => {
         domain
     ]);
     return out.data.stdout;
-}
+};
 
 module.exports = {
     pleskCommand,

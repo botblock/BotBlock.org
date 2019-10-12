@@ -10,16 +10,16 @@ module.exports = (client, db, list) => {
             client.getInvite(code[1]).then((i) => {
                 const newIcon = 'https://cdn.discordapp.com/icons/' + i.guild.id + '/' + i.guild.icon + '.png';
                 if (list.icon === newIcon) return reject('Icon has not changed.');
-                db('lists').where({ id: list.id}).update({ icon: newIcon }).then(() => {
+                db('lists').where({ id: list.id }).update({ icon: newIcon }).then(() => {
                     newList['icon'] = newIcon;
                     client.updateEditLog(list, newList).then(() => console.log(1)).catch((e) => console.error('[Discord] Failed to send to edit log', e));
                     resolve('Icon has been updated.');
-                }).catch((e) => {
+                }).catch(() => {
                     reject('Failed to update icon in database.');
-                })
+                });
             }).catch(() => {
                 reject('Failed to update, invite has expired.');
-            })
+            });
         } else return reject('Failed to update, list does not have a Discord icon saved.');
-    })
-}
+    });
+};

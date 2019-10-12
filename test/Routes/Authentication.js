@@ -1,4 +1,4 @@
-const {describe, it, expect, request} = require('../base');
+const { describe, it, expect, request } = require('../base');
 
 describe('/auth', () => {
     describe('GET', () => {

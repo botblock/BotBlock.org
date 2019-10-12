@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 module.exports = (db, verb, route, error, api = false) => {
     try {
         return db('errors').insert({ verb, route, error, datetime: Date.now() / 1000 });
@@ -5,4 +6,4 @@ module.exports = (db, verb, route, error, api = false) => {
         console.error('[Handle Error] Failed to log error. Error: %s\n Error to log:', e, error);
         return null;
     }
-}
+};
