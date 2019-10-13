@@ -4,6 +4,7 @@ const http = require('http');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const i18n = require('./Util/i18n');
+const schedule = require('node-schedule');
 const fs = require('fs');
 const path = require('path');
 const config = require('../config');
@@ -12,6 +13,7 @@ class Website {
     constructor(options) {
         this.db = options.db;
         this.client = new Discord(config.discord.token);
+        this.jobs = [];
         this.app = express();
         this.jobs = [];
     }
@@ -104,7 +106,7 @@ class Website {
                     try {
                         const Job = require(path.join(dir, jobs[i]));
                         const job = new Job(this.client, this.db);
-                        job.schedule.scheduleJob(path.basename(jobs[i], '.js'), job.interval, () => {
+                        job.schedule = schedule.scheduleJob(path.basename(jobs[i], '.js'), job.interval, () => {
                             job.execute();
                         });
                         this.jobs.push(job);

@@ -1,9 +1,7 @@
-const schedule = require('node-schedule');
-
 class BaseJob {
     constructor(interval) {
         this.interval = interval;
-        this.schedule = schedule;
+        this.schedule = null;
         this.lastRun = null;
         this.lastRunSucceeded = null;
     }
@@ -14,7 +12,7 @@ class BaseJob {
 
     execute() {
         this.lastRun = new Date();
-        this.jobFunc().then(() => {
+        return this.jobFunc().then(() => {
             console.log('[Job] Execution successful');
             this.lastRunSucceeded = true;
         }).catch((e) => {

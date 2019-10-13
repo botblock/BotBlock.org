@@ -1,0 +1,22 @@
+.card.is-box-shadow
+    .card-content
+        .media
+            .media-content
+                p.title.is-3 #{task.name}
+                .columns
+                    .column
+                        p.title.is-6 Interval
+                        p.subtitle.is-6 #{task.interval}
+                    .column
+                        p.title.is-6 Next Run
+                        p.subtitle.is-6 #{task.nextRun}
+                .columns
+                    .column
+                        p.title.is-6 Last Run
+                        p.subtitle.is-6 #{task.lastRun}
+                    .column
+                        p.title.is-6 Last Status
+                        p.subtitle.is-6(class=task.statusClass) #{task.lastStatus}
+            if user && user.admin
+                .media-right.button-group.button-group-vertical
+                    a.button.is-brand.is-small(id='runBtn' + task.id, onclick='runTask(' + task.id +')') Execute
