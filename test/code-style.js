@@ -9,6 +9,8 @@ describe('code style', () => {
         this.slow(2000);
         try {
             exec('npm run lint:editorconfig', { cwd: path.join(__dirname, '..') }, (err, stdout) => {
+                console.log(err);
+                console.log(stdout);
                 if (err) return done(new Error(stdout));
                 done();
             });
@@ -22,6 +24,8 @@ describe('code style', () => {
         this.slow(2000);
         try {
             exec('npm run lint:eslint', { cwd: path.join(__dirname, '..') }, (err, stdout) => {
+                console.log(err);
+                console.log(stdout);
                 if (err) return done(new Error(stdout));
                 done();
             });
