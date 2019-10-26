@@ -1,7 +1,12 @@
-const discord = require('./src/discord');
+const discordMessage = require('./src/discord');
+const config = require('./config');
 const run = require('./src/run');
 const test = require('./src/test');
 const deploy = require('./src/deploy');
+
+const discord = async message => {
+    await discordMessage(message, config.discord_production_channel);
+};
 
 const resetLocal = async branch => {
     // Checkout back to original branch
