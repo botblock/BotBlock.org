@@ -3,7 +3,7 @@ const legacyListMap = require('../../src/Util/legacyListMap');
 
 describe('legacyListMap', () => {
     it('converts a legacy ID to the target ID correctly', done => {
-        db.select().from('legacy_ids').then(legacy => {
+        db.select().from('legacy_ids').limit(1).then(legacy => {
             const id = legacy[0].id;
             const target = legacy[0].target;
             legacyListMap(db, id).then(test => {

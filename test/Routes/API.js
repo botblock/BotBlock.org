@@ -570,7 +570,7 @@ describe('/api/count', () => {
             describe('Legacy list ID with fake token', () => {
                 let id, target, test;
                 before('fetch list data', done => {
-                    db.select().from('legacy_ids').then(legacy => {
+                    db.select().from('legacy_ids').limit(1).then(legacy => {
                         id = legacy[0].id;
                         target = legacy[0].target;
                         const data = {
@@ -593,8 +593,9 @@ describe('/api/count', () => {
                 });
                 it('contains the correct target id for the legacy id', done => {
                     test().end((err, res) => {
-                        expect({...res.body.success, ...res.body.failure}).to.have.property(target);
-                        expect({...res.body.success, ...res.body.failure}).to.not.have.property(id);
+                        const keys = [...Object.keys(res.body.success), ...Object.keys(res.body.failure)];
+                        expect(keys).to.contain(target);
+                        expect(keys).to.not.contain(id);
                         done();
                     });
                 });

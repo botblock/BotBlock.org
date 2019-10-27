@@ -431,10 +431,10 @@ describe('/lists/:id', () => {
     describe('GET Legacy ID', () => {
         let id, target, data;
         before('fetch list data', done => {
-            db.select().from('legacy_ids').then(legacy => {
+            db.select().from('legacy_ids').limit(1).then(legacy => {
                 id = legacy[0].id;
                 target = legacy[0].target;
-                db.select().from('lists').where({ id: target }).then(lists => {
+                db.select().from('lists').where({ id: target }).limit(1).then(lists => {
                     data = lists[0];
                     done();
                 });
