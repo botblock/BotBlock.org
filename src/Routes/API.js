@@ -7,6 +7,7 @@ const getBotInformation = require('../Util/getBotInformation');
 const getUserAgent = require('../Util/getUserAgent');
 const isSnowflake = require('../Util/isSnowflake');
 const { slugify, librarySlug } = require('../Util/slugs');
+const legacyListMap = require('../Util/legacyListMap');
 const Renderer = require('../Structure/Markdown');
 const { secret } = require('../../config.js');
 
@@ -164,7 +165,8 @@ class APIRoute extends BaseRoute {
                 .then(async (lists) => {
                     const data = Object.keys(req.body);
                     for (let i = 0; i < data.length; i++) {
-                        const list = lists.filter((l) => l.id === data[i])[0];
+                        const dataId = await legacyListMap(this.db, data[i]);
+                        const list = lists.filter((l) => l.id === dataId)[0];
                         if (list) {
                             let payload = {};
                             if (req.body.shards && list.api_shards) {
