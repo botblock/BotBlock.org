@@ -567,6 +567,39 @@ describe('/api/count', () => {
                 });
             });
 
+            describe('Legacy list ID with fake token', () => {
+                let id, target, test;
+                before('fetch list data', done => {
+                    db.select().from('legacy_ids').then(legacy => {
+                        id = legacy[0].id;
+                        target = legacy[0].target;
+                        const data = {
+                            bot_id: '123456789123456789',
+                            server_count: 10
+                        };
+                        data[id] = 'Hello world';
+                        test = () => ratelimitBypass(request().post('/api/count').send(data));
+                        done();
+                    });
+                });
+                it('returns a valid response', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res).to.be.json;
+                        expect(res.body).to.have.property('success');
+                        expect(res.body).to.have.property('failure');
+                        done();
+                    });
+                });
+                it('contains the correct target id for the legacy id', done => {
+                    test().end((err, res) => {
+                        expect({...res.body.success, ...res.body.failure}).to.have.property(target);
+                        expect({...res.body.success, ...res.body.failure}).to.not.have.property(id);
+                        done();
+                    });
+                });
+            });
+
             // This suite will need updating if this list changes
             describe('Valid list ID with fake token and fake bot ID', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({

@@ -428,6 +428,29 @@ describe('/lists/:id', () => {
         });
     });
 
+    describe('GET Legacy ID', () => {
+        let id, target, data;
+        before('fetch list data', done => {
+            db.select().from('legacy_ids').then(legacy => {
+                id = legacy[0].id;
+                target = legacy[0].target;
+                db.select().from('lists').where({ id: target }).then(lists => {
+                    data = lists[0];
+                    done();
+                });
+            });
+        });
+        it('returns the target list page', done => {
+            const test = () => request().get(`/lists/${id}`);
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.html;
+                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
+    });
+
     describe('GET Invalid (:id = helloworld)', () => {
         const test = () => request().get('/lists/helloworld');
         it('returns a Not Found status code', done => {
