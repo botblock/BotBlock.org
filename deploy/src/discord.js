@@ -1,9 +1,9 @@
 const axios = require('axios');
 const config = require('../config');
 
-module.exports = async message => {
+module.exports = async (message, channelId) => {
     return await axios.post(
-        `https://discordapp.com/api/channels/${config.discord_channel}/messages`,
+        `https://discordapp.com/api/channels/${channelId}/messages`,
         {
             content: message
         },

@@ -1,16 +1,25 @@
-const discord = require('./src/discord');
+const discordMessage = require('./src/discord');
+const config = require('./config');
 const run = require('./src/run');
 const test = require('./src/test');
 const deploy = require('./src/deploy');
 
-const main = async () => {
-    // Notify
-    await discord('📦 Deploying to staging...');
-    console.log('Deploying to staging...');
+const discord = async message => {
+    await discordMessage(message, config.discord_staging_channel);
+};
 
+const main = async () => {
     // Get local branch
     const branch = (await run('git rev-parse --abbrev-ref HEAD')).stdout.split('\n')[0];
     console.log('Local branch:', branch);
+
+    // Get commit ID
+    const commit = (await run('git rev-parse --short HEAD')).stdout.split('\n')[0];
+    console.log('Commit ID:', commit);
+
+    // Notify
+    await discord(`📦 **Deploying \`${branch}@${commit}\` to staging...**`);
+    console.log('Deploying to staging...');
 
     // Tests
     if (!process.argv.includes('--skip-tests')) {

@@ -6,5 +6,6 @@ module.exports = {
 
     // Discord deployment notification config
     discord_token: '',
-    discord_channel: ''
+    discord_staging_channel: '',
+    discord_production_channel: ''
 };
