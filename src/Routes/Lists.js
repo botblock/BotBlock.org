@@ -269,6 +269,24 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/legacy-ids', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('legacy_ids').then((data) => {
+                    res.render('lists/legacy_ids', {
+                        title: 'Legacy IDs',
+                        data
+                    });
+                });
+            } catch (e) {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
+                res.status(500).render('error', { title: 'Database Error' });
+            }
+        });
+
+        // *************
+        // List ID specific routes
+        // *************
+
         this.router.get('/:id', (req, res) => {
             try {
                 legacyListMap(this.db, req.params.id).then((id) => {

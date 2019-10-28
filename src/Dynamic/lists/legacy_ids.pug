@@ -1,0 +1,55 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .columns
+                .column.is-half-desktop.is-full-mobile
+                    .card.is-box-shadow
+                        .card-content
+                            include ../Includes/forms/legacy_ids
+
+                            br
+                            hr
+                            br
+                            .media
+                                .media-content
+                                    .field
+                                        label.label(for='new_legacy_id') New Legacy ID:
+                                        .control
+                                            input.input(type='text', id='new_legacy_id', name='new_legacy_id')
+                                .media-right.button-group.button-group-vertical
+                                    a.button.is-light.is-small(data-type='add', style='margin-top: 3em') Add
+
+block footer
+    script.
+        function addRemoveBinding(elm) {
+            elm.addEventListener('click', function () {
+                var outer = document.getElementById(this.getAttribute('data-target'));
+                if (!outer) return;
+                outer.parentElement.removeChild(outer);
+            });
+        }
+
+        document.querySelector('[data-type="add"]').addEventListener('click', function () {
+            // Get the new legacy ID and validate it doesn't already exist
+            var newId = document.getElementById('new_legacy_id').value;
+            if (!newId) return;
+            if (document.getElementById(newId)) return;
+
+            // Create the new form section from the template
+            var div = document.getElementById('outer_template').cloneNode(true);
+            div.style.display = '';
+            div.id = 'outer_' + newId;
+            div.querySelector('.media-left .field .control code').textContent = newId;
+            div.querySelector('.media-content .field label').setAttribute('for', newId);
+            div.querySelector('.media-content .field .control input').setAttribute('id', newId);
+            div.querySelector('.media-content .field .control input').setAttribute('name', newId);
+            div.querySelector('.media-right a[data-type="remove"]').setAttribute('data-target', div.id);
+            addRemoveBinding(div.querySelector('.media-right a[data-type="remove"]'));
+            document.getElementById('legacy-ids').appendChild(div);
+        });
+
+        var elms = document.querySelectorAll('[data-type="remove"]');
+        for (var i = 0; i < elms.length; i++) {
+            addRemoveBinding(elms[i]);
+        }

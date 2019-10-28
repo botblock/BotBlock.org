@@ -1,0 +1,27 @@
+if errors && errors.length > 0
+    .notification.is-danger
+        button.delete
+        ul
+            for error in errors
+                li #{error}
+
+form(method='POST')
+    div#legacy-ids
+        for legacy in [...data, {id:'template', target:''}]
+            .media(id=`outer_${legacy.id}`, style=`${legacy.id === 'template' ? 'display: none;' : ''}`)
+                .media-left
+                    .field
+                        label.label Legacy ID:
+                        .control
+                            code #{legacy.id}
+                .media-content
+                    .field
+                        label.label(for=legacy.id) Target ID:
+                        .control
+                            input.input(type='text', id=legacy.id, name=legacy.id, value=legacy.target, required)
+                .media-right.button-group.button-group-vertical
+                    a.button.is-light.is-small(data-type='remove', data-target=`outer_${legacy.id}`, style='margin-top: 3em') Remove
+
+    .control
+        button.button.is-brand Submit
+
