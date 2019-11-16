@@ -31,6 +31,7 @@ module.exports = {
     },
 
     // SQL Database for Seed Data Exports
+    // This can be left blank unless you need to export seed data
     seedDatabase: {
         host: '',
         user: '',

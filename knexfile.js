@@ -14,6 +14,6 @@ module.exports = {
     },
     seedExport: {
         client: config.seedDatabase.client,
-        connection: config.seedDatabase,
+        connection: config.seedDatabase
     }
 };
