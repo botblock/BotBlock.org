@@ -139,21 +139,21 @@
 
     // jda is a JDA instance. You can also use ShardManager instead.
 
-    handler.startAutoPosting(jda, api);
-    
-    
+    post.startAutoPosting(jda, api);
+
+
     // Create an instance of GetAction
-    
+
     GetAction get = new GetAction();
-    
-    
+
+
     // Get all supported bot lists
-    
+
     get.getBotLists("myBotId"); // Used for caching
-    
-    
+
+
     // Get information about a bot
-    
+
     get.getBotInfo("myBotId");
 - repo: xXBuilderBXx/BotListAPI
   language: C#
