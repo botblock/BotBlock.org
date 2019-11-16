@@ -119,7 +119,7 @@
     API) which was made by Nathan-Webb and is now rewritten and updated by
     Andre601. It allows posting your guild counts through the [{{site_name}}
     API](/api/docs) both manually and automatically. You can provide both a JDA
-    instance or ShardManager instance, but this is optional.
+    instance or ShardManager instance, but this is optional. You can also retrieve bot information.
   package_link: https://bintray.com/andre601/maven/JavaBotBlockAPI/_latestVersion
   package_link_name: Bintray
   badge_image: https://img.shields.io/bintray/v/andre601/maven/JavaBotBlockAPI.svg?style=flat-square
@@ -132,14 +132,29 @@
         .addAuthToken("botlist.space", "qos56a_auth_token_gfd8g6")
         .build();
 
-    // Create an instance of RequestHandler for posting
+    // Create an instance of PostAction for posting
 
-    RequestHandler handler = new RequestHandler();
+    PostAction post = new PostAction();
 
 
     // jda is a JDA instance. You can also use ShardManager instead.
 
     handler.startAutoPosting(jda, api);
+    
+    
+    // Create an instance of GetAction
+    
+    GetAction get = new GetAction();
+    
+    
+    // Get all supported bot lists
+    
+    get.getBotLists("myBotId"); // Used for caching
+    
+    
+    // Get information about a bot
+    
+    get.getBotInfo("myBotId");
 - repo: xXBuilderBXx/BotListAPI
   language: C#
   name: BotListAPI
