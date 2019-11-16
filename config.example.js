@@ -28,5 +28,14 @@ module.exports = {
         password: '',
         database: '',
         client: 'mysql'
+    },
+
+    // SQL Database for Seed Data Exports
+    seedDatabase: {
+        host: '',
+        user: '',
+        password: '',
+        database: '',
+        client: 'mysql'
     }
 };

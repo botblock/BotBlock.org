@@ -11,5 +11,9 @@ module.exports = {
         seeds: {
             directory: './db/seeds'
         }
+    },
+    seedExport: {
+        client: config.seedDatabase.client,
+        connection: config.seedDatabase,
     }
 };
