@@ -99,6 +99,30 @@ class APIRoute extends BaseRoute {
                 });
         });
 
+        this.router.get('/legacy-ids', this.ratelimit.checkRatelimit(1, 1), (req, res) => {
+            this.db
+                .select('id', 'target')
+                .from('legacy_ids')
+                .orderBy([
+                    { column: 'id', order: 'desc' }
+                ])
+                .then((legacy) => {
+                    const data = legacy.reduce(function(result, item) {
+                        result[item.id] = item.target;
+                        return result;
+                    }, {});
+                    res.status(200).json({ ...data });
+                })
+                .catch((e) => {
+                    handleError(this.db, req.method, req.originalUrl, e.stack);
+                    res.status(500).json({
+                        error: true,
+                        status: 500,
+                        message: 'An unexpected database error occurred'
+                    });
+                });
+        });
+
         this.router.post('/count', this.ratelimit.checkRatelimit(1, 120), (req, res) => {
             if (!req.body.bot_id) return res.status(400).json({
                 error: true,

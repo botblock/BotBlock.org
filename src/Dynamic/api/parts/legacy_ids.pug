@@ -1,0 +1,28 @@
+.card-content
+    h1.is-size-4.has-text-grey-lighter#lists Get all #{__('site_name')} legacy IDs
+        a(href='#legacy-ids')  &supdsub;
+    h6.is-size-6
+        a(href='/api/legacy-ids', target='_blank', rel='nofollow')
+            code GET /api/legacy-ids
+    h5.is-size-5 Response Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td &lt;legacy_id&gt;
+                    td String
+                    td The active list ID (the value) in #{__('site_name')} that the legacy ID (the key) maps to.
+    h5.is-size-5 Example Response
+    h6.is-size-6
+        a(href='/api/legacy-ids', target='_blank', rel='nofollow')
+            code GET /api/legacy-ids
+        pre
+            code.
+                {
+                    "oldlistdomain.com": "newlistdomain.com",
+                }
