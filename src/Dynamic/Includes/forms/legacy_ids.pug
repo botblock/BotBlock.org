@@ -18,10 +18,10 @@ form(method='POST')
                     .field
                         label.label(for=legacy.id) Target ID:
                         .control
-                            input.input(type='text', id=legacy.id, name=legacy.id, value=legacy.target, required)
+                            input.input(type='text', id=legacy.id, name=legacy.id, value=legacy.target, required=(legacy.id !== 'template'))
                 .media-right.button-group.button-group-vertical
                     a.button.is-light.is-small(data-type='remove', data-target=`outer_${legacy.id}`, style='margin-top: 3em') Remove
 
     .control
-        button.button.is-brand Submit
+        button.button.is-brand(type="submit") Submit
 

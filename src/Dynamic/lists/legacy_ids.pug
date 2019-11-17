@@ -44,6 +44,7 @@ block footer
             div.querySelector('.media-content .field label').setAttribute('for', newId);
             div.querySelector('.media-content .field .control input').setAttribute('id', newId);
             div.querySelector('.media-content .field .control input').setAttribute('name', newId);
+            div.querySelector('.media-content .field .control input').setAttribute('required', 'true');
             div.querySelector('.media-right a[data-type="remove"]').setAttribute('data-target', div.id);
             addRemoveBinding(div.querySelector('.media-right a[data-type="remove"]'));
             document.getElementById('legacy-ids').appendChild(div);
