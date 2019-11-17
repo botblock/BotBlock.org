@@ -3,6 +3,7 @@ const FormValidator = require('../Structure/FormValidator');
 const getListFeature = require('../Util/getListFeature');
 const getListFeatures = require('../Util/getListFeatures');
 const handleError = require('../Util/handleError');
+const legacyListMap = require('../Util/legacyListMap');
 
 class ListsRoute extends BaseRoute {
     constructor(client, db) {
@@ -268,21 +269,58 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/legacy-ids', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('legacy_ids').then((data) => {
+                    res.render('lists/legacy_ids', {
+                        title: 'Legacy IDs',
+                        data
+                    });
+                });
+            } catch (e) {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
+                res.status(500).render('error', { title: 'Database Error' });
+            }
+        });
+
+        this.router.post('/legacy-ids', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db('legacy_ids').del().then(() => {
+                    if ('template' in req.body) delete req.body.template;
+                    const items = Object.entries(req.body).map(item => { return { id: item[0], target: item[1] }; });
+                    this.db('legacy_ids').insert(items).then(() => {
+                        res.render('lists/legacy_ids', {
+                            title: 'Legacy IDs',
+                            data: items
+                        });
+                    });
+                });
+            } catch (e) {
+                handleError(this.db, req.method, req.originalUrl, e.stack);
+                res.status(500).render('error', { title: 'Database Error' });
+            }
+        });
+
+        // *************
+        // List ID specific routes
+        // *************
+
         this.router.get('/:id', (req, res) => {
             try {
-                this.db.select().from('lists').where({ id: req.params.id }).limit(1).then((lists) => {
-                    if (!lists.length) return res.status(404).render('error', {
-                        title: 'Page not found',
-                        status: 404,
-                        message: 'The page you were looking for could not be found.'
-                    });
-                    getListFeatures(this.db, lists[0].id).then((features) => {
-
-                        res.render('lists/list', {
-                            title: `${lists[0].name} (${lists[0].id})`,
-                            list: lists[0],
-                            checkboxes: features,
-                            hideUncheckedBoxes: true
+                legacyListMap(this.db, req.params.id).then((id) => {
+                    this.db.select().from('lists').where({ id }).limit(1).then((lists) => {
+                        if (!lists.length) return res.status(404).render('error', {
+                            title: 'Page not found',
+                            status: 404,
+                            message: 'The page you were looking for could not be found.'
+                        });
+                        getListFeatures(this.db, lists[0].id).then((features) => {
+                            res.render('lists/list', {
+                                title: `${lists[0].name} (${lists[0].id})`,
+                                list: lists[0],
+                                checkboxes: features,
+                                hideUncheckedBoxes: true
+                            });
                         });
                     });
                 });
@@ -294,21 +332,23 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                this.db.select().from('lists').where({ id: req.params.id }).limit(1).then((lists) => {
-                    if (!lists.length) return res.status(404).render('error', {
-                        title: 'Page not found',
-                        status: 404,
-                        message: 'The page you were looking for could not be found.'
-                    });
-                    getListFeatures(this.db, lists[0].id).then((features) => {
+                legacyListMap(this.db, req.params.id).then((id) => {
+                    this.db.select().from('lists').where({ id }).limit(1).then((lists) => {
+                        if (!lists.length) return res.status(404).render('error', {
+                            title: 'Page not found',
+                            status: 404,
+                            message: 'The page you were looking for could not be found.'
+                        });
+                        getListFeatures(this.db, lists[0].id).then((features) => {
 
-                        res.render('lists/edit', {
-                            title: 'Edit ' + lists[0].id,
-                            data: lists[0],
-                            checkboxes: features,
-                            edit: true,
-                            hideUncheckedBoxes: false,
-                            interactiveCheckboxes: true
+                            res.render('lists/edit', {
+                                title: 'Edit ' + lists[0].id,
+                                data: lists[0],
+                                checkboxes: features,
+                                edit: true,
+                                hideUncheckedBoxes: false,
+                                interactiveCheckboxes: true
+                            });
                         });
                     });
                 });
@@ -320,70 +360,72 @@ class ListsRoute extends BaseRoute {
 
         this.router.post('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                this.db.select().from('lists').where({ id: req.params.id }).limit(1).then((lists) => {
-                    if (!lists.length) return res.status(404).render('error', {
-                        title: 'Page not found',
-                        status: 404,
-                        message: 'The page you were looking for could not be found.'
-                    });
-                    getListFeatures(this.db, lists[0].id).then(async (features) => {
-
-                        const validate = FormValidator.validateList(req.params.id, req.body, res.locals.user);
-                        let changes = {};
-                        let addedFeatures = [];
-                        if (validate && validate.length > 0) return res.render('lists/edit', {
-                            title: 'Edit ' + lists[0].id,
-                            data: lists[0],
-                            checkboxes: features,
-                            edit: true,
-                            hideUncheckedBoxes: false,
-                            interactiveCheckboxes: true,
-                            errors: validate
+                legacyListMap(this.db, req.params.id).then((id) => {
+                    this.db.select().from('lists').where({ id }).limit(1).then((lists) => {
+                        if (!lists.length) return res.status(404).render('error', {
+                            title: 'Page not found',
+                            status: 404,
+                            message: 'The page you were looking for could not be found.'
                         });
-                        try {
-                            const columns = Object.keys(await this.db('lists').columnInfo());
-                            for (const column of columns) {
-                                if (req.body[column]) {
-                                    changes[column] = req.body[column];
-                                } else {
-                                    changes[column] = null;
-                                }
-                            }
-                            changes['added'] = lists[0].added;
-                            await this.db('lists').where({ id: req.params.id }).del();
-                            await this.db('lists').insert(changes);
+                        getListFeatures(this.db, lists[0].id).then(async (features) => {
 
-                            const oldFeatures = await this.db.select().from('feature_map').where({
-                                list: req.params.id,
-                                value: true
+                            const validate = FormValidator.validateList(id, req.body, res.locals.user);
+                            let changes = {};
+                            let addedFeatures = [];
+                            if (validate && validate.length > 0) return res.render('lists/edit', {
+                                title: 'Edit ' + lists[0].id,
+                                data: lists[0],
+                                checkboxes: features,
+                                edit: true,
+                                hideUncheckedBoxes: false,
+                                interactiveCheckboxes: true,
+                                errors: validate
                             });
-                            await this.db('feature_map').where({ list: req.params.id }).del();
-                            for (let [key, value] of Object.entries(req.body)) {
-                                if (key.substring(0, 8) === 'feature_') {
-                                    key = key.replace('feature_', '');
-                                    value = value === 'on';
-                                    await this.db('feature_map').insert({
-                                        list: changes.id,
-                                        feature: key,
-                                        value
-                                    });
-                                    if (value) {
-                                        addedFeatures.push(Number(key));
+                            try {
+                                const columns = Object.keys(await this.db('lists').columnInfo());
+                                for (const column of columns) {
+                                    if (req.body[column]) {
+                                        changes[column] = req.body[column];
+                                    } else {
+                                        changes[column] = null;
                                     }
                                 }
+                                changes['added'] = lists[0].added;
+                                await this.db('lists').where({ id }).del();
+                                await this.db('lists').insert(changes);
+
+                                const oldFeatures = await this.db.select().from('feature_map').where({
+                                    list: id,
+                                    value: true
+                                });
+                                await this.db('feature_map').where({ list: id }).del();
+                                for (let [key, value] of Object.entries(req.body)) {
+                                    if (key.substring(0, 8) === 'feature_') {
+                                        key = key.replace('feature_', '');
+                                        value = value === 'on';
+                                        await this.db('feature_map').insert({
+                                            list: changes.id,
+                                            feature: key,
+                                            value
+                                        });
+                                        if (value) {
+                                            addedFeatures.push(Number(key));
+                                        }
+                                    }
+                                }
+                                this.client.updateEditLog(
+                                    lists[0],
+                                    changes,
+                                    await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
+                                    await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
+                                );
+                                require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
+                                res.redirect('/lists/' + changes.id);
+                            } catch (e) {
+                                handleError(this.db, req.method, req.originalUrl, e.stack);
+                                res.status(500).render('error', { title: 'Database Error' });
                             }
-                            this.client.updateEditLog(
-                                lists[0],
-                                changes,
-                                await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
-                                await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
-                            );
-                            require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
-                            res.redirect('/lists/' + changes.id);
-                        } catch (e) {
-                            handleError(this.db, req.method, req.originalUrl, e.stack);
-                            res.status(500).render('error', { title: 'Database Error' });
-                        }
+                        });
                     });
                 });
             } catch (e) {
@@ -394,7 +436,8 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/:id/icon', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
-                const lists = await this.db.select().from('lists').where({ id: req.params.id }).limit(1);
+                const id = await legacyListMap(this.db, req.params.id);
+                const lists = await this.db.select().from('lists').where({ id }).limit(1);
                 if (!lists.length) return res.status(404).render('error', {
                     title: 'Page not found',
                     status: 404,

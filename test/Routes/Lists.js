@@ -1,4 +1,4 @@
-const { describe, it, expect, request, db, locale, titleCheck } = require('../base');
+const { describe, it, expect, request, db, locale, titleCheck, authCheck } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
@@ -428,6 +428,29 @@ describe('/lists/:id', () => {
         });
     });
 
+    describe('GET Legacy ID', () => {
+        let id, target, data;
+        before('fetch list data', done => {
+            db.select().from('legacy_ids').limit(1).then(legacy => {
+                id = legacy[0].id;
+                target = legacy[0].target;
+                db.select().from('lists').where({ id: target }).limit(1).then(lists => {
+                    data = lists[0];
+                    done();
+                });
+            });
+        });
+        it('returns the target list page', done => {
+            const test = () => request().get(`/lists/${id}`);
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res).to.be.html;
+                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
+    });
+
     describe('GET Invalid (:id = helloworld)', () => {
         const test = () => request().get('/lists/helloworld');
         it('returns a Not Found status code', done => {
@@ -441,6 +464,128 @@ describe('/lists/:id', () => {
                 expect(res).to.be.html;
                 expect(res.text).to.include('The page you were looking for could not be found.');
                 expect(res.text).to.include('A 404 error has occurred... :(');
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/:id/edit', () => {
+    const listId = 'botlist.space';
+    describe(`GET (:id = ${listId})`, () => {
+        const test = () => request().get(`/lists/${listId}/edit`);
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+
+    describe(`POST (:id = ${listId})`, () => {
+        const test = () => request().post(`/lists/${listId}/edit`);
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/:id/icon', () => {
+    const listId = 'botlist.space';
+    describe(`GET (:id = ${listId})`, () => {
+        const test = () => request().get(`/lists/${listId}/icon`);
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/add', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/add');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => request().post('/lists/add');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/legacy-ids', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/legacy-ids');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => request().post('/lists/legacy-ids');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
                 done();
             });
         });

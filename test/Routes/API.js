@@ -567,6 +567,40 @@ describe('/api/count', () => {
                 });
             });
 
+            describe('Legacy list ID with fake token', () => {
+                let id, target, test;
+                before('fetch list data', done => {
+                    db.select().from('legacy_ids').limit(1).then(legacy => {
+                        id = legacy[0].id;
+                        target = legacy[0].target;
+                        const data = {
+                            bot_id: '123456789123456789',
+                            server_count: 10
+                        };
+                        data[id] = 'Hello world';
+                        test = () => ratelimitBypass(request().post('/api/count').send(data));
+                        done();
+                    });
+                });
+                it('returns a valid response', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(200);
+                        expect(res).to.be.json;
+                        expect(res.body).to.have.property('success');
+                        expect(res.body).to.have.property('failure');
+                        done();
+                    });
+                });
+                it('contains the correct target id for the legacy id', done => {
+                    test().end((err, res) => {
+                        const keys = [...Object.keys(res.body.success), ...Object.keys(res.body.failure)];
+                        expect(keys).to.contain(target);
+                        expect(keys).to.not.contain(id);
+                        done();
+                    });
+                });
+            });
+
             // This suite will need updating if this list changes
             describe('Valid list ID with fake token and fake bot ID', () => {
                 const test = () => ratelimitBypass(request().post('/api/count').send({
@@ -850,6 +884,88 @@ describe('/api/bots/:id', () => {
 
     describe('POST', () => {
         const test = () => ratelimitBypass(request().post('/api/bots/123456789123456789'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+});
+
+describe('/api/legacy-ids', () => {
+    describe('GET', () => {
+        const test = () => ratelimitBypass(request().get('/api/legacy-ids'));
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('returns a valid JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                done();
+            });
+        });
+        it('contains an object of strings', done => {
+            test().end((err, res) => {
+                expect(res.body).to.be.a('object');
+                const entries = Object.values(res.body);
+                entries.forEach(entry => {
+                    expect(entry).to.be.a('string');
+                });
+                done();
+            });
+        });
+    });
+
+    describe('GET (Ratelimited)', () => {
+        const test = () => request().get('/api/legacy-ids');
+        it('ratelimits spam requests', done => {
+            resetRatelimits().end(() => {
+                test().end(() => {
+                });
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/legacy-ids');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '');
+                        done();
+                    });
+                }, 200);
+            });
+        });
+        it('does not ratelimit requests spaced correctly', function (done) {
+            ratelimitTest(this, 1, test, done);
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => ratelimitBypass(request().post('/api/legacy-ids'));
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);
