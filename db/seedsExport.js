@@ -1,4 +1,6 @@
-const db = require('./db')();
+const knexConfig = require('../knexfile');
+const knex = require('knex');
+const db = knex(knexConfig.seedExport);
 const YAML = require('yaml');
 const fs = require('fs').promises;
 const path = require('path');
