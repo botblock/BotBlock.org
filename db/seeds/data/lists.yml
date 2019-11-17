@@ -142,7 +142,7 @@
   added: 1532965633
   name: Bots on Discord
   url: https://bots.ondiscord.xyz/
-  icon: https://cdn.discordapp.com/icons/446425626988249089/7f362a2022732340c5be208f8dd6a402.png
+  icon: https://cdn.discordapp.com/icons/446425626988249089/a_c9599b1e0fdb902b81d93468ada512cf.png
   language: English
   display: 1
   defunct: 0
@@ -165,7 +165,7 @@
   added: 1532965633
   name: Bots for Discord
   url: https://botsfordiscord.com/
-  icon: https://cdn.discordapp.com/icons/374071874222686211/a_fe9c0abd90ee3bfd8c9bdbfd1602d507.png
+  icon: https://cdn.discordapp.com/icons/374071874222686211/02b1428f9fc8025bd331a64d7abf15cc.png
   language: English
   display: 1
   defunct: 0
@@ -257,7 +257,7 @@
   added: 1537287754
   name: Discord Boats
   url: https://discord.boats/
-  icon: https://cdn.discordapp.com/icons/439866052684283905/a_3cdf44511bf30fc3fb89f414cf606d93.png
+  icon: https://cdn.discordapp.com/icons/439866052684283905/a_50718fbcb8030a76b775540db66bd0b8.png
   language: English
   display: 1
   defunct: 0
@@ -390,7 +390,7 @@
   view_bot: https://discordbot.world/bot/:id
   bot_widget: null
   content: null
-  owners: Tetrabyte#0001 (156114103033790464)
+  owners: Dustin#1999 (156114103033790464)
   discord: https://discord.gg/eneuuys
 - id: discordbotindex.com
   added: 1539030775
@@ -492,7 +492,7 @@
   added: 1542199675
   name: Discord Bot Reviews
   url: https://discordbotreviews.xyz/
-  icon: https://cdn.discordapp.com/icons/500658335217876997/43a4be8edd65b154ae00ec89f7b8d984.png
+  icon: https://cdn.discordapp.com/icons/500658335217876997/a8559d6300d109356adecbb31ecf5112.png
   language: English
   display: 1
   defunct: 0
@@ -638,7 +638,7 @@
   added: 1542972675
   name: Discord Extreme List
   url: https://discordextremelist.xyz/
-  icon: https://cdn.discordapp.com/icons/568567800910839811/2c893363a04fba441d9ebaeae758eead.png
+  icon: https://cdn.discordapp.com/icons/568567800910839811/a_97e5f931de1b054fd20311c438389794.png
   language: English
   display: 1
   defunct: 0
@@ -655,9 +655,8 @@
   view_bot: https://discordextremelist.xyz/bots/:id
   bot_widget: https://discordextremelist.xyz/api /bot/:id/widget
   content: null
-  owners: Cairo#5151 (208105877838888960), Connor200024#0001 (102740774168322048),
-    Ice#4710 (302604426781261824), advaith#9121 (190916650143318016)
-  discord: https://discord.gg/cYnpb7T
+  owners: SpookyCairo#2010 (208105877838888960)
+  discord: https://discord.gg/WeCer3J
 - id: discordmusicbots.com
   added: 1533208489
   name: Discord Music Bots
@@ -685,7 +684,7 @@
   added: 1535199589
   name: Discord's Best Bots
   url: https://discordsbestbots.xyz/
-  icon: https://cdn.discordapp.com/icons/446682534135201793/b064f255029f9dab3baf3ae2b8afa832.png
+  icon: https://cdn.discordapp.com/icons/446682534135201793/a_fdd042272a96f695ce1eac0ff65a57a4.png
   language: English
   display: 1
   defunct: 0
@@ -703,7 +702,7 @@
   bot_widget: null
   content: null
   owners: Ice#4710 (302604426781261824), advaith#9121 (190916650143318016),
-    Connor200024#0001 (102740774168322048), Cairo#0001 (208105877838888960)
+    Connor200024#0001 (102740774168322048)
   discord: https://discord.gg/tgcpDXn
 - id: divinediscordbots.com
   added: 1535359770
@@ -802,7 +801,7 @@
   added: 1554996077
   name: Mythical Bot List
   url: https://mythicalbots.xyz/
-  icon: https://cdn.discordapp.com/icons/521461252317249537/a_770d0bfe0a431ee1f536ee258338eda3.png
+  icon: https://cdn.discordapp.com/icons/521461252317249537/a_ebae60070089c0183fd68e1a1c841881.png
   language: English
   display: 1
   defunct: 0
