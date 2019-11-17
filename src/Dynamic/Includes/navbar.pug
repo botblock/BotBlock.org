@@ -17,10 +17,9 @@
                         a.navbar-item(href='/lists') All Lists
                         a.navbar-item(href='/lists/new') New Lists
                         a.navbar-item(href='/lists/features') List Features
-                        if user
-                            if user.mod || user.admin
-                                a.navbar-item(href='/lists/add') * Add List
-                                a.navbar-item(href='/lists/legacy-ids') * Legacy IDs
+                        if user && (user.mod || user.admin)
+                            a.navbar-item(href='/lists/add') * Add List
+                            a.navbar-item(href='/lists/legacy-ids') * Legacy IDs
                         hr.dropdown-divider
                         form#navbar_lists_search
                             input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
