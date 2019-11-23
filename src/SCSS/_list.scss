@@ -1,0 +1,13 @@
+.menu-list {
+  a {
+    @include hover-line;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .checkbox {
+    margin: 0;
+  }
+}
