@@ -1,6 +1,6 @@
 {
   "site_name": "BotBlock",
-  "full_desc": "An easy to navigate and understand list of Discord bot lists and other services. Listing all the features of each bot list available to ensure you find the bot list for you. Additionally, a great API service for Discord bot developers to send their bot server count stats to all bot lists in a single request.",
-  "short_desc": "The List of Discord Bot Lists and Services",
+  "full_desc": "A simple and powerful API service coupled with an easy to navigate and understand list of Discord bot lists. Providing a great API service for Discord bot developers to send their bot server count stats to all bot lists in a single request and listing all the features of each bot list available to ensure you find the bot list for you.",
+  "short_desc": "The Centralised API and List of Discord Bot Lists",
   "slogan": "Discord Bot Lists? We have them all."
 }

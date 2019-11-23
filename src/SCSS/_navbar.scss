@@ -1,5 +1,4 @@
 .navbar {
-
   &.is-spaced {
     padding: .2rem 2.5rem;
 
@@ -12,8 +11,8 @@
     margin-top: auto;
     min-height: auto;
     padding: 0.5rem 2rem;
-    background-color: $brand;
-    color: $white;
+    background-color: $navbar-background-color;
+    color: $navbar-item-color;
     border-radius: 0;
     box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
 
@@ -24,7 +23,7 @@
       width: 100%;
 
       a {
-        color: $white;
+        color: $navbar-item-color;
 
         &:hover {
           color: #434A54;
@@ -64,6 +63,28 @@
   }
 
   .navbar-item {
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: $navbar-item-hover-border-color;
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      transition: opacity .15s;
+    }
+
+    &:hover, &.active {
+      &::after {
+        opacity: 1;
+      }
+    }
+
     img {
       max-height: 2.5rem;
       margin-right: .5em;
@@ -71,8 +92,15 @@
     }
 
     &.input {
-      font-size: .8em;
+      font-size: 1em;
       border-radius: 0;
+      margin: .75rem 0 .15rem;
+      padding: .3rem .6rem;
+
+      &:focus, &:active, &:not(:placeholder-shown) {
+        font-size: .8em;
+        padding: .8rem;
+      }
     }
 
     .navbar-link {
@@ -85,7 +113,7 @@
   }
 
   .navbar-dropdown {
-    top: 100%;
+    top: calc(100% + 2px);
 
     a.navbar-item:focus,
     a.navbar-item:hover {

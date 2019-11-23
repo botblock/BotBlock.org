@@ -7,7 +7,7 @@ html {
 }
 
 html, body {
-  background: #2d3237 url("/Assets/geometry/geometry_transparent.png");
+  background: $background url("/Assets/geometry/geometry_transparent.png");
 }
 
 body {
@@ -15,7 +15,6 @@ body {
   flex-direction: column;
   min-height: 100vH;
 }
-
 
 form {
   width: 100%;
@@ -30,7 +29,7 @@ form {
 }
 
 .card, .notification, .is-brand {
-  border-radius: 10px;
+  border-radius: $radius-large;
 }
 
 .is-brand:hover, .is-brand:active {
@@ -38,7 +37,7 @@ form {
   color: $white;
 }
 
-.text.is-primary, code {
+.text.is-primary {
   color: $brand;
 }
 
@@ -86,12 +85,12 @@ h1, h2, h3, h4, h5, h6, p {
   }
 }
 
-pre {
-  background-color: #242424;
-}
-
 .has-margin-top {
   margin-top: calc(1.5rem - .75rem);
+}
+
+pre .hljs {
+  background: transparent;
 }
 
 /*table.table {

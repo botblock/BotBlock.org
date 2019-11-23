@@ -4,48 +4,50 @@
   cursor: default;
   margin: 0 0 13px;
   outline: 0;
-}
 
-.checkbox.interactive {
-  cursor: pointer;
-}
+  &, &:hover {
+    color: #fff;
+  }
 
-.checkbox, .checkbox:hover {
-  color: #fff;
-}
+  &.disallowed {
+    &, &:hover {
+      color: hsla(0, 0%, 100%, .3);
+      transition: color .24s;
+    }
+  }
 
-.checkbox.disallowed, .checkbox.disallowed:hover {
-  color: hsla(0, 0%, 100%, .3);
-  transition: color .24s;
-}
+  &.interactive {
+    cursor: pointer;
+  }
 
-.checkbox .checkbox-inner {
-  flex-shrink: 0;
-  height: 18px;
-  position: relative;
-  vertical-align: top;
-  width: 18px;
-}
+  .checkbox-inner {
+    flex-shrink: 0;
+    height: 18px;
+    position: relative;
+    vertical-align: top;
+    width: 18px;
 
-.checkbox .checkbox-inner input[type="checkbox"] {
-  display: none;
-}
+    input[type="checkbox"] {
+      display: none;
+    }
 
-.checkbox .checkbox-inner span {
-  border: 2px solid #cdcdcd;
-  border-radius: 2px;
-  bottom: 0;
-  box-sizing: border-box;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: .24s;
+    span {
+      border: 2px solid #cdcdcd;
+      border-radius: 2px;
+      bottom: 0;
+      box-sizing: border-box;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition: .24s;
+    }
+  }
 }
 
 .checkbox .checkbox-inner input[type="checkbox"]:checked + span {
-  background-color: #7289da;
-  border-color: #7289da;
+  background-color: $brand;
+  border-color: $brand;
 }
 
 .checkbox.green .checkbox-inner input[type="checkbox"]:checked + span {

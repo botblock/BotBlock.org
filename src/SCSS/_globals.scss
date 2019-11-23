@@ -7,20 +7,31 @@ $white: #F5F7FA;
 
 $primary: $brand;
 $primary-invert: $brand-dark;
-$light: #242424;
+$light: darken(desaturate($brand, 60%), 35%);
+$lighter: lighten($light, 10%);
 $light-invert: invert($light);
+$background: darken($light, 5%);
+$link: $brand;
+$link-hover: $brand-dark;
+
+// Radius
+$radius-small: 0;
+$radius: 1px;
+$radius-large: 1px;
 
 // Navbar
-$navbar-background-color: $brand;
+$navbar-background-color: $lighter;
 $navbar-box-shadow-color: $brand-dark;
 $navbar-item-color: $white;
 $navbar-item-hover-color: $white;
-$navbar-item-hover-background-color: $brand-dark;
-$navbar-dropdown-background-color: $brand;
+$navbar-item-hover-background-color: transparent;
+$navbar-item-hover-border-color: $brand;
+$navbar-dropdown-background-color: $lighter;
 $navbar-dropdown-arrow: $white;
 $navbar-dropdown-offset: auto;
 $navbar-dropdown-item-hover-color: $white;
-$navbar-dropdown-item-hover-background-color: $brand-dark;
+$navbar-dropdown-item-hover-background-color: transparent;
+$navbar-dropdown-item-hover-border-color: $brand;
 $navbar-divider-background-color: $light;
 
 // Forms
@@ -37,24 +48,29 @@ $text: #b5b5b5;
 $button-color: $white;
 $button-background-color: $brand;
 $button-disabled-background-color: $brand-dark;
-$button-disabled-border-color: transpartent;
+$button-disabled-border-color: transparent;
 $button-border-color: transparent;
 $button-hover-border-color: transparent;
 $button-hover-color: $white;
 
 // Code
-$code-background: $light;
+$pre-background: $background;
+$code-background: $background;
+$pre: $text;
 $code: $brand;
 
+// Card
+$card-background: $lighter;
+
 // Menu
-$menu-item-hover-color: $white;
+$menu-item-hover-color: $text;
 $menu-item-hover-background-color: $light;
 
 // Table
-$table-color: $white;
-$table-head-cell-color: $white;
-$table-background-color: #23272a;
-$table-cell-border: 1px solid #363636;
+$table-color: $text;
+$table-head-cell-color: $text;
+$table-background-color: $background;
+$table-cell-border: 1px solid mix($background, $card-background);
 
 // Hr
 $hr-background-color: $input-background-color;
