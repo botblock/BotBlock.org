@@ -38,7 +38,12 @@ class ListsRoute extends BaseRoute {
                     ])
                     .then((lists) => {
                         this.footerData().then((footer) => {
-                            res.render('lists/lists', { title: 'All Bot Lists', lists, footer });
+                            res.render('lists/lists', {
+                                title: 'All Bot Lists',
+                                subtitle: `${res.__('site_name')} - ${res.__('short_desc')}`,
+                                lists,
+                                footer
+                            });
                         });
                     });
             } catch (e) {

@@ -33,9 +33,37 @@
     word-break: break-word;
     hyphens: auto;*/
 
+    .media-right.button-group {
+      margin: -1.5rem;
+      padding: 1.5rem;
+      background: $brand-dark;
+    }
+
     &,
     > * {
       max-width: 100%;
     }
+  }
+}
+
+.column {
+  &:nth-child(5n+1) .card {
+    border-bottom: 2px solid $brand;
+  }
+
+  &:nth-child(5n+2) .card {
+    border-bottom: 2px solid $brand2;
+  }
+
+  &:nth-child(5n+3) .card {
+    border-bottom: 2px solid $brand3;
+  }
+
+  &:nth-child(5n+4) .card {
+    border-bottom: 2px solid $brand4;
+  }
+
+  &:nth-child(5n+5) .card {
+    border-bottom: 2px solid $white;
   }
 }

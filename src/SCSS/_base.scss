@@ -33,8 +33,10 @@ body {
   color: $white;
 }
 
-.text.is-primary {
-  color: $brand;
+.text, .title {
+  &.is-primary {
+    color: $brand;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, p {

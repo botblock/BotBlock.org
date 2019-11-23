@@ -15,6 +15,7 @@
     color: $navbar-item-color;
     border-radius: 0;
     box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
+    border-top: 2px solid $brand;
 
     .breadcrumb {
       display: flex;
@@ -47,6 +48,7 @@
   &.header {
     border-radius: 0;
     box-shadow: 0 4px 0 rgba(0, 0, 0, .2) !important;
+    border-bottom: 2px solid $brand;
 
     .navbar-menu {
       @include touch {
@@ -65,6 +67,9 @@
   .navbar-item {
     @include hover-line;
 
+    flex-wrap: nowrap;
+    padding: .25rem .75rem;
+
     img {
       max-height: 2.5rem;
       margin-right: .5em;
@@ -81,6 +86,10 @@
         font-size: .8em;
         padding: .8rem;
       }
+    }
+
+    &.has-dropdown {
+      padding: 0;
     }
 
     .navbar-link {
@@ -110,12 +119,11 @@
     }
   }
 
-  .navbar-item {
-    flex-wrap: nowrap;
-    padding: .25rem .75rem;
-
-    &.has-dropdown {
-      padding: 0;
+  .navbar-brand {
+    .navbar-item {
+      &::after {
+        display: none;
+      }
     }
   }
 }

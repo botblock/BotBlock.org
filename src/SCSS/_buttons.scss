@@ -34,7 +34,7 @@
     color: $white;
 
     &:active, &:hover, &:focus, &.active {
-      background: $brand-dark;
+      background: darken($brand, 10%);
       color: $white;
     }
   }
