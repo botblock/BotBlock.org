@@ -46,9 +46,10 @@ html(lang='en')
 
         block header
     body
-        include Includes/navbar
-        block content
-        include Includes/footer
+        include Includes/sidebar
+        main
+            block content
+            include Includes/footer
 
         script(async src='https://www.googletagmanager.com/gtag/js?id=' + GACode)
         script.

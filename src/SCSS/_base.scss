@@ -4,6 +4,7 @@
 
 html {
   overflow-y: auto;
+  scrollbar-color: $background $card-background;
 }
 
 html, body {
@@ -12,8 +13,73 @@ html, body {
 
 body {
   display: flex;
-  flex-direction: column;
-  min-height: 100vH;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  > aside {
+    max-height: 100vh;
+    position: sticky;
+    top: 0;
+    background: $card-background;
+    overflow-y: auto;
+
+    > .menu-list {
+      max-height: 100%;
+
+      a {
+        padding: 0.3rem 0.5rem;
+        margin-bottom: .1rem;
+      }
+
+      .menu-label {
+        padding: 0 0.5rem;
+        margin: 1rem 0;
+
+        &.brand {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-items: center;
+          margin-top: -1rem;
+
+          img {
+            width: 3rem;
+            margin-right: .5rem;
+          }
+
+          span {
+            padding-top: .5rem;
+            color: $brand;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+
+  > main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 100vh;
+    max-width: 100%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $card-background;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $background;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $background;
 }
 
 .section {
