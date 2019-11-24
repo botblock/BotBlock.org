@@ -31,9 +31,19 @@ body {
         margin-bottom: .1rem;
       }
 
+      .endpoints {
+        a {
+          span {
+            padding-top: .1rem;
+            font-size: .95em;
+          }
+        }
+      }
+
       .menu-label {
         padding: 0 0.5rem;
         margin: 1rem 0;
+        font-size: .85em;
 
         &.brand {
           display: flex;
@@ -62,7 +72,7 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    min-height: 100vh;
+    min-height: 100vh !important;
     max-width: 100%;
   }
 }

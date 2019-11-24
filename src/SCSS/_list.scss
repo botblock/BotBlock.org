@@ -1,4 +1,20 @@
 .menu-list {
+  &.endpoints {
+    a {
+      padding-top: 0;
+
+      code {
+        font-size: .7em;
+        margin-left: -.3rem;
+      }
+
+      span {
+        padding-top: .3rem;
+        display: block;
+      }
+    }
+  }
+
   a {
     @include hover-line;
 
