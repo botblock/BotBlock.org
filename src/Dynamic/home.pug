@@ -5,13 +5,11 @@ block content
             .hero
                 .hero-body.has-text-centered
                     h1.title.is-size-1 #{__('slogan')}
-                    h4.title.is-size-4 #{__('site_name')} - #{__('short_desc')}
+                    h4.title.is-size-4.is-primary #{__('site_name')} - #{__('short_desc')}
                     .button-group.button-group-vertical
                         a.button.is-brand.is-size-4(href='/lists') View all the bot lists
                         a.button.is-brand.is-size-4(href='/api/docs') Read the API documentation
-                        //.button-group
-                        //    a.button.is-brand.is-size-5(href='/lookup') Lookup a bot
-                        //    a.button.is-brand.is-size-5(href='/add') Add a New Bot
+
             h4.is-size-4.has-text-white.has-text-centered List Spotlight
             .columns
                 if !lists.length

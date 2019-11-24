@@ -1,39 +1,44 @@
 extends ../layout
 block content
     section.section
-    .container
-        .columns
-            .column
-                .card.is-box-shadow
-                    .card-content
-                        .columns
-                            .column.is-one-third.is-full-mobile
-                                aside.menu
-                                    include includes/docs_sidebar
-                            .column.is-two-thirds.is-full-mobile
-                                h1.is-size-4.has-text-grey-lighter API Documentation
-                                .columns
-                                    .column.is-full
-                                        p #{__('site_name')} provides a single API endpoint that allows bot owners to quickly post their server/guild count to all bot lists that we have API data for.
-                                            br
-                                            | This means the bot owners only ever have to make a single request to update their bot stats on all bot lists.
-                                    .column.is-one-quarter.is-full-mobile
-                                        a.button.is-brand.is-size-5(href='/api/docs/libs') API Libraries
-                                    .column.is-three-quarters.is-full-mobile
-                                        p We have first and third-party libraries created for many major bot development languages that provide easy implementation of the BotBlock API. Check them out or use the documentation below to create your own implementation.
-                                    .column.is-full
-                                        p #{__('site_name')} does not store any user data at all. All data sent to this API is passed directly onto each list's API as necessary. Authorization tokens are not stored and are only shared with their respective list's API.
-                .card.is-box-shadow
-                    include parts/count
-                .card.is-box-shadow
-                    include parts/bots
-                .card.is-box-shadow
-                    include parts/lists
-                .card.is-box-shadow
-                    include parts/legacy_ids
-                .card.is-box-shadow
-                    include parts/errors
-                .card.is-box-shadow
-                    include parts/ratelimits
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-1 API Documentation
+                        h5.title.is-size-4.is-primary #{__('site_name')} - #{__('short_desc')}
+
+            .columns
+                .column
+                    .card.is-box-shadow
+                        .card-content
+                            .columns
+                                .column.is-one-third.is-full-mobile
+                                    aside.menu
+                                        include includes/docs_sidebar
+                                .column.is-two-thirds.is-full-mobile
+                                    .columns
+                                        .column.is-full
+                                            p #{__('site_name')} provides a single API endpoint that allows bot owners to quickly post their server/guild count to all bot lists that we have API data for.
+                                                br
+                                                | This means the bot owners only ever have to make a single request to update their bot stats on all bot lists.
+                                        .column.is-one-quarter.is-full-mobile
+                                            a.button.is-brand.is-size-5(href='/api/docs/libs') API Libraries
+                                        .column.is-three-quarters.is-full-mobile
+                                            p We have first and third-party libraries created for many major bot development languages that provide easy implementation of the BotBlock API. Check them out or use the documentation below to create your own implementation.
+                                        .column.is-full
+                                            p #{__('site_name')} does not store any user data at all. All data sent to this API is passed directly onto each list's API as necessary. Authorization tokens are not stored and are only shared with their respective list's API.
+                    .card.is-box-shadow
+                        include parts/count
+                    .card.is-box-shadow
+                        include parts/bots
+                    .card.is-box-shadow
+                        include parts/lists
+                    .card.is-box-shadow
+                        include parts/legacy_ids
+                    .card.is-box-shadow
+                        include parts/errors
+                    .card.is-box-shadow
+                        include parts/ratelimits
 block footer
     script(src='/assets/js/scroll.js')

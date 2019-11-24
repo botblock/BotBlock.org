@@ -293,7 +293,8 @@ class ListsRoute extends BaseRoute {
                                     const lists = allLists.filter(list => list.id in map && map[list.id]);
                                     this.footerData().then((footer) => {
                                         res.render('lists/lists', {
-                                            title: `Bot Lists with feature '${features[0].name}'`,
+                                            title: features[0].name,
+                                            subtitle: `Bot lists on ${res.__('site_name')} with the feature '${features[0].name}'`,
                                             lists, footer
                                         });
                                     });

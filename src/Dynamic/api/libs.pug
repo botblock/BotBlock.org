@@ -6,6 +6,12 @@ block header
 block content
     section.section
         .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-1 API Libraries
+                        h5.title.is-size-4.is-primary #{__('site_name')} - #{__('short_desc')}
+
             .columns
                 .column
                     .card.is-box-shadow
@@ -21,9 +27,8 @@ block content
                                         p.menu-label Other
                                         ul.menu-list
                                             li
-                                                a(href='/api/docs') API Endpoints
+                                                a(href='/api/docs') API Documentation
                                 .column.is-two-thirds.is-full-mobile
-                                    h1.is-size-4.has-text-grey-lighter API Libraries
                                     .columns
                                         .column.is-full
                                             p
