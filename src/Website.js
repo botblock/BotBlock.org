@@ -35,7 +35,11 @@ class Website {
         }));
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.app.use((req, res, next) => {
-            res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + req.get('host') + req.path;
+            const host = req.get('host');
+            res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + host + req.path;
+            res.locals.isProduction = host.toLowerCase().trim() === 'botblock.org';
+            res.locals.isStaging = host.toLowerCase().trim() === 'staging.botblock.org';
+            res.locals.isDevelopment = !res.locals.isProduction && !res.locals.isStaging;
             res.locals.language = req.cookies.lang;
             res.locals.adblock = req.headers['x-disable-adsense'] && req.headers['x-disable-adsense'] === config.secret;
             res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
