@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Navigation
-    var burger = document.getElementsByClassName('navbar-burger')[0];
-    var menu = document.getElementsByClassName('navbar-menu')[0];
+    var burger = document.querySelector('.navbar-burger');
+    var menu = document.querySelector('.navbar-menu, aside.menu');
     burger.onclick = function () {
         burger.classList.toggle('is-active');
         menu.classList.toggle('is-active');

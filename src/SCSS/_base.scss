@@ -16,12 +16,40 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
 
-  > aside {
+  > nav.navbar {
+    display: none;
+
+    @media screen and (max-width: 1023px) {
+      position: fixed;
+      display: block;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3.25rem;
+    }
+  }
+
+  > aside.menu {
     max-height: 100vh;
+    max-width: 100vw;
     position: sticky;
     top: 0;
+    left: 0;
+    bottom: 0;
     background: $card-background;
     overflow-y: auto;
+    margin: 0;
+
+    @media screen and (max-width: 1023px) {
+      z-index: 100;
+      left: -100%;
+      position: fixed;
+      margin-top: 3.25rem;
+
+      &.is-active {
+        left: 0;
+      }
+    }
 
     > .menu-list {
       max-height: 100%;
