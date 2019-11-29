@@ -5,7 +5,7 @@ nav.navbar(role='navigation', aria-label='main navigation')
             span(aria-hidden='true')
             span(aria-hidden='true')
 
-aside.menu(role='navigation', aria-label='main navigation')
+aside.menu.is-box-shadow(role='navigation', aria-label='main navigation')
     ul.menu-list.section
         li
             p.menu-label.brand
@@ -23,9 +23,10 @@ aside.menu(role='navigation', aria-label='main navigation')
                         a(href='/lists/new') New Lists
                     li
                         a(href='/lists/features') List Features
-                    form#navbar_lists_search
-                        input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
-                        a.navbar-item(onclick='navbar_lists_go()') Search Lists
+                    li
+                        form#navbar_lists_search
+                            input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
+                            a(onclick='navbar_lists_go()') Search Lists
 
         li
             p.menu-label API
