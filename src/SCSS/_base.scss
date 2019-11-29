@@ -5,16 +5,34 @@
 html {
   overflow-y: auto;
   scrollbar-color: $background $card-background;
-}
-
-html, body {
-  background: $background url("/Assets/geometry/geometry_transparent.png");
+  background: $background;
 }
 
 body {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  background-color: $background;
+  background-image: url("/Assets/img/bg-bottom.svg");
+  background-size: contain;
+  background-position: bottom left;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: '';
+    display: block;
+    background-image: url("/Assets/img/bg-top.svg");
+    background-size: contain;
+    background-position: top right;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+  }
 
   > nav.navbar {
     display: none;
