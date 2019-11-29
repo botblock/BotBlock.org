@@ -37,7 +37,7 @@ body {
   > nav.navbar {
     display: none;
 
-    @media screen and (max-width: 1023px) {
+    @include touch {
       position: fixed;
       display: block;
       top: 0;
@@ -58,7 +58,7 @@ body {
     overflow-y: auto;
     margin: 0;
 
-    @media screen and (max-width: 1023px) {
+    @include touch {
       z-index: 100;
       left: -100%;
       position: fixed;
@@ -144,7 +144,7 @@ body {
 }
 
 .card, .is-brand, .notification, .is-box-shadow {
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, .2) !important;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, .2) !important;
 }
 
 .card, .notification, .is-brand {

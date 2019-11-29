@@ -14,8 +14,8 @@
     background-color: $navbar-background-color;
     color: $navbar-item-color;
     border-radius: 0;
-    box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
-    border-top: 2px solid $brand;
+    //box-shadow: 0 -4px 0 rgba(0, 0, 0, .2) !important;
+    //border-top: 2px solid $brand;
 
     .breadcrumb {
       display: flex;
@@ -47,8 +47,8 @@
 
   &.header {
     border-radius: 0;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, .2) !important;
-    border-bottom: 2px solid $brand;
+    //box-shadow: 0 4px 0 rgba(0, 0, 0, .2) !important;
+    //border-bottom: 2px solid $brand;
 
     .navbar-menu {
       @include touch {
