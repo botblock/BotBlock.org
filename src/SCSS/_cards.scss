@@ -33,12 +33,12 @@
     word-break: break-word;
     hyphens: auto;*/
 
-    .media-right.button-group {
+    /*.media-right.button-group {
       margin: -1.5rem -1.5rem -1.5rem 0;
       padding: 1.5rem;
       background: $brand-dark;
       align-self: stretch;
-    }
+    }*/
 
     &,
     > * {
@@ -47,7 +47,7 @@
   }
 }
 
-.column {
+/*.column {
   &:nth-child(5n+1) .card {
     border-bottom: 2px solid $brand;
   }
@@ -67,4 +67,4 @@
   &:nth-child(5n+5) .card {
     border-bottom: 2px solid $white;
   }
-}
+}*/
