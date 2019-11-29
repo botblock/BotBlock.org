@@ -39,7 +39,7 @@ body {
       padding: 3rem .5rem;
 
       li {
-        font-size: .9rem;
+        font-size: 1rem;
 
         a {
           padding: .3rem .5rem;
@@ -54,7 +54,8 @@ body {
         }
 
         ul {
-          padding-left: .25rem;
+          border-left: 1px solid darken($card-background, 5%);
+          padding-left: .5rem;
           margin: .5rem .25rem .5rem .5rem;
         }
       }
@@ -62,7 +63,6 @@ body {
       .endpoints {
         a {
           span {
-            padding-top: .15rem;
             font-size: .95em;
           }
         }
@@ -70,7 +70,7 @@ body {
 
       .menu-label {
         padding: 0 .5rem;
-        margin: .5rem 0 .75rem;
+        margin: .75rem 0 .5rem;
         font-size: .75rem;
 
         &.brand {
