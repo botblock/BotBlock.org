@@ -42,8 +42,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -66,8 +65,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -89,8 +87,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -113,8 +110,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -134,8 +130,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -172,8 +167,7 @@ class ListsRoute extends BaseRoute {
                         });
                 });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -198,8 +192,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -219,8 +212,7 @@ class ListsRoute extends BaseRoute {
                         });
                     });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -264,8 +256,7 @@ class ListsRoute extends BaseRoute {
                 require('../Util/updateListMessage')(this.client, this.db, req.body, req.body.id);
                 res.redirect('/lists/' + req.body.id);
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -278,8 +269,7 @@ class ListsRoute extends BaseRoute {
                     });
                 });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -308,8 +298,7 @@ class ListsRoute extends BaseRoute {
                     });
                 });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -337,8 +326,7 @@ class ListsRoute extends BaseRoute {
                     });
                 });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -352,7 +340,6 @@ class ListsRoute extends BaseRoute {
                             message: 'The page you were looking for could not be found.'
                         });
                         getListFeatures(this.db, lists[0].id).then((features) => {
-
                             res.render('lists/edit', {
                                 title: 'Edit ' + lists[0].id,
                                 data: lists[0],
@@ -365,8 +352,7 @@ class ListsRoute extends BaseRoute {
                     });
                 });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -380,7 +366,6 @@ class ListsRoute extends BaseRoute {
                             message: 'The page you were looking for could not be found.'
                         });
                         getListFeatures(this.db, lists[0].id).then(async (features) => {
-
                             const validate = FormValidator.validateList(id, req.body, res.locals.user);
                             let changes = {};
                             let addedFeatures = [];
@@ -434,15 +419,13 @@ class ListsRoute extends BaseRoute {
                                 require('../Util/updateListMessage')(this.client, this.db, changes, id);
                                 res.redirect('/lists/' + changes.id);
                             } catch (e) {
-                                handleError(this.db, req.method, req.originalUrl, e.stack);
-                                res.status(500).render('error', { title: 'Database Error' });
+                                handleError(this.db, req, res, e.stack);
                             }
                         });
                     });
                 });
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 
@@ -466,8 +449,7 @@ class ListsRoute extends BaseRoute {
                     });
                 }
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             }
         });
 

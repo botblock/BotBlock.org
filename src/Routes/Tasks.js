@@ -37,12 +37,7 @@ class TasksRoute extends BaseRoute {
             try {
                 this.jobs[req.params.id].execute().then(() => res.status(200).json({}));
             } catch (e) {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                return res.status(500).json({
-                    error: true,
-                    status: 500,
-                    message: 'An unexpected error occurred'
-                });
+                handleError(this.db, req, res, e.stack);
             }
         });
 

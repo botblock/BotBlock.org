@@ -37,8 +37,7 @@ class APIRoute extends BaseRoute {
                     res.render('api/docs', { title: 'API Docs', lists, ip: req.ip });
                 })
                 .catch((e) => {
-                    handleError(this.db, req.method, req.originalUrl, e.stack);
-                    res.status(500).render('error', { title: 'Database Error' });
+                    handleError(this.db, req, res, e.stack);
                 });
         });
 
@@ -55,8 +54,7 @@ class APIRoute extends BaseRoute {
                 });
                 res.render('api/libs', { title: 'Libraries - API Docs', libraries });
             }).catch((e) => {
-                handleError(this.db, req.method, req.originalUrl, e.stack);
-                res.status(500).render('error', { title: 'Database Error' });
+                handleError(this.db, req, res, e.stack);
             });
         });
 
@@ -90,12 +88,7 @@ class APIRoute extends BaseRoute {
                     res.status(200).json({ ...data });
                 })
                 .catch((e) => {
-                    handleError(this.db, req.method, req.originalUrl, e.stack);
-                    res.status(500).json({
-                        error: true,
-                        status: 500,
-                        message: 'An unexpected database error occurred'
-                    });
+                    handleError(this.db, req, res, e.stack, true);
                 });
         });
 
@@ -114,12 +107,7 @@ class APIRoute extends BaseRoute {
                     res.status(200).json({ ...data });
                 })
                 .catch((e) => {
-                    handleError(this.db, req.method, req.originalUrl, e.stack);
-                    res.status(500).json({
-                        error: true,
-                        status: 500,
-                        message: 'An unexpected database error occurred'
-                    });
+                    handleError(this.db, req, res, e.stack, true);
                 });
         });
 
@@ -216,12 +204,7 @@ class APIRoute extends BaseRoute {
                     }
                 })
                 .catch((e) => {
-                    handleError(this.db, req.method, req.originalUrl, e.stack);
-                    res.status(500).json({
-                        error: true,
-                        status: 500,
-                        message: 'An unexpected database error occurred'
-                    });
+                    handleError(this.db, req, res, e.stack, true);
                 });
         });
 
@@ -313,12 +296,7 @@ class APIRoute extends BaseRoute {
                     res.status(200).json({ ...response, cached: false });
                 })
                 .catch((e) => {
-                    handleError(this.db, req.method, req.originalUrl, e.stack);
-                    res.status(500).json({
-                        error: true,
-                        status: 500,
-                        message: 'An unexpected database error occurred'
-                    });
+                    handleError(this.db, req, res, e.stack, true);
                 });
         });
 

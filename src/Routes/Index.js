@@ -3,6 +3,7 @@ const { join } = require('path');
 const BaseRoute = require('../Structure/BaseRoute');
 const Renderer = require('../Structure/Markdown');
 const shuffle = require('../Util/shuffle');
+const handleError = require('../Util/handleError');
 
 class IndexRoute extends BaseRoute {
     constructor(client, db) {
@@ -23,8 +24,8 @@ class IndexRoute extends BaseRoute {
             }).then(lists => {
                 lists = shuffle(lists).slice(0, 2);
                 res.render('home', { lists });
-            }).catch(() => {
-                res.status(500).render('error', { title: 'Database Error' });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
             });
         });
 
@@ -36,8 +37,8 @@ class IndexRoute extends BaseRoute {
                     return section;
                 });
                 res.render('about', { title: 'About', sections });
-            }).catch(() => {
-                res.status(500).render('error', { title: 'Database Error' });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
             });
         });
 
