@@ -125,6 +125,16 @@ class Client {
         // ).catch(() => console.error('[Discord] Failed to send to edit log.'));
     }
 
+    legacyIdsEditLog(added, removed) {
+        if (!config.discord.notifications) return;
+        if (!added || !removed) return;
+        if (!added.length && !removed.length) return;
+        this.createMessage(config.discord.edit_log,
+            ':map: | Legacy IDs have been updated'
+            + (added.length > 0 ? '\n\n**Added**:\n' + added.map((c) => '`' + c.id + '` → `' + c.target + '`').join('\n') : '')
+            + (removed.length > 0 ? '\n\n**Removed**:\n' + removed.map((c) => '`' + c.id + '` → `' + c.target + '`').join('\n') : '')
+        ).catch(() => console.error('[Discord] Failed to send to edit log.'));
+    }
 
 }
 
