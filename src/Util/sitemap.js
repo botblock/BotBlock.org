@@ -23,6 +23,10 @@ const get = async db => {
             priority: .8,
         },
         {
+            loc: '/lists/search',
+            priority: .8,
+        },
+        {
             loc: '/lists/new',
             priority: .8,
         },
@@ -72,7 +76,6 @@ const get = async db => {
 
     // Features
     const features = await db.select('id').from('features')
-        .where({ display: true })
         .orderBy([
             { column: 'display', order: 'desc' },
             { column: 'name', order: 'asc' }

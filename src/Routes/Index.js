@@ -4,6 +4,7 @@ const BaseRoute = require('../Structure/BaseRoute');
 const Renderer = require('../Structure/Markdown');
 const shuffle = require('../Util/shuffle');
 const handleError = require('../Util/handleError');
+const sitemap = require('../Util/sitemap');
 
 class IndexRoute extends BaseRoute {
     constructor(client, db) {
@@ -37,6 +38,16 @@ class IndexRoute extends BaseRoute {
                     return section;
                 });
                 res.render('about', { title: 'About', sections });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
+            });
+        });
+
+        this.router.get('/sitemap', (req, res) => {
+            sitemap.get(this.db).then(data => {
+                sitemap.save(data).then(() => {
+                    res.render('sitemap', { title: 'Sitemap', data });
+                });
             }).catch((e) => {
                 handleError(this.db, req, res, e.stack);
             });
