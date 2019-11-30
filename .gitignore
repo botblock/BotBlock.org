@@ -1,5 +1,10 @@
 node_modules/*
 package-lock.json
+.idea/
+
+# Configs
 config.js
 deploy/config.js
-.idea/
+
+# Auto-generated
+src/Public/sitemap.xml
