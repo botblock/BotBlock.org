@@ -275,13 +275,25 @@ class ListsRoute extends BaseRoute {
 
         this.router.post('/legacy-ids', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                this.db('legacy_ids').del().then(() => {
+                this.db.select().from('legacy_ids').then((data) => {
                     if ('template' in req.body) delete req.body.template;
-                    const items = Object.entries(req.body).map(item => { return { id: item[0], target: item[1] }; });
-                    this.db('legacy_ids').insert(items).then(() => {
-                        res.render('lists/legacy_ids', {
-                            title: 'Legacy IDs',
-                            data: items
+                    const db_data = data.map(item => { return { id: item.id.toLowerCase().trim(), target: item.target.toLowerCase().trim() }; });
+                    const post_data = Object.entries(req.body).map(item => { return { id: item[0].toLowerCase().trim(), target: item[1].toLowerCase().trim() }; });
+                    const added = post_data.filter(item => {
+                        const matches = db_data.filter(db_item => db_item.id === item.id && db_item.target === item.target);
+                        return matches.length === 0;
+                    });
+                    const removed = db_data.filter(item => {
+                        const matches = post_data.filter(post_item => post_item.id === item.id && post_item.target === item.target);
+                        return matches.length === 0;
+                    });
+                    this.db('legacy_ids').whereIn('id', removed.map(item => item.id)).del().then(() => {
+                        this.db('legacy_ids').insert(added).then(() => {
+                            this.client.legacyIdsEditLog(added, removed);
+                            res.render('lists/legacy_ids', {
+                                title: 'Legacy IDs',
+                                data: post_data
+                            });
                         });
                     });
                 });
@@ -404,7 +416,7 @@ class ListsRoute extends BaseRoute {
                                     await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
                                     await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
                                 );
-                                require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
+                                require('../Util/updateListMessage')(this.client, this.db, changes, id);
                                 res.redirect('/lists/' + changes.id);
                             } catch (e) {
                                 handleError(this.db, req, res, e.stack);
