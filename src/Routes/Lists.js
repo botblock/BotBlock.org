@@ -30,8 +30,6 @@ class ListsRoute extends BaseRoute {
     routes() {
         this.router.get('/', (req, res) => {
             try {
-                const test = {};
-                test.run.test();
                 this.db.select().from('lists')
                     .where({ defunct: false, display: true })
                     .orderBy([
