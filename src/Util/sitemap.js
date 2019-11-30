@@ -8,56 +8,56 @@ const get = async db => {
     const sitemap = [
         {
             loc: '/',
-            priority: 1,
+            priority: 1
         },
         {
             loc: '/api/docs',
-            priority: .9,
+            priority: .9
         },
         {
             loc: '/api/libs',
-            priority: .9,
+            priority: .9
         },
         {
             loc: '/lists',
-            priority: .8,
+            priority: .8
         },
         {
             loc: '/lists/search',
-            priority: .8,
+            priority: .8
         },
         {
             loc: '/lists/new',
-            priority: .8,
+            priority: .8
         },
         {
             loc: '/lists/features',
-            priority: .8,
+            priority: .8
         },
         {
             loc: '/lists/defunct',
-            priority: .8,
+            priority: .8
         },
         {
             loc: '/about',
-            priority: .7,
+            priority: .7
         },
         {
             loc: '/contact',
-            priority: .6,
+            priority: .6
         },
         {
             loc: '/patreon',
-            priority: .6,
+            priority: .6
         },
         {
             loc: '/reddit',
-            priority: .6,
+            priority: .6
         },
         {
             loc: '/twitter',
-            priority: .6,
-        },
+            priority: .6
+        }
     ];
 
     // List pages
@@ -70,7 +70,7 @@ const get = async db => {
     lists.forEach(list => {
         sitemap.push({
             loc: '/lists/' + list.id,
-            priority: .5,
+            priority: .5
         });
     });
 
@@ -83,7 +83,7 @@ const get = async db => {
     features.forEach(feature => {
         sitemap.push({
             loc: '/lists/features/' + feature.id,
-            priority: .4,
+            priority: .4
         });
     });
 
