@@ -407,8 +407,7 @@ class ListsRoute extends BaseRoute {
                                 require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
                                 res.redirect('/lists/' + changes.id);
                             } catch (e) {
-                                handleError(this.db, req.method, req.originalUrl, e.stack);
-                                res.status(500).render('error', { title: 'Database Error' });
+                                handleError(this.db, req, res, e.stack);
                             }
                         });
                     });
