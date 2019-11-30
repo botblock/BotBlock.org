@@ -419,7 +419,7 @@ class ListsRoute extends BaseRoute {
                                     await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
                                     await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
                                 );
-                                require('../Util/updateListMessage')(this.client, this.db, changes, changes['id']);
+                                require('../Util/updateListMessage')(this.client, this.db, changes, id);
                                 res.redirect('/lists/' + changes.id);
                             } catch (e) {
                                 handleError(this.db, req.method, req.originalUrl, e.stack);
