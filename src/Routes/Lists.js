@@ -207,24 +207,6 @@ class ListsRoute extends BaseRoute {
             }
         });
 
-        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
-            try {
-                this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
-                    if (!features.length) return res.status(404).render('error', {
-                        title: 'Page not found',
-                        status: 404,
-                        message: 'The page you were looking for could not be found.'
-                    });
-                    await this.db('features').where({ id: req.params.id }).del();
-                    await this.db('feature_map').where({ feature: req.params.id }).del();
-                    this.client.listFeaturesEdited(null, features[0]);
-                    res.render('error', { title: 'Success', status: 200, message: 'Feature has been deleted.' });
-                });
-            } catch (e) {
-                handleError(this.db, req, res, e.stack);
-            }
-        });
-
         this.router.post('/features/manage/:id', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
                 this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
@@ -253,6 +235,24 @@ class ListsRoute extends BaseRoute {
                         this.client.listFeaturesEdited(changes, features[0]);
                         res.redirect('/lists/features/' + req.params.id);
                     });
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
+                    if (!features.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    await this.db('features').where({ id: req.params.id }).del();
+                    await this.db('feature_map').where({ feature: req.params.id }).del();
+                    this.client.listFeaturesEdited(null, features[0]);
+                    res.render('error', { title: 'Success', status: 200, message: 'Feature has been deleted.' });
                 });
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
