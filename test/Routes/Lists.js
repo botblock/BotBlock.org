@@ -591,3 +591,107 @@ describe('/lists/legacy-ids', () => {
         });
     });
 });
+
+describe('/lists/features/manage', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/features/manage');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/features/manage/add', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/features/manage/add');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => request().post('/lists/features/manage/add');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/features/manage/:id', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/features/manage/1');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => request().post('/lists/features/manage/1');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
+
+describe('/lists/features/:id/delete', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/features/1/delete');
+        it('returns a Forbidden status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(403);
+                done();
+            });
+        });
+        it('renders the authentication required message', done => {
+            test().end((err, res) => {
+                authCheck(res);
+                done();
+            });
+        });
+    });
+});
