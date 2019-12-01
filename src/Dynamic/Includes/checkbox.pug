@@ -23,7 +23,7 @@ if checkbox.id && !interactiveCheckboxes
         input(type='checkbox', id='feature_' + checkbox.id, name='feature_' + checkbox.id, checked=!!checkbox.value)
         span
     if checkbox.name
-        span #{checkbox.name}
+        span(class=(checkbox.description ? 'tooltip' : ''), data-tooltip=checkbox.description) #{checkbox.name}
 
 if checkbox.id && !interactiveCheckboxes
     | </a>

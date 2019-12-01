@@ -17,6 +17,26 @@ class FormValidator {
         if (!data.icon) errors.push('Icon is required');
         return errors;
     }
+
+    /**
+     * Validate feature data.
+     * @param data
+     * @returns {string|[] | null}
+     */
+    static validateFeature(data) {
+        if (!data) return null;
+        let errors = [];
+        if (!data.name) errors.push('Name is required');
+        if (isNaN(data.type)) errors.push('Type is not a valid number');
+        if (!isNaN(data.type)) {
+            if (Number(data.type) < 0 || Number(data.type) > 2 || !Number.isInteger(Number(data.type))) errors.push('Invalid type provided');
+        }
+        if (isNaN(data.display)) errors.push('Display is not a valid number');
+        if (!isNaN(data.display)) {
+            if (Number(data.display) < 0 || !Number.isInteger(Number(data.display))) errors.push('Invalid display provided');
+        }
+        return errors;
+    }
 }
 
 module.exports = FormValidator;
