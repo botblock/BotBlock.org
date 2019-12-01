@@ -134,6 +134,135 @@ class ListsRoute extends BaseRoute {
             }
         });
 
+        this.router.get('/features/manage', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('features')
+                    .orderBy([
+                        { column: 'display', order: 'desc' },
+                        { column: 'name', order: 'asc' }
+                    ])
+                    .then((checkboxes) => {
+                        res.render('lists/features/manage', {
+                            title: 'Manage List Features',
+                            checkboxes
+                        });
+                    });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/features/manage/add', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                res.render('lists/features/edit', {
+                    title: 'Add Feature',
+                    data: {}
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.post('/features/manage/add', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
+            try {
+                let changes = {};
+                const validate = FormValidator.validateFeature(req.body);
+                if (validate.length) return res.render('lists/features/edit', {
+                    title: 'Add Feature',
+                    data: req.body,
+                    errors: validate
+                });
+                const columns = Object.keys(await this.db('features').columnInfo());
+                for (const column of columns) {
+                    if (column === 'id') continue;
+                    if (req.body[column]) {
+                        changes[column] = req.body[column];
+                    } else {
+                        changes[column] = null;
+                    }
+                }
+                const id = await this.db('features').insert(changes);
+                this.client.listFeaturesEdited(Object.assign(changes, { id: id[0] }));
+                res.render('error', { title: 'Success', status: 200, message: 'Feature has been added.' });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/features/manage/:id', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('features').where({ id: req.params.id }).limit(1).then((features) => {
+                    if (!features.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    res.render('lists/features/edit', {
+                        title: `Edit Feature '${features[0].name}'`,
+                        data: features[0]
+                    });
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.post('/features/manage/:id', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
+                    if (!features.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    let changes = {};
+                    const validate = FormValidator.validateFeature(req.body);
+                    if (validate.length) return res.render('lists/features/edit', {
+                        title: `Edit Feature '${features[0].name}'`,
+                        data: features[0],
+                        errors: validate
+                    });
+                    const columns = Object.keys(await this.db('features').columnInfo());
+                    for (const column of columns) {
+                        if (column === 'id') continue;
+                        if (req.body[column]) {
+                            changes[column] = req.body[column];
+                        } else {
+                            changes[column] = null;
+                        }
+                    }
+                    this.db('features').where({ id: req.params.id }).update(changes).then(() => {
+                        this.client.listFeaturesEdited(changes, features[0]);
+                        res.render('lists/features/edit', {
+                            title: `Edit Feature '${changes.name}'`,
+                            subtitle: 'Feature has been updated',
+                            data: changes
+                        });
+                    });
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
+                    if (!features.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    await this.db('features').where({ id: req.params.id }).del();
+                    await this.db('feature_map').where({ feature: req.params.id }).del();
+                    this.client.listFeaturesEdited(null, features[0]);
+                    res.render('error', { title: 'Success', status: 200, message: 'Feature has been deleted.' });
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
         this.router.get('/features/:id', (req, res) => {
             try {
                 this.db.select().from('features').where({ id: req.params.id }).limit(1).then((features) => {

@@ -136,6 +136,34 @@ class Client {
         ).catch(() => console.error('[Discord] Failed to send to edit log.'));
     }
 
+    listFeaturesEdited(newFeature = null, oldFeature = null) {
+        if (!config.discord.notifications) return;
+        let changes = [];
+        if (newFeature) {
+            for (const [key, value] of Object.entries(newFeature)) {
+                let oldValue;
+                let newValue;
+
+                if (!oldFeature) {
+                    oldValue = 'None';
+                    newValue = newFeature[key];
+                } else {
+                    if (String(value) === String(oldFeature[key])) continue;
+                    if (value === '' || value === null) newValue = 'None';
+                    else newValue = value;
+                    if (oldFeature[key] === '' || oldFeature[key] === null) oldValue = 'None';
+                    else oldValue = oldFeature[key];
+                }
+                changes.push({ key, oldValue, newValue });
+            }
+        }
+        this.createMessage(config.discord.edit_log, ':pencil2: | ' +
+            (!newFeature ? 'Feature **__' + oldFeature.name + '__** has been deleted.' : (!oldFeature ? 'A feature has been added.' : 'Feature **__' + newFeature.name + '__** has been edited') +
+            '\n<' + config.baseURL + '/lists/features/' + newFeature.id + '>\n\n**Changes**:\n' +
+            (changes.length > 0 ? changes.map((c) => '*' + c.key + '*: `' + c.oldValue + '` → `' + c.newValue + '`').join('\n') : 'Nothing has been changed...'))
+        ).catch(() => console.error('[Discord] Failed to send to edit log.'));
+    }
+
 }
 
 module.exports = Client;

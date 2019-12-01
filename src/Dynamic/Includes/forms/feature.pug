@@ -1,0 +1,29 @@
+if errors && errors.length > 0
+    .notification.is-danger
+        button.delete
+        ul
+            for error in errors
+                li #{error}
+form(method='POST')
+    .field
+        label.label(for='name') Name *
+        .control
+            input.input(type='text', id='name', name='name' value=data.name, required)
+    .field
+        label.label(for='type') Type *
+        .select
+            select(name='type', id='type', required)
+                option(value='0', selected=data.type === 0) Positive Feature
+                option(value='2', selected=data.type === 2) Negative Feature
+                option(value='1', selected=data.type === 1) Neutral Feature
+    .field
+        label.label(for='display') Display *
+        .control
+            input.input(type='number', id='display', name='display' value=data.display || '0', min='0', required)
+    .field
+        label.label(for='description') Description
+        .control
+            input.input(type='text', id='description', name='description' value=data.description)
+    .control(style='margin-top: 10px')
+        button.button.is-brand Submit
+

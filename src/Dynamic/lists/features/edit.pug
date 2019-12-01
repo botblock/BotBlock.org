@@ -1,0 +1,15 @@
+extends ../../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 #{data.name ? 'Edit Feature - ' + '\'' + data.name + '\'': 'Add Feature'}
+                        if subtitle
+                            h5.title.is-size-5 #{subtitle}
+            .columns
+                .column.is-half-desktop.is-full-mobile
+                    .card.is-box-shadow
+                        .card-content
+                            include ../../Includes/forms/feature
