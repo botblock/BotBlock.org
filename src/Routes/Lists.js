@@ -233,7 +233,11 @@ class ListsRoute extends BaseRoute {
                     }
                     this.db('features').where({ id: req.params.id }).update(changes).then(() => {
                         this.client.listFeaturesEdited(changes, features[0]);
-                        res.redirect('/lists/features/' + req.params.id);
+                        res.render('lists/features/edit', {
+                            title: `Edit Feature '${changes.name}'`,
+                            subtitle: 'Feature has been updated',
+                            data: changes
+                        });
                     });
                 });
             } catch (e) {
