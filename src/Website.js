@@ -33,6 +33,7 @@ class Website {
             maxAge: 6.048e+8,
             expires: Date.now() + 6.048e+8
         }));
+        this.app.use(express.static(path.join(__dirname, 'Public')));
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.app.use((req, res, next) => {
             const host = req.get('host');
