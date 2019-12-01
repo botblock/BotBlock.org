@@ -678,9 +678,9 @@ describe('/lists/features/manage/:id', () => {
     });
 });
 
-describe('/lists/features/:id/delete', () => {
+describe('/lists/features/manage/:id/delete', () => {
     describe('GET', () => {
-        const test = () => request().get('/lists/features/1/delete');
+        const test = () => request().get('/lists/features/manage/1/delete');
         it('returns a Forbidden status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(403);
