@@ -517,9 +517,7 @@ class ListsRoute extends BaseRoute {
                                     }
                                 }
                                 changes['added'] = lists[0].added;
-                                await this.db('lists').where({ id }).del();
-                                await this.db('lists').insert(changes);
-
+                                await this.db('lists').where({ id }).update(changes);
                                 const oldFeatures = await this.db.select().from('feature_map').where({
                                     list: id,
                                     value: true
