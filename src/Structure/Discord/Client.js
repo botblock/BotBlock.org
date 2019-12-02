@@ -114,15 +114,6 @@ class Client {
             + (newFeatures.length > 0 ? '\n\n*Added Features*: ' + newFeatures.map((c) => c.name).join(', ') : '')
             + (removedFeatures.length > 0 ? '\n\n*Removed Features*: ' + removedFeatures.map((c) => c.name).join(', ') : '')
         ).catch(() => console.error('[Discord] Failed to send to edit log.'));
-        // this.createMessage(config.discord.edit_log,
-        //     ':pencil: | **__' + newEdit.name + ' (' + newEdit.id + ') has been edited__**\n' +
-        //     '**View at: <' + config.baseURL + '/lists/' + newEdit.id + '>**\n\n' +
-        //     (changes.length > 0
-        //         ? changes.map((c) => '**' + c.key + '** has changed....\n  from: `' + (c.oldValue) + ('\n`  to: `' + (c.newValue) + '`')).join(',\n')
-        //         : 'Nothing has been changed....')
-        //     + (newFeatures.length > 0 ? '\n\n**Features Added:** `' + newFeatures.map((f) => f.name).join(', ') + '`': '')
-        //     + (removedFeatures.length > 0 ? '\n\n**Features Removed:** `' + removedFeatures.map((f) => f.name).join(', ') + '`': '')
-        // ).catch(() => console.error('[Discord] Failed to send to edit log.'));
     }
 
     legacyIdsEditLog(added, removed) {

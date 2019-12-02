@@ -245,7 +245,7 @@ class ListsRoute extends BaseRoute {
             }
         });
 
-        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
             try {
                 this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
                     if (!features.length) return res.status(404).render('error', {

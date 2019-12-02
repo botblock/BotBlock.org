@@ -21,4 +21,5 @@ block content
                                             include ../../Includes/checkbox
                                             .buttons
                                                 a.button.is-light.is-small.is-mod(href='/lists/features/manage/' + checkbox.id) Edit
-                                                a.button.is-light.is-small.is-mod(href='/lists/features/manage/' + checkbox.id + '/delete') Delete
+                                                if user.admin
+                                                    a.button.is-light.is-small.is-mod(href='/lists/features/manage/' + checkbox.id + '/delete') Delete
