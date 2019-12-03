@@ -245,7 +245,7 @@ class ListsRoute extends BaseRoute {
             }
         });
 
-        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+        this.router.get('/features/manage/:id/delete', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
             try {
                 this.db.select().from('features').where({ id: req.params.id }).limit(1).then(async (features) => {
                     if (!features.length) return res.status(404).render('error', {
@@ -517,9 +517,7 @@ class ListsRoute extends BaseRoute {
                                     }
                                 }
                                 changes['added'] = lists[0].added;
-                                await this.db('lists').where({ id }).del();
-                                await this.db('lists').insert(changes);
-
+                                await this.db('lists').where({ id }).update(changes);
                                 const oldFeatures = await this.db.select().from('feature_map').where({
                                     list: id,
                                     value: true
