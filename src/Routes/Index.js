@@ -47,8 +47,10 @@ class IndexRoute extends BaseRoute {
             sitemap.get(this.db).then(data => {
                 sitemap.save(data).then(() => {
                     res.render('sitemap', { title: 'Sitemap', data });
+                }).catch(e => {
+                    handleError(this.db, req, res, e.stack);
                 });
-            }).catch((e) => {
+            }).catch(e => {
                 handleError(this.db, req, res, e.stack);
             });
         });
