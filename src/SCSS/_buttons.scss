@@ -29,12 +29,13 @@
   min-height: 2.25em;
   height: auto;
 
-  &.is-primary {
+  &.is-primary,
+  &.is-brand {
     background: $brand;
-    color: $white;
+    color: #fff;
 
     &:active, &:hover, &:focus, &.active {
-      background: darken($brand, 10%);
+      background: $brand-dark;
       color: $white;
     }
   }

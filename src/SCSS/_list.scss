@@ -18,9 +18,15 @@
   a {
     @include hover-line;
 
+    color: mix($text, $white);
+
     &:hover {
       background: transparent;
     }
+  }
+
+  .menu-label {
+    color: $text;
   }
 
   .checkbox {

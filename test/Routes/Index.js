@@ -26,8 +26,8 @@ describe('/', () => {
                 expect(res.text).to.include(`${locale('site_name')} - ${locale('short_desc')}`);
 
                 // Confirm buttons
-                expect(res.text).to.include('href="/lists">View all the lists');
-                expect(res.text).to.include('href="/api/docs">Read the API Docs');
+                expect(res.text).to.include('href="/lists">View all the bot lists');
+                expect(res.text).to.include('href="/api/docs">Read the API documentation');
                 done();
             });
         });

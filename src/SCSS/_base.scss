@@ -71,11 +71,6 @@ body {
   border-radius: $radius-large;
 }
 
-.is-brand:hover, .is-brand:active {
-  background-color: $brand-dark;
-  color: $white;
-}
-
 .text, .title {
   &.is-primary {
     color: $brand;
