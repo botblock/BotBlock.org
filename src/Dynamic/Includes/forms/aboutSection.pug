@@ -1,0 +1,22 @@
+if errors && errors.length > 0
+    .notification.is-danger
+        button.delete
+        ul
+            for error in errors
+                li #{error}
+form(method='POST')
+    .field
+        label.label(for='name') Name *
+        .control
+            input.input(type='text', id='name', name='name' value=data.id, required)
+    .field
+        label.label(for='display') Display *
+        .control
+            input.input(type='number', id='display', name='display' value='0', min='0', required)
+    .field
+        label.label(for='description') Description
+        .control
+            textarea.textarea#description(name='description') #{data.content || ''}
+    .control(style='margin-top: 10px')
+        button.button.is-brand Submit
+

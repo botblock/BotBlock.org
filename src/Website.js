@@ -35,6 +35,7 @@ class Website {
         }));
         this.app.use(express.static(path.join(__dirname, 'Public')));
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
+        this.app.use('/codemirror', express.static(path.join(__dirname, '..', 'node_modules', 'codemirror')));
         this.app.use((req, res, next) => {
             const host = req.get('host');
             res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + host + req.path;

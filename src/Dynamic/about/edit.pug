@@ -1,0 +1,21 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 #{data.id ? 'Edit' : 'Add'} Section
+            .columns
+                .column
+                    .card.is-box-shadow
+                        .card-content
+                            include ../Includes/forms/aboutSection
+block footer
+    script(src='/codemirror/lib/codemirror.js')
+    script(src='/codemirror/mode/markdown/markdown.js')
+    script(src='/codemirror/mode/xml/xml.js')
+    style
+        | .CodeMirror { height: auto }
+    script.
+        CodeMirror.fromTextArea(document.getElementById('description'), { mode: 'markdown', lineNumbers: true, theme: 'monokai' });

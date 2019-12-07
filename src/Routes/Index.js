@@ -43,6 +43,36 @@ class IndexRoute extends BaseRoute {
             });
         });
 
+        this.router.get('/about/manage', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+            this.db.select().from('about').orderBy('position', 'asc').then((data) => {
+                const sections = data.map((section) => {
+                    section.title = this.renderer.variables(section.title);
+                    section.content = this.renderer.render(section.content);
+                    return section;
+                });
+                res.render('about/manage', { title: 'About', sections });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
+            });
+        });
+
+        this.router.get('/about/manage/add', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+            res.render('about/edit', { title: 'Add Section', data: {} });
+        });
+
+        this.router.get('/about/manage/:id', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+            this.db.select().from('about').where({ id: req.params.id }).then((data) => {
+                if (!data.length) return res.status(404).render('error', {
+                    title: 'Page not found',
+                    status: 404,
+                    message: 'The page you were looking for could not be found.'
+                });
+                res.render('about/edit', { title: 'Edit Section', data: data[0] });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
+            });
+        });
+
         this.router.get('/sitemap', (req, res) => {
             sitemap.get(this.db).then(data => {
                 sitemap.save(data).then(() => {
