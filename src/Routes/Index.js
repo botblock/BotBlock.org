@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const BaseRoute = require('../Structure/BaseRoute');
+const FormValidator = require('../Structure/FormValidator');
 const Renderer = require('../Structure/Markdown');
 const shuffle = require('../Util/shuffle');
 const handleError = require('../Util/handleError');
@@ -60,6 +61,26 @@ class IndexRoute extends BaseRoute {
             res.render('about/edit', { title: 'Add Section', data: {} });
         });
 
+        this.router.post('/about/manage/add', this.requiresAuth.bind(this), this.isAdmin.bind(this), async (req, res) => {
+            try {
+                let changes = {};
+                const validate = FormValidator.validateAboutSection(req.body);
+                if (validate && validate.length > 0) return res.render('about/edit', { title: 'Add Section', data: req.body, errors: validate });
+                const columns = Object.keys(await this.db('about').columnInfo());
+                for (const column of columns) {
+                    if (req.body[column]) {
+                        changes[column] = req.body[column];
+                    } else {
+                        changes[column] = null;
+                    }
+                }
+                await this.db('about').insert(changes);
+                res.render('error', { title: 'Success', status: 200, message: 'Section has been added.' });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
         this.router.get('/about/manage/:id', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
             this.db.select().from('about').where({ id: req.params.id }).then((data) => {
                 if (!data.length) return res.status(404).render('error', {
@@ -72,6 +93,46 @@ class IndexRoute extends BaseRoute {
                 handleError(this.db, req, res, e.stack);
             });
         });
+
+        this.router.post('/about/manage/:id', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+            this.db.select().from('about').where({ id: req.params.id }).then(async(data) => {
+                if (!data.length) return res.status(404).render('error', {
+                    title: 'Page not found',
+                    status: 404,
+                    message: 'The page you were looking for could not be found.'
+                });
+                let changes = {};
+                const validate = FormValidator.validateAboutSection(req.body);
+                if (validate && validate.length > 0) return res.render('about/edit', { title: 'Edit Section', data: req.body, errors: validate });
+                const columns = Object.keys(await this.db('about').columnInfo());
+                for (const column of columns) {
+                    if (req.body[column]) {
+                        changes[column] = req.body[column];
+                    } else {
+                        changes[column] = null;
+                    }
+                }
+                await this.db('about').where({ id: req.body.id }).update(changes);
+                res.render('error', { title: 'Success', status: 200, message: 'Section has been updated.' });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
+            });
+        });
+
+        this.router.get('/about/manage/:id/delete', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+            this.db.select().from('about').where({ id: req.params.id }).then(async(data) => {
+                if (!data.length) return res.status(404).render('error', {
+                    title: 'Page not found',
+                    status: 404,
+                    message: 'The page you were looking for could not be found.'
+                });
+                await this.db('about').where({ id: req.params.id }).del();
+                res.render('error', { title: 'Success', status: 200, message: 'Section has been deleted.' });
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
+            });
+        });
+
 
         this.router.get('/sitemap', (req, res) => {
             sitemap.get(this.db).then(data => {

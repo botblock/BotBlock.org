@@ -6,17 +6,21 @@ if errors && errors.length > 0
                 li #{error}
 form(method='POST')
     .field
-        label.label(for='name') Name *
+        label.label(for='id') ID *
         .control
-            input.input(type='text', id='name', name='name' value=data.id, required)
+            input.input#id(type='text', name='id' value=data.id, readonly=!!data.id,  required)
     .field
-        label.label(for='display') Display *
+        label.label(for='title') Title *
         .control
-            input.input(type='number', id='display', name='display' value='0', min='0', required)
+            input.input#title(type='text', name='title' value=data.title, required)
     .field
-        label.label(for='description') Description
+        label.label(for='position') Position *
         .control
-            textarea.textarea#description(name='description') #{data.content || ''}
+            input.input#position(type='number', name='position' value=data.position, min='0', required)
+    .field
+        label.label(for='content') Content (Supports Markdown)
+        .control
+            textarea.textarea#content(name='content') #{data.content || ''}
     .control(style='margin-top: 10px')
         button.button.is-brand Submit
 

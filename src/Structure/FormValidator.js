@@ -21,7 +21,7 @@ class FormValidator {
     /**
      * Validate feature data.
      * @param data
-     * @returns {string|[] | null}
+     * @returns {string[] | null}
      */
     static validateFeature(data) {
         if (!data) return null;
@@ -35,6 +35,21 @@ class FormValidator {
         if (!isNaN(data.display)) {
             if (Number(data.display) < 0 || !Number.isInteger(Number(data.display))) errors.push('Invalid display provided');
         }
+        return errors;
+    }
+
+    /**
+     * Validate about section data.
+     * @param data
+     * @returns {string[] | null}
+     */
+    static validateAboutSection(data) {
+        if (!data) return null;
+        let errors = [];
+        if (!data.id) errors.push('ID is required');
+        if (!data.title) errors.push('Title is required');
+        if (isNaN(data.position)) errors.push('Position must be a valid number');
+        if (!data.content) errors.push('Content is required');
         return errors;
     }
 }
