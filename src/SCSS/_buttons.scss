@@ -29,11 +29,22 @@
   min-height: 2.25em;
   height: auto;
 
+  &.is-primary,
+  &.is-brand {
+    background: $brand;
+    color: #fff;
+
+    &:active, &:hover, &:focus, &.active {
+      background: $brand-dark;
+      color: $white;
+    }
+  }
+
   &.is-mod {
-    background: mix($light, $brand4, 80%);
+    background: mix($light, $brand4, 70%);
 
     &:hover {
-      background: mix($light, $brand4, 60%);
+      background: mix($light, $brand4, 50%);
     }
   }
 }

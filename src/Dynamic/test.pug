@@ -2,11 +2,15 @@ extends layout
 block content
     section.section
         .container
+            .hero
+                .hero-body.has-text-centered
+                    h1.title.is-size-1 Test Suite
+                    h4.title.is-size-4.is-primary #{__('site_name')} - #{__('short_desc')}
+
             .columns
                 .column
                     .card
                         .card-content
-                            h1.title.is-size-4 #{__('site_name')} Test Suite
                             a.button.is-brand.is-size-5#run(onclick='runTests()') Run Tests
                     .card
                         .card-content

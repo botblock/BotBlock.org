@@ -4,21 +4,59 @@
 
 html {
   overflow-y: auto;
-}
-
-html, body {
-  background: #2d3237 url("/Assets/geometry/geometry_transparent.png");
+  scrollbar-color: $background $card-background;
+  background: $background;
 }
 
 body {
   display: flex;
-  flex-direction: column;
-  min-height: 100vH;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  background-color: $background;
+  background-image: url("/Assets/img/bg-bottom.svg");
+  background-size: contain;
+  background-position: bottom left;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: '';
+    display: block;
+    background-image: url("/Assets/img/bg-top.svg");
+    background-size: contain;
+    background-position: top right;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+  }
+
+  > main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 100vh !important;
+    max-width: 100%;
+  }
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-form {
-  width: 100%;
+::-webkit-scrollbar-track {
+  background: $card-background;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $background;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $background;
 }
 
 .section {
@@ -26,20 +64,17 @@ form {
 }
 
 .card, .is-brand, .notification, .is-box-shadow {
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, .2) !important;
+  box-shadow: 0 0 30px 5px rgba(0, 0, 0, .25) !important;
 }
 
 .card, .notification, .is-brand {
-  border-radius: 10px;
+  border-radius: $radius-large;
 }
 
-.is-brand:hover, .is-brand:active {
-  background-color: $brand-dark;
-  color: $white;
-}
-
-.text.is-primary, code {
-  color: $brand;
+.text, .title {
+  &.is-primary {
+    color: $brand;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -86,12 +121,12 @@ h1, h2, h3, h4, h5, h6, p {
   }
 }
 
-pre {
-  background-color: #242424;
-}
-
 .has-margin-top {
   margin-top: calc(1.5rem - .75rem);
+}
+
+pre .hljs {
+  background: transparent;
 }
 
 /*table.table {

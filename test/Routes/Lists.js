@@ -213,7 +213,7 @@ describe('/lists/features/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Bot Lists with feature 'Has Voting' - ${locale('site_name')} - ${locale('short_desc')}`);
+                titleCheck(res, `Has Voting - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -222,7 +222,7 @@ describe('/lists/features/:id', () => {
                 expect(res).to.be.html;
 
                 // Confirm header
-                expect(res.text).to.include('Bot Lists with feature \'Has Voting\'');
+                expect(res.text).to.include('Bot lists on BotBlock with the feature \'Has Voting\'');
 
                 // Confirm footer stats
                 expect(res.text).to.include(`${locale('site_name')} - Bot List Stats`);

@@ -2,12 +2,12 @@ doctype html
 html(lang='en')
     head
         meta(charset='utf-8')
-        - title = (title ? `${title} - ` : '') + `${__('site_name')} - ${__('short_desc')}`
-        title #{title}
+        - page_title = (title ? `${title} - ` : '') + `${__('site_name')} - ${__('short_desc')}`
+        title #{page_title}
         link(rel='canonical', href=route)
         meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0')
 
-        meta(property='og:title', content=title)
+        meta(property='og:title', content=page_title)
         meta(property='og:site_name', content=__('site_name'))
         meta(property='og:url', content=route)
         meta(property='og:image', content='/assets/img/icon.png')
@@ -16,7 +16,7 @@ html(lang='en')
 
         meta(name='twitter:card', content='summary')
         meta(name='twitter:site', content='@BlockBotOrg')
-        meta(name='twitter:title', content=title)
+        meta(name='twitter:title', content=page_title)
         meta(name='twitter:description', content=__('full_desc'))
         meta(property='twitter:image', content='/assets/img/icon.png')
 
@@ -31,7 +31,7 @@ html(lang='en')
         'bot api, api, list api, botlist api, discordapi, discord bot api, discord list api, discord bot list api')
 
         meta(name='description', content=__('site_name') + ' - ' + __('full_desc'))
-        meta(name='theme-color', content='#4A89DC')
+        meta(name='theme-color', content='#359DC4')
         link(rel='shortcut icon', href='/assets/img/icon.png')
 
         meta(name='apple-mobile-web-app-title', content=__('site_name'))
@@ -46,9 +46,10 @@ html(lang='en')
 
         block header
     body
-        include Includes/navbar
-        block content
-        include Includes/footer
+        include Includes/sidebar
+        main
+            block content
+            include Includes/footer
 
         script(async src='https://www.googletagmanager.com/gtag/js?id=' + GACode)
         script.

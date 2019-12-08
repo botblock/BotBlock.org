@@ -1,0 +1,35 @@
+.menu-list {
+  &.endpoints {
+    a {
+      padding-top: 0;
+
+      code {
+        font-size: .8em;
+        margin-left: -.5em;
+      }
+
+      span {
+        padding-top: .3rem;
+        display: block;
+      }
+    }
+  }
+
+  a {
+    @include hover-line;
+
+    color: mix($text, $white);
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .menu-label {
+    color: $text;
+  }
+
+  .checkbox {
+    margin: 0;
+  }
+}

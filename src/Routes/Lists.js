@@ -38,7 +38,12 @@ class ListsRoute extends BaseRoute {
                     ])
                     .then((lists) => {
                         this.footerData().then((footer) => {
-                            res.render('lists/lists', { title: 'All Bot Lists', lists, footer });
+                            res.render('lists/lists', {
+                                title: 'All Bot Lists',
+                                subtitle: `${res.__('site_name')} - ${res.__('short_desc')}`,
+                                lists,
+                                footer
+                            });
                         });
                     });
             } catch (e) {
@@ -288,7 +293,8 @@ class ListsRoute extends BaseRoute {
                                     const lists = allLists.filter(list => list.id in map && map[list.id]);
                                     this.footerData().then((footer) => {
                                         res.render('lists/lists', {
-                                            title: `Bot Lists with feature '${features[0].name}'`,
+                                            title: features[0].name,
+                                            subtitle: `Bot lists on ${res.__('site_name')} with the feature '${features[0].name}'`,
                                             lists, footer
                                         });
                                     });

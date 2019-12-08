@@ -21,12 +21,12 @@
                         span Discord Bots Only
 
             .media-right.button-group.button-group-vertical
-                a.button.is-light.is-small(href='/lists/' + list.id) Information
+                a.button.is-primary.is-small(href='/lists/' + list.id) Information
                 a.button.is-light.is-small(href=`${list.url}?utm_source=${__('site_name')}`,  target='_blank', rel='noopener') Website
                 if list.discord
                     a.button.is-light.is-small(href=`${list.discord}?utm_source=${__('site_name')}`, target='blank', rel='noopener') Discord
                 if user && (user.mod || user.admin)
-                    a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/icon') Fetch Icon from invite
+                    a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/icon') Fetch Invite Icon
                     a.button.is-light.is-small.is-mod(href='/lists/' + list.id + '/edit') Edit List
 
         if !lists

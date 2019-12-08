@@ -1,0 +1,69 @@
+nav.navbar(role='navigation', aria-label='main navigation')
+    .container
+        a.navbar-burger(role='button', aria-label='menu', aria-expanded='false')
+            span(aria-hidden='true')
+            span(aria-hidden='true')
+            span(aria-hidden='true')
+
+aside.menu.is-box-shadow(role='navigation', aria-label='main navigation')
+    ul.menu-list.section
+        li
+            p.menu-label.brand
+                img(src='/assets/img/icon.svg', alt='')
+                span #{__('site_name')}
+        li
+            a(href='/') Home
+
+        li
+                p.menu-label Lists
+                ul.menu-list
+                    li
+                        a(href='/lists') All Lists
+                    li
+                        a(href='/lists/new') New Lists
+                    li
+                        a(href='/lists/features') List Features
+                    li
+                        form#navbar_lists_search
+                            input#navbar_lists_query.navbar-item.input(type='text', placeholder='Name or URL')
+                            a(onclick='navbar_lists_go()') Search Lists
+
+        li
+            p.menu-label API
+            ul.menu-list
+                li
+                    a(href='/api/docs') API Documentation
+                    include ../api/includes/docs_sidebar
+
+        if user && (user.mod || user.admin)
+            li
+                p.menu-label Staff
+                ul.menu-list
+                    li
+                        a(href='/lists/add') Add List
+                    li
+                        a(href='/lists/legacy-ids') Legacy IDs
+                    li
+                        a(href='/lists/features/manage') List Features
+                    li
+                        a(href='/test') Tests
+                    li
+                        a(href='/tasks') Tasks
+
+        li
+            a(href='/discord', target='_blank') Discord Server
+        li
+            a(href='/patreon', target='_blank') Support Us
+
+        if user
+            li
+                p.menu-label #{user.username}##{user.discriminator}
+                ul.menu-list
+                    li
+                        a(href='/auth/logout') Logout
+        else
+            li
+                a(href='/auth') Sign in with Discord
+
+
+
