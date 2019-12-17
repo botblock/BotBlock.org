@@ -75,7 +75,7 @@ class IndexRoute extends BaseRoute {
                     }
                 }
                 await this.db('about').insert(changes);
-                res.render('error', { title: 'Success', status: 200, message: 'Section has been added.' });
+                res.redirect('/about/manage');
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
             }
@@ -113,7 +113,7 @@ class IndexRoute extends BaseRoute {
                     }
                 }
                 await this.db('about').where({ id: req.body.id }).update(changes);
-                res.render('error', { title: 'Success', status: 200, message: 'Section has been updated.' });
+                res.redirect('/about/manage');
             }).catch((e) => {
                 handleError(this.db, req, res, e.stack);
             });
@@ -127,7 +127,7 @@ class IndexRoute extends BaseRoute {
                     message: 'The page you were looking for could not be found.'
                 });
                 await this.db('about').where({ id: req.params.id }).del();
-                res.render('error', { title: 'Success', status: 200, message: 'Section has been deleted.' });
+                res.redirect('/about/manage');
             }).catch((e) => {
                 handleError(this.db, req, res, e.stack);
             });
