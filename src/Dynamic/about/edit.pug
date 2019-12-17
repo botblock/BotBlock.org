@@ -15,7 +15,5 @@ block footer
     script(src='/codemirror/lib/codemirror.js')
     script(src='/codemirror/mode/markdown/markdown.js')
     script(src='/codemirror/mode/xml/xml.js')
-    style
-        | .CodeMirror { height: auto }
     script.
         CodeMirror.fromTextArea(document.getElementById('content'), { mode: 'markdown', lineNumbers: true, theme: 'monokai' });
