@@ -46,7 +46,7 @@ class Cache {
                 ...JSON.parse(cache.data),
                 cached: true,
                 cache_expires_at: cache.expiry,
-                cache_expires_in: cache.expiry - (Date.now() / 1000),
+                cache_expires_in: Math.round(cache.expiry - (Date.now() / 1000)),
             });
             next();
         }

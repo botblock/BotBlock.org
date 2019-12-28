@@ -1,0 +1,44 @@
+.card-content
+    h1.is-size-4.has-text-grey-lighter#cache Cache
+        a(href='#cache')  &supdsub;
+    p
+        | Certain API requests to BotBlock will be cached by the app to reduce load on upstream providers and our internal logic.
+        | Cache hit responses will not be affected by any ratelimits implemented within the app.
+    h5.is-size-5 Cached Endpoints
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th Route
+                    th Request Type
+                    th Cache Expiry
+                    th Notes
+            tbody
+                tr
+                    td /api/bots/:id
+                    td GET
+                    td 300s
+                    td
+                        i Only successful requests will be cached.
+    h5.is-size-5 Response Body
+    p The following properties will be present in the JSON response alongside the original cached data.
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                tr
+                    td cached
+                    td Boolean
+                    td This should always be #[code true] and indicates the response is from the app cache.
+                tr
+                    td cache_expires_at
+                    td Integer
+                    td The unix timestamp for when the cached response will expire.
+                tr
+                    td cache_expires_in
+                    td Integer
+                    td Seconds until the cached response expires, based on #[code cache_expires_at].
