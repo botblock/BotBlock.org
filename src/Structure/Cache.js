@@ -13,16 +13,16 @@ class Cache {
 
     /**
      * Insert data into cache.
-     * @param route
-     * @param expiry
-     * @param data
+     * @param {string} route - Route that is being cached
+     * @param {number} expiry - Seconds until cache expires
+     * @param {*} data - Data to be cached for the response
      * @return {Promise<null|*>}
      */
     async add(route, expiry, data) {
         try {
             return await this.db('cache').insert({
                 route,
-                expiry: (Date.now() + expiry) / 1000,
+                expiry: Date.now() / 1000 + expiry,
                 data: JSON.stringify(data)
             });
         } catch {
@@ -30,21 +30,26 @@ class Cache {
         }
     }
 
-    delete() {
-
-    }
-
     async deleteExpired() {
         try {
-            return await this.db('cache').where('expiry', '<', new Date().getSeconds()).del();
+            return await this.db('cache').where('expiry', '<', Date.now() / 1000).del();
         } catch {
             return null;
         }
     }
 
-
-    getAll() {
-
+    handler() {
+        return async (req, res, next) => {
+            await this.deleteExpired();
+            const cache = await this.get(req.originalUrl);
+            if (cache) return res.status(200).json({
+                ...JSON.parse(cache.data),
+                cached: true,
+                cache_expires_at: cache.expiry,
+                cache_expires_in: Math.round(cache.expiry - Date.now() / 1000)
+            });
+            next();
+        };
     }
 }
 

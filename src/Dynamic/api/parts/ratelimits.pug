@@ -29,12 +29,13 @@
                     td /api/bots/:id
                     td GET
                     td 1 / 30s
-                    td No
+                    td Yes (by URL)
                 tr
                     td /api/lists
                     td GET
                     td 1 / 1s
                     td No
+    p Note: Any requests that hit #[a(href='#cache') the cache] will not be ratelimited at all.
     h5.is-size-5 Response Body &amp; Headers
     h6.is-size-6
         code HTTP Status: 429 Too Many Requests
@@ -56,7 +57,7 @@
                     td ratelimit_reset
                     td X-Rate-Limit-Reset
                     td Integer
-                    td How unix timestamp when the API can be used again.
+                    td The unix timestamp when the API can be used again.
                 tr
                     td ratelimit_ip
                     td X-Rate-Limit-IP

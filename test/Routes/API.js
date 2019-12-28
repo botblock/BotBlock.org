@@ -9,6 +9,12 @@ describe('Invalid route (/api/helloworld)', () => {
                 done();
             });
         });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
         it('returns an error JSON body', done => {
             test().end((err, res) => {
                 expect(res).to.be.json;
@@ -25,6 +31,12 @@ describe('Invalid route (/api/helloworld)', () => {
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
@@ -46,6 +58,12 @@ describe('/api/docs', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has no CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.not.have.header('Access-Control-Allow-Origin');
                 done();
             });
         });
@@ -122,6 +140,78 @@ describe('/api/docs', () => {
                 done();
             });
         });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+});
+
+describe('/api/docs/libs', () => {
+    describe('GET', () => {
+        const test = () => request().get('/api/docs/libs');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has no CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.not.have.header('Access-Control-Allow-Origin');
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Libraries - API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
+        it('renders the expected header content', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+
+                // Confirm header
+                expect(res.text).to.include('API Libraries');
+                expect(res.text).to.include('Some libraries have been written making use of');
+
+                // Confirm menu
+                expect(res.text).to.include('<aside class="menu">');
+                expect(res.text).to.include('<p class="menu-label">');
+                expect(res.text).to.include('<ul class="menu-list">');
+
+                done();
+            });
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => request().post('/api/docs/libs');
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
         it('returns an error JSON body', done => {
             test().end((err, res) => {
                 expect(res).to.be.json;
@@ -140,6 +230,12 @@ describe('/api/lists', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
@@ -178,6 +274,12 @@ describe('/api/lists', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
@@ -242,6 +344,12 @@ describe('/api/lists', () => {
                 done();
             });
         });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
         it('returns an error JSON body', done => {
             test().end((err, res) => {
                 expect(res).to.be.json;
@@ -260,6 +368,12 @@ describe('/api/count', () => {
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
@@ -284,6 +398,12 @@ describe('/api/count', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -300,6 +420,12 @@ describe('/api/count', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -325,6 +451,12 @@ describe('/api/count', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -344,6 +476,12 @@ describe('/api/count', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -369,6 +507,12 @@ describe('/api/count', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -387,6 +531,12 @@ describe('/api/count', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -409,6 +559,12 @@ describe('/api/count', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -435,6 +591,12 @@ describe('/api/count', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -455,6 +617,12 @@ describe('/api/count', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -481,6 +649,12 @@ describe('/api/count', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -501,6 +675,12 @@ describe('/api/count', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -525,6 +705,12 @@ describe('/api/count', () => {
                 it('returns an OK status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(200);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -726,6 +912,12 @@ describe('/api/bots/:id', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns an error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -745,6 +937,12 @@ describe('/api/bots/:id', () => {
                         done();
                     });
                 });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                        done();
+                    });
+                });
                 it('returns a correct error JSON body', done => {
                     test().end((err, res) => {
                         expect(res).to.be.json;
@@ -761,6 +959,12 @@ describe('/api/bots/:id', () => {
                 it('returns a Bad Request status code', done => {
                     test().end((err, res) => {
                         expect(res).to.have.status(400);
+                        done();
+                    });
+                });
+                it('has a permissive CORS header', done => {
+                    test().end((err, res) => {
+                        expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                         done();
                     });
                 });
@@ -786,6 +990,12 @@ describe('/api/bots/:id', () => {
                     done();
                 });
             });
+            it('has a permissive CORS header', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                    done();
+                });
+            });
             it('returns a valid JSON body', done => {
                 test().end((err, res) => {
                     expect(res).to.be.json;
@@ -807,6 +1017,23 @@ describe('/api/bots/:id', () => {
 
                     expect(res.body).to.have.property('invite');
                     expect(res.body.invite).to.be.a('string');
+
+                    expect(res.body).to.have.property('prefix');
+                    expect(res.body.prefix).to.be.a('string');
+
+                    expect(res.body).to.have.property('website');
+                    expect(res.body.website).to.be.a('string');
+                    expect(res.body.website).equal('https://altdentifier.com');
+
+                    expect(res.body).to.have.property('github');
+                    expect(res.body.github).to.be.a('string');
+
+                    expect(res.body).to.have.property('support');
+                    expect(res.body.support).to.be.a('string');
+
+                    expect(res.body).to.have.property('library');
+                    expect(res.body.library).to.be.a('string');
+                    expect(res.body.library).equal('discord.py');
 
                     expect(res.body).to.have.property('list_data');
                     expect(res.body.list_data).to.be.an('object');
@@ -839,6 +1066,8 @@ describe('/api/bots/:id', () => {
                 test().end((err, res) => {
                     expect(res.body).to.have.property('id', '12345678901234567890');
                     expect(res.body).to.have.property('cached', true);
+                    expect(res.body).to.have.property('cache_expires_at');
+                    expect(res.body).to.have.property('cache_expires_in');
                     done();
                 });
             });
@@ -846,39 +1075,62 @@ describe('/api/bots/:id', () => {
     });
 
     describe('GET (Ratelimited)', () => {
-        const test = () => request().get('/api/bots/123456789123456789');
-        it('ratelimits spam requests', function (done) {
-            this.slow(15 * 1000);
-            this.timeout(20 * 1000);
-            resetRatelimits().end(() => {
-                test().end(() => {
-                });
-                setTimeout(() => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(429);
-                        expect(res).to.be.json;
-
-                        expect(res.body).to.have.property('error', true);
-                        expect(res.body).to.have.property('status', 429);
-
-                        expect(res.body).to.have.property('retry_after');
-                        expect(res.body.retry_after).to.be.a('number');
-
-                        expect(res.body).to.have.property('ratelimit_reset');
-                        expect(res.body.ratelimit_reset).to.be.a('number');
-
-                        expect(res.body).to.have.property('ratelimit_ip');
-                        expect(res.body.ratelimit_ip).to.be.a('string');
-
-                        expect(res.body).to.have.property('ratelimit_route', '/api/bots/123456789123456789');
-                        expect(res.body).to.have.property('ratelimit_bot_id', '');
-                        done();
+        describe('Uncached requests', () => {
+            const test = () => request().get('/api/bots/helloworld');
+            it('ratelimits spam requests', function (done) {
+                this.slow(15 * 1000);
+                this.timeout(20 * 1000);
+                resetRatelimits().end(() => {
+                    test().end(() => {
                     });
-                }, 200);
+                    setTimeout(() => {
+                        test().end((err, res) => {
+                            expect(res).to.have.status(429);
+                            expect(res).to.be.json;
+
+                            expect(res.body).to.have.property('error', true);
+                            expect(res.body).to.have.property('status', 429);
+
+                            expect(res.body).to.have.property('retry_after');
+                            expect(res.body.retry_after).to.be.a('number');
+
+                            expect(res.body).to.have.property('ratelimit_reset');
+                            expect(res.body.ratelimit_reset).to.be.a('number');
+
+                            expect(res.body).to.have.property('ratelimit_ip');
+                            expect(res.body.ratelimit_ip).to.be.a('string');
+
+                            expect(res.body).to.have.property('ratelimit_route', '/api/bots/helloworld');
+                            expect(res.body).to.have.property('ratelimit_bot_id', '');
+                            done();
+                        });
+                    }, 200);
+                });
+            });
+            it('does not ratelimit requests spaced correctly', function (done) {
+                ratelimitTest(this, 30, test, done, 400);
             });
         });
-        it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 30, test, done);
+
+        describe('Cached requests', () => {
+            const test = () => request().get('/api/bots/12345678901234567890');
+            it('hits cache before ratelimit', function (done) {
+                this.slow(15 * 1000);
+                this.timeout(20 * 1000);
+                resetRatelimits().end(() => {
+                    test().end(() => {
+                    });
+                    setTimeout(() => {
+                        test().end((err, res) => {
+                            expect(res).to.have.status(200);
+                            expect(res).to.be.json;
+                            expect(res.body).to.have.property('id', '12345678901234567890');
+                            expect(res.body).to.have.property('cached', true);
+                            done();
+                        });
+                    }, 200);
+                });
+            });
         });
     });
 
@@ -887,6 +1139,12 @@ describe('/api/bots/:id', () => {
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
@@ -908,6 +1166,12 @@ describe('/api/legacy-ids', () => {
         it('returns an OK status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
@@ -969,6 +1233,12 @@ describe('/api/legacy-ids', () => {
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
                 done();
             });
         });
