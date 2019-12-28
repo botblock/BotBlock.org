@@ -14,7 +14,7 @@ const request = () => chai.request(target);
 const ratelimitBypass = (req) => req.set('X-Ratelimit-Bypass', config.secret);
 const resetRatelimits = () => ratelimitBypass(request().get('/api/reset'));
 
-const ratelimitTest = (context, limit, test, done) => {
+const ratelimitTest = (context, limit, test, done, status = 200) => {
     context.retries(0);
     context.slow((limit * 1.15 + 1.5) * 1000);
     context.timeout((limit * 1.25 + 3) * 1000);
@@ -23,7 +23,7 @@ const ratelimitTest = (context, limit, test, done) => {
         });
         setTimeout(() => {
             test().end((err, res) => {
-                expect(res).to.have.status(200);
+                expect(res).to.have.status(status);
                 expect(res).to.be.json;
                 done();
             });

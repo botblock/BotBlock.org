@@ -30,10 +30,6 @@ class Cache {
         }
     }
 
-    delete() {
-
-    }
-
     async deleteExpired() {
         try {
             return await this.db('cache').where('expiry', '<', new Date().getSeconds()).del();
@@ -42,9 +38,13 @@ class Cache {
         }
     }
 
-
-    getAll() {
-
+    handler() {
+        return async (req, res, next) => {
+            await this.deleteExpired();
+            const cache = await this.get(req.originalUrl);
+            if (cache) return res.status(200).json({ ...JSON.parse(cache.data), cached: true });
+            next();
+        }
     }
 }
 
