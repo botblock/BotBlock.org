@@ -22,7 +22,7 @@ class Cache {
         try {
             return await this.db('cache').insert({
                 route,
-                expiry: (Date.now() / 1000) + expiry,
+                expiry: Date.now() / 1000 + expiry,
                 data: JSON.stringify(data)
             });
         } catch {
@@ -46,10 +46,10 @@ class Cache {
                 ...JSON.parse(cache.data),
                 cached: true,
                 cache_expires_at: cache.expiry,
-                cache_expires_in: Math.round(cache.expiry - (Date.now() / 1000)),
+                cache_expires_in: Math.round(cache.expiry - Date.now() / 1000)
             });
             next();
-        }
+        };
     }
 }
 
