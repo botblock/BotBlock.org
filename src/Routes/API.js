@@ -226,6 +226,11 @@ class APIRoute extends BaseRoute {
                 owners: [],
                 server_count: [],
                 invite: [],
+                prefix: [],
+                website: [],
+                github: [],
+                support: [],
+                library: [],
                 list_data: lists
             };
             this.db.select('id', 'api_get').from('lists')
@@ -250,36 +255,64 @@ class APIRoute extends BaseRoute {
                     for (let list of Object.keys(lists)) {
                         list = lists[list];
                         if (Number(list[1]) === 200) {
+                            // TODO: discordsbestbots.xyz returns everything inside the 'bot' property of a parent object, we need to handle that
                             const fields = Object.keys(list[0]);
                             for (let key in fields) {
                                 key = fields[Number(key)].toLowerCase();
                                 const value = list[0][key];
                                 if (!value) continue;
-                                if (key === 'name' || key === 'username') {
+                                if (key === 'name' || key === 'username' || key === 'bot_name') {
                                     output.username.push(value);
                                 }
                                 if (key === 'discrim' || key === 'discriminator') {
                                     output.discriminator.push(String(value));
                                 }
-                                if (key === 'owner' || key === 'owners') {
+                                if (key === 'owner' || key === 'owners' || key === 'authors' || key === 'bot_owners') {
                                     if (!Array.isArray(value) && typeof value !== 'object') {
                                         output.owners.push(value);
                                     } else if (Array.isArray(value) && typeof value !== 'object') {
                                         for (const owner of value) {
-                                            if (!Array.isArray(owner) && typeof owner !== 'object' && !Array.isArray(owner)) {
+                                            if (!Array.isArray(owner) && typeof owner !== 'object') {
                                                 output.owners.push(owner);
+                                            } else if (typeof value === 'object') {
+                                                if (value['id']) output.owners.push(value['id']);
+                                                else if (value['userId']) output.owners.push(value['userId']);
                                             }
                                         }
                                     } else if (typeof value === 'object') {
                                         if (value['id']) output.owners.push(value['id']);
+                                        else if (value['userId']) output.owners.push(value['userId']);
                                     }
                                 }
-                                if (key === 'count' || key === 'servers' || key === 'server_count' || key === 'servercount' || key === 'guilds' || key === 'guild_count' || key === 'guildcount') {
+                                if (key === 'count' || key === 'servers' || key === 'server_count' || key === 'servercount' || key === 'serverCount'
+                                    || key === 'bot_server_count' || key === 'guilds' || key === 'guild_count' || key === 'guildcount' || key === 'guildCount') {
                                     const temp = parseInt(value);
                                     if (typeof temp === 'number') output.server_count.push(temp);
                                 }
-                                if (key === 'invite' || key === 'bot_invite') {
+                                if (key === 'links') {
+                                    if (typeof value === 'object') {
+                                        if (value['invite']) output.invite.push(value['invite']);
+                                        if (value['support']) output.support.push(value['support']);
+                                    }
+                                }
+                                if (key === 'invite' || key === 'bot_invite' || key === 'botInvite' || key === 'bot_invite_link') {
                                     if (typeof key === 'string') output.invite.push(value);
+                                }
+                                if (key === 'prefix' || key === 'bot_prefix') {
+                                    if (typeof key === 'string') output.prefix.push(value);
+                                }
+                                if (key === 'website' || key === 'bot_website') {
+                                    if (typeof key === 'string') output.website.push(value);
+                                }
+                                if (key === 'github' || key === 'bot_github_repo' || key === 'openSource' || key === 'git') {
+                                    if (typeof key === 'string') output.github.push(value);
+                                }
+                                if (key === 'support' || key === 'supportInvite' || key === 'support_server' || key === 'discord'
+                                    || key === 'server_invite' || key === 'bot_support_discord' || key === 'server') {
+                                    if (typeof key === 'string') output.support.push(value);
+                                }
+                                if (key === 'library' || key === 'libraryName' || key === 'bot_library' || key === 'lang') {
+                                    if (typeof key === 'string') output.library.push(value);
                                 }
                             }
                         }
@@ -288,9 +321,14 @@ class APIRoute extends BaseRoute {
                         id: output.id,
                         username: this.getMostCommon(output.username) || 'Unknown',
                         discriminator: this.getMostCommon(output.discriminator) || '0000',
-                        owners: output.owners || [],
+                        owners: output.owners.filter((v, i, a) => a.indexOf(v) === i && isSnowflake(v)) || [],
                         server_count: Math.max(...output.server_count) || 0,
                         invite: this.getMostCommon(output.invite) || '',
+                        prefix: this.getMostCommon(output.prefix) || '',
+                        website: this.getMostCommon(output.website) || '',
+                        github: this.getMostCommon(output.github) || '',
+                        support: this.getMostCommon(output.support) || '',
+                        library: this.getMostCommon(output.library) || '',
                         list_data: { ...lists } || {}
                     };
                     await this.cache.add(req.originalUrl, 300, response);

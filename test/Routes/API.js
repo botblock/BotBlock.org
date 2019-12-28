@@ -1018,6 +1018,23 @@ describe('/api/bots/:id', () => {
                     expect(res.body).to.have.property('invite');
                     expect(res.body.invite).to.be.a('string');
 
+                    expect(res.body).to.have.property('prefix');
+                    expect(res.body.prefix).to.be.a('string');
+
+                    expect(res.body).to.have.property('website');
+                    expect(res.body.website).to.be.a('string');
+                    expect(res.body.website).equal('https://altdentifier.com');
+
+                    expect(res.body).to.have.property('github');
+                    expect(res.body.github).to.be.a('string');
+
+                    expect(res.body).to.have.property('support');
+                    expect(res.body.support).to.be.a('string');
+
+                    expect(res.body).to.have.property('library');
+                    expect(res.body.library).to.be.a('string');
+                    expect(res.body.library).equal('discord.py');
+
                     expect(res.body).to.have.property('list_data');
                     expect(res.body.list_data).to.be.an('object');
 
