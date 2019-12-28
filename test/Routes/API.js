@@ -1066,6 +1066,8 @@ describe('/api/bots/:id', () => {
                 test().end((err, res) => {
                     expect(res.body).to.have.property('id', '12345678901234567890');
                     expect(res.body).to.have.property('cached', true);
+                    expect(res.body).to.have.property('cache_expires_at');
+                    expect(res.body).to.have.property('cache_expires_in');
                     done();
                 });
             });
