@@ -1,3 +1,4 @@
+const cors = require('cors');
 const BaseRoute = require('../Structure/BaseRoute');
 const Ratelimiter = require('../Structure/RateLimiter');
 const Cache = require('../Structure/Cache');
@@ -58,7 +59,7 @@ class APIRoute extends BaseRoute {
             });
         });
 
-        this.router.get('/lists', this.ratelimit.checkRatelimit(1, 1), (req, res) => {
+        this.router.get('/lists', cors(), this.ratelimit.checkRatelimit(1, 1), (req, res) => {
             const data = {};
             this.db
                 .select('id', 'api_docs', 'api_post', 'api_field', 'api_shard_id', 'api_shard_count', 'api_shards', 'api_get')
@@ -92,7 +93,7 @@ class APIRoute extends BaseRoute {
                 });
         });
 
-        this.router.get('/legacy-ids', this.ratelimit.checkRatelimit(1, 1), (req, res) => {
+        this.router.get('/legacy-ids', cors(), this.ratelimit.checkRatelimit(1, 1), (req, res) => {
             this.db
                 .select('id', 'target')
                 .from('legacy_ids')
@@ -111,7 +112,7 @@ class APIRoute extends BaseRoute {
                 });
         });
 
-        this.router.post('/count', this.ratelimit.checkRatelimit(1, 120), (req, res) => {
+        this.router.post('/count', cors(), this.ratelimit.checkRatelimit(1, 120), (req, res) => {
             if (!req.body.bot_id) return res.status(400).json({
                 error: true,
                 status: 400,
@@ -208,7 +209,7 @@ class APIRoute extends BaseRoute {
                 });
         });
 
-        this.router.get('/bots/:id', this.ratelimit.checkRatelimit(1, 30), async (req, res) => {
+        this.router.get('/bots/:id', cors(), this.ratelimit.checkRatelimit(1, 30), async (req, res) => {
             if (!isSnowflake(req.params.id)) return res.status(400).json({
                 error: true,
                 status: 400,
@@ -311,12 +312,12 @@ class APIRoute extends BaseRoute {
             });
         });
 
-        this.router.use('*', (req, res) => {
+        this.router.use('*', cors(), (req, res) => {
             res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
         });
 
 
-        this.router.use('*', (err, req, res) => {
+        this.router.use('*', cors(), (err, req, res) => {
             res.status(404).json({ error: true, status: 404, message: 'Endpoint not found' });
         });
     }
