@@ -1,2 +1,7 @@
 @import '../../node_modules/codemirror/lib/codemirror';
 @import '../../node_modules/codemirror/theme/monokai';
+
+.CodeMirror {
+  padding: 5px 10px;
+}
+
