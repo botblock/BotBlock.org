@@ -371,6 +371,156 @@ describe('/api/lists', () => {
     });
 });
 
+describe('/api/lists/:id', () => {
+    describe('GET', () => {
+        describe('Invalid request (unknown ID)', () => {
+            const test = () => ratelimitBypass(request().get('/api/lists/hello-world'));
+            it('returns a Not Found status code', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(404);
+                    done();
+                });
+            });
+            it('has a permissive CORS header', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                    done();
+                });
+            });
+            it('returns an error JSON body', done => {
+                test().end((err, res) => {
+                    expect(res).to.be.json;
+                    expect(res.body).to.have.property('error', true);
+                    expect(res.body).to.have.property('status', 404);
+                    expect(res.body).to.have.property('message', 'List not found');
+                    done();
+                });
+            });
+        });
+
+        describe('Valid request', () => {
+            let id, test;
+            before('fetch valid list id', done => {
+                db.select('id').from('lists').limit(1).then(lists => {
+                    id = lists[0].id;
+                    test = () => ratelimitBypass(request().get(`/api/lists/${id}`));
+                    done();
+                });
+            });
+            it('returns an OK status code', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+            });
+            it('has a permissive CORS header', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                    done();
+                });
+            });
+            it('returns a valid JSON body', done => {
+                test().end((err, res) => {
+                    expect(res).to.be.json;
+                    done();
+                });
+            });
+            it('has the correct list properties', done => {
+                test().end((err, res) => {
+                    const topProps = listProps.map(prop => prop.prop).filter(prop => !prop.includes('.'));
+                    topProps.forEach(prop => expect(res.body).to.have.property(prop));
+                    done();
+                });
+            });
+        });
+
+        describe('Valid request (legacy ID)', () => {
+            let id, target, test;
+            before('fetch list data', done => {
+                db.select().from('legacy_ids').limit(1).then(legacy => {
+                    id = legacy[0].id;
+                    target = legacy[0].target;
+                    test = () => ratelimitBypass(request().get(`/api/lists/${id}`));
+                    done();
+                });
+            });
+            it('returns a valid response', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.json;
+                    done();
+                });
+            });
+            it('contains the correct target id for the legacy id', done => {
+                test().end((err, res) => {
+                    expect(res.body).to.have.property('id', target);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('GET (Ratelimited)', () => {
+        const test = () => request().get('/api/lists/hello-world');
+        it('ratelimits spam requests', done => {
+            resetRatelimits().end(() => {
+                test().end(() => {
+                });
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/lists/hello-world');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '');
+                        done();
+                    });
+                }, 200);
+            });
+        });
+        it('does not ratelimit requests spaced correctly', function (done) {
+            ratelimitTest(this, 1, test, done, 404);
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => ratelimitBypass(request().post('/api/lists/hello-world'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+});
+
 describe('/api/count', () => {
     describe('GET', () => {
         const test = () => ratelimitBypass(request().get('/api/count'));
