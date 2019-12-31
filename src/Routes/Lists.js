@@ -1,7 +1,6 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const FormValidator = require('../Structure/FormValidator');
 const ListController = require('../Controllers/ListController');
-const getListFeature = require('../Util/getListFeature');
 const getListFeatures = require('../Util/getListFeatures');
 const handleError = require('../Util/handleError');
 const legacyListMap = require('../Util/legacyListMap');
