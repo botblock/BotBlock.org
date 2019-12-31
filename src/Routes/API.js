@@ -12,7 +12,7 @@ const legacyListMap = require('../Util/legacyListMap');
 const getList = require('../Util/getList');
 const listProps = require('../Util/listProps');
 const Renderer = require('../Structure/Markdown');
-const { secret } = require('../../config.js');;
+const { secret } = require('../../config.js');
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {

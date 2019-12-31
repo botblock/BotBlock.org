@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-spaces */
 module.exports = [
     { prop: 'id',                       type: 'String',             desc: 'The id of the list on BotBlock.' },
     { prop: 'added',                    type: 'Integer',            desc: 'The unix timestamp when the list was added to BotBlock.' },
@@ -28,5 +29,5 @@ module.exports = [
     { prop: 'features[].display',       type: 'Integer',            desc: 'A value used to control the order that features are listed in.' },
     { prop: 'features[].type',          type: 'Integer',            desc: 'The type that the feature is (0 = positive, 1 = neutral, 2 = bad).' },
     { prop: 'features[].description',   type: 'String',             desc: 'An optional description to explain the feature in more detail.' },
-    { prop: 'features[].value',         type: 'Integer (Boolean)',  desc: 'Whether the list is known to have this feature or not.' },
+    { prop: 'features[].value',         type: 'Integer (Boolean)',  desc: 'Whether the list is known to have this feature or not.' }
 ];
