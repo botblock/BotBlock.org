@@ -2,103 +2,129 @@
   name: Has Voting
   display: 2
   type: 0
+  description: null
 - id: 3
   name: Server Count API
   display: 0
   type: 0
+  description: null
 - id: 4
   name: Markdown Long Description
   display: 4
   type: 0
+  description: null
 - id: 5
   name: Iframe Long Description
   display: 4
   type: 0
+  description: null
 - id: 6
   name: HTML Long Description
   display: 4
   type: 0
+  description: null
 - id: 7
   name: Custom Bot Invite Link
   display: 3
   type: 0
+  description: null
 - id: 8
   name: Custom Bot Support Link
   display: 3
   type: 0
+  description: null
 - id: 9
   name: Has Categories or Tags
   display: 0
   type: 0
+  description: null
 - id: 10
   name: Has Certification Program
   display: 0
   type: 0
+  description: null
 - id: 11
   name: Has Ads on Site
   display: 5
   type: 1
+  description: null
 - id: 12
   name: Discord Bot Support Link
   display: 3
   type: 0
+  description: null
 - id: 13
   name: Custom Bot Website Link
   display: 3
   type: 0
+  description: null
 - id: 14
   name: Custom Bot Donate Link
   display: 3
   type: 0
+  description: null
 - id: 15
   name: Custom Bot GitHub Link
   display: 3
   type: 0
+  description: null
 - id: 16
   name: Voting Data Exposed
   display: 2
   type: 1
+  description: null
 - id: 17
   name: Additional Bot Owners/Editors
   display: 0
   type: 0
+  description: null
 - id: 18
   name: Certified Bot Vanity URLs
   display: 3
   type: 0
+  description: null
 - id: 19
   name: Paid Access
   display: 5
   type: 1
+  description: null
 - id: 20
   name: Vanity URLs for all
   display: 3
   type: 0
+  description: null
 - id: 21
   name: Offers Paid Promotion
   display: 5
   type: 1
+  description: null
 - id: 22
   name: Has Widget
   display: 0
   type: 0
+  description: null
 - id: 23
   name: Has Search
   display: 0
   type: 0
+  description: null
 - id: 24
   name: Votes sent to Webhooks
   display: 2
   type: 1
+  description: null
 - id: 25
   name: Requires Owner in Server
   display: 0
   type: 1
+  description: null
 - id: 26
   name: Has Mobile Support
   display: 0
   type: 0
+  description: null
 - id: 27
   name: Has Internationalisation Support
   display: 4
   type: 0
+  description: null
