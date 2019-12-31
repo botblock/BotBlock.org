@@ -1,4 +1,5 @@
 const { describe, it, expect, request, ratelimitBypass, resetRatelimits, ratelimitTest, locale, titleCheck, db } = require('../base');
+const listProps = require('../../src/Util/listProps');
 
 describe('Invalid route (/api/helloworld)', () => {
     describe('GET', () => {
@@ -255,14 +256,9 @@ describe('/api/lists', () => {
         it('has objects with correct list properties', done => {
             test().end((err, res) => {
                 const entries = Object.values(res.body);
+                const topProps = listProps.map(prop => prop.prop).filter(prop => !prop.includes('.'));
                 entries.forEach(entry => {
-                    expect(entry).to.have.property('api_docs');
-                    expect(entry).to.have.property('api_post');
-                    expect(entry).to.have.property('api_field');
-                    expect(entry).to.have.property('api_shard_id');
-                    expect(entry).to.have.property('api_shard_count');
-                    expect(entry).to.have.property('api_shards');
-                    expect(entry).to.have.property('api_get');
+                    topProps.forEach(prop => expect(entry).to.have.property(prop));
                 });
                 done();
             });
@@ -286,6 +282,19 @@ describe('/api/lists', () => {
         it('returns a valid JSON body', done => {
             test().end((err, res) => {
                 expect(res).to.be.json;
+                done();
+            });
+        });
+        it('has only API properties', done => {
+            test().end((err, res) => {
+                const entries = Object.values(res.body);
+                const topProps = listProps.map(prop => prop.prop).filter(prop => !prop.includes('.'));
+                const apiProps = topProps.filter(prop => prop.startsWith('api_'));
+                const notApiProps = topProps.filter(prop => !prop.startsWith('api_'));
+                entries.forEach(entry => {
+                    apiProps.forEach(prop => expect(entry).to.have.property(prop));
+                    notApiProps.forEach(prop => expect(entry).to.not.have.property(prop));
+                });
                 done();
             });
         });
