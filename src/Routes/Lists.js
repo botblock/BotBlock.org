@@ -493,7 +493,7 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/:id/icon', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
-                const data = getList(this.db, req.params.id);
+                const data = await getList(this.db, req.params.id);
                 if (!data) return res.status(404).render('error', {
                     title: 'Page not found',
                     status: 404,
