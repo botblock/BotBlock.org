@@ -1,0 +1,22 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 About Manager
+                a.button.is-small.is-mod(href='/about/manage/add') Add Section
+            if !sections.length
+                h3.title.is-size-3 No sections found, add one!
+            else
+                for section in sections
+                    .card.is-box-shadow
+                        .card-content
+                            .media
+                                .media-content
+                                    p.title.is-4 #{section.title}
+                                    p.subtitle.is-6 !{section.content}
+                                .media-right.button-group.button-group-vertical
+                                    a.button.is-light.is-small(href='/about/manage/' + section.id) Edit
+                                    a.button.is-light.is-small(href='/about/manage/' + section.id + '/delete') Delete

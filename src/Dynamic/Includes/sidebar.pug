@@ -49,6 +49,9 @@ aside.menu.is-box-shadow(role='navigation', aria-label='main navigation')
                         a(href='/test') Tests
                     li
                         a(href='/tasks') Tasks
+                    if user.admin
+                        li
+                            a(href='/about/manage') About Page
 
         li
             a(href='/discord', target='_blank') Discord Server

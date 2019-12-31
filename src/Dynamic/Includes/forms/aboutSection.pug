@@ -1,0 +1,26 @@
+if errors && errors.length > 0
+    .notification.is-danger
+        button.delete
+        ul
+            for error in errors
+                li #{error}
+form(method='POST')
+    .field
+        label.label(for='id') ID *
+        .control
+            input.input#id(type='text', name='id' value=data.id, readonly=!!data.id,  required)
+    .field
+        label.label(for='title') Title *
+        .control
+            input.input#title(type='text', name='title' value=data.title, required)
+    .field
+        label.label(for='position') Position *
+        .control
+            input.input#position(type='number', name='position' value=data.position, min='0', required)
+    .field
+        label.label(for='content') Content (Supports Markdown)
+        .control
+            textarea.textarea#content(name='content') #{data.content || ''}
+    .control(style='margin-top: 10px')
+        button.button.is-brand Submit
+
