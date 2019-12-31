@@ -82,6 +82,7 @@ class Client {
             let oldValue;
             let newValue;
 
+            if (key === 'features') continue;
             if (value === newEdit[key] || String(value) === String(newEdit[key])) continue;
             if (value === '' || value === null) oldValue = 'None';
             else oldValue = value;
@@ -90,6 +91,7 @@ class Client {
 
             changes.push({ key, oldValue, newValue });
         }
+        if (changes.length === 0 && addedFeatures.length === 0 && removedFeatures.length === 0) return;
         this.createMessage(config.discord.edit_log,
             ':pencil: | ' + newEdit.name + ' (' + newEdit.id +') has been edited' +
             '\n<' + config.baseURL + '/lists/' + newEdit.id + '>\n\n**Changes**:\n' +
