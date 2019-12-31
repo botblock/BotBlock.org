@@ -11,6 +11,7 @@ module.exports = async (db, id) => {
             id: feature.id,
             display: feature.display,
             type: feature.type,
+            description: feature.description,
             value: feature.id in map ? map[feature.id] : 0
         };
     }).sort((a, b) => {

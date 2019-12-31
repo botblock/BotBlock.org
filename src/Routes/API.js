@@ -10,8 +10,9 @@ const isSnowflake = require('../Util/isSnowflake');
 const { slugify, librarySlug } = require('../Util/slugs');
 const legacyListMap = require('../Util/legacyListMap');
 const getList = require('../Util/getList');
+const listProps = require('../Util/listProps');
 const Renderer = require('../Structure/Markdown');
-const { secret } = require('../../config.js');
+const { secret } = require('../../config.js');;
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {
@@ -36,7 +37,7 @@ class APIRoute extends BaseRoute {
                 .whereNot({ api_field: '' }).whereNot({ api_field: null })
                 .orderBy([{ column: 'discord_only', order: 'desc' }, { column: 'id', order: 'asc' }])
                 .then((lists) => {
-                    res.render('api/docs', { title: 'API Docs', lists, ip: req.ip });
+                    res.render('api/docs', { title: 'API Docs', lists, ip: req.ip, listProps });
                 })
                 .catch((e) => {
                     handleError(this.db, req, res, e.stack);
@@ -70,18 +71,16 @@ class APIRoute extends BaseRoute {
                 if (!lists) return res.status(200).json({});
                 const data = {};
                 for (let i = 0; i < lists.length; i++) {
-                    const id = lists[i].id;
-                    delete lists[i].id;
                     // If filtering: Only present API values, drop if all values are null or defunct
                     if (req.query.filter === 'true') {
                         if (lists[i].defunct) continue;
                         const apiEntries = Object.entries(lists[i]).filter(data => data[0].startsWith('api_'));
                         if (apiEntries.filter(data => data[1] !== null).length === 0) continue;
-                        data[id] = {
+                        data[lists[i].id] = {
                             ...Object.fromEntries(apiEntries)
                         };
                     } else {
-                        data[id] = {
+                        data[lists[i].id] = {
                             ...lists[i]
                         };
                     }
