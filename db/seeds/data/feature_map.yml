@@ -319,6 +319,54 @@
 - list: carbonitex.net
   feature: 26
   value: 1
+- list: cloud-botlist.xyz
+  feature: 2
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 3
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 4
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 5
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 6
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 10
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 11
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 12
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 13
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 15
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 16
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 17
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 18
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 23
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 24
+  value: 1
+- list: cloud-botlist.xyz
+  feature: 25
+  value: 1
 - list: dankbotlist.com
   feature: 26
   value: 1
@@ -357,6 +405,9 @@
   value: 1
 - list: discord.boats
   feature: 13
+  value: 1
+- list: discord.boats
+  feature: 14
   value: 1
 - list: discord.boats
   feature: 15
@@ -826,69 +877,6 @@
 - list: discordbots.group
   feature: 26
   value: 1
-- list: discordbots.org
-  feature: 2
-  value: 1
-- list: discordbots.org
-  feature: 3
-  value: 1
-- list: discordbots.org
-  feature: 4
-  value: 1
-- list: discordbots.org
-  feature: 5
-  value: 1
-- list: discordbots.org
-  feature: 6
-  value: 1
-- list: discordbots.org
-  feature: 7
-  value: 1
-- list: discordbots.org
-  feature: 9
-  value: 1
-- list: discordbots.org
-  feature: 10
-  value: 1
-- list: discordbots.org
-  feature: 11
-  value: 1
-- list: discordbots.org
-  feature: 12
-  value: 1
-- list: discordbots.org
-  feature: 13
-  value: 1
-- list: discordbots.org
-  feature: 15
-  value: 1
-- list: discordbots.org
-  feature: 16
-  value: 1
-- list: discordbots.org
-  feature: 17
-  value: 1
-- list: discordbots.org
-  feature: 18
-  value: 1
-- list: discordbots.org
-  feature: 21
-  value: 1
-- list: discordbots.org
-  feature: 22
-  value: 1
-- list: discordbots.org
-  feature: 23
-  value: 1
-- list: discordbots.org
-  feature: 24
-  value: 1
-- list: discordbots.org
-  feature: 25
-  value: 1
-- list: discordbots.org
-  feature: 26
-  value: 1
 - list: discordbotsclub.org
   feature: 12
   value: 1
@@ -1069,6 +1057,42 @@
 - list: divinediscordbots.com
   feature: 26
   value: 1
+- list: glennbotlist.xyz
+  feature: 2
+  value: 1
+- list: glennbotlist.xyz
+  feature: 5
+  value: 1
+- list: glennbotlist.xyz
+  feature: 6
+  value: 1
+- list: glennbotlist.xyz
+  feature: 9
+  value: 1
+- list: glennbotlist.xyz
+  feature: 10
+  value: 1
+- list: glennbotlist.xyz
+  feature: 11
+  value: 1
+- list: glennbotlist.xyz
+  feature: 13
+  value: 1
+- list: glennbotlist.xyz
+  feature: 15
+  value: 1
+- list: glennbotlist.xyz
+  feature: 17
+  value: 1
+- list: glennbotlist.xyz
+  feature: 18
+  value: 1
+- list: glennbotlist.xyz
+  feature: 23
+  value: 1
+- list: glennbotlist.xyz
+  feature: 25
+  value: 1
 - list: ie.discordbots.co.uk
   feature: 7
   value: 1
@@ -1184,6 +1208,69 @@
   feature: 23
   value: 1
 - list: thereisabotforthat.com
+  feature: 26
+  value: 1
+- list: top.gg
+  feature: 2
+  value: 1
+- list: top.gg
+  feature: 3
+  value: 1
+- list: top.gg
+  feature: 4
+  value: 1
+- list: top.gg
+  feature: 5
+  value: 1
+- list: top.gg
+  feature: 6
+  value: 1
+- list: top.gg
+  feature: 7
+  value: 1
+- list: top.gg
+  feature: 9
+  value: 1
+- list: top.gg
+  feature: 10
+  value: 1
+- list: top.gg
+  feature: 11
+  value: 1
+- list: top.gg
+  feature: 12
+  value: 1
+- list: top.gg
+  feature: 13
+  value: 1
+- list: top.gg
+  feature: 15
+  value: 1
+- list: top.gg
+  feature: 16
+  value: 1
+- list: top.gg
+  feature: 17
+  value: 1
+- list: top.gg
+  feature: 18
+  value: 1
+- list: top.gg
+  feature: 21
+  value: 1
+- list: top.gg
+  feature: 22
+  value: 1
+- list: top.gg
+  feature: 23
+  value: 1
+- list: top.gg
+  feature: 24
+  value: 1
+- list: top.gg
+  feature: 25
+  value: 1
+- list: top.gg
   feature: 26
   value: 1
 - list: wonderbotlist.com

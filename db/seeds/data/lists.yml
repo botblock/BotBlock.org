@@ -27,7 +27,7 @@
   url: https://boatlist.ml/
   icon: https://cdn.discordapp.com/icons/425727209873997845/93665eebf1ef572917ec0e4c66be88ad.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -51,7 +51,7 @@
   url: https://boatlist.xyz/
   icon: https://cdn.discordapp.com/icons/446685480046559232/b573d1c1f4ea5fea1888865521a372ad.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -147,7 +147,7 @@
   display: 1
   defunct: 0
   discord_only: 1
-  description: null
+  description: Easily find and share Discord bots
   api_docs: https://bots.ondiscord.xyz/info/api
   api_post: https://bots.ondiscord.xyz/bot-api/bots/:id/guilds
   api_field: guildCount
@@ -165,7 +165,7 @@
   added: 1532965633
   name: Bots for Discord
   url: https://botsfordiscord.com/
-  icon: https://cdn.discordapp.com/icons/374071874222686211/02b1428f9fc8025bd331a64d7abf15cc.png
+  icon: https://cdn.discordapp.com/icons/374071874222686211/a_8bd03081c55e1c785f350806872edb2f.png
   language: English
   display: 1
   defunct: 0
@@ -230,6 +230,30 @@
   content: null
   owners: Carbonitex [Matt]#0001 (68396159596503040), jet#9999 (228290260239515649)
   discord: https://discord.gg/J2evbZB
+- id: cloud-botlist.xyz
+  added: 1577741636
+  name: Cloud Botlist
+  url: https://cloud-botlist.xyz/
+  icon: https://cdn.discordapp.com/icons/596854473167470594/2fcb2834c99643f3204f5da820934cfa.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://apollos.gitbook.io/cloud-botlist/
+  api_post: https://cloud-botlist.xyz/api/bots/:id
+  api_field: guilds
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: https://cloud-botlist.xyz/api/bots/:id
+  api_all: null
+  view_bot: https://cloud-botlist.xyz/bots/:id
+  bot_widget: null
+  content: null
+  owners: "Apollo#0549(652998840412274688), Kloptoe#6627(382697228667715584), R C N
+    #0001 (188418994527535104)"
+  discord: https://discord.gg/u3NG7pp
 - id: dankbotlist.com
   added: 1535201716
   name: Dank Bot List
@@ -262,7 +286,9 @@
   display: 1
   defunct: 0
   discord_only: 1
-  description: null
+  description: A growing directory of Discord bots to enhance your server - Find the
+    perfect bot for your needs and add it to your server easily, quickly and for
+    free.
   api_docs: https://discord.boats/api/docs
   api_post: https://discord.boats/api/bot/:id
   api_field: server_count
@@ -398,7 +424,7 @@
   url: https://discordbotindex.com/
   icon: https://cdn.discordapp.com/icons/482922868410417163/bcb70a74c152d82021a9421d55bc3ec3.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -423,7 +449,7 @@
   url: https://discordbotlabs.com/
   icon: https://cdn.discordapp.com/icons/481702435644112906/57d7a0a85a4191e6741ebae4f9d122ab.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -461,8 +487,8 @@
   view_bot: https://discordbotlist.com/bots/:id
   bot_widget: https://discordbotlist.com/bots/:id/widget
   content: null
-  owners: OverCoder#3696 (151319592453537793), thewsomeguy#0001 (80821761460928512),
-    luke#0123 (149505704569339904)
+  owners: OverCoder#3696 (151319592453537793), Fen#0003 (80821761460928512), luke#0123
+    (149505704569339904)
   discord: https://discord.gg/cc7Y4jX
 - id: discordbotlist.xyz
   added: 1535900109
@@ -470,7 +496,7 @@
   url: https://discordbotlist.xyz/
   icon: https://cdn.discordapp.com/icons/477792727577395210/56f3ce1fab0a93db5d8366a442206f94.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -489,14 +515,14 @@
   owners: Ankrad#0597 (297403616468140032)
   discord: https://discord.gg/PA9EYba
 - id: discordbotreviews.xyz
-  added: 1542199675
+  added: 1575135448
   name: Discord Bot Reviews
   url: https://discordbotreviews.xyz/
   icon: https://cdn.discordapp.com/icons/500658335217876997/a8559d6300d109356adecbb31ecf5112.png
   language: English
-  display: 1
+  display: 0
   defunct: 0
-  discord_only: 1
+  discord_only: 0
   description: null
   api_docs: https://discordbotreviews.xyz/api/docs
   api_post: https://discordbotreviews.xyz/api/bot/:id/stats
@@ -509,8 +535,7 @@
   view_bot: https://discordbotreviews.xyz/bot/:id
   bot_widget: https://discordbotreviews.xyz/api/widget/:id.png
   content: null
-  owners: RaZeFeiXX#8200 (469716275786940416), SuperNiintendo#3700
-    (432400084706131989), Deni#0274 (324920582665928727)
+  owners: Tazhys#2004 (622890595614195722), (626902605905395732)
   discord: https://discord.gg/A2BYrj8
 - id: discordbots.co.uk
   added: 1532965633
@@ -581,43 +606,13 @@
   content: null
   owners: DetectiveHuman#1234 (449653897695461376)
   discord: https://discord.gg/9jJtKRc
-- id: top.gg
-  added: 1532965633
-  name: Discord Bot List
-  url: https://top.gg/
-  icon: https://cdn.discordapp.com/icons/264445053596991498/a_eadf00405ab375668c76da10ee95f646.png
-  language: English
-  display: 1
-  defunct: 0
-  discord_only: 1
-  description: null
-  api_docs: https://top.gg/api/docs
-  api_post: https://top.gg/api/bots/:id/stats
-  api_field: server_count
-  api_shard_id: shard_id
-  api_shard_count: shard_count
-  api_shards: shards
-  api_get: https://top.gg/api/bots/:id
-  api_all: null
-  view_bot: https://top.gg/bot/:id
-  bot_widget: https://top.gg/api/widget/:id.svg
-  content: "Update: As this project is now being run by a new team and hosted from a
-    new server, we are testing enabling server count posting again.\r
-
-    \r
-
-    This list has been removed from the BotBlock API due to their continued
-    attempts to block BotBlock as a service and their recent change to require
-    authentication on all endpoints."
-  owners: Tonkku#0950 (95579865788456960), Oliy#0330 (129908908096487424)
-  discord: https://discord.gg/EYHTgJX
 - id: discordbotsclub.org
   added: 1547410924
   name: Discord Bots Club
   url: https://discordbotsclub.org/
   icon: https://cdn.discordapp.com/icons/524681874732220418/c67ea64bcbd7a6882e3882c3b950f333.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -643,19 +638,20 @@
   display: 1
   defunct: 0
   discord_only: 1
-  description: null
+  description: Discord's unbiased list, giving small bots and small servers a big chance!
   api_docs: https://docs.discordextremelist.xyz
-  api_post: https://discordextremelist.xyz/api/bot/:id
+  api_post: https://api.discordextremelist.xyz/v1/bot/:id
   api_field: guildCount
   api_shard_id: null
   api_shard_count: null
   api_shards: null
-  api_get: https://discordextremelist.xyz/api/bot/:id
+  api_get: https://api.discordextremelist.xyz/v1/bot/:id
   api_all: null
   view_bot: https://discordextremelist.xyz/bots/:id
-  bot_widget: https://discordextremelist.xyz/api /bot/:id/widget
+  bot_widget: https://api.discordextremelist.xyz/v1/bot/:id/widget
   content: null
-  owners: SpookyCairo#2010 (208105877838888960)
+  owners: Cairo#0001 (208105877838888960), advaith#9121 (190916650143318016), Ice#4710
+    (302604426781261824)
   discord: https://discord.gg/WeCer3J
 - id: discordmusicbots.com
   added: 1533208489
@@ -663,7 +659,7 @@
   url: https://www.discordmusicbots.com/
   icon: https://www.discordmusicbots.com/logo.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -684,7 +680,7 @@
   added: 1535199589
   name: Discord's Best Bots
   url: https://discordsbestbots.xyz/
-  icon: https://cdn.discordapp.com/icons/446682534135201793/a_fdd042272a96f695ce1eac0ff65a57a4.png
+  icon: https://cdn.discordapp.com/icons/446682534135201793/1f2560bd620a03b4f8f0759d5b5ae62a.png
   language: English
   display: 1
   defunct: 0
@@ -728,13 +724,36 @@
   owners: Sworder#0001 (240508683455299584), Samuel || TutoRapide#1868
     (137569112556699649)
   discord: https://discord.gg/8b2YahE
+- id: glennbotlist.xyz
+  added: 1577741047
+  name: Glenn Bot List
+  url: https://glennbotlist.xyz
+  icon: https://cdn.discordapp.com/icons/623600255987875870/0811ea4b6bf88892ad3251569e1df9ab.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: null
+  api_post: null
+  api_field: null
+  api_shard_id: null
+  api_shard_count: null
+  api_shards: null
+  api_get: null
+  api_all: null
+  view_bot: https://glennbotlist.xyz/bot/:id
+  bot_widget: null
+  content: null
+  owners: Jack Glenn#0806 (259649217255964672), DieselJS#1689 (414713250832449536)
+  discord: https://discord.gg/QeaNNRW
 - id: ie.discordbots.co.uk
   added: 1544548984
   name: Discord Fork for Internet Explorer 6
   url: http://ie.discordbots.co.uk/
   icon: https://cdn.discordapp.com/icons/330777295952543744/29bdc1cebfd41de2db5e615ffb86bece.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -760,7 +779,7 @@
   display: 1
   defunct: 0
   discord_only: 1
-  description: null
+  description: A bot listing website that loves NSFW
   api_docs: https://lbots.org/api/docs
   api_post: https://lbots.org/api/v1/bots/:id/stats
   api_field: guild_count
@@ -780,7 +799,7 @@
   url: https://listcord.com/
   icon: https://cdn.discordapp.com/icons/459854572534366208/56c33fd9fdf5879bed723e6b9bc88198.png
   language: English
-  display: 0
+  display: 1
   defunct: 1
   discord_only: 1
   description: null
@@ -843,6 +862,36 @@
   content: null
   owners: null
   discord: null
+- id: top.gg
+  added: 1532965633
+  name: Discord Bot List
+  url: https://top.gg/
+  icon: https://cdn.discordapp.com/icons/264445053596991498/a_eadf00405ab375668c76da10ee95f646.png
+  language: English
+  display: 1
+  defunct: 0
+  discord_only: 1
+  description: null
+  api_docs: https://top.gg/api/docs
+  api_post: https://top.gg/api/bots/:id/stats
+  api_field: server_count
+  api_shard_id: shard_id
+  api_shard_count: shard_count
+  api_shards: shards
+  api_get: https://top.gg/api/bots/:id
+  api_all: null
+  view_bot: https://top.gg/bot/:id
+  bot_widget: https://top.gg/api/widget/:id.svg
+  content: "Update: As this project is now being run by a new team and hosted from a
+    new server, we are testing enabling server count posting again.\r
+
+    \r
+
+    This list has been removed from the BotBlock API due to their continued
+    attempts to block BotBlock as a service and their recent change to require
+    authentication on all endpoints."
+  owners: Tonkku#0950 (95579865788456960), Oliy#0330 (129908908096487424)
+  discord: https://discord.gg/EYHTgJX
 - id: wonderbotlist.com
   added: 1533208489
   name: Wonder Bot List
