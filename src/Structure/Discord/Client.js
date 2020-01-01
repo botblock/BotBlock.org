@@ -74,12 +74,10 @@ class Client {
     }
 
     /* BotBlock Functions */
-    updateEditLog(oldEdit, newEdit, addedFeatures = [], oldFeatures = []) {
+    updateEditLog(oldEdit, newEdit, addedFeatures = [], removedFeatures = []) {
         if (!config.discord.notifications) return;
         if (!oldEdit || !newEdit) return;
         let changes = [];
-        let newFeatures = [];
-        let removedFeatures = [];
         for (const [key, value] of Object.entries(oldEdit)) {
             let oldValue;
             let newValue;
@@ -92,27 +90,14 @@ class Client {
 
             changes.push({ key, oldValue, newValue });
         }
-        if (addedFeatures.length > 0) {
-            for (const feature of addedFeatures) {
-                if (!feature) continue;
-                if (oldFeatures.filter((f) => f && f.id === feature.id).length > 0) continue;
-                newFeatures.push(feature);
-            }
-        }
-
-        if (oldFeatures.length > 0) {
-            for (const feature of oldFeatures) {
-                if (!feature) continue;
-                if (addedFeatures.filter((f) => f && f.id === feature.id).length > 0) continue;
-                removedFeatures.push(feature);
-            }
-        }
         this.createMessage(config.discord.edit_log,
             ':pencil: | ' + newEdit.name + ' (' + newEdit.id +') has been edited' +
             '\n<' + config.baseURL + '/lists/' + newEdit.id + '>\n\n**Changes**:\n' +
-            (changes.length > 0 ? changes.map((c) => '*' + c.key + '*: `' + c.oldValue + '` → `' + c.newValue + '`').join('\n') : 'Nothing has been changed...')
-            + (newFeatures.length > 0 ? '\n\n*Added Features*: ' + newFeatures.map((c) => c.name).join(', ') : '')
-            + (removedFeatures.length > 0 ? '\n\n*Removed Features*: ' + removedFeatures.map((c) => c.name).join(', ') : '')
+            (changes.length > 0
+                ? changes.map((c) => '*' + c.key + '*: `' + c.oldValue + '` → `' + c.newValue + '`').join('\n') + '\n\n'
+                : addedFeatures.length || removedFeatures.length ? '' : 'Nothing has been changed...')
+            + (addedFeatures.length > 0 ? '*Added Features*: ' + addedFeatures.map((c) => c.name).join(', ') + '\n\n': '')
+            + (removedFeatures.length > 0 ? '*Removed Features*: ' + removedFeatures.map((c) => c.name).join(', ') + '\n\n' : '')
         ).catch(() => console.error('[Discord] Failed to send to edit log.'));
     }
 

@@ -21,32 +21,45 @@ module.exports = class ListController {
                 }
                 let oldFeatures = [];
                 let addedFeatures = [];
+                let removedFeatures = [];
                 if (edit) {
                     oldFeatures = await this.db.select().from('feature_map').where({
                         list: data.id,
                         value: true
                     });
-                    await this.db('feature_map').where({ list: data.id }).del();
+                }
+                const features = Object.entries(data).filter((f) => f[0].substring(0, 8) === 'feature_').map((f) => {
+                    f[0] = f[0].replace('feature_', '');
+                    return f;
+                });
+                for (const [key, value] of features) {
+                    const exists = oldFeatures.find((f) => f.feature === Number(key));
+                    if (exists) continue;
+                    await this.db('feature_map').insert({
+                        list: validation.id,
+                        feature: key,
+                        value: value === 'on'
+                    });
+                    addedFeatures.push(Number(key));
+                }
+                for (const oldFeature of oldFeatures) {
+                    const feature = features.find((f) => f.find((f) => Number(f[0]) === oldFeature.feature));
+                    if (!feature) {
+                        await this.db('feature_map').where({ feature: oldFeature.feature }).del();
+                        removedFeatures.push(oldFeature.feature);
+                    }
                 }
                 for (let [key, value] of Object.entries(data)) {
                     if (key.substring(0, 8) === 'feature_') {
                         key = key.replace('feature_', '');
                         value = value === 'on';
-                        await this.db('feature_map').insert({
-                            list: validation.id,
-                            feature: key,
-                            value
-                        });
-                        if (edit && value) {
-                            addedFeatures.push(Number(key));
-                        }
                     }
                 }
                 if (edit) this.client.updateEditLog(
                     list,
                     validation,
-                    await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
-                    await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
+                    await Promise.all(addedFeatures.map((f) => getListFeature(this.db, f))),
+                    await Promise.all(removedFeatures.map((f) => getListFeature(this.db, f)))
                 );
                 require('../Util/updateListMessage')(this.client, this.db, validation, data.id);
                 resolve(validation);
