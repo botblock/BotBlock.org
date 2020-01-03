@@ -28,7 +28,7 @@ module.exports = class ListController {
                         value: true
                     });
                 }
-                const features = Object.entries(data).filter((f) => f[0].substring(0, 8) === 'feature_').map((f) => {
+                const features = Object.entries(data).filter((f) => f[0].startsWith('feature_')).map((f) => {
                     f[0] = f[0].replace('feature_', '');
                     return f;
                 });
@@ -43,14 +43,14 @@ module.exports = class ListController {
                     addedFeatures.push(Number(key));
                 }
                 for (const oldFeature of oldFeatures) {
-                    const feature = features.find((f) => f.find((f) => Number(f[0]) === oldFeature.feature));
+                    const feature = features.find((feature) => feature.find((f) => Number(f[0]) === oldFeature.feature));
                     if (!feature) {
                         await this.db('feature_map').where({ feature: oldFeature.feature }).del();
                         removedFeatures.push(oldFeature.feature);
                     }
                 }
                 for (let [key, value] of Object.entries(data)) {
-                    if (key.substring(0, 8) === 'feature_') {
+                    if (key.startsWith('feature_')) {
                         key = key.replace('feature_', '');
                         value = value === 'on';
                     }
