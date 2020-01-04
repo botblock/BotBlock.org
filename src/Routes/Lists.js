@@ -1,6 +1,6 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const FormValidator = require('../Structure/FormValidator');
-const getListFeature = require('../Util/getListFeature');
+const ListController = require('../Controllers/ListController');
 const getListFeatures = require('../Util/getListFeatures');
 const handleError = require('../Util/handleError');
 const legacyListMap = require('../Util/legacyListMap');
@@ -12,6 +12,7 @@ class ListsRoute extends BaseRoute {
         this.client = client;
         this.db = db;
         this.routes();
+        this.listController = new ListController(this.client, this.db);
     }
 
     footerData() {
@@ -357,38 +358,15 @@ class ListsRoute extends BaseRoute {
                     { column: 'display', order: 'desc' },
                     { column: 'name', order: 'asc' }
                 ]);
-                const validate = FormValidator.validateList('', req.body, res.locals.user, false);
-                if (validate && validate.length > 0) return res.render('lists/edit', {
-                    title: 'Add List ',
+                const handle = await this.listController.handle(req.body, res.locals.user);
+                if (Array.isArray(handle)) return res.render('lists/edit', {
+                    title: 'Add List',
                     edit: false,
                     checkboxes: features,
                     interactiveCheckboxes: true,
                     data: req.body,
-                    errors: validate
+                    errors: handle
                 });
-                const columns = Object.keys(await this.db('lists').columnInfo());
-                let changes = {};
-                for (const column of columns) {
-                    if (req.body[column]) {
-                        changes[column] = req.body[column];
-                    } else {
-                        changes[column] = null;
-                    }
-                }
-                changes['added'] = Date.now() / 1000;
-                await this.db('lists').insert(changes);
-                for (let [key, value] of Object.entries(req.body)) {
-                    if (key.substring(0, 8) === 'feature_') {
-                        key = key.replace('feature_', '');
-                        value = value === 'on';
-                        await this.db('feature_map').insert({
-                            list: changes.id,
-                            feature: key,
-                            value
-                        });
-                    }
-                }
-                require('../Util/updateListMessage')(this.client, this.db, req.body, req.body.id);
                 res.redirect('/lists/' + req.body.id);
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
@@ -501,56 +479,18 @@ class ListsRoute extends BaseRoute {
                             message: 'The page you were looking for could not be found.'
                         });
                         getListFeatures(this.db, lists[0].id).then(async (features) => {
-                            const validate = FormValidator.validateList(id, req.body, res.locals.user);
-                            let changes = {};
-                            let addedFeatures = [];
-                            if (validate && validate.length > 0) return res.render('lists/edit', {
-                                title: 'Edit ' + lists[0].id,
-                                data: lists[0],
-                                checkboxes: features,
-                                edit: true,
-                                hideUncheckedBoxes: false,
-                                interactiveCheckboxes: true,
-                                errors: validate
-                            });
                             try {
-                                const columns = Object.keys(await this.db('lists').columnInfo());
-                                for (const column of columns) {
-                                    if (req.body[column]) {
-                                        changes[column] = req.body[column];
-                                    } else {
-                                        changes[column] = null;
-                                    }
-                                }
-                                changes['added'] = lists[0].added;
-                                await this.db('lists').where({ id }).update(changes);
-                                const oldFeatures = await this.db.select().from('feature_map').where({
-                                    list: id,
-                                    value: true
+                                const handle = await this.listController.handle(req.body, res.locals.user, true, lists[0]);
+                                if (Array.isArray(handle)) return res.render('lists/edit', {
+                                    title: 'Edit ' + lists[0].id,
+                                    data: lists[0],
+                                    checkboxes: features,
+                                    edit: true,
+                                    hideUncheckedBoxes: false,
+                                    interactiveCheckboxes: true,
+                                    errors: handle
                                 });
-                                await this.db('feature_map').where({ list: id }).del();
-                                for (let [key, value] of Object.entries(req.body)) {
-                                    if (key.substring(0, 8) === 'feature_') {
-                                        key = key.replace('feature_', '');
-                                        value = value === 'on';
-                                        await this.db('feature_map').insert({
-                                            list: changes.id,
-                                            feature: key,
-                                            value
-                                        });
-                                        if (value) {
-                                            addedFeatures.push(Number(key));
-                                        }
-                                    }
-                                }
-                                this.client.updateEditLog(
-                                    lists[0],
-                                    changes,
-                                    await Promise.all(addedFeatures.map((f) => getListFeature(this.db, Number(f)))),
-                                    await Promise.all(oldFeatures.map((f) => getListFeature(this.db, Number(f.feature))))
-                                );
-                                require('../Util/updateListMessage')(this.client, this.db, changes, id);
-                                res.redirect('/lists/' + changes.id);
+                                res.redirect('/lists/' + handle.id);
                             } catch (e) {
                                 handleError(this.db, req, res, e.stack);
                             }
