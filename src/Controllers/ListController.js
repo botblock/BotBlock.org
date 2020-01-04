@@ -43,7 +43,7 @@ module.exports = class ListController {
                     addedFeatures.push(Number(key));
                 }
                 for (const oldFeature of oldFeatures) {
-                    const feature = features.find((feature) => feature.find((f) => Number(f[0]) === oldFeature.feature));
+                    const feature = features.find((f) => Number(f[0]) === oldFeature.feature && (f[1] === true || f[1] === 'on'));
                     if (!feature) {
                         await this.db('feature_map').where({ feature: oldFeature.feature }).del();
                         removedFeatures.push(oldFeature.feature);
