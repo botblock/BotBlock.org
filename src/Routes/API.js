@@ -1,6 +1,6 @@
 const cors = require('cors');
 const BaseRoute = require('../Structure/BaseRoute');
-const Ratelimiter = require('../Structure/RateLimiter');
+const Ratelimiter = require('../Middleware/RateLimiter');
 const Cache = require('../Structure/Cache');
 const handleError = require('../Util/handleError');
 const handleServerCount = require('../Util/handleServerCount');
