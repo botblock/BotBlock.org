@@ -860,7 +860,7 @@ describe('/api/count', () => {
                 }, 200);
             });
         });
-        it.skip('does not use invalid bot ID in ratelimit', done => { // TODO: this test needs fixing
+        it('does not use invalid bot ID in ratelimit', done => {
             const test = () => request().post('/api/count').send({
                 bot_id: 12345
             });

@@ -18,12 +18,13 @@ class RateLimiter {
             if (ratelimitBypass === secret) return next();
 
             // Ratelimit as normal
-            if (req.body.bot_id && !bot) bot = req.body.bot_id;
-            if (typeof bot !== 'string' || !isSnowflake(bot)) bot = '';
+            let bot_id = bot;
+            if (req.body.bot_id && !bot_id) bot_id = req.body.bot_id;
+            if (typeof bot_id !== 'string' || !isSnowflake(bot_id)) bot_id = '';
             try {
                 const recent = await this.db.select().from('ratelimit').where({
                     ip: req.ip,
-                    bot_id: bot,
+                    bot_id,
                     route: req.originalUrl
                 }).orderBy('datetime', 'desc');
 
@@ -36,7 +37,7 @@ class RateLimiter {
                     res.set('X-Rate-Limit-Reset', reset);
                     res.set('X-Rate-Limit-IP', req.ip);
                     res.set('X-Rate-Limit-Route', req.originalUrl);
-                    res.set('X-Rate-Limit-Bot-ID', bot);
+                    res.set('X-Rate-Limit-Bot-ID', bot_id);
 
                     return res.status(429).json({
                         error: true,
@@ -46,13 +47,13 @@ class RateLimiter {
                         timestamp: Math.round(Date.now() / 1000),
                         ratelimit_ip: req.ip,
                         ratelimit_route: req.originalUrl,
-                        ratelimit_bot_id: bot
+                        ratelimit_bot_id: bot_id
                     });
                 }
 
                 await this.db('ratelimit').insert({
                     ip: req.ip,
-                    bot_id: bot,
+                    bot_id,
                     route: req.originalUrl,
                     datetime: Date.now(),
                     expiry: Date.now() + timeLimit * 1000
