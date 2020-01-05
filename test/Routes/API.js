@@ -112,8 +112,15 @@ describe('/api/docs', () => {
         });
         it('renders the lists docs', done => {
             test().end((err, res) => {
-                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="lists">Get all lists\' API details');
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="lists">Get all lists\' details');
                 expect(res.text).to.include('<code>GET /api/lists</code>');
+                done();
+            });
+        });
+        it('renders the list docs', done => {
+            test().end((err, res) => {
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="list">Get a list\'s details');
+                expect(res.text).to.include('<code>GET /api/lists/:id</code>');
                 done();
             });
         });
@@ -128,6 +135,13 @@ describe('/api/docs', () => {
             test().end((err, res) => {
                 expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="ratelimits">Ratelimits');
                 expect(res.text).to.include('<code>HTTP Status: 429 Too Many Requests</code>');
+                done();
+            });
+        });
+        it('renders the cache docs', done => {
+            test().end((err, res) => {
+                expect(res.text).to.include('<h1 class="is-size-4 has-text-grey-lighter" id="cache">Cache');
+                expect(res.text).to.include('<h5 class="is-size-5">Cached Endpoints</h5>');
                 done();
             });
         });
