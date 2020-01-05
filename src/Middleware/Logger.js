@@ -5,7 +5,7 @@ class Logger {
 
     async purge() {
         await this.db('requests')
-            .where('datetime', '<', (Date.now() / 1000) - (24 * 3600))
+            .where('datetime', '<', Date.now() / 1000 - 24 * 3600)
             .del();
     }
 
@@ -44,6 +44,8 @@ class Logger {
             defaultWrite.apply(res, restArgs);
         };
 
+        // Nothing else will touch res.end so this won't be a race condition ever
+        // eslint-disable-next-line require-atomic-updates
         res.end = async (...restArgs) => {
             if (restArgs[0]) chunks.push(new Buffer(restArgs[0]));
             const body = Buffer.concat(chunks).toString('utf8');
