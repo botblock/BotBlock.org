@@ -8,6 +8,7 @@ const schedule = require('node-schedule');
 const fs = require('fs');
 const path = require('path');
 const config = require('../config');
+const Logger = require('./Middleware/Logger');
 
 class Website {
     constructor(options) {
@@ -50,6 +51,8 @@ class Website {
             console.log('[' + req.method + '] ' + req.path + ' (' + req.ip + ')');
             next();
         });
+        const logger = new Logger(this.db);
+        this.app.use(logger.logger());
         await this.loadRoutes(path.join(__dirname, 'Routes'));
         await this.loadJobs(path.join(__dirname, 'Jobs'));
         this.app.use(require('express-minify')());
