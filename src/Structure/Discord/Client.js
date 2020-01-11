@@ -135,7 +135,7 @@ class Client {
         }
         this.createMessage(config.discord.edit_log, ':pencil2: | ' +
             (!newFeature ? 'Feature **__' + oldFeature.name + '__** has been deleted.' : (!oldFeature ? 'A feature has been added.' : 'Feature **__' + newFeature.name + '__** has been edited') +
-            '\n<' + config.baseURL + '/lists/features/' + newFeature.id + '>\n\n**Changes**:\n' +
+            '\n<' + config.baseURL + '/lists/features/' + (newFeature.id ? newFeature.id : oldFeature.id) + '>\n\n**Changes**:\n' +
             (changes.length > 0 ? changes.map((c) => '*' + c.key + '*: `' + c.oldValue + '` → `' + c.newValue + '`').join('\n') : 'Nothing has been changed...'))
         ).catch(() => console.error('[Discord] Failed to send to edit log.'));
     }
