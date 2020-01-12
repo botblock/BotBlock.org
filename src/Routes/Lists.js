@@ -178,7 +178,7 @@ class ListsRoute extends BaseRoute {
                     data: req.body,
                     errors: handle
                 });
-                res.redirect('/lists/features/' + handle.id);
+                res.redirect('/features/manage');
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
             }
