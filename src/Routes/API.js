@@ -76,9 +76,10 @@ class APIRoute extends BaseRoute {
                         if (lists[i].defunct) continue;
                         const apiEntries = Object.entries(lists[i]).filter(data => data[0].startsWith('api_'));
                         if (apiEntries.filter(data => data[1] !== null).length === 0) continue;
-                        data[lists[i].id] = {
-                            ...Object.fromEntries(apiEntries)
-                        };
+                        data[lists[i].id] = apiEntries.reduce((obj, [key, val]) => {
+                            obj[key] = val;
+                            return obj;
+                        }, {});
                     } else {
                         data[lists[i].id] = {
                             ...lists[i]
@@ -109,7 +110,7 @@ class APIRoute extends BaseRoute {
                     { column: 'id', order: 'desc' }
                 ])
                 .then((legacy) => {
-                    const data = legacy.reduce(function(result, item) {
+                    const data = legacy.reduce(function (result, item) {
                         result[item.id] = item.target;
                         return result;
                     }, {});
