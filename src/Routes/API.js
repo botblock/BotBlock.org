@@ -9,6 +9,8 @@ const getUserAgent = require('../Util/getUserAgent');
 const isSnowflake = require('../Util/isSnowflake');
 const { slugify, librarySlug } = require('../Util/slugs');
 const legacyListMap = require('../Util/legacyListMap');
+const getList = require('../Util/getList');
+const listProps = require('../Util/listProps');
 const Renderer = require('../Structure/Markdown');
 const { secret } = require('../../config.js');
 
@@ -35,7 +37,7 @@ class APIRoute extends BaseRoute {
                 .whereNot({ api_field: '' }).whereNot({ api_field: null })
                 .orderBy([{ column: 'discord_only', order: 'desc' }, { column: 'id', order: 'asc' }])
                 .then((lists) => {
-                    res.render('api/docs', { title: 'API Docs', lists, ip: req.ip });
+                    res.render('api/docs', { title: 'API Docs', lists, ip: req.ip, listProps });
                 })
                 .catch((e) => {
                     handleError(this.db, req, res, e.stack);
@@ -59,38 +61,45 @@ class APIRoute extends BaseRoute {
             });
         });
 
-        this.router.get('/lists', cors(), this.ratelimit.checkRatelimit(1, 1), (req, res) => {
-            const data = {};
-            this.db
-                .select('id', 'api_docs', 'api_post', 'api_field', 'api_shard_id', 'api_shard_count', 'api_shards', 'api_get')
-                .from('lists')
-                .where({
-                    defunct: false
-                })
-                .orderBy([
+        this.router.get('/lists', cors(), this.ratelimit.checkRatelimit(1, 1), async (req, res) => {
+            try {
+                const listIds = await this.db.select('id').from('lists').orderBy([
                     { column: 'discord_only', order: 'desc' },
                     { column: 'id', order: 'asc' }
-                ])
-                .then((lists) => {
-                    if (!lists) return res.status(200).json({});
-                    for (let i = 0; i < lists.length; i++) {
-                        const id = lists[i].id;
-                        delete lists[i].id;
-
-                        // If filtering: Drop if all values are null
-                        if (req.query.filter === 'true')
-                            if (Object.values(lists[i]).filter(val => val !== null).length === 0)
-                                continue;
-
-                        data[id] = {
+                ]);
+                const lists = await Promise.all(listIds.map(list => getList(this.db, list.id)));
+                if (!lists) return res.status(200).json({});
+                const data = {};
+                for (let i = 0; i < lists.length; i++) {
+                    // If filtering: Only present API values, drop if all values are null or defunct
+                    if (req.query.filter === 'true') {
+                        if (lists[i].defunct) continue;
+                        const apiEntries = Object.entries(lists[i]).filter(data => data[0].startsWith('api_'));
+                        if (apiEntries.filter(data => data[1] !== null).length === 0) continue;
+                        data[lists[i].id] = apiEntries.reduce((obj, [key, val]) => {
+                            obj[key] = val;
+                            return obj;
+                        }, {});
+                    } else {
+                        data[lists[i].id] = {
                             ...lists[i]
                         };
                     }
-                    res.status(200).json({ ...data });
-                })
-                .catch((e) => {
-                    handleError(this.db, req, res, e.stack, true);
-                });
+                }
+                res.status(200).json({ ...data });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack, true);
+            }
+        });
+
+        this.router.get('/lists/:id', cors(), this.ratelimit.checkRatelimit(1, 1), async (req, res) => {
+            try {
+                const data = await getList(this.db, req.params.id);
+                if (!data) return res.status(404).json({ error: true, status: 404, message: 'List not found' });
+                res.status(200).json({ ...data });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack, true);
+            }
         });
 
         this.router.get('/legacy-ids', cors(), this.ratelimit.checkRatelimit(1, 1), (req, res) => {
@@ -101,7 +110,7 @@ class APIRoute extends BaseRoute {
                     { column: 'id', order: 'desc' }
                 ])
                 .then((legacy) => {
-                    const data = legacy.reduce(function(result, item) {
+                    const data = legacy.reduce(function (result, item) {
                         result[item.id] = item.target;
                         return result;
                     }, {});
