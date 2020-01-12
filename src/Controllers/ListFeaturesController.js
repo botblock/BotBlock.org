@@ -15,7 +15,6 @@ module.exports = class ListFeatureController {
                 let listFeatureId = null;
                 if (edit) {
                     await this.db('features').where({ id: feature.id }).update(validation);
-                    this.client.listFeaturesEdited(validation, feature);
                 } else {
                     listFeatureId = await this.db('features').insert(validation);
                 }
