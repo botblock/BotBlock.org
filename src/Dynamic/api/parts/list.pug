@@ -1,0 +1,78 @@
+.card-content
+    h1.is-size-4.has-text-grey-lighter#list Get a list's details
+        a(href='#list')  &supdsub;
+    h6.is-size-6
+        a(href='/api/lists/:id', target='_blank', rel='nofollow')
+            code GET /api/lists/:id
+    h5.is-size-5 Response Body
+    .table-container
+        table.table.is-bordered.is-narrow
+            thead
+                tr
+                    th JSON Property
+                    th Type
+                    th Description
+            tbody
+                each prop in listProps
+                    tr
+                        td #{prop.prop}
+                        td #{prop.type}
+                        td #{prop.desc}
+
+    h5.is-size-5 Example Response
+    h6.is-size-6
+        a(href='/api/lists/thelist.org', target='_blank', rel='nofollow')
+            code GET /api/lists/thelist.org
+        pre
+            code.
+                {
+                    "id": "thelist.org",
+                    "added": 1546300800,
+                    "name": "The List",
+                    "url": "https://thelist.org/",
+                    "icon": "https://thelist.org/icon.png",
+                    "language": "English",
+                    "display": 1,
+                    "defunct": 0,
+                    "discord_only": 1,
+                    "description": "A simple to use list of Discord bots",
+                    "api_docs": "https://thelist.org/api/docs",
+                    "api_post": "https://thelist.org/api/bot/stats/:id",
+                    "api_field": "server_count",
+                    "api_shard_id": "shard_id",
+                    "api_shard_count": "shard_count",
+                    "api_shards": null,
+                    "api_get": "https://thelist.org/api/bot/info/:id",
+                    "api_all": null,
+                    "view_bot": "https://thelist.org/bots/:id",
+                    "bot_widget": "https://thelist.org/api/bot/widget/:id",
+                    "content": null,
+                    "owners": "DiscordAccount#1234 (123456789012345678)",
+                    "discord": "https://discord.gg/AbCdE9f",
+                    "features": [
+                        {
+                            "name": "Ad-free Site",
+                            "id": 1,
+                            "display": 1,
+                            "type": 0,
+                            "description": null,
+                            "value": 1
+                        },
+                        {
+                            "name": "Bot Certification Program",
+                            "id": 2,
+                            "display": 1,
+                            "type": 0,
+                            "description": null,
+                            "value": 0
+                        },
+                        {
+                            "name": "Paid Bot Promotion",
+                            "id": 3,
+                            "display": 1,
+                            "type": 1,
+                            "description": "The list allows users to pay to have their bots promoted",
+                            "value": 1
+                        }
+                    ]
+                }

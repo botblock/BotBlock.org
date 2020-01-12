@@ -1,9 +1,8 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const FormValidator = require('../Structure/FormValidator');
 const ListController = require('../Controllers/ListController');
-const getListFeatures = require('../Util/getListFeatures');
 const handleError = require('../Util/handleError');
-const legacyListMap = require('../Util/legacyListMap');
+const getList = require('../Util/getList');
 
 class ListsRoute extends BaseRoute {
     constructor(client, db) {
@@ -421,21 +420,17 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/:id', (req, res) => {
             try {
-                legacyListMap(this.db, req.params.id).then((id) => {
-                    this.db.select().from('lists').where({ id }).limit(1).then((lists) => {
-                        if (!lists.length) return res.status(404).render('error', {
-                            title: 'Page not found',
-                            status: 404,
-                            message: 'The page you were looking for could not be found.'
-                        });
-                        getListFeatures(this.db, lists[0].id).then((features) => {
-                            res.render('lists/list', {
-                                title: `${lists[0].name} (${lists[0].id})`,
-                                list: lists[0],
-                                checkboxes: features,
-                                hideUncheckedBoxes: true
-                            });
-                        });
+                getList(this.db, req.params.id).then(data => {
+                    if (!data) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    res.render('lists/list', {
+                        title: `${data.name} (${data.id})`,
+                        list: data,
+                        checkboxes: data.features,
+                        hideUncheckedBoxes: true
                     });
                 });
             } catch (e) {
@@ -445,23 +440,19 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                legacyListMap(this.db, req.params.id).then((id) => {
-                    this.db.select().from('lists').where({ id }).limit(1).then((lists) => {
-                        if (!lists.length) return res.status(404).render('error', {
-                            title: 'Page not found',
-                            status: 404,
-                            message: 'The page you were looking for could not be found.'
-                        });
-                        getListFeatures(this.db, lists[0].id).then((features) => {
-                            res.render('lists/edit', {
-                                title: 'Edit ' + lists[0].id,
-                                data: lists[0],
-                                checkboxes: features,
-                                edit: true,
-                                hideUncheckedBoxes: false,
-                                interactiveCheckboxes: true
-                            });
-                        });
+                getList(this.db, req.params.id).then(data => {
+                    if (!data) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    res.render('lists/edit', {
+                        title: 'Edit ' + data.id,
+                        data: data,
+                        checkboxes: data.features,
+                        edit: true,
+                        hideUncheckedBoxes: false,
+                        interactiveCheckboxes: true
                     });
                 });
             } catch (e) {
@@ -471,31 +462,27 @@ class ListsRoute extends BaseRoute {
 
         this.router.post('/:id/edit', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
-                legacyListMap(this.db, req.params.id).then((id) => {
-                    this.db.select().from('lists').where({ id }).limit(1).then((lists) => {
-                        if (!lists.length) return res.status(404).render('error', {
-                            title: 'Page not found',
-                            status: 404,
-                            message: 'The page you were looking for could not be found.'
-                        });
-                        getListFeatures(this.db, lists[0].id).then(async (features) => {
-                            try {
-                                const handle = await this.listController.handle(req.body, res.locals.user, true, lists[0]);
-                                if (Array.isArray(handle)) return res.render('lists/edit', {
-                                    title: 'Edit ' + lists[0].id,
-                                    data: lists[0],
-                                    checkboxes: features,
-                                    edit: true,
-                                    hideUncheckedBoxes: false,
-                                    interactiveCheckboxes: true,
-                                    errors: handle
-                                });
-                                res.redirect('/lists/' + handle.id);
-                            } catch (e) {
-                                handleError(this.db, req, res, e.stack);
-                            }
-                        });
+                getList(this.db, req.params.id).then(async data => {
+                    if (!data) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
                     });
+                    try {
+                        const handle = await this.listController.handle(req.body, res.locals.user, true, data);
+                        if (Array.isArray(handle)) return res.render('lists/edit', {
+                            title: 'Edit ' + data.id,
+                            data: data,
+                            checkboxes: data.features,
+                            edit: true,
+                            hideUncheckedBoxes: false,
+                            interactiveCheckboxes: true,
+                            errors: handle
+                        });
+                        res.redirect('/lists/' + handle.id);
+                    } catch (e) {
+                        handleError(this.db, req, res, e.stack);
+                    }
                 });
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
@@ -504,15 +491,14 @@ class ListsRoute extends BaseRoute {
 
         this.router.get('/:id/icon', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
-                const id = await legacyListMap(this.db, req.params.id);
-                const lists = await this.db.select().from('lists').where({ id }).limit(1);
-                if (!lists.length) return res.status(404).render('error', {
+                const data = await getList(this.db, req.params.id);
+                if (!data) return res.status(404).render('error', {
                     title: 'Page not found',
                     status: 404,
                     message: 'The page you were looking for could not be found.'
                 });
                 try {
-                    await require('../Util/updateIcon')(this.client, this.db, lists[0]);
+                    await require('../Util/updateIcon')(this.client, this.db, data);
                     res.render('error', { title: 'Success', status: 200, message: 'Icon has been updated' });
                 } catch {
                     res.status(500).render('error', {

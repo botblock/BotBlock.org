@@ -1,3 +1,4 @@
+const path = require('path');
 const config = require('./config');
 
 module.exports = {
@@ -6,10 +7,10 @@ module.exports = {
         connection: config.database,
         migrations: {
             tableName: 'migrations',
-            directory: './db/migrations'
+            directory: path.join(__dirname, 'db', 'migrations')
         },
         seeds: {
-            directory: './db/seeds'
+            directory: path.join(__dirname, 'db', 'seeds')
         }
     },
     seedExport: {

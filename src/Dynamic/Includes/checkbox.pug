@@ -17,6 +17,7 @@ if checkbox.id && !interactiveCheckboxes
     if (!checkbox.value) classes.push('disallowed');
     if (interactiveCheckboxes) classes.push('interactive');
     if (hideUncheckedBoxes && !checkbox.value) classes.push('is-hidden');
+    if (disableCheckboxTooltips) tooltip = null;
 
 .checkbox.always(tabindex='0', role='button', class=classes.join(' '))
     div(class='checkbox-inner' + (tooltip ? ' tooltip' : ''), data-tooltip=tooltip)

@@ -1,5 +1,5 @@
 .card-content
-    h1.is-size-4.has-text-grey-lighter#lists Get all lists' API details
+    h1.is-size-4.has-text-grey-lighter#lists Get all lists' details
         a(href='#lists')  &supdsub;
     h6.is-size-6
         a(href='/api/lists', target='_blank', rel='nofollow')
@@ -15,7 +15,7 @@
             tbody
                 td filter
                 td Boolean
-                td If set to true, lists with no API data will not be included in the response.
+                td If set to true, only API information fields will be returned for each list. Lists with no API data will not be included in the response.
     h5.is-size-5 Response Body
     .table-container
         table.table.is-bordered.is-narrow
@@ -24,43 +24,26 @@
                     th JSON Property
                     th Type
                     th Description
+                    th Present when filtered
             tbody
                 tr
                     td &lt;list_id&gt;
                     td Object
                     td The ID used in #{__('site_name')} for the list acts as the key for each property in the response.
-                tr
-                    td &lt;list_id&gt;api_docs
-                    td String
-                    td The URL stored for the API docs of the list.
-                tr
-                    td &lt;list_id&gt;api_post
-                    td String
-                    td The URL stored for posting server/guild count to the list.
-                tr
-                    td &lt;list_id&gt;api_field
-                    td String
-                    td The JSON field name for posting the server/guild count to the list.
-                tr
-                    td &lt;list_id&gt;api_shard_id
-                    td String
-                    td The JSON field name for posting the current shard ID to the list.
-                tr
-                    td &lt;list_id&gt;api_shard_count
-                    td String
-                    td The JSON field name for posting the bot shard count to the list.
-                tr
-                    td &lt;list_id&gt;api_shards
-                    td String
-                    td The JSON field name for posting an array of server counts per shard to the list.
-                tr
-                    td &lt;list_id&gt;api_get
-                    td String
-                    td The URL stored for fetching bot information from the list.
+                    td
+                each prop in listProps
+                    tr
+                        td &lt;list_id&gt;.#{prop.prop}
+                        td #{prop.type}
+                        td #{prop.desc}
+                        td
+                            - checkbox = prop.prop.startsWith('api_') ? { type: 0, value: 1 } : { type: 2, value: 0 };
+                            include ../../Includes/checkbox
+
     h5.is-size-5 Example Response
     h6.is-size-6
-        a(href='/api/lists', target='_blank', rel='nofollow')
-            code GET /api/lists
+        a(href='/api/lists?filter=true', target='_blank', rel='nofollow')
+            code GET /api/lists?filter=true
         pre
             code.
                 {
