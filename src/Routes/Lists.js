@@ -1,6 +1,6 @@
 const BaseRoute = require('../Structure/BaseRoute');
-const FormValidator = require('../Structure/FormValidator');
 const ListController = require('../Controllers/ListController');
+const ListFeatureController = require('../Controllers/ListFeaturesController');
 const handleError = require('../Util/handleError');
 const getList = require('../Util/getList');
 
@@ -12,6 +12,7 @@ class ListsRoute extends BaseRoute {
         this.db = db;
         this.routes();
         this.listController = new ListController(this.client, this.db);
+        this.featureContoller = new ListFeatureController(this.client, this.db);
     }
 
     footerData() {
@@ -170,25 +171,13 @@ class ListsRoute extends BaseRoute {
 
         this.router.post('/features/manage/add', this.requiresAuth.bind(this), this.isMod.bind(this), async (req, res) => {
             try {
-                let changes = {};
-                const validate = FormValidator.validateFeature(req.body);
-                if (validate.length) return res.render('lists/features/edit', {
+                const handle = await this.featureContoller.handle(req.body);
+                if (Array.isArray(handle)) return res.render('lists/features/edit', {
                     title: 'Add Feature',
                     data: req.body,
-                    errors: validate
+                    errors: handle
                 });
-                const columns = Object.keys(await this.db('features').columnInfo());
-                for (const column of columns) {
-                    if (column === 'id') continue;
-                    if (req.body[column]) {
-                        changes[column] = req.body[column];
-                    } else {
-                        changes[column] = null;
-                    }
-                }
-                const id = await this.db('features').insert(changes);
-                this.client.listFeaturesEdited(Object.assign(changes, { id: id[0] }));
-                res.render('error', { title: 'Success', status: 200, message: 'Feature has been added.' });
+                res.redirect('/lists/features/manage');
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
             }
@@ -220,30 +209,13 @@ class ListsRoute extends BaseRoute {
                         status: 404,
                         message: 'The page you were looking for could not be found.'
                     });
-                    let changes = {};
-                    const validate = FormValidator.validateFeature(req.body);
-                    if (validate.length) return res.render('lists/features/edit', {
-                        title: `Edit Feature '${features[0].name}'`,
+                    const handle = await this.featureContoller.handle(req.body, true, features[0]);
+                    if (Array.isArray(handle)) return res.render('lists/features/edit', {
+                        title: 'Edit Feature "' + features[0].name + '"',
                         data: features[0],
-                        errors: validate
+                        errors: handle
                     });
-                    const columns = Object.keys(await this.db('features').columnInfo());
-                    for (const column of columns) {
-                        if (column === 'id') continue;
-                        if (req.body[column]) {
-                            changes[column] = req.body[column];
-                        } else {
-                            changes[column] = null;
-                        }
-                    }
-                    this.db('features').where({ id: req.params.id }).update(changes).then(() => {
-                        this.client.listFeaturesEdited(changes, features[0]);
-                        res.render('lists/features/edit', {
-                            title: `Edit Feature '${changes.name}'`,
-                            subtitle: 'Feature has been updated',
-                            data: changes
-                        });
-                    });
+                    res.redirect('/lists/features/manage');
                 });
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
@@ -261,7 +233,7 @@ class ListsRoute extends BaseRoute {
                     await this.db('features').where({ id: req.params.id }).del();
                     await this.db('feature_map').where({ feature: req.params.id }).del();
                     this.client.listFeaturesEdited(null, features[0]);
-                    res.render('error', { title: 'Success', status: 200, message: 'Feature has been deleted.' });
+                    res.redirect('/lists/features/manage');
                 });
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
