@@ -233,7 +233,7 @@ class ListsRoute extends BaseRoute {
                     await this.db('features').where({ id: req.params.id }).del();
                     await this.db('feature_map').where({ feature: req.params.id }).del();
                     this.client.listFeaturesEdited(null, features[0]);
-                    res.render('error', { title: 'Success', status: 200, message: 'Feature has been deleted.' });
+                    res.redirect('/lists/features/manage');
                 });
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
