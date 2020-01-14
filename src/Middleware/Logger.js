@@ -40,14 +40,14 @@ class Logger {
         const store = this.store.bind(this);
 
         res.write = (...restArgs) => {
-            chunks.push(new Buffer(restArgs[0]));
+            chunks.push(Buffer.from(restArgs[0]));
             defaultWrite.apply(res, restArgs);
         };
 
         // Nothing else will touch res.end so this won't be a race condition ever
         // eslint-disable-next-line require-atomic-updates
         res.end = async (...restArgs) => {
-            if (restArgs[0]) chunks.push(new Buffer(restArgs[0]));
+            if (restArgs[0]) chunks.push(Buffer.from(restArgs[0]));
             const body = Buffer.concat(chunks).toString('utf8');
             await store(req, res, body);
             defaultEnd.apply(res, restArgs);
