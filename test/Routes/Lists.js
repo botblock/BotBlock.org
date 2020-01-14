@@ -1,4 +1,4 @@
-const { describe, it, expect, request, db, locale, checks, authAsMod } = require('../base');
+const { describe, it, expect, request, db, locale, checks, auth } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
@@ -499,22 +499,59 @@ describe('/lists/:id', () => {
 
 describe('/lists/:id/edit', () => {
     const listId = 'botlist.space';
-    describe(`GET (:id = ${listId})`, () => {
-        const test = () => request().get(`/lists/${listId}/edit`);
-        it('returns the authentication required message', done => {
-            test().end((err, res) => {
-                checks.authRequired(res);
-                done();
+    describe('As an anonymous user', () => {
+        describe(`GET (:id = ${listId})`, () => {
+            const test = () => request().get(`/lists/${listId}/edit`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe(`POST (:id = ${listId})`, () => {
+            const test = () => request().post(`/lists/${listId}/edit`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
             });
         });
     });
 
-    describe(`POST (:id = ${listId})`, () => {
-        const test = () => request().post(`/lists/${listId}/edit`);
-        it('returns the authentication required message', done => {
-            test().end((err, res) => {
-                checks.authRequired(res);
-                done();
+    describe('As a logged in user', () => {
+        describe(`GET (:id = ${listId})`, () => {
+            const test = () => auth.asUser(request().get(`/lists/${listId}/edit`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe(`POST (:id = ${listId})`, () => {
+            const test = () => auth.asUser(request().post(`/lists/${listId}/edit`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a moderator', () => {
+        describe(`GET (:id = ${listId})`, () => {
+            const test = () => auth.asMod(request().get(`/lists/${listId}/edit`));
+            it('renders the edit page', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.html;
+                    done();
+                });
             });
         });
     });

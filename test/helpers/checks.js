@@ -1,3 +1,6 @@
+const { expect } = require('chai');
+const locale = require('../../src/Util/i18n').__;
+
 const ratelimit = (context, limit, test, done, status = 200) => {
     context.retries(0);
     context.slow((limit * 1.15 + 1.5) * 1000);
