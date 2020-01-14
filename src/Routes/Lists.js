@@ -1,6 +1,7 @@
 const BaseRoute = require('../Structure/BaseRoute');
 const ListController = require('../Controllers/ListController');
 const ListFeatureController = require('../Controllers/ListFeaturesController');
+const Renderer = require('../Structure/Markdown');
 const handleError = require('../Util/handleError');
 const getList = require('../Util/getList');
 
@@ -11,6 +12,7 @@ class ListsRoute extends BaseRoute {
         this.client = client;
         this.db = db;
         this.routes();
+        this.renderer = new Renderer();
         this.listController = new ListController(this.client, this.db);
         this.featureContoller = new ListFeatureController(this.client, this.db);
     }
@@ -272,6 +274,23 @@ class ListsRoute extends BaseRoute {
                                     });
                                 });
                         });
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/best-practices', async (req, res) => {
+            try {
+                const bestPractices = await this.db.select().from('kv_cache').where({ key: 'list_best_practices' });
+                if (!bestPractices.length) return res.status(400).render('error', {
+                    title: 'Data not found',
+                    status: 400,
+                    message: 'Best practices has not yet been loaded.'
+                });
+                res.render('lists/best_practices', {
+                    title: 'Best Practices for Discord Bot Lists',
+                    data: this.renderer.render(bestPractices[0].value)
                 });
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
