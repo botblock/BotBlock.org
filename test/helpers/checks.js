@@ -16,6 +16,7 @@ const ratelimit = (context, limit, test, done, status = 200) => {
 };
 
 const authRequired = res => {
+    expect(res).to.have.status(403);
     expect(res).to.be.html;
     expect(res.text).to.include('This page requires authentication to access');
     expect(res.text).to.include(`Sign in to ${locale('site_name')}`);

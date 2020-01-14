@@ -501,13 +501,7 @@ describe('/lists/:id/edit', () => {
     const listId = 'botlist.space';
     describe(`GET (:id = ${listId})`, () => {
         const test = () => request().get(`/lists/${listId}/edit`);
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -517,13 +511,7 @@ describe('/lists/:id/edit', () => {
 
     describe(`POST (:id = ${listId})`, () => {
         const test = () => request().post(`/lists/${listId}/edit`);
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -536,13 +524,7 @@ describe('/lists/:id/icon', () => {
     const listId = 'botlist.space';
     describe(`GET (:id = ${listId})`, () => {
         const test = () => request().get(`/lists/${listId}/icon`);
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -554,13 +536,7 @@ describe('/lists/:id/icon', () => {
 describe('/lists/add', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/add');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -570,13 +546,7 @@ describe('/lists/add', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/add');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -588,13 +558,7 @@ describe('/lists/add', () => {
 describe('/lists/legacy-ids', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/legacy-ids');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -604,13 +568,7 @@ describe('/lists/legacy-ids', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/legacy-ids');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -622,13 +580,7 @@ describe('/lists/legacy-ids', () => {
 describe('/lists/features/manage', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -640,13 +592,7 @@ describe('/lists/features/manage', () => {
 describe('/lists/features/manage/add', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage/add');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -656,13 +602,7 @@ describe('/lists/features/manage/add', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/features/manage/add');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -674,13 +614,7 @@ describe('/lists/features/manage/add', () => {
 describe('/lists/features/manage/:id', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage/1');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -690,13 +624,7 @@ describe('/lists/features/manage/:id', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/features/manage/1');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
@@ -708,13 +636,7 @@ describe('/lists/features/manage/:id', () => {
 describe('/lists/features/manage/:id/delete', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage/1/delete');
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
                 checks.authRequired(res);
                 done();
