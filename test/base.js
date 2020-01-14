@@ -4,12 +4,10 @@ const db = require('../db/db')();
 const checks = require('./helpers/checks');
 const auth = require('./helpers/auth');
 const request = require('./helpers/request');
-
+const { ratelimitBypass, resetRatelimits } = require('./helpers/ratelimits');
 const { describe, it } = require('mocha');
-const { expect } = require('chai');
-
-const ratelimitBypass = (req) => req.set('X-Ratelimit-Bypass', config.secret);
-const resetRatelimits = () => ratelimitBypass(request().get('/api/reset'));
+const chai = require('chai');
+const expect = chai.expect;
 
 const compareObjectProps = (a, b) => {
     const missing = [];

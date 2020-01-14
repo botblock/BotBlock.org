@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const locale = require('../../src/Util/i18n').__;
+const { resetRatelimits } = require('./ratelimits');
 
 const ratelimit = (context, limit, test, done, status = 200) => {
     context.retries(0);
