@@ -1,4 +1,4 @@
-const { describe, it, expect, request, authCheck } = require('../base');
+const { describe, it, expect, request, checks } = require('../base');
 
 describe('/tasks', () => {
     describe('GET', () => {
@@ -11,7 +11,7 @@ describe('/tasks', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -29,7 +29,7 @@ describe('/tasks/run/:id', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });

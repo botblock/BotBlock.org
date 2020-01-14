@@ -1,4 +1,4 @@
-const { describe, it, expect, request, db, locale, titleCheck } = require('../base');
+const { describe, it, expect, request, db, locale, checks } = require('../base');
 const renderer = new (require('../../src/Structure/Markdown'))();
 
 describe('/', () => {
@@ -13,7 +13,7 @@ describe('/', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -46,7 +46,7 @@ describe('/helloworld', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Page not found - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Page not found - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -73,7 +73,7 @@ describe('/about', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `About - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `About - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });

@@ -1,4 +1,4 @@
-const { describe, it, expect, request, db, locale, titleCheck, authCheck } = require('../base');
+const { describe, it, expect, request, db, locale, checks, authAsMod } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
@@ -12,7 +12,7 @@ describe('/lists', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -79,7 +79,7 @@ describe('/lists/new', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `New Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `New Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -123,7 +123,7 @@ describe('/lists/defunct', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Defunct Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Defunct Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -163,7 +163,7 @@ describe('/lists/hidden', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Hidden Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Hidden Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -203,7 +203,7 @@ describe('/lists/features', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `All List Features - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `All List Features - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -240,7 +240,7 @@ describe('/lists/features/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Has Voting - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Has Voting - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -290,7 +290,7 @@ describe('/lists/search', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -328,7 +328,7 @@ describe('/lists/search/:query', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -387,7 +387,7 @@ describe('/lists/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -472,7 +472,7 @@ describe('/lists/:id', () => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
                 expect(res).to.be.html;
-                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -509,7 +509,7 @@ describe('/lists/:id/edit', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -525,7 +525,7 @@ describe('/lists/:id/edit', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -544,7 +544,7 @@ describe('/lists/:id/icon', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -562,7 +562,7 @@ describe('/lists/add', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -578,7 +578,7 @@ describe('/lists/add', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -596,7 +596,7 @@ describe('/lists/legacy-ids', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -612,7 +612,7 @@ describe('/lists/legacy-ids', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -630,7 +630,7 @@ describe('/lists/features/manage', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -648,7 +648,7 @@ describe('/lists/features/manage/add', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -664,7 +664,7 @@ describe('/lists/features/manage/add', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -682,7 +682,7 @@ describe('/lists/features/manage/:id', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -698,7 +698,7 @@ describe('/lists/features/manage/:id', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -716,7 +716,7 @@ describe('/lists/features/manage/:id/delete', () => {
         });
         it('renders the authentication required message', done => {
             test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });

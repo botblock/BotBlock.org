@@ -1,4 +1,4 @@
-const { describe, it, expect, request, ratelimitBypass, resetRatelimits, ratelimitTest, locale, titleCheck, db } = require('../base');
+const { describe, it, expect, request, ratelimitBypass, resetRatelimits, checks, locale, db } = require('../base');
 const listProps = require('../../src/Util/listProps');
 
 describe('Invalid route (/api/helloworld)', () => {
@@ -71,7 +71,7 @@ describe('/api/docs', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -191,7 +191,7 @@ describe('/api/docs/libs', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Libraries - API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Libraries - API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -355,7 +355,7 @@ describe('/api/lists', () => {
             });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 1, test, done);
+            checks.ratelimit(this, 1, test, done);
         });
     });
 
@@ -505,7 +505,7 @@ describe('/api/lists/:id', () => {
             });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 1, test, done, 404);
+            checks.ratelimit(this, 1, test, done, 404);
         });
     });
 
@@ -1069,7 +1069,7 @@ describe('/api/count', () => {
                 bot_id: '123456789123456789',
                 server_count: 10
             });
-            ratelimitTest(this, 120, test, done);
+            checks.ratelimit(this, 120, test, done);
         });
     });
 });
@@ -1281,7 +1281,7 @@ describe('/api/bots/:id', () => {
                 });
             });
             it('does not ratelimit requests spaced correctly', function (done) {
-                ratelimitTest(this, 30, test, done, 400);
+                checks.ratelimit(this, 30, test, done, 400);
             });
         });
 
@@ -1397,7 +1397,7 @@ describe('/api/legacy-ids', () => {
             });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 1, test, done);
+            checks.ratelimit(this, 1, test, done);
         });
     });
 
