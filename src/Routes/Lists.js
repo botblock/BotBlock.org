@@ -283,9 +283,9 @@ class ListsRoute extends BaseRoute {
         this.router.get('/best-practices', async (req, res) => {
             try {
                 const bestPractices = await this.db.select().from('kv_cache').where({ key: 'list_best_practices' });
-                if (!bestPractices.length) return res.status(400).render('error', {
+                if (!bestPractices.length) return res.status(503).render('error', {
                     title: 'Data not found',
-                    status: 400,
+                    status: 503,
                     message: 'Best practices has not yet been loaded.'
                 });
                 res.render('lists/best_practices', {
