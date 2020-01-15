@@ -15,7 +15,7 @@ class BestPracticesUpdater extends BaseJob {
                 const data = await axios.get('https://raw.githubusercontent.com/botblock/discord-botlist-best-practices/master/README.md');
                 const bestPractices = await this.db.select().from('kv_cache').where({ key: 'list_best_practices' });
                 if (bestPractices.length) {
-                    await this.db.select().from('kv_cache').where({ key: 'list_best_practices' }).update({ value: data.data });
+                    await this.db.select().from('kv_cache').where({ key: 'list_best_practices' }).update({ value: data.data, datetime: Date.now() / 1000 });
                 } else {
                     await this.db('kv_cache').insert({ key: 'list_best_practices', value: data.data, datetime: Date.now() / 1000 });
                 }
