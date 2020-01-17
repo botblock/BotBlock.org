@@ -76,7 +76,7 @@
     Andre601. It allows posting your guild counts through the [{{site_name}}
     API](/api/docs) both manually and automatically. You can provide both a JDA
     instance or ShardManager instance, but this is optional. You can also
-    retrieve bot information.
+    retrieve bot and bot list information.
   package_link: https://bintray.com/andre601/maven/JavaBotBlockAPI/_latestVersion
   package_link_name: Bintray
   badge_image: https://img.shields.io/bintray/v/andre601/maven/JavaBotBlockAPI.svg?style=flat-square
@@ -86,7 +86,7 @@
 
     BotBlockAPI api = new BotBlockAPI.Builder()
         .addAuthToken("bots.ondiscord.xyz", "dsag38_auth_token_fda6gs") // Add a supported site and its token
-        .addAuthToken("botlist.space", "qos56a_auth_token_gfd8g6")
+        .addAuthToken(Site.BOTLIST_SPACE, "qos56a_auth_token_gfd8g6")
         .build();
 
     // Create an instance of PostAction for posting
@@ -99,19 +99,24 @@
     post.startAutoPosting(jda, api);
 
 
-    // Create an instance of GetAction
+    // Create an instance of GetBotAction for GETting bot info
 
-    GetAction get = new GetAction();
-
-
-    // Get all supported bot lists
-
-    get.getBotLists("myBotId"); // Used for caching
+    GetBotAction getBot = new GetBotAction();
 
 
-    // Get information about a bot
+    // Get complete Bot information.
 
-    get.getBotInfo("myBotId");
+    getBot.getBotInfo("myBotId");
+
+
+    // Create an instance of GetListAction for GETting list info
+
+    GetListAction getList = new GetListAction();
+
+
+    // Get all available lists.
+
+    getList.getLists("randomId");
 - repo: botblock/discordlists.py
   language: Python
   name: discordlists.py
