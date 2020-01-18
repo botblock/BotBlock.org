@@ -6,7 +6,8 @@ const auth = require('./helpers/auth');
 const request = require('./helpers/request');
 const { ratelimitBypass, resetRatelimits } = require('./helpers/ratelimits');
 const dom = require('./helpers/dom');
-const { describe, it } = require('mocha');
+const fetchPage = require('./helpers/fetchPage');
+const { before, describe, it } = require('mocha');
 const chai = require('chai');
 const { expect } = require('chai');
 const chaiHttp = require('chai-http');
@@ -35,6 +36,7 @@ const compareObjects = (template, actual) => {
 };
 
 module.exports = {
+    before,
     describe,
     it,
     expect,
@@ -47,5 +49,6 @@ module.exports = {
     checks,
     auth,
     dom,
+    fetchPage,
     compareObjects
 };

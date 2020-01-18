@@ -1,6 +1,7 @@
 # mocha.opts
   --recursive
   --exclude base.js
+  --exclude helpers
   --slow 600
   --timeout 12000
   --retries 1
