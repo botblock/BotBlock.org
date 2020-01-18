@@ -1,38 +1,60 @@
-const { describe, it, expect, request, db, locale, checks, auth } = require('../base');
+const { describe, it, expect, request, db, locale, checks, auth, dom } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
-        const test = () => request().get('/lists');
-        it('returns an OK status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(200);
+        let res, page;
+        before('fetch the page', done => {
+            request().get('/lists').end((_, r) => {
+                res = r;
+                page = dom(r);
                 done();
             });
+        });
+        it('returns an OK status code', done => {
+            expect(res).to.have.status(200);
+            done();
         });
         it('has the correct page title', done => {
-            test().end((err, res) => {
-                expect(res).to.be.html;
-                checks.title(res, `All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+            checks.title(res, `All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+            done();
+        });
+
+        describe('renders the expected content', () => {
+            it('has the correct title', done => {
+                expect(res.text).to.include('All Bot Lists');
                 done();
             });
-        });
-        it('renders the expected content', done => {
-            db.select('name', 'url').from('lists').where({ display: true, defunct: false }).then(lists => {
-                test().end((err, res) => {
-                    expect(res).to.be.html;
+            it('has the stats footer', done => {
+                const footer = page.querySelector(".hero.card .hero-body.hero-stats.card-body");
+                expect(footer).to.exist;
+                expect(footer.innerHTML).to.include(`${locale('site_name')} - Bot List Stats`);
+                done();
+            });
 
-                    // Confirm header
-                    expect(res.text).to.include('All Bot Lists');
-
-                    // Confirm footer stats
-                    expect(res.text).to.include(`${locale('site_name')} - Bot List Stats`);
-
-                    // Confirm list cards
-                    lists.forEach(list => {
+            describe('contains the list cards', () => {
+                let listCards;
+                before('fetch list cards', done => {
+                    db.select('id', 'name', 'url').from('lists').where({ display: true, defunct: false }).then(lists => {
+                        listCards = lists;
+                        done();
+                    });
+                });
+                it('has the list names', done => {
+                    listCards.forEach(list => {
                         expect(res.text).to.include(list.name);
+                    });
+                    done();
+                });
+                it('has the list urls', done => {
+                    listCards.forEach(list => {
                         expect(res.text).to.include(list.url);
                     });
-
+                    done();
+                });
+                it('has the list information button', done => {
+                    listCards.forEach(list => {
+                        expect(page.querySelector(`.card a.button[href="/lists/${list.id}"]`)).to.exist;
+                    });
                     done();
                 });
             });

@@ -5,9 +5,12 @@ const checks = require('./helpers/checks');
 const auth = require('./helpers/auth');
 const request = require('./helpers/request');
 const { ratelimitBypass, resetRatelimits } = require('./helpers/ratelimits');
+const dom = require('./helpers/dom');
 const { describe, it } = require('mocha');
 const chai = require('chai');
-const expect = chai.expect;
+const { expect } = require('chai');
+const chaiHttp = require('chai-http');
+chai.use(chaiHttp);
 
 const compareObjectProps = (a, b) => {
     const missing = [];
@@ -43,5 +46,6 @@ module.exports = {
     locale,
     checks,
     auth,
+    dom,
     compareObjects
 };
