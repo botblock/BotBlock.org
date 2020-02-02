@@ -11,20 +11,25 @@ module.exports = class ListController {
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             try {
+                // Validate the user input
                 const validation = await this._validate(data, user);
                 if (Array.isArray(validation)) return resolve(validation);
                 validation['added'] = edit ? list.added : Date.now() / 1000;
+
+                // Update the list if it already exists, or add it
                 if (edit) {
-                    await this.db('lists').where({ id: data.id }).update(validation);
+                    await this.db('lists').where({ id: list.id }).update(validation);
                 } else {
                     await this.db('lists').insert(validation);
                 }
+
+                // Get the existing features, add new ones, remove old ones
                 let oldFeatures = [];
                 let addedFeatures = [];
                 let removedFeatures = [];
                 if (edit) {
                     oldFeatures = await this.db.select().from('feature_map').where({
-                        list: data.id,
+                        list: list.id,
                         value: true
                     });
                 }
@@ -36,7 +41,7 @@ module.exports = class ListController {
                     const exists = oldFeatures.find((f) => f.feature === Number(key));
                     if (exists) continue;
                     await this.db('feature_map').insert({
-                        list: validation.id,
+                        list: list.id,
                         feature: key,
                         value: value === 'on'
                     });
@@ -49,19 +54,32 @@ module.exports = class ListController {
                         removedFeatures.push(oldFeature.feature);
                     }
                 }
+
+                // If the list id changes, update all the features
+                if (list.id !== validation.id) {
+                    await this.db('feature_map').where({ list: list.id }).update({ list: validation.id });
+                }
+
+                // Cleanup features for Discord message
                 for (let [key, value] of Object.entries(data)) {
                     if (key.startsWith('feature_')) {
                         key = key.replace('feature_', '');
                         value = value === 'on';
                     }
                 }
+
+                // Post to edit log on Discord
                 if (edit) this.client.updateEditLog(
                     list,
                     validation,
                     await Promise.all(addedFeatures.map((f) => getListFeature(this.db, f))),
                     await Promise.all(removedFeatures.map((f) => getListFeature(this.db, f)))
                 );
+
+                // Post/update the list message on Discord
                 require('../Util/updateListMessage')(this.client, this.db, validation, data.id);
+
+                // Done!
                 resolve(validation);
             } catch (e) {
                 reject(e);
