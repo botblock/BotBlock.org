@@ -16,7 +16,6 @@ class Website {
         this.client = new Discord(config.discord.token);
         this.jobs = [];
         this.app = express();
-        this.jobs = [];
     }
 
     async start() {
@@ -55,6 +54,7 @@ class Website {
         this.app.use(logger.logger());
         await this.loadRoutes(path.join(__dirname, 'Routes'));
         await this.loadJobs(path.join(__dirname, 'Jobs'));
+        await this.loadInitializers(path.join(__dirname, 'Initializers'));
         this.app.use(require('express-minify')());
         this.app.use((req, res) => {
             res.status(404).render('error', {
@@ -127,6 +127,26 @@ class Website {
                         }
                     }
                 }
+            });
+        });
+    }
+
+    loadInitializers(dir) {
+        return new Promise((resolve, reject) => {
+            fs.readdir(dir, async (error, initializers) => {
+                if (error) return reject(error);
+                if (!initializers.length) return resolve();
+                for (const i of initializers) {
+                    if (!i.endsWith('.js')) continue;
+                    try {
+                        const Initializer = require(path.join(dir, i));
+                        const initializer = new Initializer(this, this.db);
+                        await initializer.execute();
+                    } catch (e) {
+                        return console.error(e);
+                    }
+                }
+                resolve();
             });
         });
     }

@@ -8,5 +8,5 @@ exports.up = async function(knex) {
 };
 
 exports.down = async function(knex) {
-    await knex.dropTable('kv_cache');
+    await knex.schema.dropTable('kv_cache');
 };
