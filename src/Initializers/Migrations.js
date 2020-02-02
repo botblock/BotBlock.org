@@ -2,6 +2,7 @@ class Migrations {
     constructor(client, db) {
         this.client = client;
         this.db = db;
+        this.position = 1;
     }
 
     execute() {

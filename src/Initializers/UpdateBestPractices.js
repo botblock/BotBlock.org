@@ -2,6 +2,7 @@ class UpdateBestPractices {
     constructor(client, db) {
         this.client = client;
         this.db = db;
+        this.position = 2;
     }
 
     execute() {

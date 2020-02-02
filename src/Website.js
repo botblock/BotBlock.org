@@ -15,6 +15,7 @@ class Website {
         this.db = options.db;
         this.client = new Discord(config.discord.token);
         this.jobs = [];
+        this.initializers = [];
         this.app = express();
     }
 
@@ -141,6 +142,14 @@ class Website {
                     try {
                         const Initializer = require(path.join(dir, i));
                         const initializer = new Initializer(this, this.db);
+                        this.initializers.push(initializer);
+                    } catch (e) {
+                        console.error('[Initializer] Error while initializing', e);
+                    }
+                }
+                this.initializers = this.initializers.sort((a, b) => a.position - b.position);
+                for (const initializer of this.initializers) {
+                    try {
                         await initializer.execute();
                     } catch (e) {
                         return console.error(e);
