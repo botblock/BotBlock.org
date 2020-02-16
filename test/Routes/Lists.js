@@ -40,6 +40,33 @@ describe('/lists', () => {
     });
 });
 
+describe('/lists/best-practices', () => {
+    describe('GET', () => {
+        const test = () => request().get('/lists/best-practices');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                titleCheck(res, `Best Practices for Discord Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
+        it('renders the expected content', done => {
+            test().end((err, res) => {
+                expect(res.text).to.include('<h1>Best Practices for Discord Bot Lists</h1>');
+                expect(res.text).to.include('<h2>Your bot list must:</h2>');
+                expect(res.text).to.include('<h2>Your bot list should:</h2>');
+                done();
+            });
+        });
+    });
+});
+
 describe('/lists/new', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/new');
