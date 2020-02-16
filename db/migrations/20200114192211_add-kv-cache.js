@@ -1,4 +1,3 @@
-
 exports.up = async function(knex) {
     await knex.schema.createTable('kv_cache', function (t) {
         t.string('key').primary().notNullable().unique();
