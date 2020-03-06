@@ -133,7 +133,6 @@ class IndexRoute extends BaseRoute {
             });
         });
 
-
         this.router.get('/sitemap', (req, res) => {
             sitemap.get(this.db).then(data => {
                 sitemap.save(data).then(() => {

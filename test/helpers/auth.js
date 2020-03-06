@@ -1,8 +1,11 @@
 const config = require('../../config');
 
-const asAnon = (req) => req.set('X-Auth-As-Anon', config.secret);
-const asUser = (req) => req.set('X-Auth-As-User', config.secret).unset('X-Auth-As-Anon');
-const asMod = (req) => req.set('X-Auth-As-Mod', config.secret).unset('X-Auth-As-Anon');
-const asAdmin = (req) => req.set('X-Auth-As-Admin', config.secret).unset('X-Auth-As-Anon');
+const clear = req => req.unset('X-Auth-As-Anon').unset('X-Auth-As-User').unset('X-Auth-As-Mod').unset('X-Auth-As-Admin');
 
-module.exports = { asAnon, asUser, asMod, asAdmin };
+const asAnon = req => clear(req).set('X-Auth-As-Anon', config.secret);
+const asUser = req => clear(req).set('X-Auth-As-User', config.secret);
+const asMod = req => clear(req).set('X-Auth-As-Mod', config.secret);
+const asAdmin = req => clear(req).set('X-Auth-As-Admin', config.secret);
+const asPrevious = req => clear(req);
+
+module.exports = { asAnon, asUser, asMod, asAdmin, asPrevious };

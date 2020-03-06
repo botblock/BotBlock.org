@@ -1,4 +1,4 @@
-const { describe, it, expect, request, db, locale, checks } = require('../base');
+const { describe, it, expect, request, db, locale, checks, auth } = require('../base');
 const renderer = new (require('../../src/Structure/Markdown'))();
 
 describe('/', () => {
@@ -94,6 +94,317 @@ describe('/about', () => {
 
                     done();
                 });
+            });
+        });
+    });
+});
+
+describe('/about/manage', () => {
+    describe('GET', () => {
+        describe('As an anonymous user', () => {
+            const test = () => request().get('/about/manage');
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe('As a logged in user', () => {
+            const test = () => auth.asUser(request().get('/about/manage'));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe('As a moderator', () => {
+            const test = () => auth.asMod(request().get('/about/manage'));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe('As an administrator', () => {
+            const test = () => auth.asAdmin(request().get('/about/manage'));
+            it('returns an OK status code', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+            });
+            it('has the correct page title', done => {
+                test().end((err, res) => {
+                    expect(res).to.be.html;
+                    checks.title(res, `About - ${locale('site_name')} - ${locale('short_desc')}`);
+                    done();
+                });
+            });
+            it('renders the expected information', done => {
+                db.select('id', 'title').from('about').then(sections => {
+                    test().end((err, res) => {
+                        expect(res).to.be.html;
+
+                        // Confirm header
+                        expect(res.text).to.include(`About Manager`);
+
+                        // Confirm sections
+                        sections.forEach(section => {
+                            expect(res.text).to.include(section.name);
+                            expect(res.text).to.include(`href="/about/manage/${section.id}"`);
+                        });
+
+                        done();
+                    });
+                });
+            });
+        });
+    });
+});
+
+describe('/about/manage/add', () => {
+    describe('As an anonymous user', () => {
+        describe('GET', () => {
+            const test = () => request().get('/about/manage/add');
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe('POST', () => {
+            const test = () => request().post('/about/manage/add');
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a logged in user', () => {
+        describe('GET', () => {
+            const test = () => auth.asUser(request().get('/about/manage/add'));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe('POST', () => {
+            const test = () => auth.asUser(request().post('/about/manage/add'));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a moderator', () => {
+        describe('GET', () => {
+            const test = () => auth.asMod(request().get('/about/manage/add'));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe('POST', () => {
+            const test = () => auth.asMod(request().post('/about/manage/add'));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As an administrator', () => {
+        describe('GET', () => {
+            const test = () => auth.asAdmin(request().get('/about/manage/add'));
+            it('returns an OK status code', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+            });
+            it('has the correct page title', done => {
+                test().end((err, res) => {
+                    expect(res).to.be.html;
+                    checks.title(res, `Add Section - ${locale('site_name')} - ${locale('short_desc')}`);
+                    done();
+                });
+            });
+        });
+    });
+});
+
+describe('/about/manage/:id', () => {
+    const sectionId = 'intro';
+    describe('As an anonymous user', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => request().get(`/about/manage/${sectionId}`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe(`POST (:id = ${sectionId})`, () => {
+            const test = () => request().post(`/about/manage/${sectionId}`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a logged in user', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => auth.asUser(request().get(`/about/manage/${sectionId}`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe(`POST (:id = ${sectionId})`, () => {
+            const test = () => auth.asUser(request().post(`/about/manage/${sectionId}`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a moderator', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => auth.asMod(request().get(`/about/manage/${sectionId}`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+
+        describe(`POST (:id = ${sectionId})`, () => {
+            const test = () => auth.asMod(request().post(`/about/manage/${sectionId}`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As an administrator', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => auth.asAdmin(request().get(`/about/manage/${sectionId}`));
+            it('returns an OK status code', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    done();
+                });
+            });
+            it('has the correct page title', done => {
+                test().end((err, res) => {
+                    expect(res).to.be.html;
+                    checks.title(res, `Edit Section - ${locale('site_name')} - ${locale('short_desc')}`);
+                    done();
+                });
+            });
+        });
+    });
+});
+
+describe('/about/manage/:id/delete', () => {
+    const sectionId = 'intro';
+    describe('As an anonymous user', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => request().get(`/about/manage/${sectionId}/delete`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a logged in user', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => auth.asUser(request().get(`/about/manage/${sectionId}/delete`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a moderator', () => {
+        describe(`GET (:id = ${sectionId})`, () => {
+            const test = () => auth.asMod(request().get(`/about/manage/${sectionId}/delete`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+});
+
+describe('/sitemap', () => {
+    describe('GET', () => {
+        const test = () => request().get('/sitemap');
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has the correct page title', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+                checks.title(res, `Sitemap - ${locale('site_name')} - ${locale('short_desc')}`);
+                done();
+            });
+        });
+        it('renders the expected content', done => {
+            test().end((err, res) => {
+                expect(res).to.be.html;
+
+                // Confirm button
+                expect(res.text).to.include('href="/sitemap.xml">View as XML');
+                done();
             });
         });
     });

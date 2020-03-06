@@ -41,7 +41,7 @@ describe('/lists/best-practices', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Best Practices for Discord Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Best Practices for Discord Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
