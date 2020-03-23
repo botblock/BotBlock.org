@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Debug?
+        run: echo Port ${{ job.services.mysql.ports[3306] }}
+
       - name: Install dependencies
         run: npm install
 
