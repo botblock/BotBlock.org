@@ -25,7 +25,7 @@ module.exports = {
     database: {
         host: 'localhost',
         user: 'root',
-        password: 'root',
+        password: '',
         database: 'botblock',
         client: 'mysql'
     },
