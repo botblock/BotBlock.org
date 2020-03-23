@@ -13,9 +13,8 @@ const main = () => {
 
     // If custom DB port, set it
     if (process.env.DB_PORT) {
-        const rawConfig = fs.readFileSync(configLocation);
-        rawConfig.replace('port: 3306,', `port: ${process.env.DB_PORT},`);
-        fs.writeFileSync(configLocation, rawConfig);
+        fs.writeFileSync(configLocation,
+            fs.readFileSync(configLocation).toString('utf8').replace('port: 3306,', `port: ${process.env.DB_PORT},`));
     }
 };
 
