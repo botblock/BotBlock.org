@@ -4,13 +4,20 @@ on: pull_request
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: botblock
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v1
-
-      - name: Create database
-        run: mysql -uroot -proot -e "CREATE DATABASE botblock;"
 
       - name: Install dependencies
         run: npm install
