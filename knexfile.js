@@ -11,6 +11,10 @@ module.exports = {
         },
         seeds: {
             directory: path.join(__dirname, 'db', 'seeds')
+        },
+        pool: {
+            createRetryIntervalMillis: 100,
+            propagateCreateError: false
         }
     },
     seedExport: {
