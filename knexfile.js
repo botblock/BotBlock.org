@@ -14,8 +14,8 @@ module.exports = {
         },
         pool: {
             createRetryIntervalMillis: 100,
-            propagateCreateError: false,
-        },
+            propagateCreateError: false
+        }
     },
     seedExport: {
         client: config.seedDatabase.client,
