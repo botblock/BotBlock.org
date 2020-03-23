@@ -3,12 +3,6 @@ class Logger {
         this.db = db;
     }
 
-    async purge() {
-        await this.db('requests')
-            .where('datetime', '<', Date.now() / 1000 - 24 * 3600)
-            .del();
-    }
-
     json(data) {
         return JSON.stringify(data, null, 2);
     }
@@ -36,21 +30,26 @@ class Logger {
         const defaultEnd = res.end;
         const chunks = [];
 
-        await this.purge();
         const store = this.store.bind(this);
 
         res.write = (...restArgs) => {
-            chunks.push(Buffer.from(restArgs[0]));
+            // Handle as normal first
             defaultWrite.apply(res, restArgs);
+
+            // Store in mem to log to db
+            chunks.push(Buffer.from(restArgs[0]));
         };
 
         // Nothing else will touch res.end so this won't be a race condition ever
         // eslint-disable-next-line require-atomic-updates
-        res.end = async (...restArgs) => {
+        res.end = (...restArgs) => {
+            // Handle as normal first
+            defaultEnd.apply(res, restArgs);
+
+            // Store in the db, don't block
             if (restArgs[0]) chunks.push(Buffer.from(restArgs[0]));
             const body = Buffer.concat(chunks).toString('utf8');
-            await store(req, res, body);
-            defaultEnd.apply(res, restArgs);
+            store(req, res, body).then(() => {}).catch(() => {});
         };
 
         next();
