@@ -10,6 +10,13 @@ const main = () => {
 
     // Copy CI config to root
     fs.copyFileSync(path.join(__dirname, 'config.ci.js'), configLocation);
+
+    // If custom DB port, set it
+    if (process.env.DB_PORT) {
+        const rawConfig = fs.readFileSync(configLocation);
+        rawConfig.replace('port: 3306,', `port: ${process.env.DB_PORT},`);
+        fs.writeFileSync(configLocation, rawConfig);
+    }
 };
 
 main();

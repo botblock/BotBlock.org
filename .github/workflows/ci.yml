@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup CI
         run: npm run ci:setup
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
       - name: Database migrations
         run: npm run db:migrate
