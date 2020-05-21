@@ -7,8 +7,8 @@ $white: #F5F7FA;
 
 $primary: $brand;
 $primary-invert: $brand-dark;
-$light: darken(desaturate($brand, 60%), 35%);
-$lighter: lighten($light, 10%);
+$light: darken(desaturate($brand, 40%), 37.5%);
+$lighter: lighten(desaturate($light, 15%), 7.5%);
 $light-invert: invert($light);
 $background: darken($light, 5%);
 $link: $brand;
