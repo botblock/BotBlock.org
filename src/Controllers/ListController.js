@@ -41,7 +41,7 @@ module.exports = class ListController {
                     const exists = oldFeatures.find((f) => f.feature === Number(key));
                     if (exists) continue;
                     await this.db('feature_map').insert({
-                        list: list.id,
+                        list: edit ? list.id : validation.id,
                         feature: key,
                         value: value === 'on'
                     });
@@ -56,7 +56,7 @@ module.exports = class ListController {
                 }
 
                 // If the list id changes, update all the features
-                if (list.id !== validation.id) {
+                if (edit && list.id !== validation.id) {
                     await this.db('feature_map').where({ list: list.id }).update({ list: validation.id });
                 }
 
