@@ -10,7 +10,7 @@ section.section(style='padding-top:0; padding-bottom: 1.5rem')
             if breadcrumb.filter((b) => b).length >= 1
                 -for (var i = 0; i < breadcrumb.length; i++)
                     li
-                        a(href='/') #{breadcrumb[i].charAt(0).toUpperCase() + breadcrumb[i].slice(1)}
+                        a(href='/') #{decodeURIComponent(breadcrumb[i].charAt(0).toUpperCase() + breadcrumb[i].slice(1))}
 
         ul.right-links
             li
