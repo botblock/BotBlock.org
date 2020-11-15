@@ -366,7 +366,7 @@ class APIRoute extends BaseRoute {
                     }
                     for (let list of Object.keys(lists)) {
                         list = lists[list];
-                        if (Number(list[1]) === 200) {
+                        if (Number(list[1]) === 200 && list[0] && typeof list[0] === 'object') {
                             // TODO: discordsbestbots.xyz returns everything inside the 'bot' property of a parent object, we need to handle that
                             const fields = Object.keys(list[0]);
                             for (let key in fields) {
