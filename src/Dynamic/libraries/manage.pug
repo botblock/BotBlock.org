@@ -1,0 +1,24 @@
+extends ../layout
+block content
+    section.section
+        .container
+            .hero
+                .hero-body.hero-slim
+                    .has-text-centered
+                        h1.title.is-size-4 API Library Manager
+                a.button.is-small.is-mod.is-right(href='/api/docs/libs/add') Add Library
+            .columns
+                if !libraries.length
+                    h3.title.is-size-3 No libraries found, add one!
+                else
+                    for library in libraries
+                        .column.is-one-third
+                            .card.is-box-shadow
+                                .card-content
+                                    .media
+                                        .media-content
+                                            h5.title.is-size-5 #{library.name}
+                                            .buttons
+                                                a.button.is-light.is-small.is-mod(href='/api/docs/libs/manage/' + library.name) Edit
+                                                if user.admin
+                                                    a.button.is-light.is-small.is-mod(href='/api/docs/libs/manage/' + library.name + '/delete') Delete
