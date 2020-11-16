@@ -77,7 +77,7 @@ class APIRoute extends BaseRoute {
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
             }
-        })
+        });
 
         this.router.get('/docs/libs/manage/:name', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             try {
@@ -95,7 +95,7 @@ class APIRoute extends BaseRoute {
             } catch (e) {
                 handleError(this.db, req, res, e.stack);
             }
-        })
+        });
 
         this.router.post('/docs/libs/manage/:name', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
             this.db.select().from('libraries').where({ name: req.params.name }).then(async (data) => {
@@ -118,15 +118,13 @@ class APIRoute extends BaseRoute {
                 await this.db('libraries').where({ name: req.params.name }).update(changes);
                 res.redirect('/api/docs/libs/manage');
             }).catch((e) => {
-                console.log(e)
                 handleError(this.db, req, res, e.stack);
             });
-        })
+        });
 
         this.router.get('/docs/libs/manage/:name/delete', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
             try {
                 this.db.select().from('libraries').where({ name: req.params.name }).limit(1).then(async (libraries) => {
-                    console.log(libraries)
                     if (!libraries.length) return res.status(404).render('error', {
                         title: 'Page not found',
                         status: 404,
