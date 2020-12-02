@@ -11,66 +11,66 @@ class BotRoute extends BaseRoute {
         this.routes();
     }
 
-    async postBot(data) {
+    async postBot(req, res) {
         const responses = [];
         return await this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(lists => {
             for (var list of lists) {
-                if (data[list.name] == 'on') {
-                    return axios.post(list.add_bot, data, {
-                        headers: { 'Authorization': list.add_bot_key }
+                if (req.body[list.name] == 'on') {
+                    return axios.post(list.add_bot, req.body, {
+                        headers: { Authorization: list.add_bot_key }
                     }).then(resp => {
-                        responses.push({ ...resp.data, error: false, name: list.name })
-                        return responses
+                        responses.push({ ...resp.data, error: false, name: list.name });
+                        return responses;
                     }).catch(err => {
-                        responses.push({ ...err.response.data, error: true, name: list.name })
-                        return responses
-                    })
+                        responses.push({ ...err.response.data, error: true, name: list.name });
+                        return responses;
+                    });
                 }
-                delete data[list.name]
+                delete req.body[list.name];
             }
         }).catch((e) => {
             handleError(this.db, req, res, e.stack);
         });
-    };
+    }
 
     routes() {
         this.router.get('/add', this.requiresAuth.bind(this), (req, res) => {
-            res.render('bot/add')
+            res.render('bot/add');
         });
 
 
         this.router.post('/add', async (req, res) => {
             try {
-                const data = await this.client.getUser(req.body.botid)
-                if (!data['bot']) { res.render('bot/add', { error: true }) }
+                const data = await this.client.getUser(req.body.botid);
+                if (!data['bot']) { res.render('bot/add', { error: true }) };
                 this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(supportedLists => {
-                    res.render('bot/add', { error: false, bot: data, supportedLists: supportedLists })
+                    res.render('bot/add', { error: false, bot: data, supportedLists: supportedLists });
                 }).catch((e) => {
                     handleError(this.db, req, res, e.stack);
                 });
             } catch {
-                res.render('bot/add', { error: true })
+                res.render('bot/add', { error: true });
             }
         });
 
 
         this.router.post('/add/:id', async (req, res) => {
-            const [bot, user] = await Promise.all([this.client.getUser(req.params.id), this.client.getUser(req.session.user.id)])
+            const [bot, user] = await Promise.all([this.client.getUser(req.params.id), this.client.getUser(req.session.user.id)]);
 
-            user.locale = req.session.user.locale
-            user.mfa_enabled = req.session.user.mfa_enabled
-            user.premium_type = req.session.user.premium_type
+            user.locale = req.session.user.locale;
+            user.mfa_enabled = req.session.user.mfa_enabled;
+            user.premium_type = req.session.user.premium_type;
 
-            req.body.nsfw = 'on' ? true : false
-            req.body.id = bot.id
-            req.body.owner_id = user.id
-            req.body.owner_oauth = req.session.user.access_token
-            req.body.bot_details = bot
-            req.body.owner_details = user
+            req.body.nsfw = 'on' ? true : false;
+            req.body.id = bot.id;
+            req.body.owner_id = user.id;
+            req.body.owner_oauth = req.session.user.access_token;
+            req.body.bot_details = bot;
+            req.body.owner_details = user;
 
-            const results = await this.postBot(req.body)
+            const results = await this.postBot(req, res);
 
-            res.render('bot/add', { after: true, results: results })
+            res.render('bot/add', { after: true, results: results });
         });
     }
 
