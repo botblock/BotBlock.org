@@ -22,7 +22,7 @@ document.getElementById('add').addEventListener('submit', function (e) {
             }
         }
     }
-    if (!value.value) { return e.preventDefault() };
+    if (!value.value) { return e.preventDefault(); }
     if (!isSnowflake(value.value)) {
         document.getElementById('error').innerText = 'Please enter a valid snowflake ID to add';
         return e.preventDefault();

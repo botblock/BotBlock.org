@@ -42,7 +42,7 @@ class BotRoute extends BaseRoute {
         this.router.post('/add', async (req, res) => {
             try {
                 const data = await this.client.getUser(req.body.botid);
-                if (!data['bot']) { res.render('bot/add', { error: true }) };
+                if (!data['bot']) { res.render('bot/add', { error: true }); }
                 this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(supportedLists => {
                     res.render('bot/add', { error: false, bot: data, supportedLists: supportedLists });
                 }).catch((e) => {
