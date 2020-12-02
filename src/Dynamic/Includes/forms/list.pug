@@ -99,6 +99,14 @@ form(method='POST')
                 label.label(for='api_shards') API Post - Shards Array Field Name
                 .control
                     input.input#api_shards(type='text', name='api_shards', value=data.api_shards)
+            .field
+                label.label(for='add_bot') API Post - Add Bot URL
+                .control
+                    input.input#add_bot(type='text', name='add_bot', value=data.add_bot)
+            .field
+                label.label(for='add_bot_key') API Post - Add Bot Key
+                .control
+                    input.input#add_bot_key(type='text', name='add_bot_key', value=data.add_bot_key)
 
         .column
             .field
@@ -125,4 +133,3 @@ form(method='POST')
     include ../checkboxes
     .control(style='margin-top: 10px')
         button.button.is-brand Submit
-
