@@ -52,6 +52,23 @@ class FormValidator {
         if (!data.content) errors.push('Content is required');
         return errors;
     }
+
+    /**
+     * Validate library data.
+     * @param data
+     * @returns {string[] | null}
+     */
+    static validateLibrary(data) {
+        if (!data) return null;
+        let errors = [];
+        if (!data.repo) errors.push('Repository is required');
+        if (!data.language) errors.push('Language is required');
+        if (!data.name) errors.push('Name is required');
+        if (!data.description) errors.push('Description is required');
+        if (!data.package_link) errors.push('Package Link is required');
+        if (!data.package_link_name) errors.push('Package Link Name is required');
+        return errors;
+    }
 }
 
 module.exports = FormValidator;

@@ -13,6 +13,7 @@ const getList = require('../Util/getList');
 const listProps = require('../Util/listProps');
 const Renderer = require('../Structure/Markdown');
 const { secret } = require('../../config.js');
+const FormValidator = require('../Structure/FormValidator');
 
 class APIRoute extends BaseRoute {
     constructor(client, db) {
@@ -59,6 +60,109 @@ class APIRoute extends BaseRoute {
             }).catch((e) => {
                 handleError(this.db, req, res, e.stack);
             });
+        });
+
+        this.router.get('/docs/libs/manage', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('libraries')
+                    .orderBy([
+                        { column: 'name', order: 'asc' }
+                    ])
+                    .then((libraries) => {
+                        res.render('libraries/manage', {
+                            title: 'Manage API Libraries',
+                            libraries
+                        });
+                    });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/docs/libs/manage/:name', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            try {
+                this.db.select().from('libraries').where({ name: req.params.name }).limit(1).then((libraries) => {
+                    if (!libraries.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    res.render('libraries/edit', {
+                        title: `Edit Library '${libraries[0].name}'`,
+                        data: libraries[0]
+                    });
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.post('/docs/libs/manage/:name', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            this.db.select().from('libraries').where({ name: req.params.name }).then(async (data) => {
+                if (!data.length) return res.status(404).render('error', {
+                    title: 'Page not found',
+                    status: 404,
+                    message: 'The page you were looking for could not be found.'
+                });
+                let changes = {};
+                const validate = FormValidator.validateLibrary(req.body);
+                if (validate && validate.length > 0) return res.render('libraries/edit', { title: 'Edit Library', data: req.body, errors: validate });
+                const columns = Object.keys(await this.db('libraries').columnInfo());
+                for (const column of columns) {
+                    if (req.body[column]) {
+                        changes[column] = req.body[column];
+                    } else {
+                        changes[column] = null;
+                    }
+                }
+                await this.db('libraries').where({ name: req.params.name }).update(changes);
+                res.redirect('/api/docs/libs/manage');
+            }).catch((e) => {
+                handleError(this.db, req, res, e.stack);
+            });
+        });
+
+        this.router.get('/docs/libs/manage/:name/delete', this.requiresAuth.bind(this), this.isAdmin.bind(this), (req, res) => {
+            try {
+                this.db.select().from('libraries').where({ name: req.params.name }).limit(1).then(async (libraries) => {
+                    if (!libraries.length) return res.status(404).render('error', {
+                        title: 'Page not found',
+                        status: 404,
+                        message: 'The page you were looking for could not be found.'
+                    });
+                    await this.db('libraries').where({ name: req.params.name }).del();
+                    res.redirect('/api/docs/libs/manage');
+                });
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
+        });
+
+        this.router.get('/docs/libs/add', this.requiresAuth.bind(this), this.isMod.bind(this), (req, res) => {
+            res.render('libraries/edit', {
+                title: 'Add Library',
+                data: {}
+            });
+        });
+
+        this.router.post('/docs/libs/add', this.requiresAuth.bind(this), this.isAdmin.bind(this), async (req, res) => {
+            try {
+                let changes = {};
+                const validate = FormValidator.validateLibrary(req.body);
+                if (validate && validate.length > 0) return res.render('libraries/edit', { title: 'Add Library', data: req.body, errors: validate });
+                const columns = Object.keys(await this.db('libraries').columnInfo());
+                for (const column of columns) {
+                    if (req.body[column]) {
+                        changes[column] = req.body[column];
+                    } else {
+                        changes[column] = null;
+                    }
+                }
+                await this.db('libraries').insert(changes);
+                res.redirect('/api/docs/libs/manage');
+            } catch (e) {
+                handleError(this.db, req, res, e.stack);
+            }
         });
 
         this.router.get('/lists', cors(), this.ratelimit.checkRatelimit(1, 1), async (req, res) => {

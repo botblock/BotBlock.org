@@ -63,6 +63,8 @@ block content
                                                 span View on GitHub
                                             a.button.is-brand.is-size-6(href=lib.package_link, target='_blank')
                                                 span View on #{lib.package_link_name}
+                                            if user && (user.mod || user.admin)
+                                                a.button.is-light.is-size-6.is-mod(href='/api/docs/libs/manage/' + lib.name) Edit Library
                                     if lib.example_usage
                                         .column.left.is-full
                                             h5.is-size-5 Example Usage

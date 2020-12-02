@@ -1,0 +1,46 @@
+if errors && errors.length > 0
+    .notification.is-danger
+        button.delete
+        ul
+            for error in errors
+                li #{error}
+form(method='POST')
+    .field
+        label.label(for='repo') Repo *
+        .control
+            input.input(type='text', id='repo', name='repo' value=data.repo, required)
+    .field
+        label.label(for='language') Language *
+        .control
+            input.input(type='text', id='language', name='language' value=data.language, required)
+    .field
+        label.label(for='name') Name *
+        .control
+            input.input(type='text', id='name', name='name' value=data.name, required)
+    .field
+        label.label(for='description') Description *
+        .control
+            textarea.textarea(type='text', id='description', name='description', required) #{data.description}
+    .field
+        label.label(for='package_link') Package Link *
+        .control
+            input.input(type='text', id='package_link', name='package_link' value=data.package_link, required)
+    .field
+        label.label(for='package_link_name') Package Link Name *
+        .control
+            input.input(type='text', id='package_link_name', name='package_link_name' value=data.package_link_name, required)
+    .field
+        label.label(for='badge_image') Badge Image
+        .control
+            input.input(type='text', id='badge_image', name='badge_image' value=data.badge_image)
+    .field
+        label.label(for='badge_url') Badge Url
+        .control
+            input.input(type='text', id='badge_url', name='badge_url' value=data.badge_url)
+    .field
+        label.label(for='example_usage') Example Usage
+        .control
+            textarea.textarea(type='text', id='example_usage', name='example_usage') #{data.example_usage}
+    .control(style='margin-top: 10px')
+        button.button.is-brand Submit
+
