@@ -47,6 +47,7 @@ class Website {
             res.locals.adblock = req.headers['x-disable-adsense'] && req.headers['x-disable-adsense'] === config.secret;
             res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
             res.locals.user = req.session.user;
+            res.locals.gaCode = config.GACode;
             res.cookie('url', req.path.startsWith('/auth') ? '/' : req.path);
             console.log('[' + req.method + '] ' + req.path + ' (' + req.ip + ')');
             next();

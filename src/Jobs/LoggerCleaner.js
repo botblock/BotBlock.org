@@ -10,7 +10,7 @@ class LoggerCleaner extends BaseJob {
     jobFunc() {
         return new Promise((resolve, reject) => {
             this.db('requests')
-                .where('datetime', '<', Date.now() / 1000 - 12 * 3600)
+                .where('datetime', '<', Date.now() / 1000 - 60 * 60)
                 .del()
                 .then(() => resolve())
                 .catch(e => {
