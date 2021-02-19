@@ -301,7 +301,7 @@ class APIRoute extends BaseRoute {
                                 payload[list.api_field] = req.body.server_count;
                             }
                             if (req.body.shard_id && list.api_shard_id) payload[list.api_shard_id] = req.body.shard_id;
-                            if (req.body.shard_count && list.shard_count) payload[list.api_shard_count] = req.body.shard_count;
+                            if (req.body.shard_count && list.api_shard_count) payload[list.api_shard_count] = req.body.shard_count;
                             let userAgent = getUserAgent().random;
                             if (req.get('User-Agent')) {
                                 userAgent = req.get('User-Agent');
