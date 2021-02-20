@@ -432,7 +432,7 @@ class APIRoute extends BaseRoute {
                         username: this.getMostCommon(output.username) || 'Unknown',
                         discriminator: this.getMostCommon(output.discriminator) || '0000',
                         owners: output.owners.filter((v, i, a) => a.indexOf(v) === i && isSnowflake(v)) || [],
-                        server_count: Math.max(...output.server_count) || '',
+                        server_count: Math.max(...output.server_count) || 0,
                         invite: this.getMostCommon(output.invite) || '',
                         prefix: this.getMostCommon(output.prefix) || '',
                         website: this.getMostCommon(output.website) || '',
