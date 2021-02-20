@@ -429,7 +429,7 @@ class APIRoute extends BaseRoute {
                     }
                     let response = {
                         id: output.id,
-                        username: this.getMostCommon(output.username) || 'Username Not Found',
+                        username: this.getMostCommon(output.username) || 'Unknown',
                         discriminator: this.getMostCommon(output.discriminator) || '',
                         owners: output.owners.filter((v, i, a) => a.indexOf(v) === i && isSnowflake(v)) || [],
                         server_count: Math.max(...output.server_count) || '',
