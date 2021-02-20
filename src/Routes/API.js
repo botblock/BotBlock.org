@@ -430,15 +430,15 @@ class APIRoute extends BaseRoute {
                     let response = {
                         id: output.id,
                         username: this.getMostCommon(output.username) || 'Username Not Found',
-                        discriminator: this.getMostCommon(output.discriminator) || null,
+                        discriminator: this.getMostCommon(output.discriminator) || '',
                         owners: output.owners.filter((v, i, a) => a.indexOf(v) === i && isSnowflake(v)) || [],
-                        server_count: Math.max(...output.server_count) || null,
-                        invite: this.getMostCommon(output.invite) || null,
-                        prefix: this.getMostCommon(output.prefix) || null,
-                        website: this.getMostCommon(output.website) || null,
-                        github: this.getMostCommon(output.github) || null,
-                        support: this.getMostCommon(output.support) || null,
-                        library: this.getMostCommon(output.library) || null,
+                        server_count: Math.max(...output.server_count) || '',
+                        invite: this.getMostCommon(output.invite) || '',
+                        prefix: this.getMostCommon(output.prefix) || '',
+                        website: this.getMostCommon(output.website) || '',
+                        github: this.getMostCommon(output.github) || '',
+                        support: this.getMostCommon(output.support) || '',
+                        library: this.getMostCommon(output.library) || '',
                         list_data: { ...lists } || {}
                     };
                     await this.cache.add(req.originalUrl, 300, response);
