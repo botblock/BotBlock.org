@@ -374,10 +374,10 @@ class APIRoute extends BaseRoute {
                                 if (key === 'name' || key === 'username' || key === 'bot_name') {
                                     output.username.push(value);
                                 }
-                                if (key === 'discrim' || key === 'discriminator') {
+                                if (key === 'discrim' || key === 'discriminator' || key === 'disc') {
                                     output.discriminator.push(String(value));
                                 }
-                                if (key === 'owner' || key === 'owners' || key === 'authors' || key === 'bot_owners') {
+                                if (key === 'owner' || key === 'owners' || key === 'authors' || key === 'bot_owners' || key === 'owner_id') {
                                     if (!Array.isArray(value) && typeof value !== 'object') {
                                         output.owners.push(value);
                                     } else if (Array.isArray(value) && typeof value !== 'object') {
@@ -414,7 +414,7 @@ class APIRoute extends BaseRoute {
                                 if (key === 'website' || key === 'bot_website') {
                                     if (typeof key === 'string') output.website.push(value);
                                 }
-                                if (key === 'github' || key === 'bot_github_repo' || key === 'openSource' || key === 'git') {
+                                if (key === 'github' || key === 'bot_github_repo' || key === 'openSource' || key === 'git' || key === 'source_code') {
                                     if (typeof key === 'string') output.github.push(value);
                                 }
                                 if (key === 'support' || key === 'supportInvite' || key === 'support_server' || key === 'discord'
@@ -429,16 +429,16 @@ class APIRoute extends BaseRoute {
                     }
                     let response = {
                         id: output.id,
-                        username: this.getMostCommon(output.username) || 'Unknown',
-                        discriminator: this.getMostCommon(output.discriminator) || '0000',
+                        username: this.getMostCommon(output.username) || 'Username Not Found',
+                        discriminator: this.getMostCommon(output.discriminator) || null,
                         owners: output.owners.filter((v, i, a) => a.indexOf(v) === i && isSnowflake(v)) || [],
-                        server_count: Math.max(...output.server_count) || 0,
-                        invite: this.getMostCommon(output.invite) || '',
-                        prefix: this.getMostCommon(output.prefix) || '',
-                        website: this.getMostCommon(output.website) || '',
-                        github: this.getMostCommon(output.github) || '',
-                        support: this.getMostCommon(output.support) || '',
-                        library: this.getMostCommon(output.library) || '',
+                        server_count: Math.max(...output.server_count) || null,
+                        invite: this.getMostCommon(output.invite) || null,
+                        prefix: this.getMostCommon(output.prefix) || null,
+                        website: this.getMostCommon(output.website) || null,
+                        github: this.getMostCommon(output.github) || null,
+                        support: this.getMostCommon(output.support) || null,
+                        library: this.getMostCommon(output.library) || null,
                         list_data: { ...lists } || {}
                     };
                     await this.cache.add(req.originalUrl, 300, response);
