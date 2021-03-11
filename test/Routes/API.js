@@ -1,4 +1,4 @@
-const { describe, it, expect, request, ratelimitBypass, resetRatelimits, ratelimitTest, locale, titleCheck, db } = require('../base');
+const { describe, it, expect, request, ratelimitBypass, resetRatelimits, checks, locale, db } = require('../base');
 const listProps = require('../../src/Util/listProps');
 
 describe('Invalid route (/api/helloworld)', () => {
@@ -71,7 +71,7 @@ describe('/api/docs', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -191,7 +191,7 @@ describe('/api/docs/libs', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Libraries - API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Libraries - API Docs - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -355,7 +355,7 @@ describe('/api/lists', () => {
             });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 1, test, done);
+            checks.ratelimit(this, 1, test, done);
         });
     });
 
@@ -505,12 +505,106 @@ describe('/api/lists/:id', () => {
             });
         });
         it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 1, test, done, 404);
+            checks.ratelimit(this, 1, test, done, 404);
         });
     });
 
     describe('POST', () => {
         const test = () => ratelimitBypass(request().post('/api/lists/hello-world'));
+        it('returns a Not Found status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(404);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
+        it('returns an error JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('error', true);
+                expect(res.body).to.have.property('status', 404);
+                expect(res.body).to.have.property('message', 'Endpoint not found');
+                done();
+            });
+        });
+    });
+});
+
+describe('/api/legacy-ids', () => {
+    describe('GET', () => {
+        const test = () => ratelimitBypass(request().get('/api/legacy-ids'));
+        it('returns an OK status code', done => {
+            test().end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+        });
+        it('has a permissive CORS header', done => {
+            test().end((err, res) => {
+                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
+                done();
+            });
+        });
+        it('returns a valid JSON body', done => {
+            test().end((err, res) => {
+                expect(res).to.be.json;
+                done();
+            });
+        });
+        it('contains an object of strings', done => {
+            test().end((err, res) => {
+                expect(res.body).to.be.a('object');
+                const entries = Object.values(res.body);
+                entries.forEach(entry => {
+                    expect(entry).to.be.a('string');
+                });
+                done();
+            });
+        });
+    });
+
+    describe('GET (Ratelimited)', () => {
+        const test = () => request().get('/api/legacy-ids');
+        it('ratelimits spam requests', done => {
+            resetRatelimits().end(() => {
+                test().end(() => {
+                });
+                setTimeout(() => {
+                    test().end((err, res) => {
+                        expect(res).to.have.status(429);
+                        expect(res).to.be.json;
+
+                        expect(res.body).to.have.property('error', true);
+                        expect(res.body).to.have.property('status', 429);
+
+                        expect(res.body).to.have.property('retry_after');
+                        expect(res.body.retry_after).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_reset');
+                        expect(res.body.ratelimit_reset).to.be.a('number');
+
+                        expect(res.body).to.have.property('ratelimit_ip');
+                        expect(res.body.ratelimit_ip).to.be.a('string');
+
+                        expect(res.body).to.have.property('ratelimit_route', '/api/legacy-ids');
+                        expect(res.body).to.have.property('ratelimit_bot_id', '');
+                        done();
+                    });
+                }, 200);
+            });
+        });
+        it('does not ratelimit requests spaced correctly', function (done) {
+            checks.ratelimit(this, 1, test, done);
+        });
+    });
+
+    describe('POST', () => {
+        const test = () => ratelimitBypass(request().post('/api/legacy-ids'));
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);
@@ -1069,7 +1163,7 @@ describe('/api/count', () => {
                 bot_id: '123456789123456789',
                 server_count: 10
             });
-            ratelimitTest(this, 120, test, done);
+            checks.ratelimit(this, 120, test, done);
         });
     });
 });
@@ -1281,7 +1375,7 @@ describe('/api/bots/:id', () => {
                 });
             });
             it('does not ratelimit requests spaced correctly', function (done) {
-                ratelimitTest(this, 30, test, done, 400);
+                checks.ratelimit(this, 30, test, done, 400);
             });
         });
 
@@ -1309,100 +1403,6 @@ describe('/api/bots/:id', () => {
 
     describe('POST', () => {
         const test = () => ratelimitBypass(request().post('/api/bots/123456789123456789'));
-        it('returns a Not Found status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(404);
-                done();
-            });
-        });
-        it('has a permissive CORS header', done => {
-            test().end((err, res) => {
-                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
-                done();
-            });
-        });
-        it('returns an error JSON body', done => {
-            test().end((err, res) => {
-                expect(res).to.be.json;
-                expect(res.body).to.have.property('error', true);
-                expect(res.body).to.have.property('status', 404);
-                expect(res.body).to.have.property('message', 'Endpoint not found');
-                done();
-            });
-        });
-    });
-});
-
-describe('/api/legacy-ids', () => {
-    describe('GET', () => {
-        const test = () => ratelimitBypass(request().get('/api/legacy-ids'));
-        it('returns an OK status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(200);
-                done();
-            });
-        });
-        it('has a permissive CORS header', done => {
-            test().end((err, res) => {
-                expect(res).to.have.header('Access-Control-Allow-Origin', '*');
-                done();
-            });
-        });
-        it('returns a valid JSON body', done => {
-            test().end((err, res) => {
-                expect(res).to.be.json;
-                done();
-            });
-        });
-        it('contains an object of strings', done => {
-            test().end((err, res) => {
-                expect(res.body).to.be.a('object');
-                const entries = Object.values(res.body);
-                entries.forEach(entry => {
-                    expect(entry).to.be.a('string');
-                });
-                done();
-            });
-        });
-    });
-
-    describe('GET (Ratelimited)', () => {
-        const test = () => request().get('/api/legacy-ids');
-        it('ratelimits spam requests', done => {
-            resetRatelimits().end(() => {
-                test().end(() => {
-                });
-                setTimeout(() => {
-                    test().end((err, res) => {
-                        expect(res).to.have.status(429);
-                        expect(res).to.be.json;
-
-                        expect(res.body).to.have.property('error', true);
-                        expect(res.body).to.have.property('status', 429);
-
-                        expect(res.body).to.have.property('retry_after');
-                        expect(res.body.retry_after).to.be.a('number');
-
-                        expect(res.body).to.have.property('ratelimit_reset');
-                        expect(res.body.ratelimit_reset).to.be.a('number');
-
-                        expect(res.body).to.have.property('ratelimit_ip');
-                        expect(res.body.ratelimit_ip).to.be.a('string');
-
-                        expect(res.body).to.have.property('ratelimit_route', '/api/legacy-ids');
-                        expect(res.body).to.have.property('ratelimit_bot_id', '');
-                        done();
-                    });
-                }, 200);
-            });
-        });
-        it('does not ratelimit requests spaced correctly', function (done) {
-            ratelimitTest(this, 1, test, done);
-        });
-    });
-
-    describe('POST', () => {
-        const test = () => ratelimitBypass(request().post('/api/legacy-ids'));
         it('returns a Not Found status code', done => {
             test().end((err, res) => {
                 expect(res).to.have.status(404);

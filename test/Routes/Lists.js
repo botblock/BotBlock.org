@@ -1,41 +1,30 @@
-const { describe, it, expect, request, db, locale, titleCheck, authCheck } = require('../base');
+const { describe, it, expect, request, db, locale, checks, auth, fetchPage } = require('../base');
 
 describe('/lists', () => {
     describe('GET', () => {
         const test = () => request().get('/lists');
-        it('returns an OK status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(200);
+        fetchPage(test);
+
+        it('returns an OK status code', function(done) {
+            expect(this.res).to.have.status(200);
+            done();
+        });
+
+        checks.meta(`All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+
+        describe('renders the expected content', () => {
+            it('has the correct title', function(done) {
+                expect(this.res.text).to.include('All Bot Lists');
                 done();
             });
-        });
-        it('has the correct page title', done => {
-            test().end((err, res) => {
-                expect(res).to.be.html;
-                titleCheck(res, `All Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+            it('has the stats footer', function(done) {
+                const footer = this.page.querySelector(".hero.card .hero-body.hero-stats.card-body");
+                expect(footer).to.exist;
+                expect(footer.innerHTML).to.include(`${locale('site_name')} - Bot List Stats`);
                 done();
             });
-        });
-        it('renders the expected content', done => {
-            db.select('name', 'url').from('lists').where({ display: true, defunct: false }).then(lists => {
-                test().end((err, res) => {
-                    expect(res).to.be.html;
 
-                    // Confirm header
-                    expect(res.text).to.include('All Bot Lists');
-
-                    // Confirm footer stats
-                    expect(res.text).to.include(`${locale('site_name')} - Bot List Stats`);
-
-                    // Confirm list cards
-                    lists.forEach(list => {
-                        expect(res.text).to.include(list.name);
-                        expect(res.text).to.include(list.url);
-                    });
-
-                    done();
-                });
-            });
+            checks.listCards(test, db, { display: true, defunct: false });
         });
     });
 });
@@ -52,7 +41,7 @@ describe('/lists/best-practices', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Best Practices for Discord Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Best Practices for Discord Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -79,7 +68,7 @@ describe('/lists/new', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `New Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `New Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -123,7 +112,7 @@ describe('/lists/defunct', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Defunct Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Defunct Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -163,7 +152,7 @@ describe('/lists/hidden', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Hidden Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Hidden Bot Lists - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -203,7 +192,7 @@ describe('/lists/features', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `All List Features - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `All List Features - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -240,7 +229,7 @@ describe('/lists/features/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Has Voting - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Has Voting - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -290,7 +279,7 @@ describe('/lists/search', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -328,7 +317,7 @@ describe('/lists/search/:query', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `Bot List Search - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -387,7 +376,7 @@ describe('/lists/:id', () => {
         it('has the correct page title', done => {
             test().end((err, res) => {
                 expect(res).to.be.html;
-                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -472,7 +461,7 @@ describe('/lists/:id', () => {
             test().end((err, res) => {
                 expect(res).to.have.status(200);
                 expect(res).to.be.html;
-                titleCheck(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
+                checks.title(res, `${data.name} (${data.id}) - ${locale('site_name')} - ${locale('short_desc')}`);
                 done();
             });
         });
@@ -499,34 +488,59 @@ describe('/lists/:id', () => {
 
 describe('/lists/:id/edit', () => {
     const listId = 'botlist.space';
-    describe(`GET (:id = ${listId})`, () => {
-        const test = () => request().get(`/lists/${listId}/edit`);
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
+    describe('As an anonymous user', () => {
+        describe(`GET (:id = ${listId})`, () => {
+            const test = () => request().get(`/lists/${listId}/edit`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
             });
         });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
-                done();
+
+        describe(`POST (:id = ${listId})`, () => {
+            const test = () => request().post(`/lists/${listId}/edit`);
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
             });
         });
     });
 
-    describe(`POST (:id = ${listId})`, () => {
-        const test = () => request().post(`/lists/${listId}/edit`);
-        it('returns a Forbidden status code', done => {
-            test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
+    describe('As a logged in user', () => {
+        describe(`GET (:id = ${listId})`, () => {
+            const test = () => auth.asUser(request().get(`/lists/${listId}/edit`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
             });
         });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
-                done();
+
+        describe(`POST (:id = ${listId})`, () => {
+            const test = () => auth.asUser(request().post(`/lists/${listId}/edit`));
+            it('returns the authentication required message', done => {
+                test().end((err, res) => {
+                    checks.authRequired(res);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('As a moderator', () => {
+        describe(`GET (:id = ${listId})`, () => {
+            const test = () => auth.asMod(request().get(`/lists/${listId}/edit`));
+            it('renders the edit page', done => {
+                test().end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.html;
+                    done();
+                });
             });
         });
     });
@@ -536,15 +550,9 @@ describe('/lists/:id/icon', () => {
     const listId = 'botlist.space';
     describe(`GET (:id = ${listId})`, () => {
         const test = () => request().get(`/lists/${listId}/icon`);
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -554,15 +562,9 @@ describe('/lists/:id/icon', () => {
 describe('/lists/add', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/add');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -570,15 +572,9 @@ describe('/lists/add', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/add');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -588,15 +584,9 @@ describe('/lists/add', () => {
 describe('/lists/legacy-ids', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/legacy-ids');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -604,15 +594,9 @@ describe('/lists/legacy-ids', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/legacy-ids');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -622,15 +606,9 @@ describe('/lists/legacy-ids', () => {
 describe('/lists/features/manage', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -640,15 +618,9 @@ describe('/lists/features/manage', () => {
 describe('/lists/features/manage/add', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage/add');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -656,15 +628,9 @@ describe('/lists/features/manage/add', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/features/manage/add');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -674,15 +640,9 @@ describe('/lists/features/manage/add', () => {
 describe('/lists/features/manage/:id', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage/1');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -690,15 +650,9 @@ describe('/lists/features/manage/:id', () => {
 
     describe('POST', () => {
         const test = () => request().post('/lists/features/manage/1');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -708,15 +662,9 @@ describe('/lists/features/manage/:id', () => {
 describe('/lists/features/manage/:id/delete', () => {
     describe('GET', () => {
         const test = () => request().get('/lists/features/manage/1/delete');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });

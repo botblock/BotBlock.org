@@ -10,12 +10,14 @@ class BaseRoute {
 
     isMod(req, res, next) {
         if (req.session.user.mod || req.session.user.admin) return next();
-        res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+        // res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+        res.status(403).render('authRequired', { title: 'Authentication is required' });
     }
 
     isAdmin(req, res, next) {
         if (req.session.user.admin) return next();
-        res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+        // res.render('error', { title: 'Page not found', status: 404, message: 'The page you were looking for could not be found.' });
+        res.status(403).render('authRequired', { title: 'Authentication is required' });
     }
 
 }

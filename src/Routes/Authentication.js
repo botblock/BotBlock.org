@@ -68,7 +68,6 @@ class AuthenticationRoute extends BaseRoute {
             req.session = null;
             res.redirect('/');
         });
-
     }
 
     get getRouter() {

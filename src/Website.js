@@ -38,13 +38,39 @@ class Website {
         this.app.use('/assets', express.static(path.join(__dirname, 'Assets')));
         this.app.use('/codemirror', express.static(path.join(__dirname, '..', 'node_modules', 'codemirror')));
         this.app.use((req, res, next) => {
+            // Test suite logic
+            res.locals.adblock = req.headers['x-disable-adsense'] === config.secret;
+            if (req.headers['x-auth-as-user'] === config.secret ||
+                req.headers['x-auth-as-admin'] === config.secret ||
+                req.headers['x-auth-as-mod'] === config.secret) {
+                req.session.user = {
+                    id: '123456789012345678',
+                    username: 'User',
+                    avatar: '',
+                    discriminator: '1234',
+                    locale: 'en-US',
+                    mfa_enabled: false,
+                    flags: 0,
+                    access_token: '',
+                    expires_in: 604800,
+                    refresh_token: '',
+                    scope: 'identify',
+                    token_type: 'Bearer',
+                    admin: false,
+                    mod: false
+                };
+                if (req.headers['x-auth-as-mod'] || req.headers['x-auth-as-admin']) req.session.user.mod = true;
+                if (req.headers['x-auth-as-admin']) req.session.user.admin = true;
+            }
+            if (req.headers['x-auth-as-anon'] === config.secret) req.session.user = undefined;
+
+            // App locals
             const host = req.get('host');
             res.locals.route = req.connection.encrypted ? 'https://' : 'http://' + host + req.path;
             res.locals.isProduction = host.toLowerCase().trim() === 'botblock.org';
             res.locals.isStaging = host.toLowerCase().trim() === 'staging.botblock.org';
             res.locals.isDevelopment = !res.locals.isProduction && !res.locals.isStaging;
             res.locals.language = req.cookies.lang;
-            res.locals.adblock = req.headers['x-disable-adsense'] && req.headers['x-disable-adsense'] === config.secret;
             res.locals.breadcrumb = req.path.split('/').splice(1, 3, null);
             res.locals.user = req.session.user;
             res.locals.gaCode = config.GACode;

@@ -1,17 +1,11 @@
-const { describe, it, expect, request, authCheck } = require('../base');
+const { describe, it, request, checks } = require('../base');
 
 describe('/test', () => {
     describe('GET', () => {
         const test = () => request().get('/test');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -21,15 +15,9 @@ describe('/test', () => {
 describe('/test/start', () => {
     describe('GET', () => {
         const test = () => request().get('/test/start');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -39,15 +27,9 @@ describe('/test/start', () => {
 describe('/test/restart', () => {
     describe('GET', () => {
         const test = () => request().get('/test/restart');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
@@ -57,15 +39,9 @@ describe('/test/restart', () => {
 describe('/test/progress', () => {
     describe('GET', () => {
         const test = () => request().get('/test/progress');
-        it('returns a Forbidden status code', done => {
+        it('returns the authentication required message', done => {
             test().end((err, res) => {
-                expect(res).to.have.status(403);
-                done();
-            });
-        });
-        it('renders the authentication required message', done => {
-            test().end((err, res) => {
-                authCheck(res);
+                checks.authRequired(res);
                 done();
             });
         });
