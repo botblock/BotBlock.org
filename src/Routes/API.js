@@ -341,6 +341,7 @@ class APIRoute extends BaseRoute {
                 github: [],
                 support: [],
                 library: [],
+                presence_status: [],
                 list_data: lists
             };
             this.db.select('id', 'api_get').from('lists')
@@ -424,6 +425,9 @@ class APIRoute extends BaseRoute {
                                 if (key === 'library' || key === 'libraryName' || key === 'bot_library' || key === 'lang') {
                                     if (typeof key === 'string') output.library.push(value);
                                 }
+                                if (key === 'presence_status') {
+                                    output.presence_status.push(value);
+                                }
                             }
                         }
                     }
@@ -439,6 +443,7 @@ class APIRoute extends BaseRoute {
                         github: this.getMostCommon(output.github) || '',
                         support: this.getMostCommon(output.support) || '',
                         library: this.getMostCommon(output.library) || '',
+                        presence_status: this.getMostCommon(output.presence_status) || null,
                         list_data: { ...lists } || {}
                     };
                     await this.cache.add(req.originalUrl, 300, response);
