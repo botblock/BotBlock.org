@@ -443,7 +443,7 @@ class APIRoute extends BaseRoute {
                         github: this.getMostCommon(output.github) || '',
                         support: this.getMostCommon(output.support) || '',
                         library: this.getMostCommon(output.library) || '',
-                        presence_status: this.getMostCommon(output.presence_status) || null,
+                        presence_status: this.getMostCommon(output.presence_status) || 'unknown',
                         list_data: { ...lists } || {}
                     };
                     await this.cache.add(req.originalUrl, 300, response);
