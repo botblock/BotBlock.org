@@ -301,7 +301,7 @@ class APIRoute extends BaseRoute {
                                 payload[list.api_field] = req.body.server_count;
                             }
                             if (req.body.shard_id && list.api_shard_id) payload[list.api_shard_id] = req.body.shard_id;
-                            if (req.body.shard_count && list.shard_count) payload[list.api_shard_count] = req.body.shard_count;
+                            if (req.body.shard_count && list.api_shard_count) payload[list.api_shard_count] = req.body.shard_count;
                             let userAgent = getUserAgent().random;
                             if (req.get('User-Agent')) {
                                 userAgent = req.get('User-Agent');
@@ -374,10 +374,10 @@ class APIRoute extends BaseRoute {
                                 if (key === 'name' || key === 'username' || key === 'bot_name') {
                                     output.username.push(value);
                                 }
-                                if (key === 'discrim' || key === 'discriminator') {
+                                if (key === 'discrim' || key === 'discriminator' || key === 'disc') {
                                     output.discriminator.push(String(value));
                                 }
-                                if (key === 'owner' || key === 'owners' || key === 'authors' || key === 'bot_owners') {
+                                if (key === 'owner' || key === 'owners' || key === 'authors' || key === 'bot_owners' || key === 'owner_id') {
                                     if (!Array.isArray(value) && typeof value !== 'object') {
                                         output.owners.push(value);
                                     } else if (Array.isArray(value) && typeof value !== 'object') {
@@ -414,7 +414,7 @@ class APIRoute extends BaseRoute {
                                 if (key === 'website' || key === 'bot_website') {
                                     if (typeof key === 'string') output.website.push(value);
                                 }
-                                if (key === 'github' || key === 'bot_github_repo' || key === 'openSource' || key === 'git') {
+                                if (key === 'github' || key === 'bot_github_repo' || key === 'openSource' || key === 'git' || key === 'source_code') {
                                     if (typeof key === 'string') output.github.push(value);
                                 }
                                 if (key === 'support' || key === 'supportInvite' || key === 'support_server' || key === 'discord'
