@@ -20,7 +20,14 @@ form#add(method='POST' action='/bot/add/' + bot.id)
                             input.input(type='text' id='owner_id' name='owner_id' value=user.id, disabled)
                         label.label(for='nsfw') NSFW
                         p Please tick if the bot (or avatar) is NSFW
-                        div(tabindex='0' role='button' class='checkbox always')
+                        div(tabindex='0' role='button' class='checkbox always disallowed')
+                            div(class='checkbox-inner')
+                                input(type='checkbox' id='nsfw' name='nsfw' checked=false)
+                                span
+                        label.label(for='slash_commands') Slash Commands
+                        p Please tick if the bot requires 
+                            code applications.commands
+                        div(tabindex='0' role='button' class='checkbox always disallowed')
                             div(class='checkbox-inner')
                                 input(type='checkbox' id='nsfw' name='nsfw' checked=false)
                                 span

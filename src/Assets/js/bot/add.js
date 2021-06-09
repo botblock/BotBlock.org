@@ -13,11 +13,11 @@ document.getElementById('add').addEventListener('submit', function (e) {
     if (!value) {
         var inputs = document.querySelectorAll('input[type=checkbox]:checked');
         if (inputs.length == 0) {
-            document.getElementById('error').innerText = 'You must submit to atleast one list!';
+            document.getElementById('error').innerText = 'You must submit to at least one list!';
             return e.preventDefault();
         } else if (inputs.length == 1) {
             if (inputs[0].id == 'nsfw') {
-                document.getElementById('error').innerText = 'You must submit to atleast one list!';
+                document.getElementById('error').innerText = 'You must submit to at least one list!';
                 return e.preventDefault();
             }
         }

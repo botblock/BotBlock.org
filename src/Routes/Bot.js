@@ -62,6 +62,7 @@ class BotRoute extends BaseRoute {
             user.premium_type = req.session.user.premium_type;
 
             req.body.nsfw = 'on' ? true : false;
+            req.body.slash_commands = 'on' ? true : false;
             req.body.id = bot.id;
             req.body.owner_id = user.id;
             req.body.owner_oauth = req.session.user.access_token;
