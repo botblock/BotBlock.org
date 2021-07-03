@@ -13,8 +13,8 @@ const schema = Joi.object({
 
     library: Joi.string()
         .valid('discljord', 'aegis.cpp', 'Crystal', 'discordcr', 'Discord.Net', 'DSharpPlus', 'dscord', 'DiscordGo',
-                'DisGord', 'catnip', 'Discord4J', 'Javacord', 'JDA', 'discord.js', 'eris', 'Discord.jl', 'Discordia', 
-                'Discordnim', 'RestCord', 'discord.py', 'disco', 'discordrb', 'discord-rs', 'Serenity', 'AckCord', 'Sword', 'disco')
+            'DisGord', 'catnip', 'Discord4J', 'Javacord', 'JDA', 'discord.js', 'eris', 'Discord.jl', 'Discordia', 
+            'Discordnim', 'RestCord', 'discord.py', 'disco', 'discordrb', 'discord-rs', 'Serenity', 'AckCord', 'Sword', 'disco')
         .required(),
 
     short_desc: Joi.string()
@@ -54,8 +54,8 @@ const schema = Joi.object({
 
     nsfw: Joi.boolean(),
 
-    slash_commands: Joi.boolean(),
+    slash_commands: Joi.boolean()
 
 }).options({ stripUnknown: true });
 
-exports.schema = schema
+exports.schema = schema;
