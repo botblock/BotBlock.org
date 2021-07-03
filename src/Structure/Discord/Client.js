@@ -78,6 +78,7 @@ class Client {
         if (!config.discord.notifications) return;
         if (!oldEdit || !newEdit) return;
         let changes = [];
+        const hideKeys = ['add_bot', 'add_bot_key']; // Keys to hide from edit log
         for (const [key, value] of Object.entries(oldEdit)) {
             let oldValue;
             let newValue;
@@ -88,6 +89,12 @@ class Client {
             else oldValue = value;
             if (newEdit[key] === '' || newEdit[key] === null) newValue = 'None';
             else newValue = newEdit[key];
+
+            // Set values to `hidden`, this way we still log the change
+            if (hideKeys.includes(key)) {
+                oldValue = 'Hidden';
+                newValue = 'Hidden';
+            }
 
             changes.push({ key, oldValue, newValue });
         }
