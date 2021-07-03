@@ -124,7 +124,7 @@ form#add(method='POST' action='/bot/add/' + bot.id)
                                 h1.title.is-size-4 Supported Lists
                                 for list in supportedLists
                                     .columns(class='has-margin-top')
-                                        .checkbox.always(tabindex='0' role='button' class='interactive minus')
+                                        .checkbox.always(tabindex='0' role='button' class='interactive plus')
                                             div(class='checkbox-inner')
                                                 input(type='checkbox', id=list.name, name=list.name checked=true)
                                                 span
