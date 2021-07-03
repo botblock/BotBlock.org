@@ -11,7 +11,7 @@ form#add(method='POST' action='/bot/add/' + bot.id)
                                 label.label(for='name') Bot Name *
                                 p (Max Length: 25)
                                 .control
-                                    input.input(type='text' id='name' name='name' value=bot.username, required)
+                                    input.input(maxlength='25' type='text' id='name' name='name' value=bot.username, required)
                         label.label(for='id') Bot ID
                         .control
                             input.input(type='text' id='id' name='id' value=bot.id, disabled)
@@ -34,7 +34,7 @@ form#add(method='POST' action='/bot/add/' + bot.id)
                         label.label(for='prefix') Prefix *
                         p (Max Length: 25)
                         .control
-                            input.input(type='text' id='prefix' name='prefix' required)
+                            input.input(maxlength='25' type='text' id='prefix' name='prefix' required)
                         label.label(for='library') Library *
                         .control
                             .select
@@ -87,17 +87,17 @@ form#add(method='POST' action='/bot/add/' + bot.id)
                         label.label(for='short_desc') Short Description *
                         p (Max Length: 100)
                         .control
-                            input.input(type='text' id='short_desc' name='short_desc' required)
+                            input.input(maxlength='100' type='text' id='short_desc' name='short_desc' required)
                         label.label(for='long_dec_plain') Long Description Plain *
                         p (Max Length: 5000)
                         p This long description field will be used on bot lists that do not support Markdown or HTML in their long descriptions.
                         .control
-                            textarea.textarea#long_desc_plain(type='text' name='long_desc_plain' required)
+                            textarea.textarea#long_desc_plain(maxlength='5000' type='text' name='long_desc_plain' required)
                         label.label(for='long_desc_rich') Long Description Rich *
                         p (Max Length: 5000)
                         p This long description field will be used on bot lists that support Markdown or HTML in their long descriptions.
                         .control
-                            textarea.textarea#long_desc_rich(type='text' name='long_desc_rich' required)
+                            textarea.textarea#long_desc_rich(maxlength='5000' type='text' name='long_desc_rich' required)
                         label.label(for='invite_url') Bot Invite URL *
                         .control
                             input.input(type='link' pattern='https?://.+' id='invite_url' name='invite_url' value="https://discord.com/oauth2/authorize?client_id=" + bot.id + "&scope=bot" required)
