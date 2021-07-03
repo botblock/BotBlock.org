@@ -53,7 +53,7 @@ class Website {
             next();
         });
         const logger = new Logger(this.db);
-        this.app.use(logger.logger());
+        this.app.use(logger.logger());1;
         await this.loadRoutes(path.join(__dirname, 'Routes'));
         await this.loadJobs(path.join(__dirname, 'Jobs'));
         await this.loadInitializers(path.join(__dirname, 'Initializers'));

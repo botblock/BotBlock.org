@@ -14,8 +14,8 @@ class BotRoute extends BaseRoute {
     async postBot(req, res) {
         const responses = [];
         return await this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(lists => {
-            for (var list of lists) {
-                if (req.body[list.name] == 'on') {
+            for (const list of lists) {
+                if (req.body[list.name] === 'on') {
                     return axios.post(list.add_bot, req.body, {
                         headers: { Authorization: list.add_bot_key }
                     }).then(resp => {
@@ -61,8 +61,8 @@ class BotRoute extends BaseRoute {
             user.mfa_enabled = req.session.user.mfa_enabled;
             user.premium_type = req.session.user.premium_type;
 
-            req.body.nsfw = 'on' ? true : false;
-            req.body.slash_commands = 'on' ? true : false;
+            req.body.nsfw = !!'on';
+            req.body.slash_commands = !!'on';
             req.body.id = bot.id;
             req.body.owner_id = user.id;
             req.body.owner_oauth = req.session.user.access_token;
