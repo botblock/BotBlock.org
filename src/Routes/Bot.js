@@ -39,7 +39,7 @@ class BotRoute extends BaseRoute {
         });
 
 
-        this.router.post('/add', async (req, res) => {
+        this.router.post('/add', this.requiresAuth.bind(this), async (req, res) => {
             try {
                 const data = await this.client.getUser(req.body.botid);
                 if (!data['bot']) { res.render('bot/add', { error: true }); }
