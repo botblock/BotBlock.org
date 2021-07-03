@@ -1,4 +1,5 @@
 const BaseRoute = require('../Structure/BaseRoute');
+const JoiSchema = require('../Assets/js/joiSchema');
 const axios = require('axios');
 const handleError = require('../Util/handleError');
 
@@ -64,6 +65,13 @@ class BotRoute extends BaseRoute {
             req.body.nsfw = !!'on';
             req.body.slash_commands = !!'on';
             req.body.id = bot.id;
+            
+            const { error } = await JoiSchema.schema.validate(req.body)
+            if (typeof error !== undefined) {
+                return res.render('bot/add', { joi_error: true, details: error.details[0].message });
+            } else {
+            }
+
             req.body.owner_id = user.id;
             req.body.owner_oauth = req.session.user.access_token;
             req.body.bot_details = bot;
