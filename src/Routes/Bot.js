@@ -42,8 +42,6 @@ class BotRoute extends BaseRoute {
         req.body.bot_details = bot;
         req.body.owner_details = user;
 
-        console.log(req.body)
-
         for (const target_list of target_lists) {
             return axios.post(target_list.add_bot, req.body, {
                 headers: { Authorization: target_list.add_bot_key }
