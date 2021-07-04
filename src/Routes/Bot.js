@@ -61,21 +61,20 @@ class BotRoute extends BaseRoute {
             user.locale = req.session.user.locale;
             user.mfa_enabled = req.session.user.mfa_enabled;
             user.premium_type = req.session.user.premium_type;
+            req.body.id = bot.id;
 
             if (req.body.nsfw == 'on') { 
-                req.body.nsfw = true 
+                req.body.nsfw = true;
             } else { 
-                req.body.nsfw = false 
+                req.body.nsfw = false;
             }
 
             if (req.body.slash_commands == 'on') { 
-                req.body.slash_commands = true 
+                req.body.slash_commands = true; 
             } else { 
-                req.body.slash_commands = false 
+                req.body.slash_commands = false; 
             }
 
-            req.body.id = bot.id;
-            
             const { error } = await JoiSchema.schema.validate(req.body);
             if (error !== undefined) {
                 return res.render('bot/add', { joi_error: true, details: error.details[0].message });
