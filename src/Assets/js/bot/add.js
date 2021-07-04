@@ -11,7 +11,7 @@ function isSnowflake(value) {
 document.getElementById('add').addEventListener('submit', function (e) {
     var value = document.getElementById('botid');
     if (!value) {
-        var inputs = document.querySelectorAll('input[type=checkbox]:checked');
+        var inputs = document.querySelectorAll('input[type=checkbox][id^=list-]:checked');
         if (inputs.length == 0) {
             document.getElementById('error').innerText = 'You must submit to at least one list!';
             return e.preventDefault();

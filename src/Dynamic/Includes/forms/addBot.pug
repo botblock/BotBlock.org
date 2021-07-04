@@ -126,7 +126,7 @@ form#add(method='POST' action='/bot/add/' + bot.id)
                                     .columns(class='has-margin-top')
                                         .checkbox.always(tabindex='0' role='button' class='interactive plus')
                                             div(class='checkbox-inner')
-                                                input(type='checkbox', id=list.name, name=list.name checked=true)
+                                                input(type='checkbox', id=`list-${list.name}`, name=list.name checked=true)
                                                 span
                                             span #{list.name}
                                 br
