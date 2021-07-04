@@ -18,7 +18,7 @@ class BotRoute extends BaseRoute {
         await this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(lists => {
             for (const list of lists) {
                 if (req.body[list.name] === 'on') {
-                    target_lists.push(list)
+                    target_lists.push(list);
                 }
                 delete req.body[list.name];
             }
