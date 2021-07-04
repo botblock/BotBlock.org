@@ -62,8 +62,18 @@ class BotRoute extends BaseRoute {
             user.mfa_enabled = req.session.user.mfa_enabled;
             user.premium_type = req.session.user.premium_type;
 
-            req.body.nsfw = !!'on';
-            req.body.slash_commands = !!'on';
+            if (req.body.nsfw == 'on') { 
+                req.body.nsfw = true 
+            } else { 
+                req.body.nsfw = false 
+            }
+
+            if (req.body.slash_commands == 'on') { 
+                req.body.slash_commands = true 
+            } else { 
+                req.body.slash_commands = false 
+            }
+
             req.body.id = bot.id;
             
             const { error } = await JoiSchema.schema.validate(req.body);

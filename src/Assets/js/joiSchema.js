@@ -56,6 +56,6 @@ const schema = Joi.object({
 
     slash_commands: Joi.boolean()
 
-})
+});
 
 exports.schema = schema;
