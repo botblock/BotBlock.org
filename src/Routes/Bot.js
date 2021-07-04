@@ -67,7 +67,7 @@ class BotRoute extends BaseRoute {
             req.body.id = bot.id;
             
             const { error } = await JoiSchema.schema.validate(req.body);
-            if (typeof error !== undefined) {
+            if (error !== undefined) {
                 return res.render('bot/add', { joi_error: true, details: error.details[0].message });
             }
 
