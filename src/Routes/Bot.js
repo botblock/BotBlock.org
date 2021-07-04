@@ -14,24 +14,47 @@ class BotRoute extends BaseRoute {
 
     async postBot(req, res) {
         const responses = [];
-        return await this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(lists => {
+        const target_lists = [];
+        await this.db.select().from('lists').whereNot({ add_bot: null, add_bot_key: null }).then(lists => {
             for (const list of lists) {
                 if (req.body[list.name] === 'on') {
-                    return axios.post(list.add_bot, req.body, {
-                        headers: { Authorization: list.add_bot_key }
-                    }).then(resp => {
-                        responses.push({ ...resp.data, error: false, name: list.name });
-                        return responses;
-                    }).catch(err => {
-                        responses.push({ ...err.response.data, error: true, name: list.name });
-                        return responses;
-                    });
+                    target_lists.push(list)
                 }
                 delete req.body[list.name];
             }
         }).catch((e) => {
             handleError(this.db, req, res, e.stack);
         });
+
+        const { error } = await JoiSchema.schema.validate(req.body);
+        if (error !== undefined) {
+            return res.render('bot/add', { joi_error: true, details: error.details[0].message });
+        }
+
+        const [bot, user] = await Promise.all([this.client.getUser(req.params.id), this.client.getUser(req.session.user.id)]);
+
+        user.locale = req.session.user.locale;
+        user.mfa_enabled = req.session.user.mfa_enabled;
+        user.premium_type = req.session.user.premium_type;
+        req.body.id = bot.id;
+        req.body.owner_id = user.id;
+        req.body.owner_oauth = req.session.user.access_token;
+        req.body.bot_details = bot;
+        req.body.owner_details = user;
+
+        console.log(req.body)
+
+        for (const target_list of target_lists) {
+            return axios.post(target_list.add_bot, req.body, {
+                headers: { Authorization: target_list.add_bot_key }
+            }).then(resp => {
+                responses.push({ ...resp.data, error: false, name: target_list.name });
+                return responses;
+            }).catch(err => {
+                responses.push({ ...err.response.data, error: true, name: target_list.name });
+                return responses;
+            });
+        }
     }
 
     routes() {
@@ -56,34 +79,17 @@ class BotRoute extends BaseRoute {
 
 
         this.router.post('/add/:id', this.requiresAuth.bind(this), async (req, res) => {
-            const [bot, user] = await Promise.all([this.client.getUser(req.params.id), this.client.getUser(req.session.user.id)]);
-
-            user.locale = req.session.user.locale;
-            user.mfa_enabled = req.session.user.mfa_enabled;
-            user.premium_type = req.session.user.premium_type;
-            req.body.id = bot.id;
-
-            if (req.body.nsfw == 'on') { 
+            if (req.body.nsfw == 'on') {
                 req.body.nsfw = true;
-            } else { 
+            } else {
                 req.body.nsfw = false;
             }
 
-            if (req.body.slash_commands == 'on') { 
-                req.body.slash_commands = true; 
-            } else { 
-                req.body.slash_commands = false; 
+            if (req.body.slash_commands == 'on') {
+                req.body.slash_commands = true;
+            } else {
+                req.body.slash_commands = false;
             }
-
-            const { error } = await JoiSchema.schema.validate(req.body);
-            if (error !== undefined) {
-                return res.render('bot/add', { joi_error: true, details: error.details[0].message });
-            }
-
-            req.body.owner_id = user.id;
-            req.body.owner_oauth = req.session.user.access_token;
-            req.body.bot_details = bot;
-            req.body.owner_details = user;
 
             const results = await this.postBot(req, res);
 
