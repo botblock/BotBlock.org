@@ -55,7 +55,7 @@ class BotRoute extends BaseRoute {
         });
 
 
-        this.router.post('/add/:id', async (req, res) => {
+        this.router.post('/add/:id', this.requiresAuth.bind(this), async (req, res) => {
             const [bot, user] = await Promise.all([this.client.getUser(req.params.id), this.client.getUser(req.session.user.id)]);
 
             user.locale = req.session.user.locale;
