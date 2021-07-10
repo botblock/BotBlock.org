@@ -175,8 +175,8 @@ class APIRoute extends BaseRoute {
                 if (!lists) return res.status(200).json({});
                 const data = {};
                 for (let i = 0; i < lists.length; i++) {
-                    delete lists[i].add_bot
-                    delete lists[i].add_bot_key
+                    delete lists[i].add_bot;
+                    delete lists[i].add_bot_key;
                     // If filtering: Only present API values, drop if all values are null or defunct
                     if (req.query.filter === 'true') {
                         if (lists[i].defunct) continue;
@@ -201,8 +201,8 @@ class APIRoute extends BaseRoute {
         this.router.get('/lists/:id', cors(), this.ratelimit.checkRatelimit(1, 1), async (req, res) => {
             try {
                 const data = await getList(this.db, req.params.id);
-                delete data.add_bot
-                delete data.add_bot_key
+                delete data.add_bot;
+                delete data.add_bot_key;
                 if (!data) return res.status(404).json({ error: true, status: 404, message: 'List not found' });
                 res.status(200).json({ ...data });
             } catch (e) {
