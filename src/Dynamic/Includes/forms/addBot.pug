@@ -1,0 +1,133 @@
+form#add(method='POST' action='/bot/add/' + bot.id)
+    .columns
+        .column.is-half-desktop.is-full-mobile
+            .card.is-box-shadow
+                .card-content
+                    .field
+                        div.media
+                            div.media-left
+                                img(class='image lazyload' src='https://cdn.discordapp.com/avatars/' + bot.id + '/' + bot.avatar + '.png', alt=bot.username + ' Icon')
+                            div.media-content
+                                label.label(for='name') Bot Name *
+                                p (Max Length: 25)
+                                .control
+                                    input.input(maxlength='25' type='text' id='name' name='name' value=bot.username, required)
+                        label.label(for='id') Bot ID
+                        .control
+                            input.input(type='text' id='id' name='id' value=bot.id, disabled)
+                        label.label(for='owner_id') Owner ID
+                        .control
+                            input.input(type='text' id='owner_id' name='owner_id' value=user.id, disabled)
+                        label.label(for='nsfw') NSFW
+                        p Please tick if the bot (or avatar) is NSFW
+                        div(tabindex='0' role='button' class='checkbox always disallowed')
+                            div(class='checkbox-inner')
+                                input(type='checkbox' id='nsfw' name='nsfw' checked=false)
+                                span
+                        label.label(for='slash_commands') Slash Commands
+                        p Please tick if the bot requires
+                            code applications.commands
+                        div(tabindex='0' role='button' class='checkbox always disallowed')
+                            div(class='checkbox-inner')
+                                input(type='checkbox' id='slash_commands' name='slash_commands' checked=false)
+                                span
+                        label.label(for='prefix') Prefix *
+                        p (Max Length: 25)
+                        .control
+                            input.input(maxlength='25' type='text' id='prefix' name='prefix' required)
+                        label.label(for='library') Library *
+                        .control
+                            .select
+                                select(name='library' id='library', required)
+                                    option(value='' selected disabled hidden) Select a library
+                                    option(value='' disabled) Clojure
+                                    option(value='discljord') discljord
+                                    option(value='' disabled) C++
+                                    option(value='aegis.cpp') aegis.cpp
+                                    option(value='' disabled) Crystal
+                                    option(value='discordcr') discordcr
+                                    option(value='' disabled) C#
+                                    option(value='Discord.Net') Discord.Net
+                                    option(value='DSharpPlus') DSharpPlus
+                                    option(value='' disabled) D
+                                    option(value='dscord') dscord
+                                    option(value='' disabled) Go
+                                    option(value='DiscordGo') DiscordGo
+                                    option(value='DisGord') DisGord
+                                    option(value='' disabled) Java
+                                    option(value='catnip') catnip
+                                    option(value='Discord4J') Discord4J
+                                    option(value='Javacord') Javacord
+                                    option(value='JDA') JDA
+                                    option(value='' disabled) JavaScript
+                                    option(value='discord.js') discord.js
+                                    option(value='Eris') Eris
+                                    option(value='' disabled) Julia
+                                    option(value='Discord.jl') Discord.jl
+                                    option(value='' disabled) Lua
+                                    option(value='Discordia') Discordia
+                                    option(value='' disabled) Nim
+                                    option(value='discordnim') discordnim
+                                    option(value='' disabled) PHP
+                                    option(value='RestCord') RestCord
+                                    option(value='' disabled) Python
+                                    option(value='discord.py') discord.py
+                                    option(value='disco') disco
+                                    option(value='' disabled) Ruby
+                                    option(value='discordrb') discordrb
+                                    option(value='' disabled) Rust
+                                    option(value='discord-rs') discord-rs
+                                    option(value='Serenity') Serenity
+                                    option(value='' disabled) Scala
+                                    option(value='AckCord') AckCord
+                                    option(value='' disabled) Swift
+                                    option(value='Sword') Sword
+                                    option(value='' disabled) TypeScript
+                                    option(value='Discordeno') disco
+                        label.label(for='short_desc') Short Description *
+                        p (Max Length: 100)
+                        .control
+                            input.input(maxlength='100' type='text' id='short_desc' name='short_desc' required)
+                        label.label(for='long_dec_plain') Long Description Plain *
+                        p (Max Length: 5000)
+                        p This long description field will be used on bot lists that do not support Markdown or HTML in their long descriptions.
+                        .control
+                            textarea.textarea#long_desc_plain(maxlength='5000' type='text' name='long_desc_plain' required)
+                        label.label(for='long_desc_rich') Long Description Rich *
+                        p (Max Length: 5000)
+                        p This long description field will be used on bot lists that support Markdown or HTML in their long descriptions.
+                        .control
+                            textarea.textarea#long_desc_rich(maxlength='5000' type='text' name='long_desc_rich' required)
+                        label.label(for='invite_url') Bot Invite URL *
+                        .control
+                            input.input(type='link' pattern='https?://.+' id='invite_url' name='invite_url' value="https://discord.com/oauth2/authorize?client_id=" + bot.id + "&scope=bot" required)
+                        label.label(for='website_url') Website URL
+                        .control
+                            input.input(type='link' pattern='https?://.+' id='website_url' name='website_url')
+                        label.label(for='support_url') Support (Server) URL
+                        .control
+                            input.input(type='link' pattern='https?://.+' id='support_url' name='support_url')
+                        label.label(for='donate_url') Donate URL
+                        .control
+                            input.input(type='link' pattern='https?://.+' id='donate_url' name='donate_url')
+                        label.label(for='github_url') GitHub URL
+                        .control
+                            input.input(type='link' pattern='https?://.+' id='github_url' name='github_url')
+
+        .column.is-half-desktop.is-full-mobile.top
+            .card.is-box-shadow
+                .card-content
+                    .hero
+                        .hero-body.hero-slim
+                            .has-text-centered
+                                h1.title.is-size-6#error
+                                h1.title.is-size-4 Supported Lists
+                                for list in supportedLists
+                                    .columns(class='has-margin-top')
+                                        .checkbox.always(tabindex='0' role='button' class='interactive plus')
+                                            div(class='checkbox-inner')
+                                                input(type='checkbox', id=`list-${list.name}`, name=list.name checked=true)
+                                                span
+                                            span #{list.name}
+                                br
+                                input.button.is-brand(type='submit' value='Add bot to all supported bot lists' disabled=supportedLists.length == 0)

@@ -1,0 +1,60 @@
+extends ../layout
+block content
+    section.section
+        .container
+            - if(joi_error)
+                .card.is-box-shadow
+                    .card-content
+                        p#error
+                            p Validation Error: #{details}
+            - else
+                - if(!error && bot)
+                    include ../Includes/forms/addBot
+                - else
+                    .hero
+                        .hero-body.hero-slim
+                            .has-text-centered
+                                h1.title.is-size-4 Add a New Bot
+                                h5.title.is-size-5 Add a new bot to all lists that support BotBlock
+                                h6.title.is-size-6 Submit a bot to all lists that accept BotBlock with standard information for all listings.
+
+                    - if(after)
+                        .columns
+                            .column.is-half-desktop.is-full-mobile
+                                .card.is-box-shadow
+                                    .has-text-centered
+                                        .card-content
+                                            p.has-text-white
+                                                | Submission Status
+                                                br
+                                                for result in results
+                                                    if !result.error
+                                                        p.has-text-success #{result.name}
+                                                    else
+                                                        p.has-text-danger #{result.name}
+                                                    if result.message
+                                                        p Message: #{result.message}
+                                                    else
+                                                        p Message: No message
+                                                    hr
+                    - else
+                        .columns
+                            .column.is-half-desktop.is-full-mobile
+                                form#add(method="POST")
+                                    .card.is-box-shadow
+                                        .card-content
+                                            p#error
+                                            - if(error)
+                                                p This bot was not found on Discord
+                                            .field
+                                                label.label(for='botid') Bot Client ID to add to bot lists
+                                                .control
+                                                    input.input#botid(name='botid' type='text')
+                                                h1.is-brand Please make sure to join the bot list servers before adding your bot as many require bot owners to be in the server.
+                                            input.button.is-brand(type='submit' value='Begin adding your bot')
+
+
+block footer
+    script(defer src='/assets/js/checkboxes/interactive.js')
+    script(src='/assets/js/bot/add.js')
+    
