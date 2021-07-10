@@ -201,9 +201,9 @@ class APIRoute extends BaseRoute {
         this.router.get('/lists/:id', cors(), this.ratelimit.checkRatelimit(1, 1), async (req, res) => {
             try {
                 const data = await getList(this.db, req.params.id);
+                if (!data) return res.status(404).json({ error: true, status: 404, message: 'List not found' });
                 delete data.add_bot;
                 delete data.add_bot_key;
-                if (!data) return res.status(404).json({ error: true, status: 404, message: 'List not found' });
                 res.status(200).json({ ...data });
             } catch (e) {
                 handleError(this.db, req, res, e.stack, true);
